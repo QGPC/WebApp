@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quilter’s Guild of Parker County</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="index.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+</div>
+<ul class="tiles" aria-label="Site sections">
+<li><span class="tile soon"><img src="assets/tiles/programs.svg" alt="">Programs &amp; Workshops <small>Coming soon</small></span></li>
+<li><span class="tile soon"><img src="assets/tiles/comfort-quilts.svg" alt="">Comfort Quilts <small>Coming soon</small></span></li>
+<li><span class="tile soon"><img src="assets/tiles/bees.svg" alt="">Bees <small>Coming soon</small></span></li>
+<li><span class="tile soon"><img src="assets/tiles/gallery.svg" alt="">Gallery <small>Coming soon</small></span></li>
+<li><span class="tile soon"><img src="assets/tiles/our-community.svg" alt="">Our Community <small>Coming soon</small></span></li>
+<li><span class="tile soon"><img src="assets/tiles/about.svg" alt="">About our Guild <small>Coming soon</small></span></li>
+</ul></div></header>
+<main id="main">
+<section class="banner" id="top"><div class="wrap">
+<div class="logo-card"><img src="assets/icons/icon-512-transparent.png" alt="Quilter&rsquo;s Guild of Parker County logo"></div>
+<div class="welcome-card"><h1>Piecing Parker County together, one stitch at a time.</h1>
+<p>[Welcome message from the Guild goes here.]</p></div>
+<div class="cta">
+<a class="btn" href="#join" id="join-btn" aria-disabled="true">Join the Guild <small style="margin-left:6px;font-size:12px;color:var(--persimmon-dark)">soon</small></a>
+<button class="btn" id="open-signin" type="button">Member sign in</button>
+</div></div></section>
+<div class="wrap">
+<section id="signin-card" class="card signin hidden" aria-labelledby="sign-title">
+<h2 id="sign-title">Member sign in</h2>
+<p id="note" class="msg hidden" role="status"></p>
+<form id="signin-form">
+<label for="email">Email</label>
+<input class="field" id="email" type="email" autocomplete="username" required>
+<div id="pw-row"><label for="password">Password</label>
+<input class="field" id="password" type="password" autocomplete="current-password">
+<label class="check"><input type="checkbox" id="show-pw"> Show password</label></div>
+<button class="btn primary" id="go" type="submit" style="width:100%">Sign in</button>
+<p style="margin:12px 0 0"><button class="link-btn" id="toggle-reset" type="button">Forgot password?</button></p>
+</form></section>
+<div class="page"><p>More of the Guild&rsquo;s home page (notices, events and the Quilt Show) is coming soon.</p></div>
+</div></main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  var card=$('signin-card'), mode='signin';
+  function show(m){
+    mode=m;
+    $('pw-row').classList.toggle('hidden', m!=='signin');
+    $('sign-title').textContent = m==='signin' ? 'Member sign in' : 'Reset your password';
+    $('go').textContent = m==='signin' ? 'Sign in' : 'Email me a reset link';
+    $('toggle-reset').textContent = m==='signin' ? 'Forgot password?' : 'Back to sign in';
+    note('');
+  }
+  function note(t,cls){var n=$('note');n.textContent=t;n.className='msg '+(cls||'')+(t?'':' hidden');}
+  $('open-signin').addEventListener('click',function(){if(this.dataset.in)return;card.classList.toggle('hidden');if(!card.classList.contains('hidden'))$('email').focus();});
+  $('show-pw').addEventListener('change',function(){$('password').type=this.checked?'text':'password';});
+  $('toggle-reset').addEventListener('click',function(){show(mode==='signin'?'reset':'signin');});
+  $('signin-form').addEventListener('submit',function(e){
+    e.preventDefault(); var em=$('email').value; $('go').disabled=true;
+    if(mode==='signin'){
+      QGPC.signIn(em,$('password').value).then(function(r){
+        if(r.error){note(QGPC.friendly(r.error),'err');$('go').disabled=false;}
+        else{location.href='home.html';}
+      });
+    }else{
+      QGPC.sendReset(em).then(function(r){
+        $('go').disabled=false;
+        if(r.error&&/rate/i.test(r.error.message)){note(QGPC.friendly(r.error),'err');}
+        else{note('If that email belongs to a member, a link to set a new password is on its way.','ok');}
+      });
+    }
+  });
+  QGPC.session().then(function(s){if(s){var b=$('open-signin');b.textContent='Go to my member home';b.addEventListener('click',function(){location.href='home.html';});card.classList.add('hidden');b.dataset.in='1';}});
+})();
+</script>
+</body></html>

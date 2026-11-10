@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Member home</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="index.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+</div>
+<ul class="tiles" aria-label="Site sections">
+<li><span class="tile soon"><img src="assets/tiles/programs.svg" alt="">Programs &amp; Workshops <small>Coming soon</small></span></li>
+<li><span class="tile soon"><img src="assets/tiles/comfort-quilts.svg" alt="">Comfort Quilts <small>Coming soon</small></span></li>
+<li><span class="tile soon"><img src="assets/tiles/bees.svg" alt="">Bees <small>Coming soon</small></span></li>
+<li><span class="tile soon"><img src="assets/tiles/gallery.svg" alt="">Gallery <small>Coming soon</small></span></li>
+<li><span class="tile soon"><img src="assets/tiles/our-community.svg" alt="">Our Community <small>Coming soon</small></span></li>
+<li><span class="tile soon"><img src="assets/tiles/about.svg" alt="">About our Guild <small>Coming soon</small></span></li>
+</ul></div></header>
+<main id="main"><div class="wrap"><div class="page">
+<h1>Member home</h1>
+<p id="note" class="msg hidden" role="status"></p>
+<section id="me" class="card hidden"><h2>Your membership record</h2>
+<table class="kv"><tbody id="rows"></tbody></table>
+<p>Roles: <span id="roles">&mdash;</span></p>
+<p><button class="btn primary small" id="out" type="button">Sign out</button></p>
+</section>
+<p style="color:#555">This page is a first check that sign-in and the database are connected. The real member pages come next.</p>
+</div></div></main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  function row(k,v){var tr=document.createElement('tr');var a=document.createElement('th');a.textContent=k;var b=document.createElement('td');b.textContent=(v===null||v===undefined||v==='')?'\u2014':v;tr.appendChild(a);tr.appendChild(b);$('rows').appendChild(tr);}
+  $('out').addEventListener('click',function(){QGPC.signOut().then(function(){location.href='index.html';});});
+  QGPC.session().then(function(s){
+    if(!s){location.href='index.html';return;}
+    return QGPC.sb.from('members_with_status').select('*').eq('auth_user_id',s.user.id).limit(1).then(function(r){
+      if(r.error||!r.data||!r.data.length){var n=$('note');n.textContent='You are signed in, but no membership record is linked to this account yet.';n.className='msg err';$('me').classList.remove('hidden');$('roles').textContent='none';return;}
+      var m=r.data[0];
+      row('Name',m.first_name+' '+m.last_name);row('Email',m.email);row('Membership type',m.membership_type);
+      row('Paid through',m.paid_through_year);row('Status',m.status);
+      $('me').classList.remove('hidden');
+      return QGPC.sb.from('member_roles').select('role_key').eq('member_id',m.id).then(function(rr){
+        $('roles').textContent=(rr.data&&rr.data.length)?rr.data.map(function(x){return x.role_key;}).join(', '):'none';
+      });
+    });
+  });
+})();
+</script>
+</body></html>

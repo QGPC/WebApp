@@ -1,0 +1,68 @@
+/* Quilter's Guild of Parker County - shared styles (from the Style Guide) */
+:root{
+  --cerulean:#017DB0; --cobalt:#0157AE; --persimmon:#E87446; --persimmon-dark:#9A3412;
+  --ink:#1F2433; --page:#F7F5F0; --white:#FFFFFF; --line:#D9D5CB;
+  --serif:'Young Serif',Georgia,serif; --sans:'Figtree',system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--page);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.5;min-height:100vh;display:flex;flex-direction:column}
+h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.2}
+a{color:var(--cobalt)}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px;width:100%}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:#fff;padding:8px;z-index:9}
+
+/* Header */
+.site-head{background:var(--white);border-bottom:1px solid var(--line)}
+.head-top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:12px 0}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink)}
+.brand img{width:52px;height:52px}
+.brand b{display:block;font-family:var(--serif);font-weight:400;font-size:22px;line-height:1.1}
+.brand span{font-size:14px}
+.tiles{display:flex;flex-wrap:wrap;gap:8px;padding:0 0 12px;margin:0;list-style:none}
+.tile{display:flex;align-items:center;gap:8px;min-height:48px;padding:6px 14px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);text-decoration:none;font-weight:600;font-size:15px}
+.tile img{width:34px;height:34px}
+.tile.soon{opacity:.7;cursor:default}
+.tile small{font-weight:500;font-size:12px;color:var(--persimmon-dark)}
+
+/* Banner */
+.banner{background:var(--cerulean);background-image:linear-gradient(135deg,rgba(255,255,255,.10) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.10) 50%,rgba(255,255,255,.10) 75%,transparent 75%);background-size:48px 48px;color:#fff;padding:32px 0}
+.banner .wrap{display:flex;gap:20px;flex-wrap:wrap;align-items:stretch}
+.logo-card{background:rgba(1,52,78,.90);border-radius:14px;padding:16px;display:flex;align-items:center;justify-content:center;flex:0 0 230px}
+.logo-card img{width:100%;max-width:198px}
+.welcome-card{background:rgba(1,52,78,.90);border-radius:14px;padding:22px 26px;flex:1 1 360px;min-height:156px}
+.welcome-card h1{margin:0 0 8px;font-size:32px}
+.welcome-card p{margin:0}
+.cta{display:flex;flex-direction:column;gap:12px;flex:0 0 220px;justify-content:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:58px;padding:0 22px;border-radius:12px;border:2px solid #fff;background:#fff;color:var(--cobalt);font:600 18px var(--sans);text-decoration:none;cursor:pointer}
+.btn:focus-visible,.tile:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--persimmon);outline-offset:2px}
+.btn.primary{background:var(--cobalt);color:#fff;border-color:var(--cobalt)}
+.btn.small{min-height:48px;font-size:17px}
+
+/* Cards and forms */
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px}
+.signin{max-width:420px;margin:24px auto;color:var(--ink)}
+.signin h2{margin:0 0 12px;font-size:24px}
+.field{display:block;width:100%;min-height:48px;padding:10px 12px;border:1.5px solid #8A8F9C;border-radius:8px;font:17px var(--sans);margin:4px 0 14px;background:#fff;color:var(--ink)}
+.field:focus{border-color:var(--cobalt)}
+label{font-weight:600}
+.check{display:flex;align-items:center;gap:8px;font-weight:500;margin:0 0 12px;min-height:44px}
+.check input{width:22px;height:22px}
+.link-btn{background:none;border:0;padding:0;font:inherit;color:var(--cobalt);text-decoration:underline;cursor:pointer;min-height:44px}
+.msg{padding:10px 12px;border-radius:8px;margin:0 0 14px;font-weight:600}
+.msg.err{background:#FDEBE3;color:var(--persimmon-dark)}
+.msg.ok{background:#E6F2F8;color:#01435F}
+.hidden{display:none!important}
+.pill{display:inline-block;padding:2px 10px;border-radius:999px;font-size:14px;font-weight:700;background:#E6F2F8;color:#01435F}
+.pill.new{background:var(--persimmon);color:#fff}
+
+main{flex:1}
+.page{padding:32px 0}
+table.kv{border-collapse:collapse;width:100%}
+table.kv th,table.kv td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+
+/* Footer */
+.site-foot{background:var(--cerulean);color:#fff;margin-top:auto}
+.site-foot .wrap{padding:32px 24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:14px}
+.site-foot b{font-family:var(--serif);font-weight:400;font-size:18px;display:block;margin-bottom:6px}
+.site-foot a{color:#fff;font-weight:600;display:inline-flex;align-items:center;min-height:44px}
