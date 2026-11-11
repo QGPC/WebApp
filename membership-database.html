@@ -34,6 +34,14 @@
 <p class="sub hidden" id="none">No members match.</p>
 <div id="holder" class="hidden">
 <section class="pcard reqdetail hidden" id="detail" aria-label="Member record">
+<button type="button" class="backlink dback" id="dback"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>Back to Membership Database</button>
+<div class="delzone" id="delzone">
+<p class="sub" id="del-why"></p>
+<button type="button" class="btn-del" id="del">Delete this member&hellip;</button>
+<div class="delconfirm hidden" id="delconfirm" role="alertdialog" aria-labelledby="del-q">
+<p id="del-q"></p>
+<div class="saverow"><button type="button" class="btn-del solid" id="del-yes">Yes, delete permanently</button><button type="button" class="btn-cancel" id="del-no">Cancel</button><span id="del-err" class="msg err hidden" role="alert"></span></div>
+</div></div>
 <form id="mf" novalidate class="mform">
 <div class="dhead"><div><h2 id="m-title"></h2><span class="sub" id="m-sub"></span></div><span class="chip blue" id="m-status"></span></div>
 <h3>Contact details</h3>
@@ -70,13 +78,7 @@
 <span id="saved" class="saved hidden" role="status"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Saved.</span>
 <span id="save-err" class="msg err hidden" role="alert"></span></div>
 </form>
-<div class="delzone" id="delzone">
-<p class="sub" id="del-why"></p>
-<button type="button" class="btn-del" id="del">Delete this member&hellip;</button>
-<div class="delconfirm hidden" id="delconfirm" role="alertdialog" aria-labelledby="del-q">
-<p id="del-q"></p>
-<div class="saverow"><button type="button" class="btn-del solid" id="del-yes">Yes, delete permanently</button><button type="button" class="btn-cancel" id="del-no">Cancel</button><span id="del-err" class="msg err hidden" role="alert"></span></div>
-</div></div>
+
 </section>
 </div></div></main>
 <footer class="site-foot"><div class="wrap">
@@ -124,7 +126,7 @@ QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}}
       var h=document.createElement('h2');h.textContent=L;sec.appendChild(h);
       var ul=document.createElement('ul');ul.className='dgrid';
       by[L].forEach(function(r){
-        var li=document.createElement('li'),b=document.createElement('button');b.type='button';b.className='dcard'+(sel===r.id?' sel':'');
+        var li=document.createElement('li'),b=document.createElement('button');b.type='button';b.className='dcard'+(sel===r.id?' sel':'');b.setAttribute('data-id',r.id);
         b.setAttribute('aria-pressed',sel===r.id?'true':'false');
         var m=document.createElement('span');m.className='rm';
         var n=document.createElement('b');n.textContent=r.last_name+', '+r.first_name;
@@ -194,6 +196,11 @@ QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}}
       if(x.error||!x.data||!x.data.length){say('save-err',(x.error&&/duplicate|unique/i.test(x.error.message))?'Another member already uses that email address.':'We could not save. Please try again.');return;}
       load(true);
     });
+  });
+  $('dback').addEventListener('click',function(){
+    var id=sel;sel=null;say('save-err','');$('saved').classList.add('hidden');paintList();paintForm();
+    var b=id&&document.querySelector('.dcard[data-id="'+id+'"]');
+    if(b){b.focus();if(b.scrollIntoView)b.scrollIntoView({block:'center'});}else window.scrollTo(0,0);
   });
   $('del').addEventListener('click',function(){
     var r=cur();if(!r)return;
