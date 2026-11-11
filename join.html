@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Join the Guild</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="index.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+</div>
+<ul class="tiles" aria-label="Guild areas">
+<li><span class="tile soon" tabindex="0"><img src="assets/tiles/programs.svg" alt="" width="34" height="34"><span class="lab">Programs &amp; Workshops</span><span class="tip" role="tooltip">Get details about our programs and workshops planned for each month.<em>Coming soon</em></span></span></li>
+<li><span class="tile soon" tabindex="0"><img src="assets/tiles/comfort-quilts.svg" alt="" width="34" height="34"><span class="lab">Comfort Quilts</span><span class="tip" role="tooltip">Our outreach program. Learn about the organizations we support and get easy patterns.<em>Coming soon</em></span></span></li>
+<li><span class="tile soon" tabindex="0"><img src="assets/tiles/bees.svg" alt="" width="34" height="34"><span class="lab">Bees</span><span class="tip" role="tooltip">Small groups that meet to sew together. Find one to join.<em>Coming soon</em></span></span></li>
+<li><span class="tile soon" tabindex="0"><img src="assets/tiles/gallery.svg" alt="" width="34" height="34"><span class="lab">Gallery</span><span class="tip" role="tooltip">Photos from Guild events.<em>Coming soon</em></span></span></li>
+<li><span class="tile soon" tabindex="0"><img src="assets/tiles/our-community.svg" alt="" width="34" height="34"><span class="lab">Our Community</span><span class="tip" role="tooltip">How we care for and celebrate each other, and where the Guild has been in the news.<em>Coming soon</em></span></span></li>
+<li><span class="tile soon" tabindex="0"><img src="assets/tiles/about.svg" alt="" width="34" height="34"><span class="lab">About our Guild</span><span class="tip" role="tooltip">Learn the purpose and history of our Guild.<em>Coming soon</em></span></span></li>
+</ul></div></header><main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0">
+<h1 id="pg-title" style="margin:0">Become a member</h1><p class="stat-line">Quilters of every skill level are welcome.</p></div></div></section>
+<div class="joinwrap">
+<form id="jf" class="pcard joinform" novalidate>
+<fieldset class="types"><legend>Type of Membership</legend><span class="sub">Choose one.</span>
+<div class="typegrid">
+<label class="typeopt"><input type="radio" name="jtype" value="Regular" checked><span><b>Regular</b><span id="amt-Regular">&nbsp;</span></span></label>
+<label class="typeopt"><input type="radio" name="jtype" value="Exempt"><span><b>Exempt</b><span>80+</span></span></label>
+<label class="typeopt"><input type="radio" name="jtype" value="Junior"><span><b>Junior</b><span id="amt-Junior">&nbsp;</span></span></label>
+</div></fieldset>
+<h3>About you <span class="opt">(required)</span></h3>
+<div class="grid2">
+<div class="f"><label for="j-first">First name</label><input class="field" id="j-first" autocomplete="given-name"></div>
+<div class="f"><label for="j-last">Last name</label><input class="field" id="j-last" autocomplete="family-name"></div>
+<div class="f"><label for="j-email">Email</label><input class="field" id="j-email" type="email" autocomplete="email" placeholder="you@example.com"></div>
+<div class="f"><label for="j-cell">Cell number</label><input class="field" id="j-cell" type="tel" autocomplete="tel" placeholder="(555) 555-5555"></div>
+<div class="f"><label for="j-fb">Facebook name <span class="opt">(if applicable)</span></label><input class="field" id="j-fb" autocomplete="off" placeholder="Name as it appears on Facebook"></div>
+</div>
+<h3>Mailing address <span class="opt">(optional)</span></h3>
+<div class="f"><label for="j-street">Street address</label><input class="field" id="j-street" autocomplete="street-address"></div>
+<div class="grid3">
+<div class="f"><label for="j-city">City</label><input class="field" id="j-city" autocomplete="address-level2"></div>
+<div class="f"><label for="j-state">State</label><input class="field" id="j-state" autocomplete="address-level1" placeholder="TX" maxlength="2"></div>
+<div class="f"><label for="j-zip">ZIP code</label><input class="field" id="j-zip" autocomplete="postal-code" inputmode="numeric" maxlength="10"></div>
+</div>
+<label class="chk"><input type="checkbox" id="j-nodir"> I do not want to be listed in the Member Directory</label>
+<h3>Birthday <span class="opt">(optional)</span></h3><span class="sub">Month and day only, so we can celebrate with you.</span>
+<div class="grid2"><div class="f"><label for="j-bm">Month</label><select class="field" id="j-bm"><option value="">Select month</option><option value="1">January</option><option value="2">February</option><option value="3">March</option><option value="4">April</option><option value="5">May</option><option value="6">June</option><option value="7">July</option><option value="8">August</option><option value="9">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select></div>
+<div class="f"><label for="j-bd">Day</label><select class="field" id="j-bd"><option value="">Select day</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select></div></div>
+<h3>Quilting Interests <span class="opt">(optional)</span></h3><span class="sub">Check all that apply.</span>
+<div class="chks" role="group" aria-label="Quilting Interests"><label class="chk"><input type="checkbox" name="jint" value="Piecing"> Piecing</label><label class="chk"><input type="checkbox" name="jint" value="Applique"> Applique</label><label class="chk"><input type="checkbox" name="jint" value="Paper Piecing"> Paper Piecing</label><label class="chk"><input type="checkbox" name="jint" value="English Paper Piecing"> English Paper Piecing</label><label class="chk"><input type="checkbox" name="jint" value="Modern Quilts"> Modern Quilts</label><label class="chk"><input type="checkbox" name="jint" value="Color Theory"> Color Theory</label><label class="chk"><input type="checkbox" name="jint" value="Hand Quilting"> Hand Quilting</label><label class="chk"><input type="checkbox" name="jint" value="Embroidery"> Embroidery</label></div>
+<div class="f" style="max-width:496px"><label for="j-other">Other</label><input class="field" id="j-other" placeholder="Tell us about other interests"></div>
+<h3>Helping out <span class="opt">(optional)</span></h3>
+<fieldset class="types"><legend>Would you like to help on a committee?</legend>
+<div class="radios"><label class="chk"><input type="radio" name="jhelp" value="yes"> Yes</label><label class="chk"><input type="radio" name="jhelp" value="no"> Not right now</label></div></fieldset>
+<fieldset class="types hidden" id="help-box"><legend>If yes, where would you like to help?</legend><span class="sub">Check all that apply.</span>
+<div class="chks"><label class="chk"><input type="checkbox" name="jcom" value="Newsletter"> Newsletter</label><label class="chk"><input type="checkbox" name="jcom" value="Workshops"> Workshops</label><label class="chk"><input type="checkbox" name="jcom" value="Membership"> Membership</label><label class="chk"><input type="checkbox" name="jcom" value="Comfort Quilts"> Comfort Quilts</label><label class="chk"><input type="checkbox" name="jcom" value="Sunshine &amp; Shadows"> Sunshine &amp; Shadows</label><label class="chk"><input type="checkbox" name="jcom" value="Beekeeper"> Beekeeper</label><label class="chk"><input type="checkbox" name="jcom" value="Next Year’s Programs"> Next Year’s Programs</label><label class="chk"><input type="checkbox" name="jcom" value="Publicity"> Publicity</label><label class="chk"><input type="checkbox" name="jcom" value="Digital &amp; A/V"> Digital &amp; A/V</label><label class="chk"><input type="checkbox" name="jcom" value="Show &amp; Tell"> Show &amp; Tell</label><label class="chk"><input type="checkbox" name="jcom" value="Finance &amp; Assets"> Finance &amp; Assets</label><label class="chk"><input type="checkbox" name="jcom" value="Retreats"> Retreats</label><label class="chk"><input type="checkbox" name="jcom" value="Quilt Show"> Quilt Show</label><label class="chk"><input type="checkbox" name="jcom" value="Auction"> Auction</label><label class="chk"><input type="checkbox" name="jcom" value="Wherever I’m needed"> Wherever I’m needed</label></div>
+<div class="f" style="max-width:496px"><label for="j-helpother">Anything else? (optional)</label><input class="field" id="j-helpother"></div></fieldset>
+<div class="hp" aria-hidden="true"><label>Leave this empty <input id="j-website" tabindex="-1" autocomplete="off"></label></div>
+<p id="j-err" class="msg err hidden" role="alert"></p>
+<div class="paybar"><span class="sub" id="payline" aria-live="polite"></span>
+<button type="submit" class="btn-save" id="j-go">Submit my application</button></div>
+</form>
+<div id="done" class="pcard hidden" role="status" aria-labelledby="done-title">
+<h2 id="done-title"></h2><p id="done-text"></p>
+<p>When your membership is approved, we will email you at the address on your application. The email has a link to set up your password so you can sign in.</p>
+<p id="pay-extra" class="hidden"></p>
+<span class="doneact"><a class="pwlink" href="index.html">Back to the Welcome page</a></span></div>
+</div></main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  var PAYMENT_URL=(window.QGPC_CONFIG&&window.QGPC_CONFIG.ZEFFY_JOIN_URL)||'';
+  var dues={Regular:null,Junior:null,Exempt:0};
+  function money(n){return n===null||n===undefined?'':('$'+Number(n).toFixed(2).replace(/\.00$/,'')+' per year');}
+  function type(){return document.querySelector('input[name=jtype]:checked').value;}
+  function refresh(){
+    var t=type(),due=dues[t];
+    $('payline').textContent=(t==='Exempt'||due===0)?'No payment is due for Exempt membership.':'Dues: '+(due===null?'':('$'+Number(due).toFixed(2)))+' for '+t+' membership. The Membership Chair will confirm your payment.';
+    $('j-go').textContent='Submit my application';
+  }
+  QGPC.sb.from('site_config').select('join_dues_regular,join_dues_junior,join_dues_exempt').limit(1).then(function(r){
+    var c=r.data&&r.data[0]; if(c){dues.Regular=+c.join_dues_regular;dues.Junior=+c.join_dues_junior;dues.Exempt=+c.join_dues_exempt;
+      $('amt-Regular').textContent=money(dues.Regular);$('amt-Junior').textContent=money(dues.Junior);}
+    refresh();
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('input[name=jtype]'),function(x){x.addEventListener('change',refresh);});
+  Array.prototype.forEach.call(document.querySelectorAll('input[name=jhelp]'),function(x){x.addEventListener('change',function(){$('help-box').classList.toggle('hidden',x.value!=='yes'||!x.checked);});});
+  function err(t){var e=$('j-err');e.textContent=t||'';e.classList.toggle('hidden',!t);if(t)e.scrollIntoView({block:'center'});}
+  function vals(name){return Array.prototype.slice.call(document.querySelectorAll('input[name='+name+']:checked')).map(function(c){return c.value;});}
+  $('jf').addEventListener('submit',function(e){
+    e.preventDefault();err('');
+    if($('j-website').value)return;                       // spam trap
+    var first=$('j-first').value.trim(),last=$('j-last').value.trim(),email=$('j-email').value.trim();
+    if(!first||!last){err('Please enter your first and last name.');return;}
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){err('Please enter a valid email address.');return;}
+    var bm=$('j-bm').value,bd=$('j-bd').value;
+    if((bm&&!bd)||(!bm&&bd)){err('Please choose both a birthday month and day, or leave both blank.');return;}
+    var zip=$('j-zip').value.trim();if(zip&&!/^\d{5}(-\d{4})?$/.test(zip)){err('Please enter a 5-digit ZIP code.');return;}
+    var st=$('j-state').value.trim();if(st&&!/^[A-Za-z]{2}$/.test(st)){err('Please enter the state as two letters, such as TX.');return;}
+    var yes=document.querySelector('input[name=jhelp]:checked');
+    var payload={membership_type:type(),first_name:first,last_name:last,email:email,cell_phone:$('j-cell').value,facebook_name:$('j-fb').value,
+      street_address:$('j-street').value,city:$('j-city').value,state:st,zip:zip,directory_opt_out:$('j-nodir').checked,
+      birthday_month:bm,birthday_day:bd,interests:vals('jint'),interests_other:$('j-other').value,
+      help_committees:(yes&&yes.value==='yes')?vals('jcom'):[],help_other:(yes&&yes.value==='yes')?$('j-helpother').value:''};
+    $('j-go').disabled=true;
+    QGPC.sb.rpc('submit_membership_request',{p:payload}).then(function(r){
+      $('j-go').disabled=false;
+      if(r.error){err(r.error.message&&r.error.message.length<220?r.error.message:'We could not send your application. Please try again.');return;}
+      var ex=type()==='Exempt'||dues[type()]===0;
+      $('done-title').textContent='Thank you. Your application has been sent.';
+      $('done-text').textContent=ex?'The Membership Chair will review it and approve your Exempt membership. No payment is due. You do not need to do anything else for now.'
+        :'The Membership Chair will confirm your payment and approve your '+type()+' membership.';
+      if(!ex){var p=$('pay-extra');p.classList.remove('hidden');p.textContent='';
+        if(PAYMENT_URL){var a=document.createElement('a');a.className='btn-save';a.href=PAYMENT_URL;a.textContent='Continue to payment';a.style.textDecoration='none';a.style.display='inline-flex';a.style.alignItems='center';p.appendChild(a);}
+        else p.textContent='Dues are paid separately. The Membership Chair will tell you how to pay.';}
+      $('jf').classList.add('hidden');$('done').classList.remove('hidden');window.scrollTo(0,0);
+    });
+  });
+})();
+</script>
+</body></html>

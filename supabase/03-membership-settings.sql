@@ -21,7 +21,7 @@ begin
   if not (public.is_superuser() or public.has_role('membership_chair')) then
     raise exception 'Only the Membership Chair or the Superuser can change this.';
   end if;
-  update public.site_config set renewals_open = p_open;
+  update public.site_config set renewals_open = p_open where id;
 end $$;
 
 -- Membership Chair or Superuser: change the dues amounts
@@ -34,10 +34,11 @@ begin
   if not (public.is_superuser() or public.has_role('membership_chair')) then
     raise exception 'Only the Membership Chair or the Superuser can change this.';
   end if;
-  select * into old_row from public.site_config;
+  select * into old_row from public.site_config where id;
   update public.site_config set
     renew_dues_regular = p_renew_regular, renew_dues_junior = p_renew_junior, renew_dues_exempt = p_renew_exempt,
-    join_dues_regular  = p_join_regular,  join_dues_junior  = p_join_junior,  join_dues_exempt  = p_join_exempt;
+    join_dues_regular  = p_join_regular,  join_dues_junior  = p_join_junior,  join_dues_exempt  = p_join_exempt
+  where id;
   insert into public.site_log (actor_member_id, action, details)
   values (public.current_member_id(), 'dues changed', jsonb_build_object(
     'renew', jsonb_build_array(old_row.renew_dues_regular, old_row.renew_dues_junior, old_row.renew_dues_exempt,

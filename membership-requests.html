@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Membership Requests</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</div></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Membership Chair</span>
+<h1 id="pg-title" style="margin:0">Membership Requests</h1><p class="stat-line">Review new member and renewal requests, confirm payment and approve.</p></div></div></section>
+<div class="mwrap tools" id="content">
+<a class="backlink" href="membership.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>Membership</a>
+<p id="note" class="msg err hidden" role="alert"></p>
+<div class="reqcols" id="queue">
+<section class="pcard tight reqlist" aria-labelledby="queue-title">
+<div class="qhead"><h2 id="queue-title">Membership requests</h2><span class="chip" id="count-chip">&hellip;</span></div>
+<p class="sub">Click on a request for details.</p>
+<ul class="reqs" id="reqs"></ul><p class="sub hidden" id="none">No requests yet.</p>
+</section>
+<section class="pcard reqdetail hidden" id="detail" aria-label="Request details">
+<div class="dhead"><div><h2 id="d-name"></h2><span class="sub" id="d-sub"></span></div><span class="chip type" id="d-type"></span></div>
+<dl class="dfields" id="d-fields"></dl>
+<div class="paynote" id="d-pay"></div>
+<div class="steps" id="d-steps"></div>
+</section>
+</div></div></main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}},function(c){
+  var $=function(i){return document.getElementById(i)};
+  var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],MONL=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var rows=[],sel=null;
+  function note(t){var n=$('note');n.textContent=t||'';n.classList.toggle('hidden',!t);if(t)n.scrollIntoView({block:'center'});}
+  function d(s){var x=new Date(s);return MON[x.getMonth()]+' '+x.getDate();}
+  function dl(s){var x=new Date(s);return MON[x.getMonth()]+' '+x.getDate()+', '+x.getFullYear();}
+  function money(n){return '$'+Number(n).toFixed(2);}
+  function chipOf(r){
+    if(r.status==='approved')return{t:'Approved',c:'blue'};
+    if(r.payment_status==='not_required')return{t:'No dues',c:'blue'};
+    if(r.status==='paid')return{t:'Paid',c:'blue'};
+    return{t:'New',c:'rust'};
+  }
+  function typeLabel(r){return r.membership_type==='Exempt'?'Exempt (80+)':r.membership_type;}
+  function address(r){var p=[r.street_address,r.city,[r.state,r.zip].filter(Boolean).join(' ')].filter(Boolean);return p.join(', ');}
+  function paintList(){
+    var u=$('reqs');u.textContent='';
+    var waiting=rows.filter(function(r){return r.status!=='approved';}).length;
+    $('count-chip').textContent=waiting===0?'All reviewed':waiting+' waiting';
+    $('count-chip').className='chip '+(waiting===0?'blue':'rust');
+    $('none').classList.toggle('hidden',rows.length>0);
+    rows.forEach(function(r){
+      var li=document.createElement('li'),b=document.createElement('button');b.type='button';b.className='req'+(sel===r.id?' sel':'');
+      b.setAttribute('aria-pressed',sel===r.id?'true':'false');
+      var m=document.createElement('span');m.className='rm';
+      var n=document.createElement('b');n.textContent=r.first_name+' '+r.last_name;
+      var s=document.createElement('span');s.textContent=(r.kind==='renewal'?'Renewal':'New member')+' · '+typeLabel(r)+' · Submitted '+d(r.created_at);
+      m.appendChild(n);m.appendChild(s);
+      var ch=chipOf(r),c=document.createElement('span');c.className='chip '+ch.c;c.textContent=ch.t;
+      b.appendChild(m);b.appendChild(c);b.addEventListener('click',function(){sel=r.id;paint();});
+      li.appendChild(b);u.appendChild(li);
+    });
+  }
+  function field(l,v){var w=document.createElement('div'),a=document.createElement('dt'),b=document.createElement('dd');a.textContent=l;b.textContent=v||'—';w.appendChild(a);w.appendChild(b);$('d-fields').appendChild(w);}
+  function paintDetail(){
+    var r=rows.filter(function(x){return x.id===sel;})[0];
+    $('detail').classList.toggle('hidden',!r);if(!r)return;
+    $('d-name').textContent=r.first_name+' '+r.last_name;
+    $('d-sub').textContent=(r.kind==='renewal'?'Renewal':'New member')+' · Submitted '+dl(r.created_at);
+    $('d-type').textContent=typeLabel(r)+' · '+(r.payment_status==='not_required'?'No dues':money(r.amount_due));
+    $('d-fields').textContent='';
+    field('Email',r.email);field('Cell',r.cell_phone);field('Facebook name',r.facebook_name);field('Mailing address',address(r));
+    field('Birthday',r.birthday_month?MONL[r.birthday_month-1]+' '+r.birthday_day:'');
+    field('Directory',r.directory_opt_out?'Does not want to be listed':'Listed');
+    field('Quilting Interests',(r.interests||[]).join(', ')+(r.interests_other?(((r.interests||[]).length?' · ':'')+'Other: '+r.interests_other):''));
+    var help=(r.help_committees||[]).join(', ')+(r.help_other?(((r.help_committees||[]).length?' · ':'')+'Other: '+r.help_other):'');
+    field('Committee help',help?'Yes — '+help:'Not right now');
+    field('Website account',r.status==='approved'?'Not set up yet: the password-setup email is the next piece to build. Use "Invite user" in Supabase (Authentication, Users) for now.':'Set up after approval.');
+    var pay=$('d-pay');
+    pay.textContent=r.payment_status==='not_required'?'Exempt membership — no payment due. Check that the person is 80 or older.'
+      :r.payment_status==='received'?'Payment confirmed · '+money(r.amount_due)+(r.payment_confirmed_at?' · '+d(r.payment_confirmed_at):'')
+      :'Payment not confirmed yet · '+money(r.amount_due)+' due. Check the payment page for this person, then click Payment Received.';
+    var st=$('d-steps');st.textContent='';
+    var paid=r.payment_status!=='pending';
+    if(r.status==='approved'){
+      var box=document.createElement('div');box.className='approved';
+      var t=document.createElement('b');t.textContent='✓ Membership approved';box.appendChild(t);
+      var p=document.createElement('span');p.textContent=r.first_name+' '+r.last_name+' has been added to the membership database as Active, with Member since set to this year and Paid through December 31 of this year.';box.appendChild(p);
+      st.appendChild(box);
+      var nx=rows.filter(function(x){return x.status!=='approved';})[0];
+      if(nx){var b=document.createElement('button');b.type='button';b.className='btn-save';b.textContent='Next request';b.addEventListener('click',function(){sel=nx.id;paint();});st.appendChild(b);}
+      return;
+    }
+    if(r.payment_status==='pending'){
+      var b1=document.createElement('button');b1.type='button';b1.className='btn-save step';b1.innerHTML='<span class="stepn" aria-hidden="true">1</span>Payment Received';
+      b1.addEventListener('click',function(){b1.disabled=true;note('');QGPC.sb.rpc('confirm_membership_payment',{p_id:r.id}).then(function(x){if(x.error){note(x.error.message);b1.disabled=false;return;}reload();});});
+      st.appendChild(b1);
+    }else{var done=document.createElement('div');done.className='paydone';done.textContent=r.payment_status==='not_required'?'No payment due — Exempt':'Payment received';st.appendChild(done);}
+    var b2=document.createElement('button');b2.type='button';b2.className='btn-save step';b2.disabled=!paid;b2.innerHTML='<span class="stepn" aria-hidden="true">2</span>Membership Approved';
+    b2.addEventListener('click',function(){b2.disabled=true;note('');QGPC.sb.rpc('approve_membership_request',{p_id:r.id}).then(function(x){if(x.error){note(x.error.message);b2.disabled=false;return;}reload();});});
+    st.appendChild(b2);
+    if(!paid){var h=document.createElement('span');h.className='sub';h.textContent='Confirm the payment first.';st.appendChild(h);}
+  }
+  function paint(){paintList();paintDetail();}
+  function reload(){
+    QGPC.sb.from('membership_requests').select('*').order('created_at',{ascending:false}).limit(200).then(function(r){
+      if(r.error){note('We could not load the requests.');return;}
+      rows=(r.data||[]).sort(function(a,b){var wa=a.status==='approved'?1:0,wb=b.status==='approved'?1:0;return wa-wb||(new Date(b.created_at)-new Date(a.created_at));});
+      paint();
+    });
+  }
+  reload();
+});
+</script>
+</body></html>
