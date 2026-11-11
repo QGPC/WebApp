@@ -155,7 +155,7 @@ button.pill.out{height:40px;padding:0 16px;border:1px solid var(--ink);backgroun
 .sl{font-size:14px;font-weight:600;color:#5A5F6E}.sv{font-family:var(--serif);font-size:38px;line-height:1.1;color:var(--cobalt)}
 .mwrap{max-width:1040px;width:100%;margin:0 auto;padding:40px 24px 72px;display:flex;flex-direction:column;gap:24px}
 .mwrap.tools{max-width:1200px;gap:36px;padding-top:32px}
-.bigcard{display:flex;align-items:center;gap:16px;min-height:100px;padding:12px 24px 12px 12px;background:#fff;border:1px solid #E4E0D6;border-radius:16px;text-decoration:none;color:var(--ink);transition:transform .15s ease,box-shadow .15s ease}
+.bigcard{position:relative;display:flex;align-items:center;gap:16px;min-height:100px;padding:12px 24px 12px 12px;background:#fff;border:1px solid #E4E0D6;border-radius:16px;text-decoration:none;color:var(--ink);transition:transform .15s ease,box-shadow .15s ease}
 a.bigcard:hover,a.bigcard:focus-visible{transform:translateY(-2px);box-shadow:0 14px 32px rgba(15,20,40,.15)}
 .bigcard img{flex:0 0 auto;border-radius:12px;display:block}
 .bc-t{flex:1 1 auto;display:flex;flex-direction:column;gap:4px}.bc-t b{font-size:18px}.bc-t.big b{font-size:24px}
@@ -226,3 +226,4 @@ fieldset.types legend{font-weight:700;font-size:18px;padding:0;margin-bottom:4px
 .approved{display:flex;flex-direction:column;gap:4px;padding:14px 18px;border-radius:12px;background:#EEF1F8;color:var(--cobalt)}.approved span{color:#454A58;font-size:15px}
 
 .badge{position:absolute;top:-8px;right:-8px;min-width:24px;height:24px;padding:0 6px;box-sizing:border-box;border-radius:999px;background:var(--persimmon);color:var(--ink);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid #fff}
+.badge.hidden{display:none}

@@ -30,7 +30,7 @@
 <p class="sub dark">Memberships run January 1 to December 31. Renewals are accepted until March 31 (the grace period). On April 1, members who have not renewed are marked Inactive. A member who renews later becomes Active again, and their Member since date does not change.</p>
 <div class="duo"><div class="box blue"><span class="bl" id="nyr-l">Not yet renewed</span><span class="bn" id="nyr-n">&hellip;</span></div>
 <div class="box rust"><span class="bl">Inactive members</span><span class="bn" id="inact-n">&hellip;</span></div></div></section>
-<a class="bigcard" href="membership-requests.html"><img src="assets/icons/i-requests.svg" width="64" height="64" alt=""><span class="bc-t big"><b>Membership Requests</b><span>Review new member and renewal requests, confirm payment and approve.</span></span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:0 0 auto;color:#0157AE"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+<a class="bigcard" href="membership-requests.html"><span class="badge hidden" id="req-badge"></span><img src="assets/icons/i-requests.svg" width="64" height="64" alt=""><span class="bc-t big"><b>Membership Requests</b><span>Review new member and renewal requests, confirm payment and approve.</span></span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:0 0 auto;color:#0157AE"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
 <a class="bigcard" href="membership-tools.html"><img src="assets/icons/i-memtools.svg" width="64" height="64" alt=""><span class="bc-t big"><b>Membership Page Admin</b><span>Membership database, member list export, the Renew Membership button, and renewal and first-time membership dues.</span></span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:0 0 auto;color:#0157AE"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
 </div>
 </main>
@@ -57,6 +57,9 @@ QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}}
     $('nyr-l').textContent='Not yet renewed for '+target;
     cnt(V().eq('paid_through_year',target-1).in('status',['active','grace'])).then(function(n){$('nyr-n').textContent=n;});
   });
+  QGPC.sb.from('membership_requests').select('id',{count:'exact',head:true}).neq('status','approved').then(function(r){
+    if(r.error||!r.count)return;var b=$('req-badge');b.textContent=r.count;
+    b.setAttribute('aria-label',r.count+(r.count===1?' request waiting':' requests waiting'));b.classList.remove('hidden');});
   cnt(V().eq('status','active')).then(function(n){$('s-active').textContent=n;});
   cnt(V().eq('status','inactive')).then(function(n){$('inact-n').textContent=n;});
   cnt(V().gte('paid_through_year',yr).lt('member_since',yr)).then(function(n){$('s-renew').textContent=n;});

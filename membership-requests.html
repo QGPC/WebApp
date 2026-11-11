@@ -27,7 +27,7 @@
 <section class="pcard tight reqlist" aria-labelledby="queue-title">
 <div class="qhead"><h2 id="queue-title">Membership requests</h2><span class="chip" id="count-chip">&hellip;</span></div>
 <p class="sub">Click on a request for details.</p>
-<ul class="reqs" id="reqs"></ul><p class="sub hidden" id="none">No requests yet.</p>
+<ul class="reqs" id="reqs"></ul><p class="sub hidden" id="none">No requests waiting.</p>
 </section>
 <section class="pcard reqdetail hidden" id="detail" aria-label="Request details">
 <div class="dhead"><div><h2 id="d-name"></h2><span class="sub" id="d-sub"></span></div><span class="chip type" id="d-type"></span></div>
@@ -65,11 +65,12 @@ QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}}
   function address(r){var p=[r.street_address,r.city,[r.state,r.zip].filter(Boolean).join(' ')].filter(Boolean);return p.join(', ');}
   function paintList(){
     var u=$('reqs');u.textContent='';
-    var waiting=rows.filter(function(r){return r.status!=='approved';}).length;
+    var shown=rows.filter(function(r){return r.status!=='approved';});   // approved requests leave the list
+    var waiting=shown.length;
     $('count-chip').textContent=waiting===0?'All reviewed':waiting+' waiting';
     $('count-chip').className='chip '+(waiting===0?'blue':'rust');
-    $('none').classList.toggle('hidden',rows.length>0);
-    rows.forEach(function(r){
+    $('none').classList.toggle('hidden',shown.length>0);
+    shown.forEach(function(r){
       var li=document.createElement('li'),b=document.createElement('button');b.type='button';b.className='req'+(sel===r.id?' sel':'');
       b.setAttribute('aria-pressed',sel===r.id?'true':'false');
       var m=document.createElement('span');m.className='rm';
@@ -125,7 +126,7 @@ QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}}
   function reload(){
     QGPC.sb.from('membership_requests').select('*').order('created_at',{ascending:false}).limit(200).then(function(r){
       if(r.error){note('We could not load the requests.');return;}
-      rows=(r.data||[]).sort(function(a,b){var wa=a.status==='approved'?1:0,wb=b.status==='approved'?1:0;return wa-wb||(new Date(b.created_at)-new Date(a.created_at));});
+      rows=(r.data||[]).filter(function(x){return x.status!=='approved'||x.id===sel;}).sort(function(a,b){var wa=a.status==='approved'?1:0,wb=b.status==='approved'?1:0;return wa-wb||(new Date(b.created_at)-new Date(a.created_at));});
       paint();
     });
   }
