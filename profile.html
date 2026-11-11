@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>My Profile</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</div></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0">
+<span class="eyebrow">Your account</span>
+<h1 id="pg-title" style="margin:0">My Profile</h1>
+<p class="stat-line">Your details in the Guild&rsquo;s membership records and directory.</p>
+</div></div></section>
+<div class="prof-wrap">
+<p id="loading" role="status">Loading your profile&hellip;</p>
+<p id="note" class="msg err hidden" role="alert"></p>
+<form id="pf" class="prof-cols hidden" novalidate>
+<div class="prof-main">
+<section class="pcard" aria-labelledby="photo-title"><div class="ph"><h2 id="photo-title">Directory photo</h2>
+<span class="sub">Shown beside your name in the Member Directory. Only signed-in members can see it.</span></div>
+<div class="photo-row"><span class="photo-empty" aria-hidden="true"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg></span>
+<span class="sub">Photo upload is coming soon, along with the Member Directory.</span></div></section>
+
+<section class="pcard" aria-labelledby="contact-title"><div class="ph"><h2 id="contact-title">Contact details</h2>
+<span class="sub">Members see these in the directory. The Membership Chair uses them to reach you.</span></div>
+<div class="grid2">
+<div class="f"><label for="pf-first">First name</label><input class="field" id="pf-first" autocomplete="given-name" required></div>
+<div class="f"><label for="pf-last">Last name</label><input class="field" id="pf-last" autocomplete="family-name" required></div>
+<div class="f"><label for="pf-email">Email</label><input class="field" id="pf-email" type="email" disabled aria-describedby="email-help"><span class="sub" id="email-help">This is your sign-in address. To change it, contact the Membership Chair.</span></div>
+<div class="f"><label for="pf-cell">Cell number</label><input class="field" id="pf-cell" type="tel" autocomplete="tel"></div>
+</div>
+<h3>Mailing address</h3>
+<div class="f"><label for="pf-street">Street address</label><input class="field" id="pf-street" autocomplete="street-address"></div>
+<div class="grid3">
+<div class="f"><label for="pf-city">City</label><input class="field" id="pf-city" autocomplete="address-level2"></div>
+<div class="f"><label for="pf-state">State</label><input class="field" id="pf-state" autocomplete="address-level1" maxlength="2" placeholder="TX"></div>
+<div class="f"><label for="pf-zip">ZIP code</label><input class="field" id="pf-zip" autocomplete="postal-code" inputmode="numeric" maxlength="10"></div>
+</div>
+<h3>Birthday</h3>
+<div class="grid2">
+<div class="f"><label for="pf-bm">Month</label><select class="field" id="pf-bm"><option value="">Not shared</option><option value="1">January</option><option value="2">February</option><option value="3">March</option><option value="4">April</option><option value="5">May</option><option value="6">June</option><option value="7">July</option><option value="8">August</option><option value="9">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select></div>
+<div class="f"><label for="pf-bd">Day</label><select class="field" id="pf-bd"><option value="">Not shared</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select></div>
+</div>
+<span class="sub">Only the month and day are kept, never the year.</span>
+</section>
+
+<section class="pcard" aria-labelledby="int-title"><div class="ph"><h2 id="int-title">Quilting Interests</h2><span class="sub">Check all that apply.</span></div>
+<div class="chks"><label class="chk"><input type="checkbox" name="interest" value="Piecing"> Piecing</label><label class="chk"><input type="checkbox" name="interest" value="Applique"> Applique</label><label class="chk"><input type="checkbox" name="interest" value="Paper Piecing"> Paper Piecing</label><label class="chk"><input type="checkbox" name="interest" value="English Paper Piecing"> English Paper Piecing</label><label class="chk"><input type="checkbox" name="interest" value="Modern Quilts"> Modern Quilts</label><label class="chk"><input type="checkbox" name="interest" value="Color Theory"> Color Theory</label><label class="chk"><input type="checkbox" name="interest" value="Hand Quilting"> Hand Quilting</label><label class="chk"><input type="checkbox" name="interest" value="Embroidery"> Embroidery</label></div>
+<div class="f" style="max-width:496px"><label for="pf-other">Other</label><input class="field" id="pf-other" placeholder="Tell us about other interests"></div>
+</section>
+
+<div class="saverow"><button type="submit" class="btn-save" id="save">Save changes</button><a href="home.html" class="cancel">Cancel</a>
+<span id="saved" class="saved hidden" role="status"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Saved. Your directory listing is up to date.</span>
+<span id="save-err" class="msg err hidden" role="alert"></span></div>
+</div>
+
+<aside class="prof-side">
+<section class="pcard" aria-labelledby="mem-title"><div class="ph"><h2 id="mem-title">Your membership</h2></div>
+<dl class="dl"><div><dt>Type</dt><dd id="m-type"></dd></div><div><dt>Member since</dt><dd id="m-since"></dd></div><div><dt>Paid through</dt><dd id="m-paid"></dd></div><div><dt>Status</dt><dd><span class="pill-s" id="m-status"></span></dd></div></dl>
+<span class="sub">Your membership runs January 1 to December 31. Renewals are accepted until March 31; after that, a membership that has not renewed is marked Inactive. To change your membership type, contact the Membership Chair.</span></section>
+<section class="pcard" aria-labelledby="msg-title"><div class="ph"><h2 id="msg-title">Private messages</h2><span class="sub">Choosing who can start a private message with you is coming soon, with Messages.</span></div></section>
+<section class="pcard" aria-labelledby="pw-title"><div class="ph"><h2 id="pw-title">Website password</h2><span class="sub">Your password is private. No one at the Guild can see it.</span></div>
+<a class="pwlink" href="set-password.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>Change password</a></section>
+</aside>
+</form></div></main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  var member=null;
+  function say(id,t){var e=$(id);e.textContent=t||'';e.classList.toggle('hidden',!t);}
+  function checks(){return Array.prototype.slice.call(document.querySelectorAll('input[name=interest]'));}
+  function load(){
+    QGPC.session().then(function(s){
+      if(!s){location.href='index.html';return;}
+      return QGPC.sb.from('members_with_status').select('*').eq('auth_user_id',s.user.id).limit(1).then(function(r){
+        $('loading').classList.add('hidden');
+        if(r.error||!r.data||!r.data.length){say('note','We could not load your membership record. Please contact the Membership Chair.');return;}
+        var m=member=r.data[0];
+        $('who-name').textContent=m.first_name+' '+m.last_name;
+        $('avatar').textContent=((m.first_name||'?').charAt(0)+(m.last_name||'').charAt(0)).toUpperCase();
+        $('pf-first').value=m.first_name||'';$('pf-last').value=m.last_name||'';$('pf-email').value=m.email||'';
+        $('pf-cell').value=m.cell_phone||'';$('pf-street').value=m.street_address||'';$('pf-city').value=m.city||'';
+        $('pf-state').value=m.state||'';$('pf-zip').value=m.zip||'';
+        $('pf-bm').value=m.birthday_month||'';$('pf-bd').value=m.birthday_day||'';
+        var mine=m.interests||[];checks().forEach(function(c){c.checked=mine.indexOf(c.value)>-1;});
+        $('pf-other').value=m.interests_other||'';
+        $('m-type').textContent=m.membership_type||'—';$('m-since').textContent=m.member_since||'—';
+        $('m-paid').textContent=m.paid_through_year?('December 31, '+m.paid_through_year):'—';
+        var st=m.status;$('m-status').textContent=st==='active'?'Active':st==='grace'?'Grace period':'Inactive';
+        $('m-status').className='pill-s '+st;
+        $('pf').classList.remove('hidden');
+        return QGPC.sb.from('member_roles').select('role_key').eq('member_id',m.id).then(function(rr){
+          var n=(rr.data||[]).length;$('who-role').textContent=n?'':'Member';
+          if(n){return QGPC.sb.from('roles').select('role_key,label').then(function(x){
+            var lab={};(x.data||[]).forEach(function(q){lab[q.role_key]=q.label;});
+            $('who-role').textContent=rr.data.map(function(q){return lab[q.role_key]||q.role_key;}).join(', ');});}
+        });
+      });
+    });
+  }
+  $('out').addEventListener('click',function(){QGPC.signOut().then(function(){location.href='index.html';});});
+  $('pf').addEventListener('submit',function(e){
+    e.preventDefault();say('save-err','');$('saved').classList.add('hidden');
+    var first=$('pf-first').value.trim(),last=$('pf-last').value.trim();
+    if(!first||!last){say('save-err','Please enter your first and last name.');return;}
+    var bm=$('pf-bm').value,bd=$('pf-bd').value;
+    if((bm&&!bd)||(!bm&&bd)){say('save-err','Please choose both a birthday month and day, or leave both as "Not shared".');return;}
+    if(bm&&bd){var max=[31,29,31,30,31,30,31,31,30,31,30,31][+bm-1];if(+bd>max){say('save-err','That birthday day does not exist in '+$('pf-bm').options[$('pf-bm').selectedIndex].text+'.');return;}}
+    var zip=$('pf-zip').value.trim();
+    if(zip&&!/^\d{5}(-\d{4})?$/.test(zip)){say('save-err','Please enter a 5-digit ZIP code.');return;}
+    var st=$('pf-state').value.trim().toUpperCase();
+    if(st&&!/^[A-Z]{2}$/.test(st)){say('save-err','Please enter the state as two letters, such as TX.');return;}
+    var v=function(id){var t=$(id).value.trim();return t||null;};
+    var patch={first_name:first,last_name:last,cell_phone:v('pf-cell'),street_address:v('pf-street'),city:v('pf-city'),state:st||null,zip:zip||null,
+      birthday_month:bm?+bm:null,birthday_day:bd?+bd:null,
+      interests:checks().filter(function(c){return c.checked;}).map(function(c){return c.value;}),interests_other:v('pf-other')};
+    $('save').disabled=true;
+    QGPC.sb.from('members').update(patch).eq('id',member.id).select('id').then(function(r){
+      $('save').disabled=false;
+      if(r.error||!r.data||!r.data.length){say('save-err','We could not save your changes. Please try again, or contact the Membership Chair.');return;}
+      $('who-name').textContent=first+' '+last;$('avatar').textContent=(first.charAt(0)+last.charAt(0)).toUpperCase();
+      $('saved').classList.remove('hidden');
+    });
+  });
+  load();
+})();
+</script>
+</body></html>

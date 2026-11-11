@@ -79,7 +79,7 @@ create table if not exists public.members (
   paid_through_year int  check (paid_through_year between 1900 and 2200),
   cell_phone        text,
   facebook_name     text,
-  mailing_address   text,
+  mailing_address   text,   -- replaced by street_address, city, state, zip in 02-profile-fields.sql
   directory_opt_out boolean not null default false,
   birthday_month    smallint check (birthday_month between 1 and 12),
   birthday_day      smallint check (birthday_day between 1 and 31),
