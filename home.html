@@ -11,25 +11,24 @@
 <header class="site-head"><div class="wrap">
 <div class="head-top">
 <a class="brand" href="index.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
-</div>
-<ul class="tiles" aria-label="Site sections">
-<li><span class="tile soon"><img src="assets/tiles/programs.svg" alt="">Programs &amp; Workshops <small>Coming soon</small></span></li>
-<li><span class="tile soon"><img src="assets/tiles/comfort-quilts.svg" alt="">Comfort Quilts <small>Coming soon</small></span></li>
-<li><span class="tile soon"><img src="assets/tiles/bees.svg" alt="">Bees <small>Coming soon</small></span></li>
-<li><span class="tile soon"><img src="assets/tiles/gallery.svg" alt="">Gallery <small>Coming soon</small></span></li>
-<li><span class="tile soon"><img src="assets/tiles/our-community.svg" alt="">Our Community <small>Coming soon</small></span></li>
-<li><span class="tile soon"><img src="assets/tiles/about.svg" alt="">About our Guild <small>Coming soon</small></span></li>
-</ul></div></header>
+<div class="head-actions">
+<span class="tile soon" title="Coming soon"><img src="assets/tiles/messages.svg" alt="">Messages <small>Coming soon</small></span>
+<span class="tile soon" title="Coming soon"><img src="assets/tiles/my-profile.svg" alt="">My Profile <small>Coming soon</small></span>
+<button class="btn primary small" id="out" type="button">Sign out</button>
+</div></div></div></header>
+
 <main id="main"><div class="wrap"><div class="page">
-<h1>Member home</h1>
-<p id="note" class="msg hidden" role="status"></p>
-<section id="me" class="card hidden"><h2>Your membership record</h2>
-<table class="kv"><tbody id="rows"></tbody></table>
-<p>Roles: <span id="roles">&mdash;</span></p>
-<p><button class="btn primary small" id="out" type="button">Sign out</button></p>
-</section>
-<p style="color:#555">This page is a first check that sign-in and the database are connected. The real member pages come next.</p>
-</div></div></main>
+<p id="loading" role="status">Loading your home page&hellip;</p>
+<p id="note" class="msg err hidden" role="alert"></p>
+<div id="content" class="hidden">
+<h1 id="hello"></h1>
+<section id="status" class="card status" aria-label="Your membership"></section>
+<section id="role-section" class="hidden" aria-labelledby="role-h"><h2 class="grp" id="role-h">Your Guild jobs</h2><ul class="tilegrid" id="role-tiles"></ul></section>
+<section aria-labelledby="mem-h"><h2 class="grp" id="mem-h">Around the Guild</h2><ul class="tilegrid" id="main-tiles"></ul></section>
+<section class="card soon-card"><h2>Notices, events and What&rsquo;s New</h2><p>These cards will appear here once those parts of the site are built.</p></section>
+<details class="card rec"><summary>My membership record</summary>
+<table class="kv"><tbody id="rows"></tbody></table><p>Roles: <span id="roles">&mdash;</span></p></details>
+</div></div></div></main>
 <footer class="site-foot"><div class="wrap">
 <div><b>Quilter&rsquo;s Guild of Parker County</b>
 <span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
@@ -42,18 +41,75 @@
 <script>
 (function(){
   var $=function(i){return document.getElementById(i)};
-  function row(k,v){var tr=document.createElement('tr');var a=document.createElement('th');a.textContent=k;var b=document.createElement('td');b.textContent=(v===null||v===undefined||v==='')?'\u2014':v;tr.appendChild(a);tr.appendChild(b);$('rows').appendChild(tr);}
+  var T=function(f){return 'assets/tiles/'+f+'.svg'};
+  // href null = page not built yet (shown as "Coming soon"). Fill these in as pages are built.
+  var PUBLIC=[
+    {l:'Programs & Workshops',i:'programs-and-workshops'},{l:'Comfort Quilts',i:'comfort-quilts'},
+    {l:'Gallery',i:'gallery'},{l:'About our Guild',i:'about-our-guild'}];
+  var MEMBER=[
+    {l:'Programs & Workshops',i:'programs-and-workshops'},{l:'Newsletters',i:'newsletters'},
+    {l:'Member Directory',i:'member-directory'},{l:'Comfort Quilts',i:'comfort-quilts'},
+    {l:'Our Community',i:'our-community'},{l:'Bees',i:'bees'},{l:'Gallery',i:'gallery'},{l:'About our Guild',i:'about-our-guild'}];
+  // Which roles unlock which job tiles. Administrators and the Superuser get all of them.
+  var JOBS=[
+    {l:'Membership',i:'membership',r:['membership_chair','superuser']},
+    {l:'President’s Page',i:'presidents-page',r:['president','vice_president'],adm:1},
+    {l:'Newsletter Manager',i:'newsletter-manager',r:['newsletter_chair'],adm:1},
+    {l:'Sunshine & Shadows Review',i:'sunshine-and-shadows-review',r:['sunshine_shadows_chair'],adm:1},
+    {l:'Comfort Quilts Manager',i:'comfort-quilts-manager',r:['comfort_quilts_chair'],adm:1},
+    {l:'Bees Manager',i:'bees-manager',r:['beekeeper'],adm:1},
+    {l:'Workshop Registrations',i:'workshop-registrations',r:['workshop_chair'],adm:1},
+    {l:'Program Planning',i:'program-planning',r:['program_chair'],adm:1},
+    {l:'Quilt Show Manager',i:'quilt-show-manager',r:['quilt_show_chair'],adm:1},
+    {l:'Manage Notices',i:'manage-notices',r:[],adm:1},
+    {l:'Manage Events',i:'manage-events',r:[],adm:1},
+    {l:'Reported Messages',i:'reported-messages',r:[],adm:1},
+    {l:'Site Administration',i:'site-administration',r:[],adm:1},
+    {l:'Roles & Permissions',i:'roles-and-permissions',r:['superuser'],only:1},
+    {l:'Site Settings',i:'site-settings',r:['superuser'],only:1}];
+  function tile(t,cls){
+    var li=document.createElement('li'),e=document.createElement(t.href?'a':'span');
+    e.className='tile '+cls+(t.href?'':' soon'); if(t.href)e.href=t.href;
+    var im=document.createElement('img');im.src=T(t.i);im.alt='';e.appendChild(im);
+    e.appendChild(document.createTextNode(t.l));
+    if(!t.href){var sm=document.createElement('small');sm.textContent='Coming soon';e.appendChild(sm);}
+    li.appendChild(e);return li;
+  }
+  function fill(id,list,cls){var u=$(id);u.textContent='';list.forEach(function(t){u.appendChild(tile(t,cls));});}
+  function row(k,v){var tr=document.createElement('tr'),a=document.createElement('th'),b=document.createElement('td');a.textContent=k;b.textContent=(v===null||v===undefined||v==='')?'—':v;tr.appendChild(a);tr.appendChild(b);$('rows').appendChild(tr);}
+  function fail(t){$('loading').classList.add('hidden');var n=$('note');n.textContent=t;n.classList.remove('hidden');}
   $('out').addEventListener('click',function(){QGPC.signOut().then(function(){location.href='index.html';});});
   QGPC.session().then(function(s){
     if(!s){location.href='index.html';return;}
     return QGPC.sb.from('members_with_status').select('*').eq('auth_user_id',s.user.id).limit(1).then(function(r){
-      if(r.error||!r.data||!r.data.length){var n=$('note');n.textContent='You are signed in, but no membership record is linked to this account yet.';n.className='msg err';$('me').classList.remove('hidden');$('roles').textContent='none';return;}
+      if(r.error||!r.data||!r.data.length){fail('You are signed in, but no membership record is linked to this account yet. Please contact the Membership Chair.');return;}
       var m=r.data[0];
-      row('Name',m.first_name+' '+m.last_name);row('Email',m.email);row('Membership type',m.membership_type);
-      row('Paid through',m.paid_through_year);row('Status',m.status);
-      $('me').classList.remove('hidden');
       return QGPC.sb.from('member_roles').select('role_key').eq('member_id',m.id).then(function(rr){
-        $('roles').textContent=(rr.data&&rr.data.length)?rr.data.map(function(x){return x.role_key;}).join(', '):'none';
+        var roles=(rr.data||[]).map(function(x){return x.role_key;});
+        var has=function(k){return roles.indexOf(k)>-1;};
+        var isAdm=has('superuser')||has('administrator');
+        var year=new Date().getFullYear();
+        var st=m.status;
+        $('hello').textContent='Welcome back, '+m.first_name+'.';
+        var box=$('status');
+        var pill='<span class="pill'+(st==='active'?'':' new')+'">'+(st==='active'?'Active':st==='grace'?'Grace period':'Inactive')+'</span> ';
+        var msg=st==='active'?'Your membership is paid through '+m.paid_through_year+'.'
+          :st==='grace'?'Your '+m.paid_through_year+' membership has ended. You have until March 31 to renew and keep full access.'
+          :'Your membership is not current, so you are seeing the public parts of the site. Please contact the Membership Chair to renew.';
+        box.innerHTML=pill+'<span id="status-msg"></span>';$('status-msg').textContent=msg;
+        // Inactive members are treated like visitors (Administrators and the Superuser keep their access).
+        var full=isAdm||st==='active'||st==='grace';
+        var jobs=!full?[]:JOBS.filter(function(j){
+          if(j.only)return has('superuser');
+          if(isAdm&&(j.adm||j.r.indexOf('superuser')>-1&&has('superuser')))return true;
+          return j.r.some(has);
+        });
+        if(jobs.length){$('role-section').classList.remove('hidden');fill('role-tiles',jobs,'rust');}
+        fill('main-tiles',full?MEMBER:PUBLIC,'blue');
+        row('Name',m.first_name+' '+m.last_name);row('Email',m.email);row('Membership type',m.membership_type);
+        row('Member since',m.member_since);row('Paid through',m.paid_through_year);row('Status',st);
+        $('roles').textContent=roles.length?roles.join(', '):'none';
+        $('loading').classList.add('hidden');$('content').classList.remove('hidden');
       });
     });
   });

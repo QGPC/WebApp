@@ -66,3 +66,14 @@ table.kv th,table.kv td{text-align:left;padding:8px 10px;border-bottom:1px solid
 .site-foot .wrap{padding:32px 24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:14px}
 .site-foot b{font-family:var(--serif);font-weight:400;font-size:18px;display:block;margin-bottom:6px}
 .site-foot a{color:#fff;font-weight:600;display:inline-flex;align-items:center;min-height:44px}
+
+/* Member home */
+.head-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.status{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:16px 0 24px}
+.grp{font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#5A5F6E;margin:24px 0 10px}
+.tilegrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;list-style:none;margin:0;padding:0}
+.tilegrid .tile{height:100%}
+.tile.blue{background:#EEF1F8;border-color:#D5DCEC}
+.tile.rust{background:#FCEEE9;border-color:#F4BFAA}
+.soon-card{margin:28px 0 16px}.soon-card h2{margin:0 0 6px;font-size:22px}
+.rec summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center}

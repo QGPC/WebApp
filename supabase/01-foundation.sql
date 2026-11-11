@@ -423,8 +423,8 @@ returns void language plpgsql security definer set search_path = public as $$
 declare
   v_id uuid;
 begin
-  insert into public.members (email, first_name, last_name, membership_type)
-  values (p_email, p_first_name, p_last_name, 'Regular')
+  insert into public.members (email, first_name, last_name, membership_type, paid_through_year)
+  values (p_email, p_first_name, p_last_name, 'Regular', extract(year from current_date)::int)
   on conflict (lower(email)) do update
     set first_name = excluded.first_name, last_name = excluded.last_name
   returning id into v_id;
