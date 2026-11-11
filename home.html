@@ -11,24 +11,40 @@
 <header class="site-head"><div class="wrap">
 <div class="head-top">
 <a class="brand" href="index.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
-<div class="head-actions">
-<span class="tile soon" tabindex="0"><img src="assets/tiles/messages.svg" alt="" width="34" height="34"><span class="lab">Messages</span><span class="tip" role="tooltip">Send and read private messages with other members.<em>Coming soon</em></span></span>
-<span class="tile soon" tabindex="0"><img src="assets/tiles/my-profile.svg" alt="" width="34" height="34"><span class="lab">My Profile</span><span class="tip" role="tooltip">Update your photo, contact details and quilting interests.<em>Coming soon</em></span></span>
-<button class="btn primary small" id="out" type="button">Sign out</button>
-</div></div></div></header>
+</div>
+<nav class="navbar" aria-label="Guild areas">
+<ul class="tilebar" id="tilebar"></ul>
+<button type="button" class="tile morebtn hidden" id="more-btn" aria-expanded="false" aria-controls="more-areas">More <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path id="more-chev" d="M6 9l6 6 6-6"></path></svg></button>
+<span class="vdiv" aria-hidden="true"></span>
+<span class="pstack">
+<span class="tile pill prof soon" tabindex="0"><span class="avatar" id="avatar" aria-hidden="true"></span><span class="lab">My Profile</span><span class="tip" role="tooltip">Update your photo, contact details and quilting interests.<em>Coming soon</em></span></span>
+<span class="tile pill msg soon" tabindex="0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"></path></svg><span class="lab">Messages</span><span class="tip" role="tooltip">Send and read private messages with other members.<em>Coming soon</em></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</span>
+</nav>
+<ul class="tilebar morelist hidden" id="more-areas"></ul>
+</div></header>
 
-<main id="main"><div class="wrap"><div class="page">
-<p id="loading" role="status">Loading your home page&hellip;</p>
+<main id="main">
+<section id="top" class="banner hst" aria-labelledby="hello"><div class="banner-in">
+<div class="logo-card stretch"><img src="assets/icons/icon-512-transparent.png" alt="Quilter&rsquo;s Guild of Parker County" width="210" height="210"></div>
+<div class="banner-mid">
+<div class="greet-card">
+<div><h1 id="hello">Loading&hellip;</h1>
+<p class="role-line hidden" id="role-line">Signed in as: <strong id="role-label"></strong></p>
+<p class="stat-line" id="stat-line"></p></div>
+</div>
+<div class="banner-btns" id="banner-btns">
+<a class="signin-btn hidden" id="btn-renew" aria-disabled="true"><img src="assets/icons/btn-renew.svg" width="42" height="42" alt=""><span class="lbl">Renew Membership<small>Coming soon</small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E87446" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+<span class="signin-btn" id="btn-events" aria-disabled="true"><img src="assets/icons/btn-myevents.svg" width="42" height="42" alt=""><span class="lbl">My Upcoming Events<small>Coming soon</small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0157AE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span>
+<span class="signin-btn" id="btn-new" aria-disabled="true"><img src="assets/icons/btn-whatsnew.svg" width="42" height="42" alt=""><span class="lbl">What&rsquo;s New<small>Coming soon</small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0157AE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span>
+</div></div></div></section>
+<div class="wrap"><div class="page">
 <p id="note" class="msg err hidden" role="alert"></p>
-<div id="content" class="hidden">
-<h1 id="hello"></h1>
-<section id="status" class="card status" aria-label="Your membership"></section>
-<section id="role-section" class="hidden" aria-labelledby="role-h"><h2 class="grp" id="role-h">Your Guild jobs</h2><ul class="tilegrid" id="role-tiles"></ul></section>
-<section aria-labelledby="mem-h"><h2 class="grp" id="mem-h">Around the Guild</h2><ul class="tilegrid" id="main-tiles"></ul></section>
 <section class="card soon-card"><h2>Notices, events and What&rsquo;s New</h2><p>These cards will appear here once those parts of the site are built.</p></section>
 <details class="card rec"><summary>My membership record</summary>
 <table class="kv"><tbody id="rows"></tbody></table><p>Roles: <span id="roles">&mdash;</span></p></details>
-</div></div></div></main>
+</div></div></main>
 <footer class="site-foot"><div class="wrap">
 <div><b>Quilter&rsquo;s Guild of Parker County</b>
 <span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
@@ -42,15 +58,10 @@
 (function(){
   var $=function(i){return document.getElementById(i)};
   var T=function(f){return 'assets/tiles/'+f+'.svg'};
-  // href null = page not built yet (shown as "Coming soon"). Fill these in as pages are built.
-  var PUBLIC=[
-    {l:'Programs & Workshops',i:'programs-and-workshops'},{l:'Comfort Quilts',i:'comfort-quilts'},
-    {l:'Gallery',i:'gallery'},{l:'About our Guild',i:'about-our-guild'}];
-  var MEMBER=[
-    {l:'Programs & Workshops',i:'programs-and-workshops'},{l:'Newsletters',i:'newsletters'},
-    {l:'Member Directory',i:'member-directory'},{l:'Comfort Quilts',i:'comfort-quilts'},
-    {l:'Our Community',i:'our-community'},{l:'Bees',i:'bees'},{l:'Gallery',i:'gallery'},{l:'About our Guild',i:'about-our-guild'}];
-  // Which roles unlock which job tiles. Administrators and the Superuser get all of them.
+  var TIPS={"Programs & Workshops": "Get details about our programs and workshops planned for each month.", "Comfort Quilts": "Our outreach program. Learn about the organizations we support and get easy patterns.", "Bees": "Small groups that meet to sew together. Find one to join.", "Our Community": "Sunshine & Shadows and other ways we care for each other.", "About our Guild": "Learn the purpose and history of our Guild.", "Newsletters": "Read the current newsletter and past issues.", "Comfort Quilts Manager": "Update the Comfort Quilts page.", "Bees Manager": "Update the list of bees.", "Workshop Registrations": "See who signed up for workshops and accept registrations.", "Program Planning": "Plan each month\u2019s program and workshop, and keep the Where & when card current.", "Quilt Show Manager": "Show or hide the Quilt Show card, and edit its message and photos.", "Sunshine & Shadows Review": "Approve or decline notes from members.", "Membership": "Review new member requests and manage the membership database.", "Newsletter Manager": "Add, edit and delete newsletters.", "President\u2019s Page": "Post and edit Special Notices.", "Reported Messages": "Review private messages that members have reported."};
+  // href null = page not built yet. Fill these in as pages are built.
+  var PUBLIC=[{l:'Programs & Workshops',i:'programs-and-workshops'},{l:'Comfort Quilts',i:'comfort-quilts'},{l:'Gallery',i:'gallery'},{l:'About our Guild',i:'about-our-guild'}];
+  var MEMBER=[{l:'Programs & Workshops',i:'programs-and-workshops'},{l:'Newsletters',i:'newsletters'},{l:'Member Directory',i:'member-directory'},{l:'Comfort Quilts',i:'comfort-quilts'},{l:'Our Community',i:'our-community'},{l:'Bees',i:'bees'},{l:'Gallery',i:'gallery'},{l:'About our Guild',i:'about-our-guild'}];
   var JOBS=[
     {l:'Membership',i:'membership',r:['membership_chair','superuser']},
     {l:'President’s Page',i:'presidents-page',r:['president','vice_president'],adm:1},
@@ -67,10 +78,10 @@
     {l:'Site Administration',i:'site-administration',r:[],adm:1},
     {l:'Roles & Permissions',i:'roles-and-permissions',r:['superuser'],only:1},
     {l:'Site Settings',i:'site-settings',r:['superuser'],only:1}];
-  var TIPS={"Programs & Workshops": "Get details about our programs and workshops planned for each month.", "Comfort Quilts": "Our outreach program. Learn about the organizations we support and get easy patterns.", "Bees": "Small groups that meet to sew together. Find one to join.", "Our Community": "Sunshine & Shadows and other ways we care for each other.", "About our Guild": "Learn the purpose and history of our Guild.", "Newsletters": "Read the current newsletter and past issues.", "Comfort Quilts Manager": "Update the Comfort Quilts page.", "Bees Manager": "Update the list of bees.", "Workshop Registrations": "See who signed up for workshops and accept registrations.", "Program Planning": "Plan each month\u2019s program and workshop, and keep the Where & when card current.", "Quilt Show Manager": "Show or hide the Quilt Show card, and edit its message and photos.", "Sunshine & Shadows Review": "Approve or decline notes from members.", "Membership": "Review new member requests and manage the membership database.", "Newsletter Manager": "Add, edit and delete newsletters.", "President\u2019s Page": "Post and edit Special Notices.", "Reported Messages": "Review private messages that members have reported."};
-  function tile(t,cls){
+  var PER_BAR=14;
+  function tile(t){
     var li=document.createElement('li'),e=document.createElement(t.href?'a':'span');
-    e.className='tile '+cls+(t.href?'':' soon'); if(t.href)e.href=t.href; else e.tabIndex=0;
+    e.className='tile'+(t.href?'':' soon'); if(t.href)e.href=t.href; else e.tabIndex=0;
     var im=document.createElement('img');im.src=T(t.i);im.alt='';im.width=34;im.height=34;e.appendChild(im);
     var lab=document.createElement('span');lab.className='lab';lab.textContent=t.l;e.appendChild(lab);
     var tip=TIPS[t.l]||'';
@@ -79,41 +90,57 @@
       e.appendChild(tp);}
     li.appendChild(e);return li;
   }
-  function fill(id,list,cls){var u=$(id);u.textContent='';list.forEach(function(t){u.appendChild(tile(t,cls));});}
+  function fill(id,list){var u=$(id);u.textContent='';list.forEach(function(t){u.appendChild(tile(t));});}
   function row(k,v){var tr=document.createElement('tr'),a=document.createElement('th'),b=document.createElement('td');a.textContent=k;b.textContent=(v===null||v===undefined||v==='')?'—':v;tr.appendChild(a);tr.appendChild(b);$('rows').appendChild(tr);}
-  function fail(t){$('loading').classList.add('hidden');var n=$('note');n.textContent=t;n.classList.remove('hidden');}
+  function fail(t){$('hello').textContent='Member home';var n=$('note');n.textContent=t;n.classList.remove('hidden');}
   $('out').addEventListener('click',function(){QGPC.signOut().then(function(){location.href='index.html';});});
+  $('more-btn').addEventListener('click',function(){
+    var o=$('more-areas').classList.toggle('hidden')===false;
+    this.setAttribute('aria-expanded',o?'true':'false');
+    $('more-chev').setAttribute('d',o?'M6 15l6-6 6 6':'M6 9l6 6 6-6');
+    this.firstChild.nodeValue=o?'Less ':'More ';
+  });
   QGPC.session().then(function(s){
     if(!s){location.href='index.html';return;}
-    return QGPC.sb.from('members_with_status').select('*').eq('auth_user_id',s.user.id).limit(1).then(function(r){
-      if(r.error||!r.data||!r.data.length){fail('You are signed in, but no membership record is linked to this account yet. Please contact the Membership Chair.');return;}
-      var m=r.data[0];
+    return Promise.all([
+      QGPC.sb.from('members_with_status').select('*').eq('auth_user_id',s.user.id).limit(1),
+      QGPC.sb.from('roles').select('role_key,label'),
+      QGPC.sb.from('site_config').select('renewals_open').limit(1)
+    ]).then(function(res){
+      var r=res[0];
+      if(r.error||!r.data||!r.data.length){fail('You are signed in, but no membership record is linked to this account yet. Please contact the Membership Chair.');fill('tilebar',PUBLIC);return;}
+      var m=r.data[0], labels={};
+      (res[1].data||[]).forEach(function(x){labels[x.role_key]=x.label;});
+      var renewalsOpen=!!(res[2].data&&res[2].data[0]&&res[2].data[0].renewals_open);
       return QGPC.sb.from('member_roles').select('role_key').eq('member_id',m.id).then(function(rr){
         var roles=(rr.data||[]).map(function(x){return x.role_key;});
         var has=function(k){return roles.indexOf(k)>-1;};
         var isAdm=has('superuser')||has('administrator');
-        var year=new Date().getFullYear();
         var st=m.status;
-        $('hello').textContent='Welcome back, '+m.first_name+'.';
-        var box=$('status');
-        var pill='<span class="pill'+(st==='active'?'':' new')+'">'+(st==='active'?'Active':st==='grace'?'Grace period':'Inactive')+'</span> ';
-        var msg=st==='active'?'Your membership is paid through '+m.paid_through_year+'.'
+        var full=isAdm||st==='active'||st==='grace';   // Inactive members are treated like visitors
+        $('hello').textContent=full?'Welcome back, '+m.first_name+'.':'Welcome, '+m.first_name+'.';
+        $('avatar').textContent=((m.first_name||'?').charAt(0)+(m.last_name||'').charAt(0)).toUpperCase();
+        var stat=st==='active'?'Your membership is paid through '+m.paid_through_year+'.'
           :st==='grace'?'Your '+m.paid_through_year+' membership has ended. You have until March 31 to renew and keep full access.'
           :'Your membership is not current, so you are seeing the public parts of the site. Please contact the Membership Chair to renew.';
-        box.innerHTML=pill+'<span id="status-msg"></span>';$('status-msg').textContent=msg;
-        // Inactive members are treated like visitors (Administrators and the Superuser keep their access).
-        var full=isAdm||st==='active'||st==='grace';
+        $('stat-line').textContent=stat;
+        if(full){
+          var names=roles.length?roles.map(function(k){return labels[k]||k;}).join(', '):'Member';
+          $('role-label').textContent=names;$('role-line').classList.remove('hidden');
+        }
         var jobs=!full?[]:JOBS.filter(function(j){
           if(j.only)return has('superuser');
-          if(isAdm&&(j.adm||j.r.indexOf('superuser')>-1&&has('superuser')))return true;
+          if(isAdm&&(j.adm||(j.r.indexOf('superuser')>-1&&has('superuser'))))return true;
           return j.r.some(has);
         });
-        if(jobs.length){$('role-section').classList.remove('hidden');fill('role-tiles',jobs,'rust');}
-        fill('main-tiles',full?MEMBER:PUBLIC,'blue');
+        var all=jobs.concat(full?MEMBER:PUBLIC);
+        fill('tilebar',all.slice(0,PER_BAR));
+        if(all.length>PER_BAR){fill('more-areas',all.slice(PER_BAR));$('more-btn').classList.remove('hidden');}
+        if(!full){$('btn-events').classList.add('hidden');$('btn-new').classList.add('hidden');}
+        if(full&&renewalsOpen)$('btn-renew').classList.remove('hidden');
         row('Name',m.first_name+' '+m.last_name);row('Email',m.email);row('Membership type',m.membership_type);
         row('Member since',m.member_since);row('Paid through',m.paid_through_year);row('Status',st);
         $('roles').textContent=roles.length?roles.join(', '):'none';
-        $('loading').classList.add('hidden');$('content').classList.remove('hidden');
       });
     });
   });
