@@ -84,6 +84,7 @@
     e.className='tile'+(t.href?'':' soon'); if(t.href)e.href=t.href; else e.tabIndex=0;
     var im=document.createElement('img');im.src=T(t.i);im.alt='';im.width=34;im.height=34;e.appendChild(im);
     var lab=document.createElement('span');lab.className='lab';lab.textContent=t.l;e.appendChild(lab);
+    if(t.badge){var bd=document.createElement('span');bd.className='badge';bd.textContent=t.badge;bd.setAttribute('aria-label',t.badge+(t.badge===1?' request waiting':' requests waiting'));e.appendChild(bd);}
     var tip=TIPS[t.l]||'';
     if(tip||!t.href){var tp=document.createElement('span');tp.className='tip';tp.setAttribute('role','tooltip');tp.appendChild(document.createTextNode(tip));
       if(!t.href){var em=document.createElement('em');em.textContent='Coming soon';tp.appendChild(em);}
@@ -133,6 +134,9 @@
           if(isAdm&&(j.adm||(j.r.indexOf('superuser')>-1&&has('superuser'))))return true;
           return j.r.some(has);
         });
+        var mt=jobs.filter(function(j){return j.l==='Membership';})[0];
+        var pending=mt?QGPC.sb.from('membership_requests').select('id',{count:'exact',head:true}).neq('status','approved').then(function(r){mt.badge=(!r.error&&r.count>0)?r.count:0;}):Promise.resolve();
+        return pending.then(function(){
         var all=jobs.concat(full?MEMBER:PUBLIC);
         fill('tilebar',all.slice(0,PER_BAR));
         if(all.length>PER_BAR){fill('more-areas',all.slice(PER_BAR));$('more-btn').classList.remove('hidden');}
@@ -141,6 +145,7 @@
         row('Name',m.first_name+' '+m.last_name);row('Email',m.email);row('Membership type',m.membership_type);
         row('Member since',m.member_since);row('Paid through',m.paid_through_year);row('Status',st);
         $('roles').textContent=roles.length?roles.join(', '):'none';
+        });
       });
     });
   });

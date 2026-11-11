@@ -224,3 +224,5 @@ fieldset.types legend{font-weight:700;font-size:18px;padding:0;margin-bottom:4px
 .stepn{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:999px;background:#fff;color:var(--cobalt);font-size:14px}
 .paydone{padding:8px 16px;border-radius:999px;background:#EEF1F8;color:var(--cobalt);font-weight:700}
 .approved{display:flex;flex-direction:column;gap:4px;padding:14px 18px;border-radius:12px;background:#EEF1F8;color:var(--cobalt)}.approved span{color:#454A58;font-size:15px}
+
+.badge{position:absolute;top:-8px;right:-8px;min-width:24px;height:24px;padding:0 6px;box-sizing:border-box;border-radius:999px;background:var(--persimmon);color:var(--ink);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid #fff}
