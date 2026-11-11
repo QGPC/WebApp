@@ -235,3 +235,26 @@ fieldset.types legend{font-weight:700;font-size:18px;padding:0;margin-bottom:4px
 .grid3.even{grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr))}
 a.acard{text-decoration:none;transition:transform .15s ease,box-shadow .15s ease}
 a.acard:hover,a.acard:focus-visible{transform:translateY(-2px);box-shadow:0 8px 24px rgba(31,36,51,.10);border-color:var(--cobalt)}
+
+/* ---- Membership Database (directory style) ---- */
+.dirhead{display:flex;flex-wrap:wrap;gap:20px;align-items:stretch}
+.dirhead>.greet-card{flex:1 1 320px}
+.dirsearch .grid2{gap:12px}
+.azbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px;font-weight:600;color:#454A58}
+.azbar a,.azbar .off{display:inline-block;min-width:28px;padding:4px 6px;text-align:center;border-radius:8px;font-weight:700}
+.azbar a{color:var(--cobalt);text-decoration:none;background:#EEF1F8}
+.azbar .off{color:#B5B2A8}
+.dgroup{margin:0 0 26px}
+.dgroup h2{margin:0 0 10px;font-family:var(--serif);color:var(--persimmon-dark);font-size:28px}
+.dgrid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.dcard{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;min-height:72px;padding:10px 14px;background:#fff;border:2px solid #E4E0D6;border-radius:12px;font:inherit;color:var(--ink);cursor:pointer}
+.dcard .rm{display:flex;flex-direction:column;gap:2px;min-width:0}.dcard .rm span{font-size:14px;color:#5A5F6E}
+.dcard.sel{background:#F4F6FB;border-color:var(--cobalt)}
+.dgroup>.reqdetail{margin-top:12px;background:#F4F6FB;border:1px solid #D8DEEC}
+.delzone{margin-top:28px;padding-top:18px;border-top:1px solid #D8DEEC}
+.btn-del{min-height:46px;padding:0 22px;border-radius:999px;border:2px solid #B42318;background:#fff;color:#B42318;font:700 15px var(--sans);cursor:pointer}
+.btn-del.solid{background:#B42318;color:#fff}
+.btn-del:disabled{opacity:.6;cursor:wait}
+.btn-cancel{min-height:46px;padding:0 22px;border-radius:999px;border:2px solid #8A8F9E;background:#fff;color:#1F2433;font:700 15px var(--sans);cursor:pointer}
+.delconfirm{margin-top:14px;padding:14px 16px;background:#FDECEA;border:1px solid #F3B8B2;border-radius:12px}
+.delconfirm p{margin:0 0 10px;font-weight:600}

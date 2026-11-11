@@ -18,19 +18,21 @@
 </div></div></div></header>
 <main id="main">
 <section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px">
+<div class="dirhead">
 <div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Membership Chair</span>
-<h1 id="pg-title" style="margin:0">Membership Database</h1><p class="stat-line">Search, view and update member records.</p></div></div></section>
+<h1 id="pg-title" style="margin:0">Membership Database</h1><p class="stat-line" id="count">&hellip;</p></div>
+<div class="greet-card dirsearch" style="flex-direction:column;align-items:stretch;gap:10px;padding:20px 24px;min-height:0">
+<div class="f"><label for="q">Find a member</label><input class="field" id="q" type="search" autocomplete="off" placeholder="Name or email"></div>
+<div class="grid2"><div class="f"><label for="fstatus">Status</label><select class="field" id="fstatus"><option value="">All</option><option value="active">Active</option><option value="grace">Grace period</option><option value="inactive">Inactive</option></select></div>
+<div class="f"><label for="ftype">Type</label><select class="field" id="ftype"><option value="">All</option><option>Regular</option><option>Junior</option><option>Exempt</option></select></div></div>
+</div></div></div></section>
 <div class="mwrap tools" id="content">
 <a class="backlink" href="membership-tools.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>Membership Page Admin</a>
 <p id="note" class="msg err hidden" role="alert"></p>
-<div class="reqcols">
-<section class="pcard tight reqlist" aria-labelledby="list-title">
-<div class="qhead"><h2 id="list-title">Members</h2><span class="chip blue" id="count">&hellip;</span></div>
-<div class="f"><label for="q">Search by name or email</label><input class="field" id="q" type="search" autocomplete="off"></div>
-<div class="grid2"><div class="f"><label for="fstatus">Status</label><select class="field" id="fstatus"><option value="">All</option><option value="active">Active</option><option value="grace">Grace period</option><option value="inactive">Inactive</option></select></div>
-<div class="f"><label for="ftype">Type</label><select class="field" id="ftype"><option value="">All</option><option>Regular</option><option>Junior</option><option>Exempt</option></select></div></div>
-<ul class="reqs scrolly" id="list"></ul><p class="sub hidden" id="none">No members match.</p>
-</section>
+<nav class="azbar" aria-label="Jump to last name letter"><span>Last name begins with</span><span id="az"></span></nav>
+<div id="groups"></div>
+<p class="sub hidden" id="none">No members match.</p>
+<div id="holder" class="hidden">
 <section class="pcard reqdetail hidden" id="detail" aria-label="Member record">
 <form id="mf" novalidate class="mform">
 <div class="dhead"><div><h2 id="m-title"></h2><span class="sub" id="m-sub"></span></div><span class="chip blue" id="m-status"></span></div>
@@ -68,6 +70,13 @@
 <span id="saved" class="saved hidden" role="status"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Saved.</span>
 <span id="save-err" class="msg err hidden" role="alert"></span></div>
 </form>
+<div class="delzone" id="delzone">
+<p class="sub" id="del-why"></p>
+<button type="button" class="btn-del" id="del">Delete this member&hellip;</button>
+<div class="delconfirm hidden" id="delconfirm" role="alertdialog" aria-labelledby="del-q">
+<p id="del-q"></p>
+<div class="saverow"><button type="button" class="btn-del solid" id="del-yes">Yes, delete permanently</button><button type="button" class="btn-cancel" id="del-no">Cancel</button><span id="del-err" class="msg err hidden" role="alert"></span></div>
+</div></div>
 </section>
 </div></div></main>
 <footer class="site-foot"><div class="wrap">
@@ -95,21 +104,41 @@ QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}}
     if(!q)return true;
     return (r.first_name+' '+r.last_name+' '+r.last_name+' '+r.first_name+' '+(r.email||'')).toLowerCase().indexOf(q)>-1;
   }
+  function letterOf(r){var c=(r.last_name||'#').charAt(0).toUpperCase();return /[A-Z]/.test(c)?c:'#';}
   function paintList(){
-    var u=$('list');u.textContent='';
-    var shown=rows.filter(match);
-    $('count').textContent=shown.length===rows.length?rows.length+' members':shown.length+' of '+rows.length;
+    var holder=$('holder'),det=$('detail');
+    holder.appendChild(det);det.classList.add('hidden');
+    var g=$('groups');g.textContent='';
+    var shown=rows.filter(match),by={};
+    shown.forEach(function(r){(by[letterOf(r)]=by[letterOf(r)]||[]).push(r);});
+    $('count').textContent=(shown.length===rows.length?rows.length+' members':shown.length+' of '+rows.length+' members');
     $('none').classList.toggle('hidden',shown.length>0);
-    shown.forEach(function(r){
-      var li=document.createElement('li'),b=document.createElement('button');b.type='button';b.className='req'+(sel===r.id?' sel':'');
-      b.setAttribute('aria-pressed',sel===r.id?'true':'false');
-      var m=document.createElement('span');m.className='rm';
-      var n=document.createElement('b');n.textContent=r.last_name+', '+r.first_name;
-      var s=document.createElement('span');s.textContent=r.membership_type+' · Paid through '+(r.paid_through_year||'—');
-      m.appendChild(n);m.appendChild(s);
-      var ch=document.createElement('span');ch.className='chip '+chipCls(r.status);ch.textContent=SL[r.status]||r.status;
-      b.appendChild(m);b.appendChild(ch);b.addEventListener('click',function(){sel=r.id;say('save-err','');$('saved').classList.add('hidden');paintList();paintForm();});
-      li.appendChild(b);u.appendChild(li);
+    var all='ABCDEFGHIJKLMNOPQRSTUVWXYZ#'.split(''),az=$('az');az.textContent='';
+    all.forEach(function(L){
+      if(by[L]){var a=document.createElement('a');a.href='#grp-'+L;a.textContent=L;az.appendChild(a);}
+      else{var d=document.createElement('span');d.className='off';d.textContent=L;az.appendChild(d);}
+    });
+    all.forEach(function(L){
+      if(!by[L])return;
+      var sec=document.createElement('section');sec.className='dgroup';sec.id='grp-'+L;
+      var h=document.createElement('h2');h.textContent=L;sec.appendChild(h);
+      var ul=document.createElement('ul');ul.className='dgrid';
+      by[L].forEach(function(r){
+        var li=document.createElement('li'),b=document.createElement('button');b.type='button';b.className='dcard'+(sel===r.id?' sel':'');
+        b.setAttribute('aria-pressed',sel===r.id?'true':'false');
+        var m=document.createElement('span');m.className='rm';
+        var n=document.createElement('b');n.textContent=r.last_name+', '+r.first_name;
+        var t=document.createElement('span');t.textContent=r.membership_type+' · Paid through '+(r.paid_through_year||'—');
+        m.appendChild(n);m.appendChild(t);
+        var ch=document.createElement('span');ch.className='chip '+chipCls(r.status);ch.textContent=SL[r.status]||r.status;
+        b.appendChild(m);b.appendChild(ch);
+        b.addEventListener('click',function(){sel=(sel===r.id?null:r.id);say('save-err','');$('saved').classList.add('hidden');$('delconfirm').classList.add('hidden');say('del-err','');paintList();paintForm();
+          if(sel){var d=$('detail');if(d.scrollIntoView)d.scrollIntoView({block:'nearest',behavior:'smooth'});}});
+        li.appendChild(b);ul.appendChild(li);
+      });
+      sec.appendChild(ul);
+      if(sel&&by[L].some(function(r){return r.id===sel;}))sec.appendChild(det);
+      g.appendChild(sec);
     });
   }
   function cur(){return rows.filter(function(r){return r.id===sel;})[0];}
@@ -129,6 +158,12 @@ QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}}
     $('m-other').value=r.interests_other||'';
     var rl=(roleMap[r.id]||[]).map(function(k){return labels[k]||k;});
     $('m-roles').textContent='Roles: '+(rl.length?rl.join(', '):'none')+(r.auth_user_id?'':'  ·  Not signed up for a website account yet.');
+    var rk=roleMap[r.id]||[],why='',can=true;
+    if(rk.indexOf('superuser')>-1){can=false;why='This member is a Superuser and cannot be deleted.';}
+    else if((c.member&&r.id===c.member.id)){can=false;why='You cannot delete your own record.';}
+    else if(rk.indexOf('administrator')>-1&&!c.isSuper){can=false;why='Only the Superuser can delete an Administrator.';}
+    $('del').classList.toggle('hidden',!can);$('del-why').textContent=why;$('del-why').classList.toggle('hidden',!why);
+    $('delconfirm').classList.add('hidden');
   }
   ['q','fstatus','ftype'].forEach(function(id){$(id).addEventListener('input',paintList);$(id).addEventListener('change',paintList);});
   $('mf').addEventListener('submit',function(e){
@@ -158,6 +193,20 @@ QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}}
       $('save').disabled=false;
       if(x.error||!x.data||!x.data.length){say('save-err',(x.error&&/duplicate|unique/i.test(x.error.message))?'Another member already uses that email address.':'We could not save. Please try again.');return;}
       load(true);
+    });
+  });
+  $('del').addEventListener('click',function(){
+    var r=cur();if(!r)return;
+    $('del-q').textContent='Delete '+r.first_name+' '+r.last_name+' permanently? This removes the member record'+(r.auth_user_id?' and their website sign-in':'')+'. It cannot be undone.';
+    say('del-err','');$('delconfirm').classList.remove('hidden');$('del-no').focus();
+  });
+  $('del-no').addEventListener('click',function(){$('delconfirm').classList.add('hidden');$('del').focus();});
+  $('del-yes').addEventListener('click',function(){
+    var r=cur();if(!r)return;$('del-yes').disabled=true;say('del-err','');
+    QGPC.sb.rpc('delete_member',{p_id:r.id}).then(function(x){
+      $('del-yes').disabled=false;
+      if(x.error){say('del-err',x.error.message||'We could not delete this member.');return;}
+      sel=null;$('delconfirm').classList.add('hidden');load(false);note('');
     });
   });
   function load(keepSel){
