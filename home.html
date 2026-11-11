@@ -12,8 +12,8 @@
 <div class="head-top">
 <a class="brand" href="index.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
 <div class="head-actions">
-<span class="tile soon" title="Coming soon"><img src="assets/tiles/messages.svg" alt="">Messages <small>Coming soon</small></span>
-<span class="tile soon" title="Coming soon"><img src="assets/tiles/my-profile.svg" alt="">My Profile <small>Coming soon</small></span>
+<span class="tile soon" tabindex="0"><img src="assets/tiles/messages.svg" alt="" width="34" height="34"><span class="lab">Messages</span><span class="tip" role="tooltip">Send and read private messages with other members.<em>Coming soon</em></span></span>
+<span class="tile soon" tabindex="0"><img src="assets/tiles/my-profile.svg" alt="" width="34" height="34"><span class="lab">My Profile</span><span class="tip" role="tooltip">Update your photo, contact details and quilting interests.<em>Coming soon</em></span></span>
 <button class="btn primary small" id="out" type="button">Sign out</button>
 </div></div></div></header>
 
@@ -67,12 +67,16 @@
     {l:'Site Administration',i:'site-administration',r:[],adm:1},
     {l:'Roles & Permissions',i:'roles-and-permissions',r:['superuser'],only:1},
     {l:'Site Settings',i:'site-settings',r:['superuser'],only:1}];
+  var TIPS={"Programs & Workshops": "Get details about our programs and workshops planned for each month.", "Comfort Quilts": "Our outreach program. Learn about the organizations we support and get easy patterns.", "Bees": "Small groups that meet to sew together. Find one to join.", "Our Community": "Sunshine & Shadows and other ways we care for each other.", "About our Guild": "Learn the purpose and history of our Guild.", "Newsletters": "Read the current newsletter and past issues.", "Comfort Quilts Manager": "Update the Comfort Quilts page.", "Bees Manager": "Update the list of bees.", "Workshop Registrations": "See who signed up for workshops and accept registrations.", "Program Planning": "Plan each month\u2019s program and workshop, and keep the Where & when card current.", "Quilt Show Manager": "Show or hide the Quilt Show card, and edit its message and photos.", "Sunshine & Shadows Review": "Approve or decline notes from members.", "Membership": "Review new member requests and manage the membership database.", "Newsletter Manager": "Add, edit and delete newsletters.", "President\u2019s Page": "Post and edit Special Notices.", "Reported Messages": "Review private messages that members have reported."};
   function tile(t,cls){
     var li=document.createElement('li'),e=document.createElement(t.href?'a':'span');
-    e.className='tile '+cls+(t.href?'':' soon'); if(t.href)e.href=t.href;
-    var im=document.createElement('img');im.src=T(t.i);im.alt='';e.appendChild(im);
-    e.appendChild(document.createTextNode(t.l));
-    if(!t.href){var sm=document.createElement('small');sm.textContent='Coming soon';e.appendChild(sm);}
+    e.className='tile '+cls+(t.href?'':' soon'); if(t.href)e.href=t.href; else e.tabIndex=0;
+    var im=document.createElement('img');im.src=T(t.i);im.alt='';im.width=34;im.height=34;e.appendChild(im);
+    var lab=document.createElement('span');lab.className='lab';lab.textContent=t.l;e.appendChild(lab);
+    var tip=TIPS[t.l]||'';
+    if(tip||!t.href){var tp=document.createElement('span');tp.className='tip';tp.setAttribute('role','tooltip');tp.appendChild(document.createTextNode(tip));
+      if(!t.href){var em=document.createElement('em');em.textContent='Coming soon';tp.appendChild(em);}
+      e.appendChild(tp);}
     li.appendChild(e);return li;
   }
   function fill(id,list,cls){var u=$(id);u.textContent='';list.forEach(function(t){u.appendChild(tile(t,cls));});}

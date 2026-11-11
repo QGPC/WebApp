@@ -13,31 +13,53 @@ a{color:var(--cobalt)}
 .skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:#fff;padding:8px;z-index:9}
 
 /* Header */
-.site-head{background:var(--white);border-bottom:1px solid var(--line)}
+.site-head{position:relative;z-index:20;background:var(--white);border-bottom:1px solid var(--line)}
 .head-top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:12px 0}
 .brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink)}
 .brand img{width:52px;height:52px}
 .brand b{display:block;font-family:var(--serif);font-weight:400;font-size:22px;line-height:1.1}
 .brand span{font-size:14px}
-.tiles{display:flex;flex-wrap:wrap;gap:8px;padding:0 0 12px;margin:0;list-style:none}
-.tile{display:flex;align-items:center;gap:8px;min-height:48px;padding:6px 14px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);text-decoration:none;font-weight:600;font-size:15px}
-.tile img{width:34px;height:34px}
-.tile.soon{opacity:.7;cursor:default}
-.tile small{font-weight:500;font-size:12px;color:var(--persimmon-dark)}
+.tiles{display:flex;flex-wrap:wrap;gap:8px;padding:4px 0 16px;margin:0;list-style:none}
+.tile{position:relative;flex:0 0 auto;display:flex;align-items:center;gap:10px;min-height:48px;padding:6px 12px 6px 6px;background:#FAF8F3;border:1px solid #E4E0D6;border-radius:10px;color:var(--ink);text-decoration:none;font-weight:600;font-size:14px;line-height:1.2;white-space:nowrap;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease}
+.tile img{width:34px;height:34px;border-radius:8px;flex:0 0 auto}
+a.tile:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(31,36,51,.10);border-color:var(--cobalt)}
+.tile:hover,.tile:focus-visible{z-index:5}
+.tip{position:absolute;left:50%;top:calc(100% + 10px);transform:translate(-50%,4px);width:max-content;max-width:220px;padding:10px 14px;border-radius:10px;background:#FFFDF8;color:var(--ink);border:1px solid #D9D3C5;font-size:14px;font-weight:500;line-height:1.4;text-align:center;white-space:normal;box-shadow:0 10px 28px rgba(15,20,40,.35);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .15s ease,transform .15s ease,visibility .15s}
+.tip::before{content:"";position:absolute;left:50%;top:-6px;width:12px;height:12px;background:#FFFDF8;border-left:1px solid #D9D3C5;border-top:1px solid #D9D3C5;transform:translateX(-50%) rotate(45deg);border-radius:2px 0 0 0}
+.tile:hover .tip,.tile:focus-visible .tip{opacity:1;visibility:visible;transform:translate(-50%,0)}
+.tip em{display:block;font-style:normal;font-size:12px;font-weight:700;color:var(--persimmon-dark);margin-top:2px}
+.tile.soon{cursor:default}.tile.soon img,.tile.soon .lab{opacity:.7}
 
-/* Banner */
-.banner{background:var(--cerulean);background-image:linear-gradient(135deg,rgba(255,255,255,.10) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.10) 50%,rgba(255,255,255,.10) 75%,transparent 75%);background-size:48px 48px;color:#fff;padding:32px 0}
-.banner .wrap{display:flex;gap:20px;flex-wrap:wrap;align-items:stretch}
-.logo-card{background:rgba(1,52,78,.90);border-radius:14px;padding:16px;display:flex;align-items:center;justify-content:center;flex:0 0 230px}
-.logo-card img{width:100%;max-width:198px}
-.welcome-card{background:rgba(1,52,78,.90);border-radius:14px;padding:22px 26px;flex:1 1 360px;min-height:156px}
-.welcome-card h1{margin:0 0 8px;font-size:32px}
-.welcome-card p{margin:0}
-.cta{display:flex;flex-direction:column;gap:12px;flex:0 0 220px;justify-content:center}
+/* Banner (matches the mockup) */
+.hst{background-color:#017DB0;background-image:linear-gradient(135deg,rgba(255,255,255,.10) 25%,transparent 25%),linear-gradient(225deg,rgba(255,255,255,.10) 25%,transparent 25%),linear-gradient(45deg,rgba(1,87,174,.55) 25%,transparent 25%),linear-gradient(315deg,rgba(255,255,255,.06) 25%,transparent 25%);background-size:64px 64px;background-position:0 0,0 32px,32px -32px,-32px 0}
+.banner{color:#fff}
+.banner-in{max-width:1200px;width:100%;margin:0 auto;padding:12px 24px 16px;display:flex;flex-wrap:wrap;align-items:stretch;gap:16px 18px}
+.logo-card{flex:0 0 auto;width:230px;height:230px;display:flex;align-items:center;justify-content:center;background:rgba(1,52,78,.90);border-radius:18px}
+.logo-card img{display:block;width:210px;height:210px;object-fit:contain}
+.banner-mid{flex:1 1 560px;min-width:0;min-height:230px;display:flex;flex-direction:column;justify-content:space-between;gap:16px}
+.welcome-card{flex:1 1 auto;min-width:0;display:flex;align-items:center;background:rgba(1,52,78,.90);padding:14px 24px;height:156px;border-radius:18px}
+.welcome-card h1{margin:0 0 6px;font-size:clamp(1.4rem,2.4vw,1.75rem);line-height:1.15;text-wrap:balance}
+.welcome-card p{margin:0;font-size:15px;line-height:1.45;color:#E6E9F2}
+.banner-btns{display:flex;gap:12px;width:100%}
+.signin-btn{display:flex;align-items:center;flex:1 1 0;min-width:0;gap:10px;min-height:58px;padding:8px 12px 8px 8px;white-space:nowrap;background:#fff;border-radius:18px;color:var(--ink);box-shadow:0 10px 28px rgba(15,20,40,.30);border:0;text-align:left;font:inherit;text-decoration:none;transition:transform .15s ease,box-shadow .15s ease}
+.signin-btn img{flex:0 0 auto;border-radius:11px;display:block}
+.signin-btn .lbl{flex:1 1 auto;font-weight:700;font-size:16px}
+.signin-btn small{display:block;font-weight:500;font-size:12px;color:var(--persimmon-dark)}
+button.signin-btn{cursor:pointer}
+button.signin-btn:hover,button.signin-btn:focus-visible{transform:translateY(-2px);box-shadow:0 14px 32px rgba(15,20,40,.40)}
+.signin-card{flex:0 1 420px;align-self:flex-start;min-width:0;color:var(--ink);background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:26px 28px;display:flex;flex-direction:column;gap:14px;box-shadow:0 10px 28px rgba(15,20,40,.30)}
+.signin-card h2{margin:0;font-size:26px}
+.signin-card .fld{display:flex;flex-direction:column;gap:6px}
+.signin-card .field{margin:0;border:1px solid #C9C4B8;border-radius:10px;min-height:48px;padding:10px 14px}
+.signin-card .lblrow{display:flex;justify-content:space-between;align-items:baseline}
+.signin-card .lblrow .link-btn{font-size:14px;font-weight:600}
+.signin-card .check{margin:0}
+.signin-card .btn{width:100%;border-radius:999px;min-height:50px;font-size:16px;font-weight:700}
+.btn.primary{background:var(--cobalt);color:#fff;border-color:var(--cobalt)}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:58px;padding:0 22px;border-radius:12px;border:2px solid #fff;background:#fff;color:var(--cobalt);font:600 18px var(--sans);text-decoration:none;cursor:pointer}
 .btn:focus-visible,.tile:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--persimmon);outline-offset:2px}
-.btn.primary{background:var(--cobalt);color:#fff;border-color:var(--cobalt)}
 .btn.small{min-height:48px;font-size:17px}
+.field:focus{outline:3px solid rgba(1,87,174,.35);outline-offset:1px;border-color:var(--cobalt)}
 
 /* Cards and forms */
 .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px}
@@ -75,5 +97,6 @@ table.kv th,table.kv td{text-align:left;padding:8px 10px;border-bottom:1px solid
 .tilegrid .tile{height:100%}
 .tile.blue{background:#EEF1F8;border-color:#D5DCEC}
 .tile.rust{background:#FCEEE9;border-color:#F4BFAA}
+.tilegrid .tile{white-space:normal}
 .soon-card{margin:28px 0 16px}.soon-card h2{margin:0 0 6px;font-size:22px}
 .rec summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center}

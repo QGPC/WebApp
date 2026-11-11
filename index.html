@@ -12,36 +12,38 @@
 <div class="head-top">
 <a class="brand" href="index.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
 </div>
-<ul class="tiles" aria-label="Site sections">
-<li><span class="tile soon"><img src="assets/tiles/programs.svg" alt="">Programs &amp; Workshops <small>Coming soon</small></span></li>
-<li><span class="tile soon"><img src="assets/tiles/comfort-quilts.svg" alt="">Comfort Quilts <small>Coming soon</small></span></li>
-<li><span class="tile soon"><img src="assets/tiles/bees.svg" alt="">Bees <small>Coming soon</small></span></li>
-<li><span class="tile soon"><img src="assets/tiles/gallery.svg" alt="">Gallery <small>Coming soon</small></span></li>
-<li><span class="tile soon"><img src="assets/tiles/our-community.svg" alt="">Our Community <small>Coming soon</small></span></li>
-<li><span class="tile soon"><img src="assets/tiles/about.svg" alt="">About our Guild <small>Coming soon</small></span></li>
+<ul class="tiles" aria-label="Guild areas">
+<li><span class="tile soon" tabindex="0"><img src="assets/tiles/programs.svg" alt="" width="34" height="34"><span class="lab">Programs &amp; Workshops</span><span class="tip" role="tooltip">Get details about our programs and workshops planned for each month.<em>Coming soon</em></span></span></li>
+<li><span class="tile soon" tabindex="0"><img src="assets/tiles/comfort-quilts.svg" alt="" width="34" height="34"><span class="lab">Comfort Quilts</span><span class="tip" role="tooltip">Our outreach program. Learn about the organizations we support and get easy patterns.<em>Coming soon</em></span></span></li>
+<li><span class="tile soon" tabindex="0"><img src="assets/tiles/bees.svg" alt="" width="34" height="34"><span class="lab">Bees</span><span class="tip" role="tooltip">Small groups that meet to sew together. Find one to join.<em>Coming soon</em></span></span></li>
+<li><span class="tile soon" tabindex="0"><img src="assets/tiles/gallery.svg" alt="" width="34" height="34"><span class="lab">Gallery</span><span class="tip" role="tooltip">Photos from Guild events.<em>Coming soon</em></span></span></li>
+<li><span class="tile soon" tabindex="0"><img src="assets/tiles/our-community.svg" alt="" width="34" height="34"><span class="lab">Our Community</span><span class="tip" role="tooltip">How we care for and celebrate each other, and where the Guild has been in the news.<em>Coming soon</em></span></span></li>
+<li><span class="tile soon" tabindex="0"><img src="assets/tiles/about.svg" alt="" width="34" height="34"><span class="lab">About our Guild</span><span class="tip" role="tooltip">Learn the purpose and history of our Guild.<em>Coming soon</em></span></span></li>
 </ul></div></header>
 <main id="main">
-<section class="banner" id="top"><div class="wrap">
-<div class="logo-card"><img src="assets/icons/icon-512-transparent.png" alt="Quilter&rsquo;s Guild of Parker County logo"></div>
-<div class="welcome-card"><h1>Piecing Parker County together, one stitch at a time.</h1>
-<p>[Welcome message from the Guild goes here.]</p></div>
-<div class="cta">
-<a class="btn" href="#join" id="join-btn" aria-disabled="true">Join the Guild <small style="margin-left:6px;font-size:12px;color:var(--persimmon-dark)">soon</small></a>
-<button class="btn" id="open-signin" type="button">Member sign in</button>
-</div></div></section>
-<div class="wrap">
-<section id="signin-card" class="card signin hidden" aria-labelledby="sign-title">
+<section id="top" class="banner hst" aria-labelledby="welcome-title"><div class="banner-in">
+<div class="logo-card"><img src="assets/icons/icon-512-transparent.png" alt="Quilter&rsquo;s Guild of Parker County" width="210" height="210"></div>
+<div class="banner-mid">
+<div class="welcome-card"><div><h1 id="welcome-title">Piecing Parker County together, one stitch at a time.</h1>
+<p>[Short welcome message from the Guild &mdash; who we are, when we meet, and that quilters of every skill level are welcome.]</p></div></div>
+<div class="banner-btns">
+<span class="signin-btn" aria-disabled="true"><img src="assets/icons/btn-join.svg" width="42" height="42" alt=""><span class="lbl">Join the Guild<small>Coming soon</small></span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E87446" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+<button type="button" class="signin-btn" id="open-signin" aria-expanded="false" aria-controls="signin-card"><img src="assets/icons/btn-signin.svg" width="42" height="42" alt=""><span class="lbl" id="signin-lbl">Member sign in</span>
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0157AE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path id="signin-chev" d="M6 9l6 6 6-6"></path></svg></button>
+</div></div>
+<form id="signin-card" class="signin-card hidden" aria-labelledby="sign-title" novalidate>
 <h2 id="sign-title">Member sign in</h2>
 <p id="note" class="msg hidden" role="status"></p>
-<form id="signin-form">
-<label for="email">Email</label>
-<input class="field" id="email" type="email" autocomplete="username" required>
-<div id="pw-row"><label for="password">Password</label>
+<div class="fld"><label for="email">Email</label>
+<input class="field" id="email" type="email" autocomplete="username" placeholder="you@example.com"></div>
+<div class="fld" id="pw-row"><div class="lblrow"><label for="password">Password</label><button class="link-btn" id="toggle-reset" type="button">Forgot password?</button></div>
 <input class="field" id="password" type="password" autocomplete="current-password">
 <label class="check"><input type="checkbox" id="show-pw"> Show password</label></div>
-<button class="btn primary" id="go" type="submit" style="width:100%">Sign in</button>
-<p style="margin:12px 0 0"><button class="link-btn" id="toggle-reset" type="button">Forgot password?</button></p>
-</form></section>
+<button class="btn primary" id="go" type="submit">Sign in</button>
+</form>
+</div></section>
+<div class="wrap">
 <div class="page"><p>More of the Guild&rsquo;s home page (notices, events and the Quilt Show) is coming soon.</p></div>
 </div></main>
 <footer class="site-foot"><div class="wrap">
@@ -56,7 +58,8 @@
 <script>
 (function(){
   var $=function(i){return document.getElementById(i)};
-  var card=$('signin-card'), mode='signin';
+  var card=$('signin-card'), btn=$('open-signin'), mode='signin';
+  function note(t,cls){var n=$('note');n.textContent=t;n.className='msg '+(cls||'')+(t?'':' hidden');}
   function show(m){
     mode=m;
     $('pw-row').classList.toggle('hidden', m!=='signin');
@@ -65,12 +68,19 @@
     $('toggle-reset').textContent = m==='signin' ? 'Forgot password?' : 'Back to sign in';
     note('');
   }
-  function note(t,cls){var n=$('note');n.textContent=t;n.className='msg '+(cls||'')+(t?'':' hidden');}
-  $('open-signin').addEventListener('click',function(){if(this.dataset.in)return;card.classList.toggle('hidden');if(!card.classList.contains('hidden'))$('email').focus();});
+  function setOpen(o){
+    card.classList.toggle('hidden',!o); btn.setAttribute('aria-expanded',o?'true':'false');
+    $('signin-chev').setAttribute('d',o?'M6 15l6-6 6 6':'M6 9l6 6 6-6');
+    if(o){show('signin');$('password').value='';$('show-pw').checked=false;$('password').type='password';$('email').focus();}
+  }
+  btn.addEventListener('click',function(){ if(btn.dataset.in){location.href='home.html';return;} setOpen(card.classList.contains('hidden')); });
   $('show-pw').addEventListener('change',function(){$('password').type=this.checked?'text':'password';});
   $('toggle-reset').addEventListener('click',function(){show(mode==='signin'?'reset':'signin');});
-  $('signin-form').addEventListener('submit',function(e){
-    e.preventDefault(); var em=$('email').value; $('go').disabled=true;
+  card.addEventListener('submit',function(e){
+    e.preventDefault(); var em=$('email').value.trim();
+    if(!em){note('Please enter your email address.','err');return;}
+    if(mode==='signin'&&!$('password').value){note('Please enter your password.','err');return;}
+    $('go').disabled=true;
     if(mode==='signin'){
       QGPC.signIn(em,$('password').value).then(function(r){
         if(r.error){note(QGPC.friendly(r.error),'err');$('go').disabled=false;}
@@ -84,7 +94,7 @@
       });
     }
   });
-  QGPC.session().then(function(s){if(s){var b=$('open-signin');b.textContent='Go to my member home';b.addEventListener('click',function(){location.href='home.html';});card.classList.add('hidden');b.dataset.in='1';}});
+  QGPC.session().then(function(s){if(s){btn.dataset.in='1';$('signin-lbl').textContent='Go to my member home';btn.removeAttribute('aria-controls');btn.removeAttribute('aria-expanded');setOpen(false);}});
 })();
 </script>
 </body></html>
