@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Membership</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</div></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Membership Chair</span>
+<h1 id="pg-title" style="margin:0">Membership</h1><p class="stat-line">Choose what you want to work on.</p></div><section class="statbox" aria-label="Membership totals"><div class="stats3">
+<div><span class="sl">Active members</span><span class="sv" id="s-active">&hellip;</span></div>
+<div><span class="sl">Renewals this year</span><span class="sv" id="s-renew">&hellip;</span></div>
+<div><span class="sl">New members this year</span><span class="sv" id="s-new">&hellip;</span></div></div></section>
+</div></section>
+<div class="mwrap" id="content">
+<span class="bigcard soonlink" aria-disabled="true"><img src="assets/icons/i-whatsnew.svg" width="48" height="48" alt=""><span class="bc-t"><b>Tell members what changed</b><span>Post a short note to the What&rsquo;s New card on the home page, with a link to the new page. <em class="soon-tag">Coming soon</em></span></span></span>
+<section class="pcard tight" aria-labelledby="my-title"><h2 id="my-title">Membership year</h2>
+<p class="sub dark">Memberships run January 1 to December 31. Renewals are accepted until March 31 (the grace period). On April 1, members who have not renewed are marked Inactive. A member who renews later becomes Active again, and their Member since date does not change.</p>
+<div class="duo"><div class="box blue"><span class="bl" id="nyr-l">Not yet renewed</span><span class="bn" id="nyr-n">&hellip;</span></div>
+<div class="box rust"><span class="bl">Inactive members</span><span class="bn" id="inact-n">&hellip;</span></div></div></section>
+<span class="bigcard soonlink" aria-disabled="true"><img src="assets/icons/i-requests.svg" width="64" height="64" alt=""><span class="bc-t big"><b>Membership Requests</b><span>Review new member and renewal requests, confirm payment and approve. <em class="soon-tag">Coming soon</em></span></span></span>
+<a class="bigcard" href="membership-tools.html"><img src="assets/icons/i-memtools.svg" width="64" height="64" alt=""><span class="bc-t big"><b>Membership Page Admin</b><span>Membership database, member list export, the Renew Membership button, and renewal and first-time membership dues.</span></span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:0 0 auto;color:#0157AE"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}},function(c){
+  var $=function(i){return document.getElementById(i)};
+  var now=new Date(),yr=now.getFullYear();
+  function cnt(q){return q.then(function(r){return r.error?'—':(r.count===null?0:r.count);});}
+  var V=function(){return QGPC.sb.from('members_with_status').select('id',{count:'exact',head:true});};
+  QGPC.sb.from('site_config').select('renewals_open').limit(1).then(function(cfg){
+    var open=!!(cfg.data&&cfg.data[0]&&cfg.data[0].renewals_open);
+    var afterGrace=now>new Date(yr,2,31,23,59,59);
+    var target=yr+((open&&afterGrace)?1:0);
+    $('nyr-l').textContent='Not yet renewed for '+target;
+    cnt(V().eq('paid_through_year',target-1).in('status',['active','grace'])).then(function(n){$('nyr-n').textContent=n;});
+  });
+  cnt(V().eq('status','active')).then(function(n){$('s-active').textContent=n;});
+  cnt(V().eq('status','inactive')).then(function(n){$('inact-n').textContent=n;});
+  cnt(V().gte('paid_through_year',yr).lt('member_since',yr)).then(function(n){$('s-renew').textContent=n;});
+  cnt(V().gte('member_since',yr)).then(function(n){$('s-new').textContent=n;});
+});
+</script>
+</body></html>

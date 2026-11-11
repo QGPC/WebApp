@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Membership Page Admin</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</div></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Membership Chair</span>
+<h1 id="pg-title" style="margin:0">Membership Page Admin</h1><p class="stat-line">Tools, the renewal button and dues.</p></div>
+</div></section>
+<div class="mwrap tools" id="content">
+<a class="backlink" href="membership.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>Membership</a>
+<p id="note" class="msg err hidden" role="alert"></p>
+<section class="tsec"><h2>Membership tools</h2><div class="toolgrid">
+<span class="acard soonlink" aria-disabled="true"><img src="assets/icons/i-memdb.svg" width="44" height="44" alt=""><span class="tc"><b>Membership Database</b><span class="sub">Search, view and update member records. <em class="soon-tag">Coming soon</em></span></span></span>
+<span class="acard soonlink" aria-disabled="true"><img src="assets/icons/i-export.svg" width="44" height="44" alt=""><span class="tc"><b>Export Member List</b><span class="sub">Download a spreadsheet of members. <em class="soon-tag">Coming soon</em></span></span></span>
+</div></section>
+<section class="tsec" aria-labelledby="renew-title"><h2 id="renew-title">Membership renewal</h2>
+<div class="tcard row"><div class="trow"><img src="assets/icons/i-renewswitch.svg" width="44" height="44" alt=""><span class="tc"><label for="renew-switch"><b>Show the Renew Membership button</b></label><span class="sub">When on, the renewal period is open and members see a Renew Membership button on their home page. Turn it off when renewals are finished.</span></span></div>
+<button id="renew-switch" type="button" role="switch" aria-checked="false" class="switch"><span class="track" aria-hidden="true"><span class="knob"></span></span><span class="sw-l" id="sw-l">Off</span></button></div>
+<div class="note-blue" role="note"><strong>Membership year:</strong> January 1 to December 31. Renewals are accepted until March 31 (the grace period). On April 1, members who have not renewed are marked Inactive, whether or not this button is on. You approve every renewal on Membership Requests.</div></section>
+<section aria-labelledby="renew-title" class="tsec"><h2 id="renew-title">Membership renewal dues</h2>
+<div class="tcard"><div class="trow"><img src="assets/icons/i-renewdues.svg" width="44" height="44" alt=""><span class="tc"><b>Membership renewal dues</b><span class="sub">Yearly amounts members see on the Renew Membership page.</span></span></div>
+<div class="dgrid"><div class="dfield"><label for="renew-regular">Regular</label><div class="money"><span aria-hidden="true">$</span><input id="renew-regular" class="field" type="text" inputmode="decimal"></div><span class="sub">Per year</span></div><div class="dfield"><label for="renew-junior">Junior</label><div class="money"><span aria-hidden="true">$</span><input id="renew-junior" class="field" type="text" inputmode="decimal"></div><span class="sub">Per year</span></div><div class="dfield"><label for="renew-exempt">Exempt (80+)</label><div class="money"><span aria-hidden="true">$</span><input id="renew-exempt" class="field" type="text" inputmode="decimal"></div><span class="sub">Per year</span></div></div>
+<div class="dsave"><span class="sub">Changes apply to renewals.</span><button type="button" class="btn-save" id="save-renew">Save renewal dues</button></div></div></section>
+<section aria-labelledby="join-title" class="tsec"><h2 id="join-title">First-time membership dues</h2>
+<div class="tcard"><div class="trow"><img src="assets/icons/i-joindues.svg" width="44" height="44" alt=""><span class="tc"><b>First-time membership dues</b><span class="sub">Amounts new members see on the Join the Guild page.</span></span></div>
+<div class="dgrid"><div class="dfield"><label for="join-regular">Regular</label><div class="money"><span aria-hidden="true">$</span><input id="join-regular" class="field" type="text" inputmode="decimal"></div><span class="sub">Per year</span></div><div class="dfield"><label for="join-junior">Junior</label><div class="money"><span aria-hidden="true">$</span><input id="join-junior" class="field" type="text" inputmode="decimal"></div><span class="sub">Per year</span></div><div class="dfield"><label for="join-exempt">Exempt (80+)</label><div class="money"><span aria-hidden="true">$</span><input id="join-exempt" class="field" type="text" inputmode="decimal"></div><span class="sub">Per year</span></div></div>
+<div class="dsave"><span class="sub">Changes apply to new sign-ups.</span><button type="button" class="btn-save" id="save-join">Save join dues</button></div></div></section>
+<p id="saved" class="saved hidden" role="status"></p>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}},function(c){
+  var $=function(i){return document.getElementById(i)};
+  var KEYS=['regular','junior','exempt'],cfg=null;
+  function note(t){var n=$('note');n.textContent=t||'';n.classList.toggle('hidden',!t);}
+  function ok(t){var s=$('saved');s.textContent=t;s.classList.remove('hidden');clearTimeout(ok.t);ok.t=setTimeout(function(){s.classList.add('hidden');},4000);}
+  function paintSwitch(on){var b=$('renew-switch');b.setAttribute('aria-checked',on?'true':'false');b.classList.toggle('on',on);$('sw-l').textContent=on?'On':'Off';}
+  function fmt(n){return Number(n).toFixed(2);}
+  function load(){QGPC.sb.from('site_config').select('*').limit(1).then(function(r){
+    if(r.error||!r.data||!r.data.length){note('We could not load the settings.');return;}
+    cfg=r.data[0];paintSwitch(!!cfg.renewals_open);
+    KEYS.forEach(function(k){$('renew-'+k).value=fmt(cfg['renew_dues_'+k]);$('join-'+k).value=fmt(cfg['join_dues_'+k]);});
+  });}
+  $('renew-switch').addEventListener('click',function(){
+    var want=this.getAttribute('aria-checked')!=='true';note('');
+    QGPC.sb.rpc('set_renewals_open',{p_open:want}).then(function(r){
+      if(r.error){note('We could not change that. '+(r.error.message||''));return;}
+      paintSwitch(want);ok(want?'The Renew Membership button is now on.':'The Renew Membership button is now off.');
+    });
+  });
+  function parse(id){var t=$(id).value.replace(/[$,\s]/g,'');if(!/^\d+(\.\d{1,2})?$/.test(t))return null;return parseFloat(t);}
+  function saveDues(which){
+    note('');var vals={};
+    for(var i=0;i<KEYS.length;i++){
+      var rv=parse('renew-'+KEYS[i]),jv=parse('join-'+KEYS[i]);
+      if(rv===null||jv===null){note('Please enter each amount as dollars, such as 25.00.');return;}
+      vals['renew_'+KEYS[i]]=rv;vals['join_'+KEYS[i]]=jv;
+    }
+    QGPC.sb.rpc('set_dues',{p_renew_regular:vals.renew_regular,p_renew_junior:vals.renew_junior,p_renew_exempt:vals.renew_exempt,
+      p_join_regular:vals.join_regular,p_join_junior:vals.join_junior,p_join_exempt:vals.join_exempt}).then(function(r){
+      if(r.error){note('We could not save the dues. '+(r.error.message||''));return;}
+      ok(which==='renew'?'Renewal dues saved.':'First-time dues saved.');load();
+    });
+  }
+  $('save-renew').addEventListener('click',function(){saveDues('renew');});
+  $('save-join').addEventListener('click',function(){saveDues('join');});
+  load();
+});
+</script>
+</body></html>

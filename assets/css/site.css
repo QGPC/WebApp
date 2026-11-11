@@ -147,3 +147,42 @@ button.pill.out{height:40px;padding:0 16px;border:1px solid var(--ink);backgroun
 .pill-s{display:inline-block;padding:2px 12px;border-radius:999px;font-size:14px;font-weight:700;background:#EEF1F8;color:var(--cobalt)}
 .pill-s.grace,.pill-s.inactive{background:#FCEEE9;color:var(--persimmon-dark)}
 .pwlink{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border:1px solid var(--cobalt);border-radius:999px;font-weight:700;color:var(--cobalt);text-decoration:none;align-self:flex-start}
+
+/* Membership pages */
+.statbox{flex:0 1 520px;min-width:0;background:#fff;color:var(--ink);border-radius:18px;padding:18px 22px}
+.stats3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.stats3>div{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px}
+.sl{font-size:14px;font-weight:600;color:#5A5F6E}.sv{font-family:var(--serif);font-size:38px;line-height:1.1;color:var(--cobalt)}
+.mwrap{max-width:1040px;width:100%;margin:0 auto;padding:40px 24px 72px;display:flex;flex-direction:column;gap:24px}
+.mwrap.tools{max-width:1200px;gap:36px;padding-top:32px}
+.bigcard{display:flex;align-items:center;gap:16px;min-height:100px;padding:12px 24px 12px 12px;background:#fff;border:1px solid #E4E0D6;border-radius:16px;text-decoration:none;color:var(--ink);transition:transform .15s ease,box-shadow .15s ease}
+a.bigcard:hover,a.bigcard:focus-visible{transform:translateY(-2px);box-shadow:0 14px 32px rgba(15,20,40,.15)}
+.bigcard img{flex:0 0 auto;border-radius:12px;display:block}
+.bc-t{flex:1 1 auto;display:flex;flex-direction:column;gap:4px}.bc-t b{font-size:18px}.bc-t.big b{font-size:24px}
+.bc-t span{font-size:15px;color:#5A5F6E;line-height:1.4}.bc-t.big span{font-size:16px}
+.soonlink{cursor:default;opacity:.85}.soon-tag{font-style:normal;font-weight:700;font-size:13px;color:var(--persimmon-dark);white-space:nowrap}
+.pcard.tight{padding:18px 22px;border-radius:14px;gap:12px}.pcard.tight h2{font-size:22px}
+.sub.dark{color:#454A58;margin:0}
+.duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:12px}
+.box{padding:12px 16px;border-radius:12px;display:flex;flex-direction:column;gap:2px}.box.blue{background:#F4F6FB}.box.rust{background:#FCEEE9}
+.bl{font-size:14px;font-weight:600;color:#454A58}.rust .bl{color:var(--persimmon-dark)}
+.bn{font-family:var(--serif);font-size:28px;color:var(--cobalt)}.rust .bn{color:var(--persimmon-dark)}
+.backlink{align-self:flex-start;display:flex;align-items:center;gap:6px;min-height:44px;font-weight:600;font-size:15px}
+.tsec{display:flex;flex-direction:column;gap:14px}.tsec h2{margin:0;font-size:24px}
+.toolgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));gap:12px}
+.acard{display:flex;align-items:flex-start;gap:14px;min-height:96px;padding:18px;background:#fff;border:1px solid #E4E0D6;border-radius:14px;color:var(--ink)}
+.acard img,.trow img{flex:0 0 auto;border-radius:12px;display:block}
+.tc{display:flex;flex-direction:column;gap:4px}.tc b{font-size:17px}
+.tcard{background:#fff;border:1px solid #E4E0D6;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:16px}
+.tcard.row{flex-direction:row;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.trow{display:flex;align-items:flex-start;gap:14px}
+.note-blue{padding:14px 18px;border-radius:14px;background:#EEF1F8;color:var(--cobalt);font-size:15px;line-height:1.5}
+.switch{display:flex;align-items:center;gap:10px;min-height:44px;padding:0 4px;background:none;border:0;font:inherit;cursor:pointer}
+.switch .track{width:52px;height:30px;border-radius:999px;background:#B9B4A8;display:flex;align-items:center;justify-content:flex-start;padding:3px}
+.switch.on .track{background:var(--cobalt);justify-content:flex-end}
+.knob{width:24px;height:24px;border-radius:999px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.sw-l{min-width:28px;font-size:15px;font-weight:700;color:#5A5F6E}.switch.on .sw-l{color:var(--cobalt)}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:16px}
+.dfield{display:flex;flex-direction:column;gap:6px}
+.money{display:flex;align-items:center;gap:6px;font-weight:700}.money .field{margin:0;border:1px solid #C9C4B8;border-radius:10px;min-height:48px}
+.dsave{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
