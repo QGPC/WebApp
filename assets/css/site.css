@@ -227,3 +227,11 @@ fieldset.types legend{font-weight:700;font-size:18px;padding:0;margin-bottom:4px
 
 .badge{position:absolute;top:-8px;right:-8px;min-width:24px;height:24px;padding:0 6px;box-sizing:border-box;border-radius:999px;background:var(--persimmon);color:var(--ink);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid #fff}
 .badge.hidden{display:none}
+
+/* Membership Database */
+.chip.gray{background:#EDEAE2;color:#454A58}
+.scrolly{max-height:640px;overflow:auto;padding:2px}
+.mform{display:flex;flex-direction:column;gap:16px}.mform h3{margin:8px 0 0}
+.grid3.even{grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr))}
+a.acard{text-decoration:none;transition:transform .15s ease,box-shadow .15s ease}
+a.acard:hover,a.acard:focus-visible{transform:translateY(-2px);box-shadow:0 8px 24px rgba(31,36,51,.10);border-color:var(--cobalt)}

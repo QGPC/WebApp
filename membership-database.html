@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Membership Database</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</div></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Membership Chair</span>
+<h1 id="pg-title" style="margin:0">Membership Database</h1><p class="stat-line">Search, view and update member records.</p></div></div></section>
+<div class="mwrap tools" id="content">
+<a class="backlink" href="membership-tools.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>Membership Page Admin</a>
+<p id="note" class="msg err hidden" role="alert"></p>
+<div class="reqcols">
+<section class="pcard tight reqlist" aria-labelledby="list-title">
+<div class="qhead"><h2 id="list-title">Members</h2><span class="chip blue" id="count">&hellip;</span></div>
+<div class="f"><label for="q">Search by name or email</label><input class="field" id="q" type="search" autocomplete="off"></div>
+<div class="grid2"><div class="f"><label for="fstatus">Status</label><select class="field" id="fstatus"><option value="">All</option><option value="active">Active</option><option value="grace">Grace period</option><option value="inactive">Inactive</option></select></div>
+<div class="f"><label for="ftype">Type</label><select class="field" id="ftype"><option value="">All</option><option>Regular</option><option>Junior</option><option>Exempt</option></select></div></div>
+<ul class="reqs scrolly" id="list"></ul><p class="sub hidden" id="none">No members match.</p>
+</section>
+<section class="pcard reqdetail hidden" id="detail" aria-label="Member record">
+<form id="mf" novalidate class="mform">
+<div class="dhead"><div><h2 id="m-title"></h2><span class="sub" id="m-sub"></span></div><span class="chip blue" id="m-status"></span></div>
+<h3>Contact details</h3>
+<div class="grid2">
+<div class="f"><label for="m-first">First name</label><input class="field" id="m-first"></div>
+<div class="f"><label for="m-last">Last name</label><input class="field" id="m-last"></div>
+<div class="f"><label for="m-email">Email</label><input class="field" id="m-email" type="email" aria-describedby="m-email-help"><span class="sub" id="m-email-help"></span></div>
+<div class="f"><label for="m-cell">Cell number</label><input class="field" id="m-cell" type="tel"></div>
+<div class="f"><label for="m-fb">Facebook name</label><input class="field" id="m-fb"></div>
+</div>
+<h3>Mailing address</h3>
+<div class="f"><label for="m-street">Street address</label><input class="field" id="m-street"></div>
+<div class="grid3">
+<div class="f"><label for="m-city">City</label><input class="field" id="m-city"></div>
+<div class="f"><label for="m-state">State</label><input class="field" id="m-state" maxlength="2"></div>
+<div class="f"><label for="m-zip">ZIP code</label><input class="field" id="m-zip" maxlength="10"></div>
+</div>
+<label class="chk"><input type="checkbox" id="m-nodir"> Not listed in the Member Directory</label>
+<h3>Birthday</h3>
+<div class="grid2"><div class="f"><label for="m-bm">Month</label><select class="field" id="m-bm"><option value="">Not shared</option><option value="1">January</option><option value="2">February</option><option value="3">March</option><option value="4">April</option><option value="5">May</option><option value="6">June</option><option value="7">July</option><option value="8">August</option><option value="9">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select></div>
+<div class="f"><label for="m-bd">Day</label><select class="field" id="m-bd"><option value="">Not shared</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select></div></div>
+<h3>Membership</h3>
+<div class="grid3 even">
+<div class="f"><label for="m-type">Type</label><select class="field" id="m-type"><option>Regular</option><option>Junior</option><option>Exempt</option></select></div>
+<div class="f"><label for="m-since">Member since (year)</label><input class="field" id="m-since" inputmode="numeric" maxlength="4"></div>
+<div class="f"><label for="m-paid">Paid through (year)</label><input class="field" id="m-paid" inputmode="numeric" maxlength="4"></div>
+</div>
+<span class="sub">Status follows Paid through: Active through December 31 of that year, with a grace period to March 31, then Inactive. Renewing sets Paid through to the new year; Member since does not change.</span>
+<h3>Quilting Interests</h3>
+<div class="chks"><label class="chk"><input type="checkbox" name="interest" value="Piecing"> Piecing</label><label class="chk"><input type="checkbox" name="interest" value="Applique"> Applique</label><label class="chk"><input type="checkbox" name="interest" value="Paper Piecing"> Paper Piecing</label><label class="chk"><input type="checkbox" name="interest" value="English Paper Piecing"> English Paper Piecing</label><label class="chk"><input type="checkbox" name="interest" value="Modern Quilts"> Modern Quilts</label><label class="chk"><input type="checkbox" name="interest" value="Color Theory"> Color Theory</label><label class="chk"><input type="checkbox" name="interest" value="Hand Quilting"> Hand Quilting</label><label class="chk"><input type="checkbox" name="interest" value="Embroidery"> Embroidery</label></div>
+<div class="f" style="max-width:496px"><label for="m-other">Other</label><input class="field" id="m-other"></div>
+<p class="sub" id="m-roles"></p>
+<div class="saverow"><button type="submit" class="btn-save" id="save">Save changes</button>
+<span id="saved" class="saved hidden" role="status"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Saved.</span>
+<span id="save-err" class="msg err hidden" role="alert"></span></div>
+</form>
+</section>
+</div></div></main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}},function(c){
+  var $=function(i){return document.getElementById(i)};
+  var rows=[],sel=null,roleMap={},labels={};
+  function note(t){var n=$('note');n.textContent=t||'';n.classList.toggle('hidden',!t);}
+  function say(id,t){var e=$(id);e.textContent=t||'';e.classList.toggle('hidden',!t);}
+  var SL={active:'Active',grace:'Grace period',inactive:'Inactive'};
+  function chipCls(s){return s==='active'?'blue':s==='grace'?'rust':'gray';}
+  function checks(){return Array.prototype.slice.call(document.querySelectorAll('input[name=interest]'));}
+  function match(r){
+    var q=$('q').value.trim().toLowerCase(),fs=$('fstatus').value,ft=$('ftype').value;
+    if(fs&&r.status!==fs)return false;if(ft&&r.membership_type!==ft)return false;
+    if(!q)return true;
+    return (r.first_name+' '+r.last_name+' '+r.last_name+' '+r.first_name+' '+(r.email||'')).toLowerCase().indexOf(q)>-1;
+  }
+  function paintList(){
+    var u=$('list');u.textContent='';
+    var shown=rows.filter(match);
+    $('count').textContent=shown.length===rows.length?rows.length+' members':shown.length+' of '+rows.length;
+    $('none').classList.toggle('hidden',shown.length>0);
+    shown.forEach(function(r){
+      var li=document.createElement('li'),b=document.createElement('button');b.type='button';b.className='req'+(sel===r.id?' sel':'');
+      b.setAttribute('aria-pressed',sel===r.id?'true':'false');
+      var m=document.createElement('span');m.className='rm';
+      var n=document.createElement('b');n.textContent=r.last_name+', '+r.first_name;
+      var s=document.createElement('span');s.textContent=r.membership_type+' · Paid through '+(r.paid_through_year||'—');
+      m.appendChild(n);m.appendChild(s);
+      var ch=document.createElement('span');ch.className='chip '+chipCls(r.status);ch.textContent=SL[r.status]||r.status;
+      b.appendChild(m);b.appendChild(ch);b.addEventListener('click',function(){sel=r.id;say('save-err','');$('saved').classList.add('hidden');paintList();paintForm();});
+      li.appendChild(b);u.appendChild(li);
+    });
+  }
+  function cur(){return rows.filter(function(r){return r.id===sel;})[0];}
+  function paintForm(){
+    var r=cur();$('detail').classList.toggle('hidden',!r);if(!r)return;
+    $('m-title').textContent=r.first_name+' '+r.last_name;
+    $('m-sub').textContent=r.email;
+    var ch=$('m-status');ch.textContent=SL[r.status]||r.status;ch.className='chip '+chipCls(r.status);
+    $('m-first').value=r.first_name||'';$('m-last').value=r.last_name||'';$('m-email').value=r.email||'';
+    var hasAcct=!!r.auth_user_id;$('m-email').disabled=hasAcct;
+    $('m-email-help').textContent=hasAcct?'This member has a sign-in account, so the email cannot be changed here.':'No sign-in account yet, so the email can be corrected here.';
+    $('m-cell').value=r.cell_phone||'';$('m-fb').value=r.facebook_name||'';
+    $('m-street').value=r.street_address||'';$('m-city').value=r.city||'';$('m-state').value=r.state||'';$('m-zip').value=r.zip||'';
+    $('m-nodir').checked=!!r.directory_opt_out;$('m-bm').value=r.birthday_month||'';$('m-bd').value=r.birthday_day||'';
+    $('m-type').value=r.membership_type;$('m-since').value=r.member_since||'';$('m-paid').value=r.paid_through_year||'';
+    var mine=r.interests||[];checks().forEach(function(x){x.checked=mine.indexOf(x.value)>-1;});
+    $('m-other').value=r.interests_other||'';
+    var rl=(roleMap[r.id]||[]).map(function(k){return labels[k]||k;});
+    $('m-roles').textContent='Roles: '+(rl.length?rl.join(', '):'none')+(r.auth_user_id?'':'  ·  Not signed up for a website account yet.');
+  }
+  ['q','fstatus','ftype'].forEach(function(id){$(id).addEventListener('input',paintList);$(id).addEventListener('change',paintList);});
+  $('mf').addEventListener('submit',function(e){
+    e.preventDefault();say('save-err','');$('saved').classList.add('hidden');
+    var r=cur();if(!r)return;
+    var first=$('m-first').value.trim(),last=$('m-last').value.trim(),email=$('m-email').value.trim().toLowerCase();
+    if(!first||!last){say('save-err','Please enter a first and last name.');return;}
+    if(!r.auth_user_id&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){say('save-err','Please enter a valid email address.');return;}
+    var bm=$('m-bm').value,bd=$('m-bd').value;
+    if((bm&&!bd)||(!bm&&bd)){say('save-err','Please choose both a birthday month and day, or neither.');return;}
+    if(bm&&bd){var mx=[31,29,31,30,31,30,31,31,30,31,30,31][+bm-1];if(+bd>mx){say('save-err','That birthday day does not exist in that month.');return;}}
+    var zip=$('m-zip').value.trim();if(zip&&!/^\d{5}(-\d{4})?$/.test(zip)){say('save-err','Please enter a 5-digit ZIP code.');return;}
+    var st=$('m-state').value.trim().toUpperCase();if(st&&!/^[A-Z]{2}$/.test(st)){say('save-err','Please enter the state as two letters, such as TX.');return;}
+    var since=$('m-since').value.trim(),paid=$('m-paid').value.trim();
+    if(since&&(!/^\d{4}$/.test(since)||+since<1900||+since>2200)){say('save-err','Member since should be a 4-digit year.');return;}
+    if(paid&&(!/^\d{4}$/.test(paid)||+paid<1900||+paid>2200)){say('save-err','Paid through should be a 4-digit year.');return;}
+    var v=function(id){var t=$(id).value.trim();return t||null;};
+    var known=checks().map(function(x){return x.value;});
+    var keep=(r.interests||[]).filter(function(x){return known.indexOf(x)<0;});
+    var patch={first_name:first,last_name:last,cell_phone:v('m-cell'),facebook_name:v('m-fb'),street_address:v('m-street'),city:v('m-city'),state:st||null,zip:zip||null,
+      directory_opt_out:$('m-nodir').checked,birthday_month:bm?+bm:null,birthday_day:bd?+bd:null,
+      membership_type:$('m-type').value,member_since:since?+since:null,paid_through_year:paid?+paid:null,
+      interests:checks().filter(function(x){return x.checked;}).map(function(x){return x.value;}).concat(keep),interests_other:v('m-other')};
+    if(!r.auth_user_id)patch.email=email;
+    $('save').disabled=true;
+    QGPC.sb.from('members').update(patch).eq('id',r.id).select('id').then(function(x){
+      $('save').disabled=false;
+      if(x.error||!x.data||!x.data.length){say('save-err',(x.error&&/duplicate|unique/i.test(x.error.message))?'Another member already uses that email address.':'We could not save. Please try again.');return;}
+      load(true);
+    });
+  });
+  function load(keepSel){
+    Promise.all([
+      QGPC.sb.from('members_with_status').select('*').order('last_name').order('first_name').limit(2000),
+      QGPC.sb.from('member_roles').select('member_id,role_key'),
+      QGPC.sb.from('roles').select('role_key,label')
+    ]).then(function(res){
+      if(res[0].error){note('We could not load the member list.');return;}
+      rows=res[0].data||[];roleMap={};(res[1].data||[]).forEach(function(x){(roleMap[x.member_id]=roleMap[x.member_id]||[]).push(x.role_key);});
+      labels={};(res[2].data||[]).forEach(function(x){labels[x.role_key]=x.label;});
+      paintList();paintForm();
+      if(keepSel){$('saved').classList.remove('hidden');}
+    });
+  }
+  load(false);
+});
+</script>
+</body></html>
