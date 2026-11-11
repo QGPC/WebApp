@@ -260,3 +260,26 @@ a.acard:hover,a.acard:focus-visible{transform:translateY(-2px);box-shadow:0 8px 
 .delconfirm p{margin:0 0 10px;font-weight:600}
 .dback{background:none;border:0;font:inherit;font-weight:700;cursor:pointer;padding:0;margin:0 0 14px}
 .delzone{margin:0 0 18px;padding:0 0 16px;border-top:0;border-bottom:1px solid #D8DEEC}
+
+/* ---- Member Directory ---- */
+.dirtop{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin:0 0 6px}
+.chairlink{align-self:flex-start;font-weight:700;color:var(--cobalt)}
+.photo{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:50%;background:#EEF1F8;color:var(--cobalt)}
+.photo.big{width:120px;height:120px}
+.dcard.mcard{justify-content:flex-start;gap:14px}
+.ddetail{position:relative;margin-top:12px;padding:22px 24px;background:#F4F6FB;border:1px solid #D8DEEC;border-radius:16px}
+.dgroup>.ddetail{margin-top:12px}
+.ddetail .dtop{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start}
+.ddetail .dinfo{flex:1 1 280px;min-width:0}
+.ddetail h3{margin:0 0 10px;font-size:24px}
+.ddetail dl{margin:0 0 12px;display:grid;gap:8px}
+.ddetail dl div{display:flex;flex-wrap:wrap;gap:4px 14px}
+.ddetail dt{flex:0 0 130px;font-weight:700;color:#454A58}
+.ddetail dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.ddetail .dt2{display:block;font-weight:700;color:#454A58;margin-bottom:6px}
+.ddetail .ints{display:flex;flex-wrap:wrap;gap:8px}
+.dclose{position:absolute;top:12px;right:12px;width:44px;height:44px;border:0;border-radius:50%;background:#fff;color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.dirnote{display:flex;gap:10px;align-items:flex-start;margin-top:22px;padding:14px 16px;background:#fff;border:1px solid #E4E0D6;border-radius:12px;color:#454A58}
+.dirnote svg{flex:0 0 auto;margin-top:3px}
+@media print{.site-head,.site-foot,.banner .dirsearch,.azbar,.dirtop,.dclose,#note{display:none!important}
+ .dcard{border:0;min-height:0;padding:2px 0;break-inside:avoid}.dgrid{display:block;column-count:3}.dgroup{break-inside:avoid}.hst{background:none!important}.banner .greet-card{box-shadow:none}}

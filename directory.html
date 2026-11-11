@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Member Directory</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</div></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px">
+<div class="dirhead">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Members only</span>
+<h1 id="pg-title" style="margin:0">Member Directory</h1><p class="stat-line" id="count">&hellip;</p></div>
+<div class="greet-card dirsearch" style="flex-direction:column;align-items:stretch;gap:10px;padding:20px 24px;min-height:0" role="search">
+<div class="f"><label for="q">Find a member</label><input class="field" id="q" type="search" autocomplete="off" placeholder="Type a first or last name"></div>
+<a class="chairlink hidden" id="chairlink" href="membership-database.html">Edit in Membership Database</a>
+</div></div></div></section>
+<div class="mwrap tools" id="content">
+<p id="note" class="msg err hidden" role="alert"></p>
+<div class="dirtop"><p class="sub dark">Select a member to see their contact details.</p>
+<button type="button" class="link-btn hidden" id="print">Print / save as PDF</button></div>
+<nav class="azbar" aria-label="Jump to last name letter"><span>Last name begins with</span><span id="az"></span></nav>
+<div id="groups"></div>
+<p class="sub hidden" id="none">No members match.</p>
+<div class="dirnote" role="note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+<span>This directory is for Guild members only. Please don&rsquo;t share members&rsquo; contact details outside the Guild. To update your own listing, use <a href="profile.html">My Profile</a> or contact the Membership Chair.</span></div>
+<section class="ddetail hidden" id="detail" aria-label="Member details">
+<div class="dtop"><span class="photo big" aria-hidden="true"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg></span>
+<div class="dinfo"><h3 id="d-name"></h3>
+<dl><div><dt>Cell</dt><dd id="d-cell"></dd></div><div><dt>Email</dt><dd id="d-email"></dd></div><div><dt>Mailing address</dt><dd id="d-addr"></dd></div><div><dt>Birthday</dt><dd id="d-bday"></dd></div></dl>
+<div id="d-int-wrap"><span class="dt2">Quilting Interests</span><div class="ints" id="d-int"></div></div></div>
+<button type="button" class="dclose" id="dclose" aria-label="Close details"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
+</section>
+</div></main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+QGPCShell.start({need:function(c){return c.full;}},function(c){
+  var $=function(i){return document.getElementById(i)};
+  var rows=[],sel=null;
+  var MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  function note(t){var n=$('note');n.textContent=t||'';n.classList.toggle('hidden',!t);}
+  var isChair=c.isSuper||c.has('membership_chair');
+  $('chairlink').classList.toggle('hidden',!isChair);$('print').classList.toggle('hidden',!isChair);
+  $('print').addEventListener('click',function(){sel=null;paint();window.print();});
+  function letterOf(r){var ch=(r.last_name||'#').charAt(0).toUpperCase();return /[A-Z]/.test(ch)?ch:'#';}
+  function match(r){var q=$('q').value.trim().toLowerCase();if(!q)return true;return (r.first_name+' '+r.last_name+' '+r.last_name+' '+r.first_name).toLowerCase().indexOf(q)>-1;}
+  function addr(r){var l2=[r.city,[r.state,r.zip].filter(Boolean).join(' ')].filter(Boolean).join(', ');return [r.street_address,l2].filter(Boolean).join(', ');}
+  function setLink(el,txt,href){el.textContent='';if(!txt){el.textContent='Not shared';return;}var a=document.createElement('a');a.textContent=txt;a.href=href;el.appendChild(a);}
+  function fillDetail(r){
+    $('d-name').textContent=r.first_name+' '+r.last_name;
+    setLink($('d-cell'),r.cell_phone,'tel:'+(r.cell_phone||'').replace(/[^0-9+]/g,''));
+    setLink($('d-email'),r.email,'mailto:'+r.email);
+    $('d-addr').textContent=addr(r)||'Not shared';
+    $('d-bday').textContent=(r.birthday_month&&r.birthday_day)?MN[r.birthday_month-1]+' '+r.birthday_day:'Not shared';
+    var ints=(r.interests||[]).slice();if(r.interests_other)ints.push(r.interests_other);
+    var box=$('d-int');box.textContent='';ints.forEach(function(x){var s=document.createElement('span');s.className='chip blue';s.textContent=x;box.appendChild(s);});
+    $('d-int-wrap').classList.toggle('hidden',!ints.length);
+  }
+  function paint(){
+    var det=$('detail');$('content').appendChild(det);det.classList.add('hidden');
+    var g=$('groups');g.textContent='';
+    var shown=rows.filter(match),by={};
+    shown.forEach(function(r){(by[letterOf(r)]=by[letterOf(r)]||[]).push(r);});
+    $('count').textContent=(shown.length===rows.length?rows.length:shown.length+' of '+rows.length)+' members listed';
+    $('none').classList.toggle('hidden',shown.length>0);
+    var all='ABCDEFGHIJKLMNOPQRSTUVWXYZ#'.split(''),az=$('az');az.textContent='';
+    all.forEach(function(L){
+      if(by[L]){var a=document.createElement('a');a.href='#grp-'+L;a.textContent=L;az.appendChild(a);}
+      else{var d=document.createElement('span');d.className='off';d.textContent=L;az.appendChild(d);}
+    });
+    all.forEach(function(L){
+      if(!by[L])return;
+      var sec=document.createElement('section');sec.className='dgroup';sec.id='grp-'+L;
+      var h=document.createElement('h2');h.textContent=L;sec.appendChild(h);
+      var ul=document.createElement('ul');ul.className='dgrid';
+      by[L].forEach(function(r){
+        var li=document.createElement('li'),b=document.createElement('button');b.type='button';b.className='dcard mcard'+(sel===r.id?' sel':'');
+        b.setAttribute('aria-expanded',sel===r.id?'true':'false');b.setAttribute('data-id',r.id);
+        var ph=document.createElement('span');ph.className='photo';ph.setAttribute('aria-hidden','true');
+        ph.innerHTML='<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>';
+        var n=document.createElement('b');n.textContent=r.first_name+' '+r.last_name;
+        b.appendChild(ph);b.appendChild(n);
+        b.addEventListener('click',function(){sel=(sel===r.id?null:r.id);paint();});
+        li.appendChild(b);ul.appendChild(li);
+      });
+      sec.appendChild(ul);
+      var open=sel&&by[L].filter(function(r){return r.id===sel;})[0];
+      if(open){fillDetail(open);det.classList.remove('hidden');sec.appendChild(det);}
+      g.appendChild(sec);
+    });
+  }
+  $('dclose').addEventListener('click',function(){var id=sel;sel=null;paint();var b=id&&document.querySelector('.dcard[data-id="'+id+'"]');if(b)b.focus();});
+  $('q').addEventListener('input',paint);
+  QGPC.sb.rpc('member_directory').then(function(x){
+    if(x.error){note('We could not load the directory. Please try again later.');return;}
+    rows=x.data||[];paint();
+  });
+});
+</script>
+</body></html>
