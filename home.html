@@ -35,7 +35,7 @@
 <p class="stat-line" id="stat-line"></p></div>
 </div>
 <div class="banner-btns" id="banner-btns">
-<a class="signin-btn hidden" id="btn-renew" aria-disabled="true"><img src="assets/icons/btn-renew.svg" width="42" height="42" alt=""><span class="lbl">Renew Membership<small>Coming soon</small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E87446" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+<a class="signin-btn hidden" id="btn-renew" href="renew.html"><img src="assets/icons/btn-renew.svg" width="42" height="42" alt=""><span class="lbl">Renew Membership</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E87446" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
 <span class="signin-btn" id="btn-events" aria-disabled="true"><img src="assets/icons/btn-myevents.svg" width="42" height="42" alt=""><span class="lbl">My Upcoming Events<small>Coming soon</small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0157AE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span>
 <span class="signin-btn" id="btn-new" aria-disabled="true"><img src="assets/icons/btn-whatsnew.svg" width="42" height="42" alt=""><span class="lbl">What&rsquo;s New<small>Coming soon</small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0157AE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span>
 </div></div></div></section>
@@ -106,13 +106,14 @@
     return Promise.all([
       QGPC.sb.from('members_with_status').select('*').eq('auth_user_id',s.user.id).limit(1),
       QGPC.sb.from('roles').select('role_key,label'),
-      QGPC.sb.from('site_config').select('renewals_open').limit(1)
+      QGPC.sb.from('site_config').select('renewals_open').limit(1),
+      QGPC.sb.rpc('my_renewal_status')
     ]).then(function(res){
       var r=res[0];
       if(r.error||!r.data||!r.data.length){fail('You are signed in, but no membership record is linked to this account yet. Please contact the Membership Chair.');fill('tilebar',PUBLIC);return;}
       var m=r.data[0], labels={};
       (res[1].data||[]).forEach(function(x){labels[x.role_key]=x.label;});
-      var renewalsOpen=!!(res[2].data&&res[2].data[0]&&res[2].data[0].renewals_open);
+      var rs=res[3]&&res[3].data;var showRenew=!!(rs&&rs.has_member&&rs.open&&!rs.already);
       return QGPC.sb.from('member_roles').select('role_key').eq('member_id',m.id).then(function(rr){
         var roles=(rr.data||[]).map(function(x){return x.role_key;});
         var has=function(k){return roles.indexOf(k)>-1;};
@@ -141,7 +142,7 @@
         fill('tilebar',all.slice(0,PER_BAR));
         if(all.length>PER_BAR){fill('more-areas',all.slice(PER_BAR));$('more-btn').classList.remove('hidden');}
         if(!full){$('btn-events').classList.add('hidden');$('btn-new').classList.add('hidden');}
-        if(full&&renewalsOpen)$('btn-renew').classList.remove('hidden');
+        if(showRenew)$('btn-renew').classList.remove('hidden');   // Inactive members can renew too
         row('Name',m.first_name+' '+m.last_name);row('Email',m.email);row('Membership type',m.membership_type);
         row('Member since',m.member_since);row('Paid through',m.paid_through_year);row('Status',st);
         $('roles').textContent=roles.length?roles.join(', '):'none';

@@ -24,7 +24,19 @@
 <div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0">
 <h1 id="pg-title" style="margin:0">Become a member</h1><p class="stat-line">Quilters of every skill level are welcome.</p></div></div></section>
 <div class="joinwrap">
-<form id="jf" class="pcard joinform" novalidate>
+<form id="sf" class="pcard joinform" novalidate>
+<h2 style="margin:0">Let&rsquo;s start with your email</h2>
+<span class="sub">If you have been a member before, we will find your record and fill in your details once you sign in.</span>
+<div class="f" style="max-width:496px"><label for="s-email">Email</label><input class="field" id="s-email" type="email" autocomplete="email" placeholder="you@example.com"></div>
+<p id="s-err" class="msg err hidden" role="alert"></p>
+<div class="paybar"><span></span><button type="submit" class="btn-save" id="s-go">Continue</button></div>
+</form>
+<div id="back" class="pcard hidden" role="status" aria-labelledby="back-title">
+<h2 id="back-title">Welcome back.</h2>
+<p id="back-text"></p>
+<p id="back-err" class="msg err hidden" role="alert"></p>
+<span class="doneact"><button type="button" class="btn-save" id="b-link">Email me a sign-in link</button><a class="pwlink" href="index.html">Sign in with my password</a><button type="button" class="pwlink" id="b-other" style="background:none;cursor:pointer">Use a different email</button></span></div>
+<form id="jf" class="pcard joinform hidden" novalidate>
 <fieldset class="types"><legend>Type of Membership</legend><span class="sub">Choose one.</span>
 <div class="typegrid">
 <label class="typeopt"><input type="radio" name="jtype" value="Regular" checked><span><b>Regular</b><span id="amt-Regular">&nbsp;</span></span></label>
@@ -82,6 +94,42 @@
 <script>
 (function(){
   var $=function(i){return document.getElementById(i)};
+  var stepEmail='';
+  function sErr(t){var e=$('s-err');e.textContent=t||'';e.classList.toggle('hidden',!t);}
+  function bErr(t){var e=$('back-err');e.textContent=t||'';e.classList.toggle('hidden',!t);}
+  $('sf').addEventListener('submit',function(e){
+    e.preventDefault();sErr('');
+    var em=$('s-email').value.trim();
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){sErr('Please enter a valid email address.');return;}
+    $('s-go').disabled=true;
+    QGPC.sb.rpc('join_email_status',{p_email:em}).then(function(r){
+      $('s-go').disabled=false;
+      if(r.error){sErr(r.error.message&&r.error.message.length<220?r.error.message:'We could not check that email. Please try again.');return;}
+      stepEmail=em;
+      if(r.data==='new'){$('j-email').value=em;$('sf').classList.add('hidden');$('jf').classList.remove('hidden');$('j-first').focus();}
+      else if(r.data==='pending'){sErr('We already have an application for that email address. The Membership Chair is reviewing it, so you do not need to apply again.');}
+      else{
+        $('back-text').textContent='We already have '+em+' in the Guild\u2019s records. Sign in to renew or update your membership. Even if your membership has lapsed, you can renew here, and we will fill in your details for you.';
+        bErr('');$('back-title').textContent='Welcome back.';$('b-link').textContent='Email me a sign-in link';$('b-link').disabled=false;
+        $('sf').classList.add('hidden');$('back').classList.remove('hidden');
+      }
+    });
+  });
+  $('b-other').addEventListener('click',function(){$('back').classList.add('hidden');$('sf').classList.remove('hidden');$('s-email').focus();});
+  $('b-link').addEventListener('click',function(){
+    bErr('');$('b-link').disabled=true;
+    var root=location.href.replace(/[^\/]*([?#].*)?$/,'');
+    QGPC.sb.auth.signInWithOtp({email:stepEmail,options:{shouldCreateUser:false,emailRedirectTo:root+'renew.html'}}).then(function(r){
+      if(r.error){
+        $('b-link').disabled=false;
+        bErr(/rate|seconds|too many/i.test(r.error.message||'')?'A link was just sent. Please wait a minute before asking for another.':'We could not send a sign-in link for that address. Try \u201cSign in with my password\u201d (use Forgot password if you need to), or contact the Membership Chair.');
+        return;
+      }
+      $('back-title').textContent='Check your email.';
+      $('back-text').textContent='We sent a sign-in link to '+stepEmail+'. Click it and you will go straight to your renewal form. The link works once. If it does not arrive in a few minutes, check your spam folder.';
+      $('b-link').textContent='Send it again';$('b-link').disabled=false;
+    });
+  });
   var PAYMENT_URL=(window.QGPC_CONFIG&&window.QGPC_CONFIG.ZEFFY_JOIN_URL)||'';
   var dues={Regular:null,Junior:null,Exempt:0};
   function money(n){return n===null||n===undefined?'':('$'+Number(n).toFixed(2).replace(/\.00$/,'')+' per year');}

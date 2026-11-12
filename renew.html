@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Renew Membership</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</div></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0">
+<h1 id="pg-title" style="margin:0">Renew your membership</h1>
+<p class="stat-line" id="intro">Check your details, update anything that&rsquo;s changed, and renew.</p></div></div></section>
+<div class="joinwrap">
+<p id="loading" role="status">Loading your details&hellip;</p>
+<div id="blocked" class="pcard hidden" role="status"><h2 id="blocked-title"></h2><p id="blocked-text"></p>
+<span class="doneact"><a class="pwlink" href="home.html">Back to the Guild home page</a></span></div>
+<form id="rf" class="pcard joinform hidden" novalidate>
+<div class="note-blue" role="note">We&rsquo;ve filled in the details we have on file. Please check them and update anything that has changed.</div>
+<div class="note-blue" role="note" id="year-note"></div>
+<fieldset class="types"><legend>Type of Membership</legend><span class="sub">Choose one.</span>
+<div class="typegrid">
+<label class="typeopt"><input type="radio" name="rtype" value="Regular" checked><span><b>Regular</b><span id="amt-Regular">&nbsp;</span></span></label>
+<label class="typeopt"><input type="radio" name="rtype" value="Exempt"><span><b>Exempt</b><span id="amt-Exempt">80+</span></span></label>
+<label class="typeopt"><input type="radio" name="rtype" value="Junior"><span><b>Junior</b><span id="amt-Junior">&nbsp;</span></span></label>
+</div></fieldset>
+<h3>About you <span class="opt">(required)</span></h3>
+<div class="grid2">
+<div class="f"><label for="r-first">First name</label><input class="field" id="r-first" autocomplete="given-name"></div>
+<div class="f"><label for="r-last">Last name</label><input class="field" id="r-last" autocomplete="family-name"></div>
+<div class="f"><label for="r-email">Email</label><input class="field" id="r-email" type="email" disabled aria-describedby="email-help"><span class="sub" id="email-help">This is your sign-in address. To change it, contact the Membership Chair.</span></div>
+<div class="f"><label for="r-cell">Cell number</label><input class="field" id="r-cell" type="tel" autocomplete="tel" placeholder="(555) 555-5555"></div>
+<div class="f"><label for="r-fb">Facebook name <span class="opt">(if applicable)</span></label><input class="field" id="r-fb" autocomplete="off" placeholder="Name as it appears on Facebook"></div>
+</div>
+<h3>Mailing address <span class="opt">(optional)</span></h3>
+<div class="f"><label for="r-street">Street address</label><input class="field" id="r-street" autocomplete="street-address"></div>
+<div class="grid3">
+<div class="f"><label for="r-city">City</label><input class="field" id="r-city" autocomplete="address-level2"></div>
+<div class="f"><label for="r-state">State</label><input class="field" id="r-state" autocomplete="address-level1" placeholder="TX" maxlength="2"></div>
+<div class="f"><label for="r-zip">ZIP code</label><input class="field" id="r-zip" autocomplete="postal-code" inputmode="numeric" maxlength="10"></div>
+</div>
+<label class="chk"><input type="checkbox" id="r-nodir"> I do not want to be listed in the Member Directory</label>
+<h3>Birthday <span class="opt">(optional)</span></h3><span class="sub">Month and day only, so we can celebrate with you.</span>
+<div class="grid2"><div class="f"><label for="r-bm">Month</label><select class="field" id="r-bm"><option value="">Select month</option><option value="1">January</option><option value="2">February</option><option value="3">March</option><option value="4">April</option><option value="5">May</option><option value="6">June</option><option value="7">July</option><option value="8">August</option><option value="9">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select></div>
+<div class="f"><label for="r-bd">Day</label><select class="field" id="r-bd"><option value="">Select day</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select></div></div>
+<h3>Quilting Interests <span class="opt">(optional)</span></h3><span class="sub">Check all that apply.</span>
+<div class="chks" role="group" aria-label="Quilting Interests"><label class="chk"><input type="checkbox" name="rint" value="Piecing"> Piecing</label><label class="chk"><input type="checkbox" name="rint" value="Applique"> Applique</label><label class="chk"><input type="checkbox" name="rint" value="Paper Piecing"> Paper Piecing</label><label class="chk"><input type="checkbox" name="rint" value="English Paper Piecing"> English Paper Piecing</label><label class="chk"><input type="checkbox" name="rint" value="Modern Quilts"> Modern Quilts</label><label class="chk"><input type="checkbox" name="rint" value="Color Theory"> Color Theory</label><label class="chk"><input type="checkbox" name="rint" value="Hand Quilting"> Hand Quilting</label><label class="chk"><input type="checkbox" name="rint" value="Embroidery"> Embroidery</label></div>
+<div class="f" style="max-width:496px"><label for="r-other">Other</label><input class="field" id="r-other" placeholder="Tell us about other interests"></div>
+<h3>Helping out <span class="opt">(optional)</span></h3>
+<fieldset class="types"><legend>Would you like to help on a committee?</legend>
+<div class="radios"><label class="chk"><input type="radio" name="rhelp" value="yes"> Yes</label><label class="chk"><input type="radio" name="rhelp" value="no"> Not right now</label></div></fieldset>
+<fieldset class="types hidden" id="help-box"><legend>If yes, where would you like to help?</legend><span class="sub">Check all that apply.</span>
+<div class="chks"><label class="chk"><input type="checkbox" name="rcom" value="Newsletter"> Newsletter</label><label class="chk"><input type="checkbox" name="rcom" value="Workshops"> Workshops</label><label class="chk"><input type="checkbox" name="rcom" value="Membership"> Membership</label><label class="chk"><input type="checkbox" name="rcom" value="Comfort Quilts"> Comfort Quilts</label><label class="chk"><input type="checkbox" name="rcom" value="Sunshine &amp; Shadows"> Sunshine &amp; Shadows</label><label class="chk"><input type="checkbox" name="rcom" value="Beekeeper"> Beekeeper</label><label class="chk"><input type="checkbox" name="rcom" value="Next Year’s Programs"> Next Year’s Programs</label><label class="chk"><input type="checkbox" name="rcom" value="Publicity"> Publicity</label><label class="chk"><input type="checkbox" name="rcom" value="Digital &amp; A/V"> Digital &amp; A/V</label><label class="chk"><input type="checkbox" name="rcom" value="Show &amp; Tell"> Show &amp; Tell</label><label class="chk"><input type="checkbox" name="rcom" value="Finance &amp; Assets"> Finance &amp; Assets</label><label class="chk"><input type="checkbox" name="rcom" value="Retreats"> Retreats</label><label class="chk"><input type="checkbox" name="rcom" value="Quilt Show"> Quilt Show</label><label class="chk"><input type="checkbox" name="rcom" value="Auction"> Auction</label><label class="chk"><input type="checkbox" name="rcom" value="Wherever I’m needed"> Wherever I’m needed</label></div>
+<div class="f" style="max-width:496px"><label for="r-helpother">Anything else? (optional)</label><input class="field" id="r-helpother"></div></fieldset>
+<p id="r-err" class="msg err hidden" role="alert"></p>
+<div class="paybar"><span class="sub" id="payline" aria-live="polite"></span>
+<button type="submit" class="btn-save" id="r-go">Submit my renewal</button></div>
+</form>
+<div id="done" class="pcard hidden" role="status" aria-labelledby="done-title">
+<h2 id="done-title">Thank you. Your renewal has been sent.</h2><p id="done-text"></p>
+<p id="pay-extra" class="hidden"></p>
+<span class="doneact"><a class="pwlink" href="home.html">Back to the Guild home page</a></span></div>
+</div></main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  var PAYMENT_URL=(window.QGPC_CONFIG&&window.QGPC_CONFIG.ZEFFY_RENEW_URL)||'';
+  var member=null,year=null,dues={Regular:null,Junior:null,Exempt:0};
+  function money(n){return n===null||n===undefined?'':('$'+Number(n).toFixed(2).replace(/\.00$/,'')+' per year');}
+  function type(){return document.querySelector('input[name=rtype]:checked').value;}
+  function checks(n){return Array.prototype.slice.call(document.querySelectorAll('input[name='+n+']'));}
+  function vals(n){return checks(n).filter(function(c){return c.checked;}).map(function(c){return c.value;});}
+  function err(t){var e=$('r-err');e.textContent=t||'';e.classList.toggle('hidden',!t);if(t)e.scrollIntoView({block:'center'});}
+  function block(title,text){$('loading').classList.add('hidden');$('blocked-title').textContent=title;$('blocked-text').textContent=text;$('blocked').classList.remove('hidden');}
+  function refresh(){
+    var t=type(),due=dues[t];
+    $('payline').textContent=(t==='Exempt'||due===0)?'No payment is due for Exempt membership.':'Dues: $'+Number(due).toFixed(2)+' for '+t+' membership. The Membership Chair will confirm your payment.';
+  }
+  $('out').addEventListener('click',function(){QGPC.signOut().then(function(){location.href='index.html';});});
+  checks('rtype').forEach(function(x){x.addEventListener('change',refresh);});
+  checks('rhelp').forEach(function(x){x.addEventListener('change',function(){$('help-box').classList.toggle('hidden',x.value!=='yes'||!x.checked);});});
+
+  QGPC.session().then(function(s){
+    if(!s){location.href='index.html';return;}
+    return Promise.all([
+      QGPC.sb.rpc('my_renewal_status'),
+      QGPC.sb.from('members_with_status').select('*').eq('auth_user_id',s.user.id).limit(1)
+    ]).then(function(res){
+      var st=res[0].data,r=res[1];
+      if(res[0].error||!st||!st.has_member||r.error||!r.data||!r.data.length){block('We could not find your membership record','You are signed in, but no membership record is linked to this account. Please contact the Membership Chair.');return;}
+      var m=member=r.data[0];
+      $('who-name').textContent=m.first_name+' '+m.last_name;
+      $('avatar').textContent=((m.first_name||'?').charAt(0)+(m.last_name||'').charAt(0)).toUpperCase();
+      year=st.target_year;
+      if(st.already){block('You are already renewed','Your membership is paid through December 31, '+m.paid_through_year+'. Nothing more to do. Thank you!');return;}
+      if(st.pending){block('Your renewal is with the Membership Chair','You have already sent your renewal for '+year+'. The Membership Chair will review and approve it.');return;}
+      if(!st.can_renew){block('Renewals are not open right now','The Membership Chair will open renewals when it is time. Please check back later.');return;}
+      $('intro').textContent='Check your details, update anything that\u2019s changed, and renew for '+year+'.';
+      $('year-note').textContent='Your membership year runs January 1 to December 31. This renews you for '+year+'. Renewals are accepted until March 31; after that, a membership that has not renewed is marked Inactive.';
+      dues.Regular=+st.dues.Regular;dues.Junior=+st.dues.Junior;dues.Exempt=+st.dues.Exempt;
+      $('amt-Regular').textContent=money(dues.Regular);$('amt-Junior').textContent=money(dues.Junior);
+      var pick=document.querySelector('input[name=rtype][value='+(m.membership_type||'Regular')+']');if(pick)pick.checked=true;
+      $('r-first').value=m.first_name||'';$('r-last').value=m.last_name||'';$('r-email').value=m.email||'';
+      $('r-cell').value=m.cell_phone||'';$('r-fb').value=m.facebook_name||'';
+      $('r-street').value=m.street_address||'';$('r-city').value=m.city||'';$('r-state').value=m.state||'';$('r-zip').value=m.zip||'';
+      $('r-nodir').checked=!!m.directory_opt_out;
+      $('r-bm').value=m.birthday_month||'';$('r-bd').value=m.birthday_day||'';
+      var mine=m.interests||[];checks('rint').forEach(function(c){c.checked=mine.indexOf(c.value)>-1;});
+      $('r-other').value=m.interests_other||'';
+      refresh();
+      $('loading').classList.add('hidden');$('rf').classList.remove('hidden');
+    });
+  });
+
+  $('rf').addEventListener('submit',function(e){
+    e.preventDefault();err('');
+    var first=$('r-first').value.trim(),last=$('r-last').value.trim();
+    if(!first||!last){err('Please enter your first and last name.');return;}
+    var bm=$('r-bm').value,bd=$('r-bd').value;
+    if((bm&&!bd)||(!bm&&bd)){err('Please choose both a birthday month and day, or leave both blank.');return;}
+    if(bm&&bd){var max=[31,29,31,30,31,30,31,31,30,31,30,31][+bm-1];if(+bd>max){err('That birthday day does not exist in '+$('r-bm').options[$('r-bm').selectedIndex].text+'.');return;}}
+    var zip=$('r-zip').value.trim();if(zip&&!/^\d{5}(-\d{4})?$/.test(zip)){err('Please enter a 5-digit ZIP code.');return;}
+    var st=$('r-state').value.trim();if(st&&!/^[A-Za-z]{2}$/.test(st)){err('Please enter the state as two letters, such as TX.');return;}
+    var yes=document.querySelector('input[name=rhelp]:checked'),help=yes&&yes.value==='yes';
+    var payload={membership_type:type(),first_name:first,last_name:last,cell_phone:$('r-cell').value,facebook_name:$('r-fb').value,
+      street_address:$('r-street').value,city:$('r-city').value,state:st,zip:zip,directory_opt_out:$('r-nodir').checked,
+      birthday_month:bm,birthday_day:bd,interests:vals('rint'),interests_other:$('r-other').value,
+      help_committees:help?vals('rcom'):[],help_other:help?$('r-helpother').value:''};
+    $('r-go').disabled=true;
+    QGPC.sb.rpc('submit_renewal_request',{p:payload}).then(function(r){
+      $('r-go').disabled=false;
+      if(r.error){err(r.error.message&&r.error.message.length<220?r.error.message:'We could not send your renewal. Please try again.');return;}
+      var ex=type()==='Exempt'||dues[type()]===0;
+      $('done-text').textContent=ex?'Your renewal for '+year+' is with the Membership Chair for approval. No payment is due. Thank you for keeping your contact details up to date.'
+        :'The Membership Chair will confirm your payment and approve your '+year+' renewal.';
+      if(!ex){var p=$('pay-extra');p.classList.remove('hidden');p.textContent='';
+        if(PAYMENT_URL){var a=document.createElement('a');a.className='btn-save';a.href=PAYMENT_URL;a.textContent='Continue to payment';a.style.textDecoration='none';a.style.display='inline-flex';a.style.alignItems='center';p.appendChild(a);}
+        else p.textContent='Dues are paid separately. The Membership Chair will tell you how to pay.';}
+      $('rf').classList.add('hidden');$('done').classList.remove('hidden');window.scrollTo(0,0);
+    });
+  });
+})();
+</script>
+</body></html>
