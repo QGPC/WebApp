@@ -96,7 +96,7 @@ QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}}
     field('Quilting Interests',(r.interests||[]).join(', ')+(r.interests_other?(((r.interests||[]).length?' · ':'')+'Other: '+r.interests_other):''));
     var help=(r.help_committees||[]).join(', ')+(r.help_other?(((r.help_committees||[]).length?' · ':'')+'Other: '+r.help_other):'');
     field('Committee help',help?'Yes — '+help:'Not right now');
-    field('Website account',r.status==='approved'?'Not set up yet: the password-setup email is the next piece to build. Use "Invite user" in Supabase (Authentication, Users) for now.':'Set up after approval.');
+    field('Website account',r.status==='approved'?'Sign-in email sent to '+r.email+' when approved. Use the button below to send it again.':'The sign-in email is sent automatically when you approve.');
     var pay=$('d-pay');
     pay.textContent=r.payment_status==='not_required'?'Exempt membership — no payment due. Check that the person is 80 or older.'
       :r.payment_status==='received'?'Payment confirmed · '+money(r.amount_due)+(r.payment_confirmed_at?' · '+d(r.payment_confirmed_at):'')
@@ -108,6 +108,8 @@ QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}}
       var t=document.createElement('b');t.textContent='✓ Membership approved';box.appendChild(t);
       var p=document.createElement('span');p.textContent=r.first_name+' '+r.last_name+' has been added to the membership database as Active, with Member since set to this year and Paid through December 31 of this year.';box.appendChild(p);
       st.appendChild(box);
+      var bi=document.createElement('button');bi.type='button';bi.className='btn-save';bi.textContent='Send sign-in email again';
+      bi.addEventListener('click',function(){bi.disabled=true;sendInvite(r.member_id,r.email,false,bi);});st.appendChild(bi);
       var nx=rows.filter(function(x){return x.status!=='approved';})[0];
       if(nx){var b=document.createElement('button');b.type='button';b.className='btn-save';b.textContent='Next request';b.addEventListener('click',function(){sel=nx.id;paint();});st.appendChild(b);}
       return;
@@ -118,9 +120,19 @@ QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}}
       st.appendChild(b1);
     }else{var done=document.createElement('div');done.className='paydone';done.textContent=r.payment_status==='not_required'?'No payment due — Exempt':'Payment received';st.appendChild(done);}
     var b2=document.createElement('button');b2.type='button';b2.className='btn-save step';b2.disabled=!paid;b2.innerHTML='<span class="stepn" aria-hidden="true">2</span>Membership Approved';
-    b2.addEventListener('click',function(){b2.disabled=true;note('');QGPC.sb.rpc('approve_membership_request',{p_id:r.id}).then(function(x){if(x.error){note(x.error.message);b2.disabled=false;return;}reload();});});
+    b2.addEventListener('click',function(){b2.disabled=true;note('');QGPC.sb.rpc('approve_membership_request',{p_id:r.id}).then(function(x){if(x.error){note(x.error.message);b2.disabled=false;return;}sendInvite(x.data,r.email,true);});});
     st.appendChild(b2);
     if(!paid){var h=document.createElement('span');h.className='sub';h.textContent='Confirm the payment first.';st.appendChild(h);}
+  }
+  function sendInvite(memberId,email,refresh,btn){
+    note('Sending the sign-in email…');
+    QGPC.sb.functions.invoke('invite-member',{body:{member_id:memberId}}).then(function(x){
+      var msg=(x.data&&x.data.error)||(x.error&&x.error.message&&x.error.message.indexOf('non-2xx')<0?x.error.message:'')||(x.error?'The sign-in email could not be sent.':'');
+      if(x.error&&x.error.context&&x.error.context.json){x.error.context.json().then(function(j){note('Approved, but the sign-in email was not sent: '+(j.error||msg));if(btn)btn.disabled=false;if(refresh)reload();}).catch(function(){note('Approved, but the sign-in email was not sent.');if(refresh)reload();});return;}
+      note(msg?'The sign-in email was not sent: '+msg:'Sign-in email sent to '+email+'.');
+      if(btn)btn.disabled=false;
+      if(refresh)reload();
+    });
   }
   function paint(){paintList();paintDetail();}
   function reload(){
