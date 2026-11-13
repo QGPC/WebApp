@@ -42,8 +42,6 @@
 <div class="wrap"><div class="page">
 <p id="note" class="msg err hidden" role="alert"></p>
 <section class="card soon-card"><h2>Notices, events and What&rsquo;s New</h2><p>These cards will appear here once those parts of the site are built.</p></section>
-<details class="card rec"><summary>My membership record</summary>
-<table class="kv"><tbody id="rows"></tbody></table><p>Roles: <span id="roles">&mdash;</span></p></details>
 </div></div></main>
 <footer class="site-foot"><div class="wrap">
 <div><b>Quilter&rsquo;s Guild of Parker County</b>
@@ -92,7 +90,6 @@
     li.appendChild(e);return li;
   }
   function fill(id,list){var u=$(id);u.textContent='';list.forEach(function(t){u.appendChild(tile(t));});}
-  function row(k,v){var tr=document.createElement('tr'),a=document.createElement('th'),b=document.createElement('td');a.textContent=k;b.textContent=(v===null||v===undefined||v==='')?'—':v;tr.appendChild(a);tr.appendChild(b);$('rows').appendChild(tr);}
   function fail(t){$('hello').textContent='Member home';var n=$('note');n.textContent=t;n.classList.remove('hidden');}
   $('out').addEventListener('click',function(){QGPC.signOut().then(function(){location.href='index.html';});});
   $('more-btn').addEventListener('click',function(){
@@ -143,9 +140,6 @@
         if(all.length>PER_BAR){fill('more-areas',all.slice(PER_BAR));$('more-btn').classList.remove('hidden');}
         if(!full){$('btn-events').classList.add('hidden');$('btn-new').classList.add('hidden');}
         if(showRenew)$('btn-renew').classList.remove('hidden');   // Inactive members can renew too
-        row('Name',m.first_name+' '+m.last_name);row('Email',m.email);row('Membership type',m.membership_type);
-        row('Member since',m.member_since);row('Paid through',m.paid_through_year);row('Status',st);
-        $('roles').textContent=roles.length?roles.join(', '):'none';
         });
       });
     });
