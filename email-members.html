@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Email Members</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.ebox{background:#fff;border:1px solid #E4E0D6;border-radius:14px;padding:22px 22px 20px}
+.ebox h2{margin:0 0 14px;font-size:22px}
+.ef{display:flex;flex-direction:column;gap:18px}
+.ef label.l,.ef .l{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.ef .hint{margin:4px 0 0;font-size:14px;color:#5A5F6E}
+.ef .ro{padding:12px 14px;border:1px solid #E4E0D6;border-radius:10px;background:#FAF8F3;font-size:16px}
+.ef .opt{display:flex;align-items:flex-start;gap:12px;min-height:44px;padding:12px 14px;border:1px solid #E4E0D6;border-radius:10px;background:#FAF8F3;cursor:pointer}
+.ef .opt input{width:20px;height:20px;margin:1px 0 0;accent-color:#0157AE;flex:0 0 auto}
+.ef .opt span{display:flex;flex-direction:column;gap:2px;font-weight:600;font-size:15px}.ef .opt small{font-weight:400;font-size:14px;color:#5A5F6E}
+.limit{padding:12px 14px;border-radius:10px;background:#EEF1F8;color:#1F2433;font-size:15px}
+.limit.low{background:#FCEEE9;color:#9A3412;font-weight:600}
+.preview{border:1px solid #C9C4B8;border-radius:12px;padding:18px 20px;background:#fff}
+.preview .meta{font-size:14px;color:#5A5F6E;margin:0 0 12px;line-height:1.6}
+.preview .sub{font-weight:700;font-size:18px;margin:0 0 12px}
+.preview .msg-body{white-space:pre-wrap;line-height:1.55;margin:0 0 14px}
+.preview .foot{font-size:13px;color:#5A5F6E;margin:14px 0 0}
+.confirm{background:#FDECEA;border:1px solid #F3B8B2;border-radius:12px;padding:14px 16px}
+.confirm p{margin:0 0 10px;font-weight:600}
+.prog{height:14px;border-radius:999px;background:#E4E0D6;overflow:hidden;margin:8px 0}
+.prog i{display:block;height:100%;width:0;background:#0157AE;transition:width .3s}
+.hist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.hist li{border:1px solid #E4E0D6;border-radius:12px;padding:12px 16px;background:#fff;display:flex;flex-direction:column;gap:2px}
+.hist b{font-size:16px}.hist span{font-size:14px;color:#5A5F6E}
+.erow{display:flex;gap:12px;flex-wrap:wrap}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</div></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">President &middot; Vice President &middot; Program Chair &middot; Administrators</span>
+<h1 id="pg-title" style="margin:0">Email Members</h1><p class="stat-line">Write one email and send it to every current member.</p></div>
+</div></section>
+<div class="mwrap" style="max-width:900px" id="content">
+<p id="err" class="msg err hidden" role="alert"></p>
+<p id="note" class="msg ok hidden" role="status"></p>
+
+<section class="ebox" id="resume-box" aria-labelledby="rs-h" style="display:none;border-color:#E87446;background:#FFF6F1">
+<h2 id="rs-h">A send was not finished</h2>
+<p id="rs-text" style="margin:0 0 12px"></p>
+<div class="erow"><button type="button" class="btn-save" id="rs-go">Finish sending</button></div>
+</section>
+
+<section class="ebox" aria-labelledby="new-h">
+<h2 id="new-h">New email</h2>
+<form class="ef" id="form" novalidate>
+<div><span class="l">To</span><div class="ro" id="to-line">Loading&hellip;</div></div>
+<div><span class="l">From</span><div class="ro" id="from-line">&nbsp;</div>
+<p class="hint">Each member gets their own copy, so no one sees anyone else&rsquo;s address. Your name and role are added at the end.</p></div>
+<div><label class="l" for="f-sub">Subject <span aria-hidden="true">*</span></label>
+<input class="field" id="f-sub" maxlength="150" autocomplete="off"></div>
+<div><label class="l" for="f-msg">Message <span aria-hidden="true">*</span></label>
+<textarea class="field" id="f-msg" rows="10" maxlength="10000" style="min-height:220px"></textarea>
+<p class="hint">Plain text. Leave a blank line between paragraphs. No attachments.</p></div>
+<fieldset style="margin:0;padding:0;border:0;display:flex;flex-direction:column;gap:8px"><legend style="padding:0;margin:0 0 8px;font-weight:600;font-size:15px">When a member replies, it goes to</legend>
+<label class="opt"><input type="radio" name="rt" value="guild" checked><span>The Guild email address<small id="rt-guild"></small></span></label>
+<label class="opt"><input type="radio" name="rt" value="sender"><span>My email address<small id="rt-me"></small></span></label></fieldset>
+<div class="limit" id="limit-line"></div>
+<p id="f-err" class="msg err hidden" role="alert" style="margin:0"></p>
+<div class="erow">
+<button type="button" class="btn-cancel" id="b-prev">Preview the email</button>
+<button type="button" class="btn-cancel" id="b-test">Send me a test copy</button>
+<button type="button" class="btn-save" id="b-send">Send to members</button>
+</div>
+<div class="preview hidden" id="preview" aria-live="polite"></div>
+<div class="confirm hidden" id="confirm" role="alert"><p id="confirm-q"></p>
+<div class="erow"><button type="button" class="btn-del solid" id="c-yes">Yes, send now</button><button type="button" class="btn-cancel" id="c-no">Not yet</button></div></div>
+<div class="hidden" id="progress" role="status" aria-live="polite"><b id="pr-text">Sending&hellip;</b><div class="prog"><i id="pr-bar"></i></div><span class="hint">Please keep this page open until it finishes.</span></div>
+</form>
+</section>
+
+<section aria-labelledby="hist-h"><h2 id="hist-h" style="margin:0 0 12px;font-size:22px">Emails sent to members</h2>
+<p id="hist-none" class="muted hidden" style="color:#5A5F6E;margin:0">Nothing has been sent yet.</p>
+<ul class="hist" id="hist"></ul></section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president')||c.has('program_chair');}},function(c){
+  var $=function(i){return document.getElementById(i)};
+  var sb=QGPC.sb, st=null, sending=false;
+  var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
+  function say(t){var n=$('note');n.textContent=t;n.classList.remove('hidden');$('err').classList.add('hidden');}
+  function bad(t){var n=$('err');n.textContent=t;n.classList.remove('hidden');$('note').classList.add('hidden');window.scrollTo({top:0,behavior:'smooth'});}
+  function ferr(t){var f=$('f-err');f.textContent=t;f.classList.remove('hidden');}
+  function plural(n,w){return n+' '+w+(n===1?'':'s');}
+  function when(iso){var d=new Date(iso),p=new Intl.DateTimeFormat('en-US',{timeZone:'America/Chicago',month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'}).format(d);return p;}
+
+  // call the Edge Function; always resolves to {ok:true,...} or {error:'text'}
+  function call(body){
+    return sb.functions.invoke('send-member-email',{body:body}).then(function(x){
+      if(x.error&&x.error.context&&x.error.context.json){return x.error.context.json().then(function(j){return {error:j.error||'The request failed.'};},function(){return {error:'The request failed.'};});}
+      if(x.error)return {error:'Could not reach the email service. Please try again.'};
+      if(x.data&&x.data.error)return {error:x.data.error};
+      return x.data||{};
+    },function(){return {error:'Could not reach the email service. Please try again.'};});
+  }
+  function left(){return st?Math.max(0,st.limit-st.sent_today):0;}
+  function paintStatus(){
+    if(!st)return;
+    $('to-line').textContent='All current members ('+st.recipients+')'+(st.inactive?' · '+st.inactive+' Inactive left out':'');
+    $('from-line').textContent='Quilter’s Guild of Parker County'+(st.from_address?' <'+st.from_address+'>':'')+' · signed '+st.sender_name+(st.sender_role?', '+st.sender_role:'');
+    $('rt-guild').textContent=st.from_address||'';$('rt-me').textContent=st.sender_email||'';
+    var l=$('limit-line');
+    l.textContent='This email uses '+st.recipients+' of the '+st.limit+' the Guild Gmail account can send in a day. '+left()+' are left today.';
+    l.classList.toggle('low',left()<st.recipients);
+    if(left()<st.recipients)l.textContent+=' It cannot be sent today.';
+    $('b-send').textContent='Send to '+plural(st.recipients,'member');
+    $('b-send').disabled=st.recipients===0;
+  }
+  function loadStatus(){
+    return call({action:'status'}).then(function(r){
+      if(r.error){$('to-line').textContent='Could not load the member count.';bad(r.error);return;}
+      st=r;paintStatus();
+    });
+  }
+  function vals(){
+    var rt=document.querySelector('input[name=rt]:checked').value;
+    return {subject:$('f-sub').value.trim(),message:$('f-msg').value.trim(),reply_to:rt};
+  }
+  function check(v){
+    if(!v.subject){ferr('Please type a subject.');$('f-sub').focus();return false;}
+    if(!v.message){ferr('Please type a message.');$('f-msg').focus();return false;}
+    $('f-err').classList.add('hidden');return true;
+  }
+  function busy(on){['b-prev','b-test','b-send','f-sub','f-msg'].forEach(function(i){$(i).disabled=on;});sending=on;if(!on&&st)$('b-send').disabled=st.recipients===0;}
+
+  $('b-prev').onclick=function(){
+    var v=vals();if(!check(v))return;
+    var p=$('preview');p.textContent='';
+    p.appendChild(el('p','meta','To: '+(st?plural(st.recipients,'current member'):'')+' · From: Quilter’s Guild of Parker County · Replies go to: '+(v.reply_to==='sender'?(st&&st.sender_email):(st&&st.from_address))));
+    p.appendChild(el('p','sub',v.subject));
+    p.appendChild(el('p','msg-body',v.message));
+    p.appendChild(el('p',null,'— '+(st?st.sender_name+(st.sender_role?', '+st.sender_role:''):'')));
+    p.appendChild(el('p','foot','Quilter’s Guild of Parker County. You are receiving this email because you are a member of the Quilter’s Guild of Parker County.'));
+    p.classList.remove('hidden');p.scrollIntoView({behavior:'smooth',block:'nearest'});
+  };
+  $('b-test').onclick=function(){
+    var v=vals();if(!check(v))return;
+    busy(true);say('Sending a test copy to '+(st&&st.sender_email||'you')+'…');
+    v.action='test';
+    call(v).then(function(r){
+      busy(false);
+      if(r.error){bad(r.error);return;}
+      say('A test copy was sent to '+r.to+'. It may take a minute to arrive. (It counts as 1 of today’s emails.)');loadStatus();loadHistory();
+    });
+  };
+  $('b-send').onclick=function(){
+    var v=vals();if(!check(v))return;
+    if(left()<st.recipients){ferr('Only '+left()+' emails are left today, and this needs '+st.recipients+'. Please send it tomorrow.');return;}
+    $('confirm-q').textContent='Send “'+v.subject+'” to '+plural(st.recipients,'member')+' now? It cannot be taken back.';
+    $('confirm').classList.remove('hidden');$('confirm').scrollIntoView({behavior:'smooth',block:'nearest'});
+  };
+  $('c-no').onclick=function(){$('confirm').classList.add('hidden');};
+  $('c-yes').onclick=function(){
+    $('confirm').classList.add('hidden');
+    var v=vals();if(!check(v))return;
+    v.action='start';busy(true);
+    call(v).then(function(r){
+      if(r.error){busy(false);bad(r.error);return;}
+      runBatches(r.email_id,r.recipients,v.subject,true);
+    });
+  };
+
+  // send batches until nothing is left; safe to call again for an unfinished send
+  function runBatches(id,planned,subject,clearForm){
+    $('progress').classList.remove('hidden');busy(true);
+    var fails=0;
+    function step(){
+      call({action:'batch',email_id:id}).then(function(r){
+        if(r.error){busy(false);$('progress').classList.add('hidden');bad('Sending stopped: '+r.error+' It can be finished from the “A send was not finished” box on this page.');loadStatus();loadHistory();return;}
+        var done=r.sent+r.failed;fails=r.failed;
+        $('pr-text').textContent='Sent '+done+' of '+planned+'…';
+        $('pr-bar').style.width=Math.min(100,Math.round(done/Math.max(1,planned)*100))+'%';
+        if(r.remaining>0&&(r.sent_now+r.failed_now)>0){step();return;}
+        busy(false);$('progress').classList.add('hidden');
+        if(clearForm){$('f-sub').value='';$('f-msg').value='';$('preview').classList.add('hidden');}
+        say('Sent “'+subject+'” to '+plural(r.sent,'member')+'.'+(fails?' '+plural(fails,'address')+' did not go through; you can see which in the list below.':''));
+        loadStatus();loadHistory();window.scrollTo({top:0,behavior:'smooth'});
+      });
+    }
+    step();
+  }
+
+  function loadHistory(){
+    return sb.from('member_emails').select('*').eq('is_test',false).order('created_at',{ascending:false}).limit(40).then(function(r){
+      var ul=$('hist');ul.textContent='';
+      if(r.error){$('hist-none').textContent='Could not load the list.';$('hist-none').classList.remove('hidden');return;}
+      var rows=r.data||[];$('hist-none').classList.toggle('hidden',rows.length>0);
+      var open=null;
+      rows.forEach(function(e){
+        var li=el('li');li.appendChild(el('b',null,e.subject));
+        var unfinished=(e.sent+e.failed)<e.recipients;
+        li.appendChild(el('span',null,when(e.created_at)+' · '+(e.sender_name||'')+(e.sender_role?' ('+e.sender_role+')':'')+' · '+plural(e.sent,'email')+' sent'+(e.failed?' · '+e.failed+' failed':'')+(unfinished?' · not finished ('+(e.recipients-e.sent-e.failed)+' left)':'')));
+        ul.appendChild(li);
+        if(unfinished&&!open&&(Date.now()-new Date(e.created_at).getTime())<36e5*24)open=e;
+      });
+      var box=$('resume-box');
+      if(open&&!sending){
+        box.style.display='';
+        $('rs-text').textContent='“'+open.subject+'” was started '+when(open.created_at)+' but did not reach everyone ('+(open.recipients-open.sent-open.failed)+' left).';
+        $('rs-go').onclick=function(){box.style.display='none';runBatches(open.id,open.recipients,open.subject,false);};
+      }else box.style.display='none';
+    });
+  }
+  loadStatus().then(loadHistory);
+});
+</script>
+</body></html>
