@@ -31,6 +31,8 @@ ul.evl li{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:start
 ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
 .evcal{display:inline-block;margin-left:8px;font-size:12px;font-weight:700;padding:2px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;vertical-align:middle}
 .evtools{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.act-sel{min-height:40px;border-radius:8px;border:1.5px solid #8A8F9C;padding:6px 10px;font:600 15px var(--sans);background:#fff;color:#1F2433;max-width:100%}
+.act-conf{margin:0 0 8px;color:#fff;font-weight:600;display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
 </style>
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
@@ -57,7 +59,8 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
 <div class="banner-mid">
 <div class="greet-card">
 <div><h1 id="hello">Loading&hellip;</h1>
-<p class="role-line hidden" id="role-line">Signed in as: <strong id="role-label"></strong></p>
+<p class="role-line hidden" id="role-line"><label for="act-sel" id="act-lab">Acting as:</label> <select class="act-sel hidden" id="act-sel"></select><strong id="role-label"></strong></p>
+<div class="act-conf hidden" id="act-conf" role="alert"><span id="act-q"></span> <button type="button" class="nbtn" id="act-yes">Switch</button> <button type="button" class="nbtn" id="act-no">Cancel</button></div>
 <p class="stat-line" id="stat-line"></p></div>
 </div>
 <div class="banner-btns" id="banner-btns">
@@ -146,7 +149,13 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
       (res[1].data||[]).forEach(function(x){labels[x.role_key]=x.label;});
       var rs=res[3]&&res[3].data;var showRenew=!!(rs&&rs.has_member&&rs.open&&!rs.already);
       return QGPC.sb.from('member_roles').select('role_key').eq('member_id',m.id).then(function(rr){
-        var roles=(rr.data||[]).map(function(x){return x.role_key;});
+        var held=(rr.data||[]).map(function(x){return x.role_key;});
+        // "Acting as": the person can view the home page as one role, or as a plain member.
+        // This only changes what this page shows; the database rules always follow what the person really holds.
+        var pick=null;try{pick=sessionStorage.getItem('qgpc_acting');}catch(e){}
+        if(pick&&pick!=='member'&&held.indexOf(pick)<0)pick=null;
+        if(held.length===0)pick=null;
+        var roles=pick?(pick==='member'?[]:[pick]):held;
         var has=function(k){return roles.indexOf(k)>-1;};
         var isAdm=has('superuser')||has('administrator');
         var st=m.status;
@@ -158,8 +167,27 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
           :'Your membership is not current, so you are seeing the public parts of the site. Please contact the Membership Chair to renew.';
         $('stat-line').textContent=stat;$('stat-line').classList.toggle('hidden',!stat);
         if(full){
-          var names=roles.length?roles.map(function(k){return labels[k]||k;}).join(', '):'Member';
-          $('role-label').textContent=names;$('role-line').classList.remove('hidden');
+          $('role-line').classList.remove('hidden');
+          if(!held.length){$('act-lab').textContent='Signed in as:';$('role-label').textContent='Member';}
+          else{
+            var sel=$('act-sel');sel.textContent='';sel.classList.remove('hidden');
+            var opt=function(v,t){var o=document.createElement('option');o.value=v;o.textContent=t;sel.appendChild(o);};
+            if(held.length>1)opt('all','All my roles');
+            held.forEach(function(k){opt(k,labels[k]||k);});
+            opt('member','Member');
+            sel.value=pick||(held.length>1?'all':held[0]);
+            var setPick=function(v){try{if(v==='all'||(held.length===1&&v===held[0]))sessionStorage.removeItem('qgpc_acting');else sessionStorage.setItem('qgpc_acting',v);}catch(e){}location.reload();};
+            var shown=sel.value;
+            sel.addEventListener('change',function(){
+              var v=sel.value;
+              if(v==='superuser'||v==='administrator'){
+                $('act-q').textContent='Switch to '+(labels[v]||v)+'? You will see every management tool for that role.';
+                $('act-conf').classList.remove('hidden');
+                $('act-yes').onclick=function(){setPick(v);};
+                $('act-no').onclick=function(){$('act-conf').classList.add('hidden');sel.value=shown;};
+              }else{setPick(v);}
+            });
+          }
         }
         var jobs=!full?[]:JOBS.filter(function(j){
           if(j.only)return has('superuser');
