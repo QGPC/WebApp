@@ -16,6 +16,11 @@ ul.evl li{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:start
 .evd{width:56px;border-radius:10px;text-align:center;padding:6px 0;color:#fff;line-height:1.1}.evd b{display:block;font-size:22px}.evd span{font-size:12px;font-weight:700;letter-spacing:.04em}
 ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
 .evcal{display:inline-block;margin-left:8px;font-size:12px;font-weight:700;padding:2px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;vertical-align:middle}
+ul.notices{list-style:none;margin:0;padding:0;max-height:440px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+ul.notices li{border:1px solid #E4E0D6;border-radius:12px;padding:14px 16px;background:#FBFAF6}
+ul.notices li.pin{border-color:#E87446;background:#FFF6F1}
+ul.notices h3{margin:0 0 4px;font-size:18px}ul.notices p{margin:0;white-space:pre-wrap}
+ul.notices .pinned{display:inline-block;margin:0 0 6px;font-size:12px;font-weight:700;color:#9A3412;background:#FCEEE9;border-radius:999px;padding:2px 10px}
 </style>
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
@@ -55,11 +60,13 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
 </div></section>
 <div class="wrap">
 <div class="page">
+<section class="card hcard" id="notices-card" aria-labelledby="notices-h"><div class="hcard-h"><h2 id="notices-h">Notices</h2></div>
+<ul class="notices" id="notices-list"></ul><p class="muted hidden" id="notices-none">No notices right now.</p></section>
 <section class="card hcard" id="events-card" aria-labelledby="ev-h"><div class="hcard-h"><h2 id="ev-h">Events</h2>
 <div class="evstep"><button type="button" class="evb" id="ev-prev" aria-label="Previous month">&lsaquo;</button><span class="evlab" id="ev-lab" aria-live="polite"></span><button type="button" class="evb" id="ev-next" aria-label="Next month">&rsaquo;</button></div></div>
 <ul class="evl" id="ev-list"></ul><p class="muted hidden" id="ev-none">No events this month.</p>
 <p class="muted" id="ev-load">Loading events&hellip;</p></section>
-<p class="muted">More of the Guild&rsquo;s home page (notices and the Quilt Show) is coming soon.</p></div>
+<p class="muted">More of the Guild&rsquo;s home page (the Quilt Show) is coming soon.</p></div>
 </div></main>
 <footer class="site-foot"><div class="wrap">
 <div><b>Quilter&rsquo;s Guild of Parker County</b>
@@ -110,6 +117,25 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
     }
   });
   QGPC.session().then(function(s){if(s){btn.dataset.in='1';$('signin-lbl').textContent='Go to my member home';btn.removeAttribute('aria-controls');btn.removeAttribute('aria-expanded');setOpen(false);}});
+})();
+</script>
+<script>
+// Public notices card: notices for Everyone that have not expired (even if someone is signed in).
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  var today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+  QGPC.sb.from('notices').select('*').eq('members_only',false).or('show_until.is.null,show_until.gte.'+today)
+    .order('pinned',{ascending:false}).order('created_at',{ascending:false}).then(function(r){
+    var ul=$('notices-list');ul.textContent='';var list=(r&&r.data)||[];
+    if(r.error||!list.length){$('notices-none').classList.remove('hidden');ul.classList.add('hidden');return;}
+    list.forEach(function(n){
+      var li=document.createElement('li');if(n.pinned)li.className='pin';
+      if(n.pinned){var pn=document.createElement('span');pn.className='pinned';pn.textContent='Pinned';li.appendChild(pn);}
+      var h=document.createElement('h3');h.textContent=n.title;li.appendChild(h);
+      if(n.summary){var pp=document.createElement('p');pp.textContent=n.summary;li.appendChild(pp);}
+      ul.appendChild(li);
+    });
+  });
 })();
 </script>
 <script>
