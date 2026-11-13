@@ -6,6 +6,32 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/site.css">
+<style>
+.hcard{margin:28px 0 16px}.hcard-h{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 0 12px}.hcard-h h2{margin:0;font-size:22px}
+.btn-save.small{min-height:44px;padding:0 20px;font-size:15px;display:inline-flex;align-items:center;text-decoration:none}
+ul.notices{list-style:none;margin:0;padding:0;max-height:440px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
+ul.notices li{border:1px solid #E4E0D6;border-radius:12px;padding:14px 16px;background:#FBFAF6}
+ul.notices li.pin{border-color:#E87446;background:#FFF6F1}
+ul.notices h3{margin:0 0 4px;font-size:18px}ul.notices p{margin:0;white-space:pre-wrap}
+ul.notices .pinned{display:inline-block;margin:0 0 6px;font-size:12px;font-weight:700;color:#9A3412;background:#FCEEE9;border-radius:999px;padding:2px 10px}
+.muted{color:#5A5F6E}
+.wnpanel{background:#F4FAF7;border-top:4px solid #2F6B5A;border-bottom:1px solid #CFE3DA}.wnin{max-width:1200px;margin:0 auto;padding:18px 24px}
+ul.wnlist{list-style:none;margin:0 0 14px;padding:0;display:flex;flex-direction:column;gap:12px}
+ul.wnlist li{background:#fff;border:1px solid #CFE3DA;border-radius:12px;padding:14px 16px}
+ul.wnlist li.unseen{border-left:6px solid #2F6B5A}
+ul.wnlist .d{font-size:13px;font-weight:700;color:#2F6B5A}ul.wnlist h3{margin:2px 0 4px;font-size:18px}ul.wnlist p{margin:0 0 6px}ul.wnlist .by{font-size:13px;color:#5A5F6E}
+ul.wnlist a.go{display:inline-block;margin-top:8px;padding:8px 16px;border-radius:999px;background:#0157AE;color:#fff;font-weight:600;font-size:14px;text-decoration:none}
+.wnact{display:flex;flex-wrap:wrap;gap:10px}
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;text-decoration:none}
+.evstep{display:flex;align-items:center;gap:10px}.evb{width:44px;height:44px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:700 20px var(--sans);cursor:pointer}.evb:disabled{opacity:.35;cursor:default}
+.evlab{font:400 20px 'Young Serif',serif;min-width:92px;text-align:center}
+ul.evl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+ul.evl li{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:start}ul.evl li.past{opacity:.55}
+.evd{width:56px;border-radius:10px;text-align:center;padding:6px 0;color:#fff;line-height:1.1}.evd b{display:block;font-size:22px}.evd span{font-size:12px;font-weight:700;letter-spacing:.04em}
+ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
+.evcal{display:inline-block;margin-left:8px;font-size:12px;font-weight:700;padding:2px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;vertical-align:middle}
+.evtools{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+</style>
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
 <header class="site-head"><div class="wrap">
@@ -37,11 +63,20 @@
 <div class="banner-btns" id="banner-btns">
 <a class="signin-btn hidden" id="btn-renew" href="renew.html"><img src="assets/icons/btn-renew.svg" width="42" height="42" alt=""><span class="lbl">Renew Membership</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E87446" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
 <span class="signin-btn" id="btn-events" aria-disabled="true"><img src="assets/icons/btn-myevents.svg" width="42" height="42" alt=""><span class="lbl">My Upcoming Events<small>Coming soon</small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0157AE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span>
-<span class="signin-btn" id="btn-new" aria-disabled="true"><img src="assets/icons/btn-whatsnew.svg" width="42" height="42" alt=""><span class="lbl">What&rsquo;s New<small>Coming soon</small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0157AE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span>
+<button type="button" class="signin-btn" id="btn-new" aria-expanded="false" aria-controls="wn-panel"><img src="assets/icons/btn-whatsnew.svg" width="42" height="42" alt=""><span class="lbl">What&rsquo;s New<small id="new-sum">Recent changes to our site.</small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0157AE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path id="wn-chev" d="M6 9l6 6 6-6"></path></svg></button>
 </div></div></div></section>
+<section class="wnpanel hidden" id="wn-panel" aria-label="What&rsquo;s New"><div class="wnin">
+<ul class="wnlist" id="wn-list"></ul>
+<div class="wnact"><button type="button" class="nbtn hidden" id="wn-more">Show earlier changes</button><button type="button" class="nbtn" id="wn-seen">Mark all as seen</button><button type="button" class="nbtn" id="wn-close">Close</button><a class="nbtn hidden" id="wn-post" href="whats-new-manage.html">Post a change</a></div>
+</div></section>
 <div class="wrap"><div class="page">
 <p id="note" class="msg err hidden" role="alert"></p>
-<section class="card soon-card"><h2>Notices, events and What&rsquo;s New</h2><p>These cards will appear here once those parts of the site are built.</p></section>
+<section class="card hcard" id="notices-card" aria-labelledby="notices-h"><div class="hcard-h"><h2 id="notices-h">Notices</h2><a class="btn-save small hidden" id="post-notice" href="notices-manage.html">Post notice</a></div>
+<ul class="notices" id="notices-list"></ul><p class="muted hidden" id="notices-none">No notices right now.</p></section>
+<section class="card hcard" id="events-card" aria-labelledby="ev-h"><div class="hcard-h"><h2 id="ev-h">Events</h2>
+<div class="evstep"><button type="button" class="evb" id="ev-prev" aria-label="Previous month">&lsaquo;</button><span class="evlab" id="ev-lab" aria-live="polite"></span><button type="button" class="evb" id="ev-next" aria-label="Next month">&rsaquo;</button></div></div>
+<ul class="evl" id="ev-list"></ul><p class="muted hidden" id="ev-none">No events this month.</p>
+<div class="evtools hidden" id="ev-tools"><a class="nbtn" href="calendar-manage.html?cal=guild">Guild Calendar</a><a class="nbtn hidden" id="ev-board" href="calendar-manage.html?cal=board">Board Calendar</a></div></section>
 </div></div></main>
 <footer class="site-foot"><div class="wrap">
 <div><b>Quilter&rsquo;s Guild of Parker County</b>
@@ -56,7 +91,7 @@
 (function(){
   var $=function(i){return document.getElementById(i)};
   var T=function(f){return 'assets/tiles/'+f+'.svg'};
-  var TIPS={"Programs & Workshops": "Get details about our programs and workshops planned for each month.", "Comfort Quilts": "Our outreach program. Learn about the organizations we support and get easy patterns.", "Bees": "Small groups that meet to sew together. Find one to join.", "Our Community": "Sunshine & Shadows and other ways we care for each other.", "About our Guild": "Learn the purpose and history of our Guild.", "Newsletters": "Read the current newsletter and past issues.", "Comfort Quilts Chair": "Update the Comfort Quilts page.", "Bees Chair": "Update the list of bees.", "Workshop Registrations": "See who signed up for workshops and accept registrations.", "Program Planning": "Plan each month\u2019s program and workshop, and keep the Where & when card current.", "Quilt Show Chair": "Show or hide the Quilt Show card, and edit its message and photos.", "Sunshine & Shadows Review": "Approve or decline notes from members.", "Membership Chair": "Review new member requests and manage the membership database.", "Newsletter Chair": "Add, edit and delete newsletters.", "President\u2019s Page": "Post and edit Special Notices.", "Reported Messages": "Review private messages that members have reported.", "Roles & Permissions": "Choose who holds each Guild role and what each role can edit."};
+  var TIPS={"Programs & Workshops": "Get details about our programs and workshops planned for each month.", "Comfort Quilts": "Our outreach program. Learn about the organizations we support and get easy patterns.", "Bees": "Small groups that meet to sew together. Find one to join.", "Our Community": "Sunshine & Shadows and other ways we care for each other.", "About our Guild": "Learn the purpose and history of our Guild.", "Newsletters": "Read the current newsletter and past issues.", "Comfort Quilts Chair": "Update the Comfort Quilts page.", "Bees Chair": "Update the list of bees.", "Workshop Registrations": "See who signed up for workshops and accept registrations.", "Program Planning": "Plan each month\u2019s program and workshop, and keep the Where & when card current.", "Quilt Show Chair": "Show or hide the Quilt Show card, and edit its message and photos.", "Sunshine & Shadows Review": "Approve or decline notes from members.", "Membership Chair": "Review new member requests and manage the membership database.", "Newsletter Chair": "Add, edit and delete newsletters.", "President\u2019s Page": "Post and edit Special Notices.", "Reported Messages": "Review private messages that members have reported.", "Manage Notices": "Post, change, pin and remove the notices on this page.", "Roles & Permissions": "Choose who holds each Guild role and what each role can edit."};
   // href null = page not built yet. Fill these in as pages are built.
   var PUBLIC=[{l:'Programs & Workshops',i:'programs-and-workshops'},{l:'Comfort Quilts',i:'comfort-quilts'},{l:'Gallery',i:'gallery'},{l:'About our Guild',i:'about-our-guild'}];
   var MEMBER=[{l:'Programs & Workshops',i:'programs-and-workshops'},{l:'Newsletters',i:'newsletters'},{l:'Member Directory',i:'member-directory',href:'directory.html'},{l:'Comfort Quilts',i:'comfort-quilts'},{l:'Our Community',i:'our-community'},{l:'Bees',i:'bees'},{l:'Gallery',i:'gallery'},{l:'About our Guild',i:'about-our-guild'}];
@@ -70,8 +105,7 @@
     {l:'Workshop Registrations',i:'workshop-registrations',r:['workshop_chair'],adm:1},
     {l:'Program Planning',i:'program-planning',r:['program_chair'],adm:1},
     {l:'Quilt Show Chair',i:'quilt-show-manager',r:['quilt_show_chair'],adm:1},
-    {l:'Manage Notices',i:'manage-notices',r:[],adm:1},
-    {l:'Manage Events',i:'manage-events',r:[],adm:1},
+    {l:'Manage Notices',i:'manage-notices',href:'notices-manage.html',r:['president','vice_president'],adm:1},
     {l:'Reported Messages',i:'reported-messages',r:[],adm:1},
     {l:'Site Administration',i:'site-administration',r:[],adm:1},
     {l:'Roles & Permissions',i:'roles-and-permissions',href:'roles.html',r:['superuser'],adm:1},
@@ -138,6 +172,102 @@
         var all=jobs.concat(full?MEMBER:PUBLIC);
         fill('tilebar',all.slice(0,PER_BAR));
         if(all.length>PER_BAR){fill('more-areas',all.slice(PER_BAR));$('more-btn').classList.remove('hidden');}
+        var canPost=isAdm||has('president')||has('vice_president');
+        if(canPost)$('post-notice').classList.remove('hidden');
+        var today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+        var nq=QGPC.sb.from('notices').select('*').or('show_until.is.null,show_until.gte.'+today).order('pinned',{ascending:false}).order('created_at',{ascending:false});
+        if(!full)nq=nq.eq('members_only',false);
+        nq.then(function(nr){
+          var ul=$('notices-list');ul.textContent='';var list=(nr&&nr.data)||[];
+          if(!list.length){$('notices-none').classList.remove('hidden');ul.classList.add('hidden');return;}
+          list.forEach(function(n){
+            var li=document.createElement('li');if(n.pinned)li.className='pin';
+            if(n.pinned){var pn=document.createElement('span');pn.className='pinned';pn.textContent='Pinned';li.appendChild(pn);}
+            var h=document.createElement('h3');h.textContent=n.title;li.appendChild(h);
+            if(n.summary){var pp=document.createElement('p');pp.textContent=n.summary;li.appendChild(pp);}
+            ul.appendChild(li);
+          });
+        });
+        if(full){
+          var wnRows=[],wnSeen=null,wnAll=false;
+          var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+          var wnDraw=function(){
+            var ul=$('wn-list');ul.textContent='';
+            if(!wnRows.length){var e=document.createElement('li');e.textContent='Nothing new right now.';ul.appendChild(e);}
+            var show=wnAll?wnRows:wnRows.slice(0,4);
+            show.forEach(function(w){
+              var li=document.createElement('li');
+              if(!wnSeen||new Date(w.posted_at)>wnSeen)li.className='unseen';
+              var d=new Date(w.posted_at);
+              var a=document.createElement('div');a.className='d';a.textContent=MON[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear();li.appendChild(a);
+              var h=document.createElement('h3');h.textContent=w.headline;li.appendChild(h);
+              if(w.detail){var p=document.createElement('p');p.textContent=w.detail;li.appendChild(p);}
+              var by=document.createElement('div');by.className='by';by.textContent='Posted by the '+(w.posted_by_role||'Guild');li.appendChild(by);
+              if(w.link_url&&w.link_label&&/^[a-z0-9\-]+\.html(\?.*)?$/i.test(w.link_url)){var g=document.createElement('a');g.className='go';g.href=w.link_url;g.textContent=w.link_label;li.appendChild(g);}
+              ul.appendChild(li);
+            });
+            $('wn-more').classList.toggle('hidden',wnAll||wnRows.length<=4);
+            var n=wnRows.filter(function(w){return !wnSeen||new Date(w.posted_at)>wnSeen;}).length;
+            $('new-sum').textContent=n?(n+(n===1?' change':' changes')+' since your last visit'):'Recent changes to our site.';
+          };
+          Promise.all([
+            QGPC.sb.from('whats_new').select('*').gte('expires_on',today).order('posted_at',{ascending:false}),
+            QGPC.sb.from('last_seen').select('seen_at').eq('member_id',m.id).eq('page_key','whats_new').limit(1)
+          ]).then(function(wr){
+            wnRows=(wr[0]&&wr[0].data)||[];
+            var ls=wr[1]&&wr[1].data&&wr[1].data[0];wnSeen=ls?new Date(ls.seen_at):null;wnDraw();
+          });
+          var wnToggle=function(open){
+            var o=typeof open==='boolean'?open:$('wn-panel').classList.contains('hidden');
+            $('wn-panel').classList.toggle('hidden',!o);$('btn-new').setAttribute('aria-expanded',o?'true':'false');
+            $('wn-chev').setAttribute('d',o?'M6 15l6-6 6 6':'M6 9l6 6 6-6');
+          };
+          $('btn-new').addEventListener('click',function(){wnToggle();});
+          $('wn-close').addEventListener('click',function(){wnToggle(false);$('btn-new').focus();});
+          $('wn-more').addEventListener('click',function(){wnAll=true;wnDraw();});
+          $('wn-seen').addEventListener('click',function(){
+            var b=this;b.disabled=true;var now=new Date();
+            QGPC.sb.from('last_seen').upsert({member_id:m.id,page_key:'whats_new',seen_at:now.toISOString()},{onConflict:'member_id,page_key'}).then(function(r){
+              b.disabled=false;if(!r.error){wnSeen=now;wnDraw();}
+            });
+          });
+          if(roles.length)$('wn-post').classList.remove('hidden');
+        }
+        (function(){
+          var MONL=['January','February','March','April','May','June','July','August','September','October','November','December'],DW=['SUN','MON','TUE','WED','THU','FRI','SAT'],DWL=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+          var cur=today.slice(0,7),months=[],idx=0,evs=[],cals={};
+          if(canPost){$('ev-tools').classList.remove('hidden');}
+          if(canPost&&full)$('ev-board').classList.remove('hidden');
+          var draw=function(){
+            var key=months[idx],y=+key.slice(0,4),mo=+key.slice(5,7);
+            $('ev-h').textContent=MONL[mo-1]+' events';$('ev-lab').textContent=MONL[mo-1].slice(0,3)+' '+y;
+            $('ev-prev').disabled=idx<=0;$('ev-next').disabled=idx>=months.length-1;
+            var ul=$('ev-list');ul.textContent='';
+            var list=evs.filter(function(e){return e.starts_on.slice(0,7)===key;});
+            $('ev-none').classList.toggle('hidden',list.length>0);ul.classList.toggle('hidden',!list.length);
+            list.forEach(function(e){
+              var cl=cals[e.calendar_id]||{name:'Event',color:'#0157AE'};
+              var li=document.createElement('li');if(e.starts_on<today)li.className='past';
+              var d=new Date(e.starts_on+'T12:00:00');
+              var t=document.createElement('div');t.className='evd';t.style.background=(cl.slug==='board'&&e.kind==='important')?'#9A3412':cl.color;
+              var b=document.createElement('b');b.textContent=String(+e.starts_on.slice(8,10));var sp=document.createElement('span');sp.textContent=DW[d.getDay()];t.appendChild(b);t.appendChild(sp);
+              var body=document.createElement('div');var h=document.createElement('h3');h.textContent=e.title;
+              var lab=document.createElement('span');lab.className='evcal';lab.textContent=(cl.slug==='board'&&e.kind==='important')?'Important event':cl.name;h.appendChild(lab);body.appendChild(h);
+              var parts=[DWL[d.getDay()]+', '+MONL[mo-1].slice(0,3)+' '+(+e.starts_on.slice(8,10))];if(e.time_text)parts.push(e.time_text);if(e.location)parts.push(e.location);
+              var sub=document.createElement('div');sub.className='sub';sub.textContent=parts.join(' \u00B7 ');body.appendChild(sub);
+              if(e.details){var dd=document.createElement('div');dd.className='sub';dd.textContent=e.details;body.appendChild(dd);}
+              li.appendChild(t);li.appendChild(body);ul.appendChild(li);
+            });
+          };
+          $('ev-prev').addEventListener('click',function(){if(idx>0){idx--;draw();}});
+          $('ev-next').addEventListener('click',function(){if(idx<months.length-1){idx++;draw();}});
+          Promise.all([QGPC.sb.from('calendars').select('*'),QGPC.sb.from('events').select('*').order('starts_on').order('time_text')]).then(function(r){
+            (r[0].data||[]).forEach(function(c){cals[c.id]=c;});
+            evs=(r[1].data||[]);
+            var set={};set[cur]=1;evs.forEach(function(e){set[e.starts_on.slice(0,7)]=1;});
+            months=Object.keys(set).sort();idx=months.indexOf(cur);draw();
+          });
+        })();
         if(!full){$('btn-events').classList.add('hidden');$('btn-new').classList.add('hidden');}
         if(showRenew)$('btn-renew').classList.remove('hidden');   // Inactive members can renew too
         });

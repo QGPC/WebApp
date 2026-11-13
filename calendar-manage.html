@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Guild Calendar</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.ybar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:0 0 20px}
+.yb{width:48px;height:48px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:700 20px var(--sans);cursor:pointer}
+.yb:disabled{opacity:.4;cursor:default}
+.ylab{font:400 26px 'Young Serif',serif;min-width:90px;text-align:center}
+.months{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.mcard{background:#fff;border:1px solid #E4E0D6;border-radius:14px;padding:16px 18px}
+.mcard h2{margin:0 0 10px;font-size:20px}
+.mcard ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.ev{display:grid;grid-template-columns:56px 1fr;gap:12px;align-items:start}
+.dtile{width:56px;border-radius:10px;text-align:center;padding:6px 0;color:#fff;line-height:1.1}
+.dtile b{display:block;font-size:22px}.dtile span{font-size:12px;font-weight:700;letter-spacing:.04em}
+.ev h3{margin:0;font-size:17px}.ev .sub{font-size:14px;color:#5A5F6E}
+.ev .acts{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
+.nbtn{min-height:40px;padding:0 16px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer}
+.nbtn.del{border-color:#B42318;color:#B42318}
+.none{color:#5A5F6E;margin:0}
+.nform{background:#fff;border:1px solid #E4E0D6;border-radius:14px;padding:22px 22px 18px;margin:0 0 24px}
+.nform h2{margin:0 0 12px;font-size:22px}.nform label{display:block;margin:12px 0 4px}
+.nform .hint{margin:2px 0 0;font-size:14px;color:#5A5F6E;font-weight:400}
+.nform .row2{display:flex;gap:24px;flex-wrap:wrap}
+.confirm{background:#FDECEA;border:1px solid #F3B8B2;border-radius:12px;padding:12px 14px;margin-top:8px}
+.confirm p{margin:0 0 10px;font-weight:600}
+.note2{margin:24px 0 0;color:#5A5F6E;font-size:15px}
+@media (max-width:820px){.months{grid-template-columns:1fr}}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</div></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow" id="eyebrow">President &middot; Vice President &middot; Administrators</span>
+<h1 id="pg-title" style="margin:0">Guild Calendar</h1><p class="stat-line" id="sub">Sew days, socials and other Guild events through the year. Everyone sees them on the events card.</p></div>
+</div></section>
+<div class="mwrap" style="max-width:1200px" id="content">
+<p id="note" class="msg ok hidden" role="status"></p>
+<p id="err" class="msg err hidden" role="alert"></p>
+<div class="ybar"><button type="button" class="yb" id="y-prev" aria-label="Previous year">&lsaquo;</button><span class="ylab" id="y-lab" aria-live="polite"></span><button type="button" class="yb" id="y-next" aria-label="Next year">&rsaquo;</button>
+<button type="button" class="btn-save" id="new-btn" style="margin-left:auto">Add event</button></div>
+
+<form class="nform hidden" id="form" novalidate>
+<h2 id="form-h">Add event</h2>
+<div id="kind-row" class="hidden"><label for="f-kind">What is it?</label>
+<select class="field" id="f-kind" style="width:260px"><option value="event">Board meeting</option><option value="important">Important event</option></select></div>
+<label for="f-title">Title <span aria-hidden="true">*</span></label>
+<input class="field" id="f-title" maxlength="120" autocomplete="off">
+<div class="row2"><div><label for="f-date">Date <span aria-hidden="true">*</span></label><input class="field" type="date" id="f-date" style="width:220px"></div>
+<div><label for="f-time">Time</label><input class="field" id="f-time" maxlength="40" style="width:220px" placeholder="for example 6:30 PM"></div></div>
+<label for="f-loc">Place</label>
+<input class="field" id="f-loc" maxlength="120" autocomplete="off">
+<label for="f-det">Details</label>
+<textarea class="field" id="f-det" rows="2" maxlength="400" style="min-height:70px"></textarea>
+<p class="hint" id="f-vis"></p>
+<p id="f-err" class="msg err hidden" role="alert"></p>
+<div class="saverow"><button type="submit" class="btn-save" id="f-save">Save event</button><button type="button" class="btn-cancel" id="f-cancel">Cancel</button></div>
+</form>
+
+<p id="loading" role="status">Loading the calendar&hellip;</p>
+<div class="months" id="months"></div>
+<p class="note2" id="who-note"></p>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+// One page for the two typed-in calendars: calendar-manage.html?cal=guild  or  ?cal=board
+QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president');}},function(c){
+  var $=function(i){return document.getElementById(i)};
+  var sb=QGPC.sb;
+  var slug=/[?&]cal=board\b/.test(location.search)?'board':'guild';
+  var MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var DOW=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+  var year=+today.slice(0,4),cal=null,rows=[],editId=null,confirmId=null;
+  function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
+  function say(t){var n=$('note');n.textContent=t;n.classList.remove('hidden');$('err').classList.add('hidden');}
+  function bad(t){var n=$('err');n.textContent=t;n.classList.remove('hidden');$('note').classList.add('hidden');}
+  if(slug==='board'){
+    document.title='Board Calendar';$('pg-title').textContent='Board Calendar';
+    $('sub').textContent='Board meetings and important dates through the year. Visible to board members only.';
+    $('kind-row').classList.remove('hidden');
+    $('f-vis').textContent='Board events are seen only by board members: the Executive Board, the committee chairs, Administrators and the Superuser.';
+    $('who-note').textContent='Who can use this page: the President, Vice President, Administrators and the Superuser. Other board members see these events on the Guild home events card.';
+  }else{
+    $('f-vis').textContent='Guild events are public. Everyone, including visitors, will see this event.';
+    $('who-note').textContent='Who can use this page: the President, Vice President, Administrators and the Superuser. Everyone else sees Guild events on the home page events card.';
+  }
+  function load(){
+    return sb.from('events').select('*').eq('calendar_id',cal.id)
+      .gte('starts_on',year+'-01-01').lte('starts_on',year+'-12-31').order('starts_on').order('time_text').then(function(r){
+      $('loading').classList.add('hidden');
+      if(r.error){bad('Could not load the calendar. Please refresh and try again.');return;}
+      rows=r.data||[];draw();
+    });
+  }
+  function draw(){
+    $('y-lab').textContent=year;$('y-prev').disabled=year<=2025;$('y-next').disabled=year>=2035;
+    var box=$('months');box.textContent='';
+    for(var m=0;m<12;m++){
+      var card=el('section','mcard');card.appendChild(el('h2',null,MON[m]));
+      var list=rows.filter(function(e){return +e.starts_on.slice(5,7)===m+1;});
+      if(!list.length){card.appendChild(el('p','none','Nothing scheduled.'));}
+      else{
+        var ul=el('ul');
+        list.forEach(function(e){
+          var li=el('li','ev');
+          var d=new Date(e.starts_on+'T12:00:00');
+          var t=el('div','dtile');t.style.background=(slug==='board'&&e.kind==='important')?'#9A3412':cal.color;
+          t.appendChild(el('b',null,String(+e.starts_on.slice(8,10))));t.appendChild(el('span',null,DOW[d.getDay()].toUpperCase()));
+          var body=el('div');body.appendChild(el('h3',null,e.title));
+          var sub=[DOW[d.getDay()]+', '+MON[m].slice(0,3)+' '+(+e.starts_on.slice(8,10))];if(e.time_text)sub.push(e.time_text);if(e.location)sub.push(e.location);
+          body.appendChild(el('div','sub',sub.join(' · ')));
+          if(slug==='board')body.appendChild(el('span','chip '+(e.kind==='important'?'rust':'blue'),e.kind==='important'?'Important event':'Board meeting'));
+          if(e.details)body.appendChild(el('div','sub',e.details));
+          var a=el('div','acts');
+          var b1=el('button','nbtn','Edit');b1.type='button';b1.setAttribute('aria-label','Edit '+e.title);b1.onclick=function(){openForm(e);};
+          var b2=el('button','nbtn del','Delete');b2.type='button';b2.setAttribute('aria-label','Delete '+e.title);b2.onclick=function(){confirmId=e.id;draw();};
+          a.appendChild(b1);a.appendChild(b2);body.appendChild(a);
+          if(confirmId===e.id){
+            var cf=el('div','confirm');cf.appendChild(el('p',null,'Delete this event? It comes off the calendar and can’t be undone.'));
+            var row=el('div','saverow');
+            var y=el('button','btn-del solid','Yes, delete');y.type='button';y.onclick=function(){doDelete(e,y);};
+            var k=el('button','btn-cancel','Keep it');k.type='button';k.onclick=function(){confirmId=null;draw();};
+            row.appendChild(y);row.appendChild(k);cf.appendChild(row);body.appendChild(cf);
+          }
+          li.appendChild(t);li.appendChild(body);ul.appendChild(li);
+        });
+        card.appendChild(ul);
+      }
+      box.appendChild(card);
+    }
+  }
+  function doDelete(e,btn){
+    btn.disabled=true;
+    sb.from('events').delete().eq('id',e.id).then(function(r){
+      confirmId=null;
+      if(r.error){bad('That did not delete. Please try again.');load();return;}
+      say('Deleted “'+e.title+'”.');load();
+    });
+  }
+  function openForm(e){
+    editId=e?e.id:null;
+    $('form-h').textContent=e?'Change this event':'Add event';
+    $('f-kind').value=e?e.kind:'event';$('f-title').value=e?e.title:'';
+    $('f-date').value=e?e.starts_on:(year===+today.slice(0,4)?today:year+'-01-01');
+    $('f-time').value=e&&e.time_text?e.time_text:'';$('f-loc').value=e&&e.location?e.location:'';$('f-det').value=e&&e.details?e.details:'';
+    $('f-err').classList.add('hidden');$('form').classList.remove('hidden');
+    $('f-title').focus();$('form').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  function closeForm(){$('form').classList.add('hidden');editId=null;}
+  $('new-btn').onclick=function(){openForm(null);};
+  $('f-cancel').onclick=closeForm;
+  $('y-prev').onclick=function(){year--;confirmId=null;load();};
+  $('y-next').onclick=function(){year++;confirmId=null;load();};
+  $('form').addEventListener('submit',function(ev){
+    ev.preventDefault();
+    var t=$('f-title').value.trim(),d=$('f-date').value;
+    if(!t||!d){var fe=$('f-err');fe.textContent='Please type a title and pick a date.';fe.classList.remove('hidden');(t?$('f-date'):$('f-title')).focus();return;}
+    var rec={title:t,starts_on:d,time_text:$('f-time').value.trim()||null,location:$('f-loc').value.trim()||null,details:$('f-det').value.trim()||null,
+      kind:slug==='board'?$('f-kind').value:'event'};
+    if(!editId)rec.calendar_id=cal.id;
+    var btn=$('f-save');btn.disabled=true;
+    var q=editId?sb.from('events').update(rec).eq('id',editId):sb.from('events').insert(rec);
+    q.then(function(r){
+      btn.disabled=false;
+      if(r.error){var fe=$('f-err');fe.textContent='That did not save. Please try again.';fe.classList.remove('hidden');return;}
+      var yr=+d.slice(0,4);if(yr>=2025&&yr<=2035)year=yr;   // jump to the year the event landed in
+      say(editId?'Saved. “'+t+'” is changed.':'“'+t+'” is on the calendar.');
+      closeForm();load();
+    });
+  });
+  sb.from('calendars').select('*').eq('slug',slug).limit(1).then(function(r){
+    if(r.error||!r.data||!r.data.length){$('loading').classList.add('hidden');bad('This calendar is not set up yet. Ask the Superuser to run the events database file.');return;}
+    cal=r.data[0];load();
+  });
+});
+</script>
+</body></html>

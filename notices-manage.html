@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Manage Notices</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.nlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+.nitem{background:#fff;border:1px solid #E4E0D6;border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:8px}
+.nitem.exp{background:#F7F5F0}
+.nitem h3{margin:0;font-size:19px}
+.nitem p{margin:0;color:#2B3040;white-space:pre-wrap}
+.nmeta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:14px;color:#5A5F6E}
+.nact{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer}
+.nbtn.del{border-color:#B42318;color:#B42318}
+.nform{background:#fff;border:1px solid #E4E0D6;border-radius:14px;padding:22px 22px 18px;margin:0 0 24px}
+.nform h2{margin:0 0 12px;font-size:22px}
+.nform label{display:block;margin:12px 0 4px}
+.nform .hint{margin:2px 0 0;font-size:14px;color:#5A5F6E;font-weight:400}
+.nform .row2{display:flex;gap:24px;flex-wrap:wrap;margin-top:12px}
+.nform .chk{display:flex;align-items:center;gap:10px;font-weight:600;margin:8px 0}
+.nform .chk input{width:22px;height:22px}
+.confirm{background:#FDECEA;border:1px solid #F3B8B2;border-radius:12px;padding:14px 16px;margin-top:6px}
+.confirm p{margin:0 0 10px;font-weight:600}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</div></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">President &middot; Vice President &middot; Administrators</span>
+<h1 id="pg-title" style="margin:0">Manage Notices</h1><p class="stat-line">The notices on the Guild home page. Pinned notices stay at the top.</p></div>
+</div></section>
+<div class="mwrap" style="max-width:900px" id="content">
+<p id="note" class="msg ok hidden" role="status"></p>
+<p id="err" class="msg err hidden" role="alert"></p>
+<div style="margin:0 0 20px"><button type="button" class="btn-save" id="new-btn">Post notice</button></div>
+
+<form class="nform hidden" id="form" novalidate>
+<h2 id="form-h">Post notice</h2>
+<label for="f-title">Title <span aria-hidden="true">*</span></label>
+<input class="field" id="f-title" maxlength="120" autocomplete="off">
+<label for="f-sum">Summary</label>
+<textarea class="field" id="f-sum" rows="3" maxlength="600" style="min-height:90px"></textarea>
+<p class="hint">One or two sentences. Optional.</p>
+<div class="row2">
+<div><label for="f-until" style="margin-top:0">Show until</label>
+<input class="field" type="date" id="f-until" style="width:220px">
+<p class="hint">Optional. After this date the notice drops off the home page by itself. Leave blank to keep it until you remove it.</p></div>
+<div><label for="f-who" style="margin-top:0">Who sees it</label>
+<select class="field" id="f-who" style="width:220px"><option value="all">Everyone</option><option value="members">Members only</option></select></div>
+</div>
+<label class="chk"><input type="checkbox" id="f-pin"> Pin to the top</label>
+<p id="f-err" class="msg err hidden" role="alert"></p>
+<div class="saverow"><button type="submit" class="btn-save" id="f-save">Save notice</button><button type="button" class="btn-cancel" id="f-cancel">Cancel</button></div>
+</form>
+
+<p id="loading" role="status">Loading notices&hellip;</p>
+<ul class="nlist" id="list"></ul>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president');}},function(c){
+  var $=function(i){return document.getElementById(i)};
+  var sb=QGPC.sb, rows=[], editId=null, confirmId=null;
+  // Today in the Guild's time zone (YYYY-MM-DD)
+  var today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+  function say(t){var n=$('note');n.textContent=t;n.classList.remove('hidden');$('err').classList.add('hidden');}
+  function bad(t){var n=$('err');n.textContent=t;n.classList.remove('hidden');$('note').classList.add('hidden');}
+  function nice(d){var p=d.split('-');return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1]-1]+' '+(+p[2])+', '+p[0];}
+  function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
+  function chip(t,cls){return el('span','chip '+cls,t);}
+
+  function load(){
+    return sb.from('notices').select('*').order('pinned',{ascending:false}).order('created_at',{ascending:false}).then(function(r){
+      $('loading').classList.add('hidden');
+      if(r.error){bad('Could not load the notices. Please refresh and try again.');return;}
+      rows=r.data||[];draw();
+    });
+  }
+  function draw(){
+    var ul=$('list');ul.textContent='';
+    if(!rows.length){ul.appendChild(el('li','card','No notices yet. Use Post notice to add the first one.'));return;}
+    rows.forEach(function(n){
+      var expired=n.show_until&&n.show_until<today;
+      var li=el('li','nitem'+(expired?' exp':''));
+      li.appendChild(el('h3',null,n.title));
+      if(n.summary)li.appendChild(el('p',null,n.summary));
+      var meta=el('div','nmeta');
+      if(n.pinned)meta.appendChild(chip('Pinned','rust'));
+      if(expired)meta.appendChild(chip('Expired','gray'));
+      meta.appendChild(chip(n.members_only?'Members only':'Everyone','blue'));
+      meta.appendChild(el('span',null,n.show_until?'Shows until '+nice(n.show_until):'No end date'));
+      li.appendChild(meta);
+      var act=el('div','nact');
+      var b1=el('button','nbtn','Edit');b1.type='button';b1.setAttribute('aria-label','Edit '+n.title);b1.onclick=function(){openForm(n);};
+      var b2=el('button','nbtn',n.pinned?'Unpin':'Pin');b2.type='button';b2.setAttribute('aria-label',(n.pinned?'Unpin ':'Pin ')+n.title);b2.onclick=function(){togglePin(n,b2);};
+      var b3=el('button','nbtn del','Delete');b3.type='button';b3.setAttribute('aria-label','Delete '+n.title);b3.onclick=function(){confirmId=n.id;draw();};
+      act.appendChild(b1);act.appendChild(b2);act.appendChild(b3);li.appendChild(act);
+      if(confirmId===n.id){
+        var cf=el('div','confirm');cf.appendChild(el('p',null,'Delete this notice? It comes off the Guild home page and can’t be undone.'));
+        var row=el('div','saverow');
+        var y=el('button','btn-del solid','Yes, delete');y.type='button';y.onclick=function(){doDelete(n,y);};
+        var k=el('button','btn-cancel','Keep it');k.type='button';k.onclick=function(){confirmId=null;draw();};
+        row.appendChild(y);row.appendChild(k);cf.appendChild(row);li.appendChild(cf);
+      }
+      ul.appendChild(li);
+    });
+  }
+  function togglePin(n,btn){
+    btn.disabled=true;
+    sb.from('notices').update({pinned:!n.pinned}).eq('id',n.id).then(function(r){
+      if(r.error){bad('That did not save. Please try again.');btn.disabled=false;return;}
+      say(n.pinned?'“'+n.title+'” is no longer pinned.':'“'+n.title+'” is pinned to the top.');load();
+    });
+  }
+  function doDelete(n,btn){
+    btn.disabled=true;
+    sb.from('notices').delete().eq('id',n.id).then(function(r){
+      confirmId=null;
+      if(r.error){bad('That did not delete. Please try again.');load();return;}
+      say('Deleted “'+n.title+'”.');load();
+    });
+  }
+  function openForm(n){
+    editId=n?n.id:null;
+    $('form-h').textContent=n?'Change this notice':'Post notice';
+    $('f-title').value=n?n.title:'';$('f-sum').value=n&&n.summary?n.summary:'';
+    $('f-until').value=n&&n.show_until?n.show_until:'';
+    $('f-who').value=n&&n.members_only?'members':'all';$('f-pin').checked=!!(n&&n.pinned);
+    $('f-err').classList.add('hidden');$('form').classList.remove('hidden');
+    $('f-title').focus();$('form').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  function closeForm(){$('form').classList.add('hidden');editId=null;}
+  $('new-btn').onclick=function(){openForm(null);};
+  $('f-cancel').onclick=closeForm;
+  $('form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var t=$('f-title').value.trim();
+    if(!t){var fe=$('f-err');fe.textContent='Please type a title.';fe.classList.remove('hidden');$('f-title').focus();return;}
+    var rec={title:t,summary:$('f-sum').value.trim()||null,show_until:$('f-until').value||null,members_only:$('f-who').value==='members',pinned:$('f-pin').checked};
+    var btn=$('f-save');btn.disabled=true;
+    var q=editId?sb.from('notices').update(rec).eq('id',editId):sb.from('notices').insert(rec);
+    q.then(function(r){
+      btn.disabled=false;
+      if(r.error){var fe=$('f-err');fe.textContent='That did not save. Please try again.';fe.classList.remove('hidden');return;}
+      say(editId?'Saved. “'+t+'” is changed.':'“'+t+'” is posted.');
+      closeForm();load();
+    });
+  });
+  load();
+});
+</script>
+</body></html>

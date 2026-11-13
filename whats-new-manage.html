@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Post to What&rsquo;s New</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.nlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+.nitem{background:#fff;border:1px solid #E4E0D6;border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:8px}
+.nitem.exp{background:#F7F5F0}
+.nitem h3{margin:0;font-size:19px}
+.nitem p{margin:0;color:#2B3040;white-space:pre-wrap}
+.nmeta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:14px;color:#5A5F6E}
+.nact{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer}
+.nbtn.del{border-color:#B42318;color:#B42318}
+.nform{background:#fff;border:1px solid #E4E0D6;border-radius:14px;padding:22px 22px 18px;margin:0 0 24px}
+.nform h2{margin:0 0 12px;font-size:22px}
+.nform label{display:block;margin:12px 0 4px}
+.nform .hint{margin:2px 0 0;font-size:14px;color:#5A5F6E;font-weight:400}
+.confirm{background:#FDECEA;border:1px solid #F3B8B2;border-radius:12px;padding:14px 16px;margin-top:6px}
+.confirm p{margin:0 0 10px;font-weight:600}
+.pv{margin:14px 0 4px;border:2px solid #2F6B5A;border-radius:12px;padding:14px 16px;background:#F4FAF7}
+.pv small{display:block;color:#5A5F6E;font-weight:600;margin-bottom:6px}
+.pv h3{margin:0 0 4px;font-size:18px}.pv p{margin:0 0 8px}
+.pv .go{display:inline-block;padding:8px 16px;border-radius:999px;background:#0157AE;color:#fff;font-weight:600;font-size:14px}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</div></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Chairs &middot; Board &middot; Administrators</span>
+<h1 id="pg-title" style="margin:0">Post to What&rsquo;s New</h1><p class="stat-line">Tell members what changed on the site. Posts show under the What&rsquo;s New button on the Guild home page.</p></div>
+</div></section>
+<div class="mwrap" style="max-width:900px" id="content">
+<p id="note" class="msg ok hidden" role="status"></p>
+<p id="err" class="msg err hidden" role="alert"></p>
+<div style="margin:0 0 20px"><button type="button" class="btn-save" id="new-btn">Post a change</button></div>
+
+<form class="nform hidden" id="form" novalidate>
+<h2 id="form-h">Post a change</h2>
+<label for="f-page">Which page changed?</label>
+<select class="field" id="f-page"></select>
+<label for="f-head">Headline <span aria-hidden="true">*</span></label>
+<input class="field" id="f-head" maxlength="100" autocomplete="off">
+<label for="f-det">One more sentence</label>
+<textarea class="field" id="f-det" rows="2" maxlength="300" style="min-height:70px"></textarea>
+<p class="hint">Optional.</p>
+<label for="f-btn">Button words</label>
+<input class="field" id="f-btn" maxlength="40" autocomplete="off" style="max-width:320px">
+<p class="hint" id="f-btn-hint">The button takes members to the page that changed.</p>
+<label for="f-keep">Keep it up for</label>
+<select class="field" id="f-keep" style="width:220px"><option value="14">2 weeks</option><option value="30" selected>1 month</option><option value="60">2 months</option></select>
+<div class="pv" aria-live="polite"><small>How it will look</small><h3 id="pv-h">Your headline</h3><p id="pv-d" class="hidden"></p><span class="go" id="pv-b">Open the page</span></div>
+<p id="f-err" class="msg err hidden" role="alert"></p>
+<div class="saverow"><button type="submit" class="btn-save" id="f-save">Post it</button><button type="button" class="btn-cancel" id="f-cancel">Cancel</button></div>
+</form>
+
+<p id="loading" role="status">Loading posts&hellip;</p>
+<ul class="nlist" id="list"></ul>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+// Pages a post can point to. url null = that page is not built yet, so the post has no button.
+var WN_PAGES=[
+  {k:'newsletters',l:'Newsletters',url:null,btn:'Read the newsletter'},
+  {k:'programs',l:'Programs & Workshops',url:null,btn:'See the program'},
+  {k:'comfort',l:'Comfort Quilts',url:null,btn:'Open Comfort Quilts'},
+  {k:'sunshine',l:'Sunshine & Shadows',url:null,btn:'Read the notes'},
+  {k:'bees',l:'Bees',url:null,btn:'See the bees'},
+  {k:'directory',l:'Member Directory',url:'directory.html',btn:'Open the directory'},
+  {k:'quiltshow',l:'Quilt Show',url:null,btn:'See the Quilt Show'},
+  {k:'about',l:'About our Guild',url:null,btn:'Open the page'},
+  {k:'other',l:'Something else',url:null,btn:''}
+];
+QGPCShell.start({need:function(c){return c.roles.length>0;}},function(c){
+  var $=function(i){return document.getElementById(i)};
+  var sb=QGPC.sb,rows=[],editId=null,confirmId=null;
+  var today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+  function say(t){var n=$('note');n.textContent=t;n.classList.remove('hidden');$('err').classList.add('hidden');}
+  function bad(t){var n=$('err');n.textContent=t;n.classList.remove('hidden');$('note').classList.add('hidden');}
+  function nice(d){var p=d.split('-');return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1]-1]+' '+(+p[2])+', '+p[0];}
+  function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
+  function pg(k){for(var i=0;i<WN_PAGES.length;i++)if(WN_PAGES[i].k===k)return WN_PAGES[i];return WN_PAGES[WN_PAGES.length-1];}
+  function addDays(iso,n){var d=new Date(iso+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10);}
+  WN_PAGES.forEach(function(p){var o=el('option',null,p.l);o.value=p.k;$('f-page').appendChild(o);});
+
+  function preview(){
+    var p=pg($('f-page').value),h=$('f-head').value.trim(),d=$('f-det').value.trim(),b=$('f-btn').value.trim();
+    $('pv-h').textContent=h||'Your headline';
+    $('pv-d').textContent=d;$('pv-d').classList.toggle('hidden',!d);
+    var show=!!(p.url&&b);$('pv-b').classList.toggle('hidden',!show);$('pv-b').textContent=b;
+    $('f-btn-hint').textContent=p.url?'The button takes members to the page that changed.':'This page is not on the site yet, so the post will have no button.';
+  }
+  $('f-page').onchange=function(){$('f-btn').value=pg(this.value).btn;preview();};
+  ['f-head','f-det','f-btn'].forEach(function(i){$(i).addEventListener('input',preview);});
+
+  function load(){
+    return sb.from('whats_new').select('*').order('posted_at',{ascending:false}).then(function(r){
+      $('loading').classList.add('hidden');
+      if(r.error){bad('Could not load the posts. Please refresh and try again.');return;}
+      rows=r.data||[];draw();
+    });
+  }
+  function draw(){
+    var ul=$('list');ul.textContent='';
+    if(!rows.length){ul.appendChild(el('li','card','No posts yet. Use Post a change to add one.'));return;}
+    rows.forEach(function(n){
+      var expired=n.expires_on<today;
+      var li=el('li','nitem'+(expired?' exp':''));
+      li.appendChild(el('h3',null,n.headline));
+      if(n.detail)li.appendChild(el('p',null,n.detail));
+      var meta=el('div','nmeta');
+      if(expired)meta.appendChild(el('span','chip gray','Expired'));
+      meta.appendChild(el('span',null,pg(n.page_key).l+' · posted '+nice(n.posted_at.slice(0,10))+' by the '+(n.posted_by_role||'Guild')+' · '+(expired?'came down ':'stays up until ')+nice(n.expires_on)));
+      li.appendChild(meta);
+      var act=el('div','nact');
+      var b1=el('button','nbtn','Edit');b1.type='button';b1.setAttribute('aria-label','Edit '+n.headline);b1.onclick=function(){openForm(n);};
+      var b3=el('button','nbtn del','Remove');b3.type='button';b3.setAttribute('aria-label','Remove '+n.headline);b3.onclick=function(){confirmId=n.id;draw();};
+      act.appendChild(b1);act.appendChild(b3);li.appendChild(act);
+      if(confirmId===n.id){
+        var cf=el('div','confirm');cf.appendChild(el('p',null,'Remove this post? It comes off What’s New and can’t be undone.'));
+        var row=el('div','saverow');
+        var y=el('button','btn-del solid','Yes, remove');y.type='button';y.onclick=function(){doDelete(n,y);};
+        var k=el('button','btn-cancel','Keep it');k.type='button';k.onclick=function(){confirmId=null;draw();};
+        row.appendChild(y);row.appendChild(k);cf.appendChild(row);li.appendChild(cf);
+      }
+      ul.appendChild(li);
+    });
+  }
+  function doDelete(n,btn){
+    btn.disabled=true;
+    sb.from('whats_new').delete().eq('id',n.id).then(function(r){
+      confirmId=null;
+      if(r.error){bad('That did not delete. Please try again.');load();return;}
+      say('Removed “'+n.headline+'”.');load();
+    });
+  }
+  function openForm(n){
+    editId=n?n.id:null;
+    $('form-h').textContent=n?'Change this post':'Post a change';
+    $('f-page').value=n?n.page_key:'other';
+    $('f-head').value=n?n.headline:'';$('f-det').value=n&&n.detail?n.detail:'';
+    $('f-btn').value=n?(n.link_label||''):pg('other').btn;
+    $('f-keep').value='30';
+    $('f-keep').disabled=!!n;   // when editing, the end date stays as it was
+    $('f-err').classList.add('hidden');$('form').classList.remove('hidden');
+    preview();$('f-head').focus();$('form').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  function closeForm(){$('form').classList.add('hidden');editId=null;}
+  $('new-btn').onclick=function(){openForm(null);};
+  $('f-cancel').onclick=closeForm;
+  $('form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var h=$('f-head').value.trim();
+    if(!h){var fe=$('f-err');fe.textContent='Please type a headline.';fe.classList.remove('hidden');$('f-head').focus();return;}
+    var p=pg($('f-page').value);
+    var rec={page_key:p.k,headline:h,detail:$('f-det').value.trim()||null,
+      link_label:p.url?($('f-btn').value.trim()||p.btn||null):null,link_url:p.url};
+    if(!editId)rec.expires_on=addDays(today,+$('f-keep').value);
+    var btn=$('f-save');btn.disabled=true;
+    var q=editId?sb.from('whats_new').update(rec).eq('id',editId):sb.from('whats_new').insert(rec);
+    q.then(function(r){
+      btn.disabled=false;
+      if(r.error){var fe=$('f-err');fe.textContent='That did not save. Please try again.';fe.classList.remove('hidden');return;}
+      say(editId?'Saved. “'+h+'” is changed.':'Posted. Members will see “'+h+'” under What’s New.');
+      closeForm();load();
+    });
+  });
+  load();
+});
+</script>
+</body></html>
