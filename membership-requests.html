@@ -127,10 +127,14 @@ QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}}
     var bd=document.createElement('button');bd.type='button';bd.className='btn-del';bd.textContent='Decline this request\u2026';st.appendChild(bd);
     var dc=document.createElement('div');dc.className='delconfirm hidden';dc.setAttribute('role','alertdialog');
     var q=document.createElement('p');q.id='dec-q';dc.setAttribute('aria-labelledby','dec-q');
-    q.textContent='Decline '+r.first_name+' '+r.last_name+'\u2019s '+(r.kind==='renewal'?'renewal':'application')+'? '+(r.kind==='renewal'?'Their membership stays as it is.':'They will not be added to the member list.')+' The request leaves this list, nothing is emailed to them, and they can apply again.'+(r.payment_status==='received'?' Their payment was marked received. If you already collected it, refund it yourself.':'');
+    q.textContent='Decline '+r.first_name+' '+r.last_name+'\u2019s '+(r.kind==='renewal'?'renewal':'application')+'? '+(r.kind==='renewal'?'Their membership stays as it is.':'They will not be added to the member list.')+' The request leaves this list, and they can apply again.'+(r.payment_status==='received'?' Their payment was marked received. The email tells them it will be refunded, so remember to refund it yourself.':'');
     dc.appendChild(q);
-    var nl=document.createElement('label');nl.setAttribute('for','dec-note');nl.textContent='Note for your records (optional)';nl.style.display='block';nl.style.fontWeight='600';dc.appendChild(nl);
+    var nl=document.createElement('label');nl.setAttribute('for','dec-note');nl.textContent='Reason (optional)';nl.style.display='block';nl.style.fontWeight='600';dc.appendChild(nl);
+    var nh=document.createElement('span');nh.className='sub';nh.textContent='If you add one, it is included in the email to '+r.first_name+'.';nh.style.display='block';dc.appendChild(nh);
     var ni=document.createElement('input');ni.id='dec-note';ni.className='field';ni.maxLength=300;ni.style.margin='6px 0 12px';ni.style.maxWidth='520px';dc.appendChild(ni);
+    var cl=document.createElement('label');cl.className='chk';cl.style.marginBottom='12px';
+    var ck=document.createElement('input');ck.type='checkbox';ck.checked=true;ck.id='dec-mail';
+    cl.appendChild(ck);cl.appendChild(document.createTextNode(' Email '+r.first_name+' that the request was declined (sent to '+r.email+')'));dc.appendChild(cl);
     var row=document.createElement('div');row.className='saverow';
     var yes=document.createElement('button');yes.type='button';yes.className='btn-del solid';yes.textContent='Yes, decline';
     var no=document.createElement('button');no.type='button';no.className='btn-cancel';no.textContent='Keep it';
@@ -139,20 +143,20 @@ QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}}
     no.addEventListener('click',function(){dc.classList.add('hidden');bd.focus();});
     yes.addEventListener('click',function(){
       yes.disabled=true;note('');
+      var mail=ck.checked,who=r.first_name+' '+r.last_name,addr=r.email;
       QGPC.sb.rpc('decline_membership_request',{p_id:r.id,p_note:ni.value}).then(function(x){
         if(x.error){note(x.error.message);yes.disabled=false;return;}
-        sel=null;note('');reload();
+        sel=null;reload();
+        if(!mail){note('Request declined. No email was sent.');return;}
+        note('Request declined. Sending the email to '+addr+'\u2026');
+        QGPC.sb.functions.invoke('send-decline-email',{body:{request_id:r.id}}).then(function(m){
+          function fail(t){note('Request declined, but the email to '+who+' was not sent: '+t+' You may want to contact them yourself.');}
+          if(m.error&&m.error.context&&m.error.context.json){m.error.context.json().then(function(j){fail(j.error||'unknown error.');}).catch(function(){fail('unknown error.');});return;}
+          if(m.error){fail('unknown error.');return;}
+          if(m.data&&m.data.error){fail(m.data.error);return;}
+          note('Request declined. An email was sent to '+addr+'.');
+        });
       });
-    });
-  }
-  function sendInvite(memberId,email,refresh,btn){
-    note('Sending the sign-in email…');
-    QGPC.sb.functions.invoke('invite-member',{body:{member_id:memberId}}).then(function(x){
-      var msg=(x.data&&x.data.error)||(x.error&&x.error.message&&x.error.message.indexOf('non-2xx')<0?x.error.message:'')||(x.error?'The sign-in email could not be sent.':'');
-      if(x.error&&x.error.context&&x.error.context.json){x.error.context.json().then(function(j){note('Approved, but the sign-in email was not sent: '+(j.error||msg));if(btn)btn.disabled=false;if(refresh)reload();}).catch(function(){note('Approved, but the sign-in email was not sent.');if(refresh)reload();});return;}
-      note(msg?'The sign-in email was not sent: '+msg:'Sign-in email sent to '+email+'.');
-      if(btn)btn.disabled=false;
-      if(refresh)reload();
     });
   }
   function paint(){paintList();paintDetail();}
