@@ -294,3 +294,7 @@ ul.special-list img{width:200px;max-width:100%;aspect-ratio:4/3;object-fit:cover
 ul.special-list li>div{flex:1 1 260px;min-width:0}
 ul.special-list h3{margin:0 0 6px;font-size:20px}
 ul.special-list p{margin:0;white-space:pre-wrap}
+
+/* Notices and Events cards side by side (stack on narrow screens) */
+.hpair{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(440px,100%),1fr));gap:24px;align-items:start;margin:28px 0 16px}
+.hpair .hcard{margin:0;min-width:0}
