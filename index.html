@@ -6,6 +6,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/site.css">
+<style>
+.hcard{margin:28px 0 16px}.hcard-h{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 0 12px}.hcard-h h2{margin:0;font-size:22px}
+.muted{color:#5A5F6E}
+.evstep{display:flex;align-items:center;gap:10px}.evb{width:44px;height:44px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:700 20px var(--sans);cursor:pointer}.evb:disabled{opacity:.35;cursor:default}
+.evlab{font:400 20px 'Young Serif',serif;min-width:92px;text-align:center}
+ul.evl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+ul.evl li{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:start}ul.evl li.past{opacity:.55}
+.evd{width:56px;border-radius:10px;text-align:center;padding:6px 0;color:#fff;line-height:1.1}.evd b{display:block;font-size:22px}.evd span{font-size:12px;font-weight:700;letter-spacing:.04em}
+ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
+.evcal{display:inline-block;margin-left:8px;font-size:12px;font-weight:700;padding:2px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;vertical-align:middle}
+</style>
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
 <header class="site-head"><div class="wrap">
@@ -43,7 +54,12 @@
 </form>
 </div></section>
 <div class="wrap">
-<div class="page"><p>More of the Guild&rsquo;s home page (notices, events and the Quilt Show) is coming soon.</p></div>
+<div class="page">
+<section class="card hcard" id="events-card" aria-labelledby="ev-h"><div class="hcard-h"><h2 id="ev-h">Events</h2>
+<div class="evstep"><button type="button" class="evb" id="ev-prev" aria-label="Previous month">&lsaquo;</button><span class="evlab" id="ev-lab" aria-live="polite"></span><button type="button" class="evb" id="ev-next" aria-label="Next month">&rsaquo;</button></div></div>
+<ul class="evl" id="ev-list"></ul><p class="muted hidden" id="ev-none">No events this month.</p>
+<p class="muted" id="ev-load">Loading events&hellip;</p></section>
+<p class="muted">More of the Guild&rsquo;s home page (notices and the Quilt Show) is coming soon.</p></div>
 </div></main>
 <footer class="site-foot"><div class="wrap">
 <div><b>Quilter&rsquo;s Guild of Parker County</b>
@@ -94,6 +110,46 @@
     }
   });
   QGPC.session().then(function(s){if(s){btn.dataset.in='1';$('signin-lbl').textContent='Go to my member home';btn.removeAttribute('aria-controls');btn.removeAttribute('aria-expanded');setOpen(false);}});
+})();
+</script>
+<script>
+// Public events card: only public calendars, even if someone is signed in.
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  var MONL=['January','February','March','April','May','June','July','August','September','October','November','December'],DW=['SUN','MON','TUE','WED','THU','FRI','SAT'],DWL=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+  var cur=today.slice(0,7),months=[cur],idx=0,evs=[],cals={};
+  function draw(){
+    var key=months[idx],y=+key.slice(0,4),mo=+key.slice(5,7);
+    $('ev-h').textContent=MONL[mo-1]+' events';$('ev-lab').textContent=MONL[mo-1].slice(0,3)+' '+y;
+    $('ev-prev').disabled=idx<=0;$('ev-next').disabled=idx>=months.length-1;
+    var ul=$('ev-list');ul.textContent='';
+    var list=evs.filter(function(e){return e.starts_on.slice(0,7)===key;});
+    $('ev-none').classList.toggle('hidden',list.length>0);ul.classList.toggle('hidden',!list.length);
+    list.forEach(function(e){
+      var cl=cals[e.calendar_id]||{name:'Event',color:'#0157AE'};
+      var li=document.createElement('li');if(e.starts_on<today)li.className='past';
+      var d=new Date(e.starts_on+'T12:00:00');
+      var t=document.createElement('div');t.className='evd';t.style.background=cl.color;
+      var b=document.createElement('b');b.textContent=String(+e.starts_on.slice(8,10));var sp=document.createElement('span');sp.textContent=DW[d.getDay()];t.appendChild(b);t.appendChild(sp);
+      var body=document.createElement('div');var h=document.createElement('h3');h.textContent=e.title;
+      var lab=document.createElement('span');lab.className='evcal';lab.textContent=cl.name;h.appendChild(lab);body.appendChild(h);
+      var parts=[DWL[d.getDay()]+', '+MONL[mo-1].slice(0,3)+' '+(+e.starts_on.slice(8,10))];if(e.time_text)parts.push(e.time_text);if(e.location)parts.push(e.location);
+      var sub=document.createElement('div');sub.className='sub';sub.textContent=parts.join(' \u00B7 ');body.appendChild(sub);
+      if(e.details){var dd=document.createElement('div');dd.className='sub';dd.textContent=e.details;body.appendChild(dd);}
+      li.appendChild(t);li.appendChild(body);ul.appendChild(li);
+    });
+  }
+  $('ev-prev').addEventListener('click',function(){if(idx>0){idx--;draw();}});
+  $('ev-next').addEventListener('click',function(){if(idx<months.length-1){idx++;draw();}});
+  Promise.all([QGPC.sb.from('calendars').select('*').eq('visibility','public'),QGPC.sb.from('events').select('*').order('starts_on').order('time_text')]).then(function(r){
+    $('ev-load').classList.add('hidden');
+    if(r[0].error||r[1].error){$('ev-none').textContent='Events could not be loaded right now.';$('ev-none').classList.remove('hidden');$('ev-prev').disabled=true;$('ev-next').disabled=true;return;}
+    (r[0].data||[]).forEach(function(c){cals[c.id]=c;});
+    evs=(r[1].data||[]).filter(function(e){return cals[e.calendar_id];});
+    var set={};set[cur]=1;evs.forEach(function(e){set[e.starts_on.slice(0,7)]=1;});
+    months=Object.keys(set).sort();idx=months.indexOf(cur);draw();
+  });
 })();
 </script>
 </body></html>
