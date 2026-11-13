@@ -136,7 +136,7 @@
           return j.r.some(has);
         });
         var mt=jobs.filter(function(j){return j.l==='Membership Chair';})[0];
-        var pending=mt?QGPC.sb.from('membership_requests').select('id',{count:'exact',head:true}).neq('status','approved').then(function(r){mt.badge=(!r.error&&r.count>0)?r.count:0;}):Promise.resolve();
+        var pending=mt?QGPC.sb.from('membership_requests').select('id',{count:'exact',head:true}).in('status',['new','paid']).then(function(r){mt.badge=(!r.error&&r.count>0)?r.count:0;}):Promise.resolve();
         return pending.then(function(){
         var all=jobs.concat(full?MEMBER:PUBLIC);
         fill('tilebar',all.slice(0,PER_BAR));

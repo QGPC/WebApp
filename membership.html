@@ -57,7 +57,7 @@ QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}}
     $('nyr-l').textContent='Not yet renewed for '+target;
     cnt(V().eq('paid_through_year',target-1).in('status',['active','grace'])).then(function(n){$('nyr-n').textContent=n;});
   });
-  QGPC.sb.from('membership_requests').select('id',{count:'exact',head:true}).neq('status','approved').then(function(r){
+  QGPC.sb.from('membership_requests').select('id',{count:'exact',head:true}).in('status',['new','paid']).then(function(r){
     if(r.error||!r.count)return;var b=$('req-badge');b.textContent=r.count;
     b.setAttribute('aria-label',r.count+(r.count===1?' request waiting':' requests waiting'));b.classList.remove('hidden');});
   cnt(V().eq('status','active')).then(function(n){$('s-active').textContent=n;});
