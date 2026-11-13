@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Manage Charities</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.ctop{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.ctop h2{margin:0;font-size:24px}.ctop p{margin:2px 0 0;color:#5A5F6E}
+.ctools{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.ctools label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:15px}
+.ctools select{min-height:46px;min-width:120px}
+.cl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.ci{border:1px solid #E4E0D6;border-radius:14px;padding:16px 18px;background:#fff;display:flex;flex-direction:column;gap:10px}
+.ci.on{border-color:#0157AE;background:#F4F6FB}
+.ci .row{display:flex;gap:14px;align-items:flex-start;justify-content:space-between}
+.ci .nm{font-weight:700;font-size:17px;display:block}
+.ci .mt{display:block;font-size:14px;color:#5A5F6E}
+.ci .wh{display:block;margin-top:4px;white-space:pre-wrap}
+.ci .pos{flex:0 0 auto;font-size:13px;font-weight:700;color:#5A5F6E;background:#EDEAE2;border-radius:999px;padding:3px 12px}
+.nact{display:flex;flex-wrap:wrap;gap:10px}
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;text-decoration:none}
+.nbtn:disabled{opacity:.45;cursor:default}
+.nbtn.del{border-color:#9A3412;color:#9A3412}
+.confirm{background:#FCEEE9;border-radius:10px;padding:12px 14px}.confirm p{margin:0 0 10px;font-weight:600;color:#9A3412}
+.nform{border:1px solid #E4E0D6;border-radius:14px;padding:22px;background:#fff;display:flex;flex-direction:column;gap:16px}
+.nform h3{margin:0;font:400 21px 'Young Serif',Georgia,serif}
+.nform label.l{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.nform .hint{margin:4px 0 0;font-size:14px;color:#5A5F6E}
+.copybar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 16px;border-radius:12px;background:#EEF1F8}
+.copybar span{font-weight:600}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</div></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Executive Board</span>
+<h1 id="pg-title" style="margin:0">Manage Charities</h1><p class="stat-line">Add, change, reorder and remove the charities on the Charities We Support page.</p></div>
+</div></section>
+<div class="mwrap" style="max-width:900px" id="content">
+<a class="backlink" href="presidents-page.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to the President&rsquo;s Page</a>
+
+<div class="ctop">
+<div><h2 id="list-h">Charities We Support</h2><p id="count">&nbsp;</p></div>
+<div class="ctools"><label>Year<select class="field" id="year"></select></label>
+<a class="nbtn" href="charities.html">See the page</a>
+<button type="button" class="btn-save" id="add-btn">Add a charity</button></div>
+</div>
+<p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
+
+<div class="copybar hidden" id="copybar"><span id="copy-text"></span><button type="button" class="nbtn" id="copy-btn"></button></div>
+
+<form class="nform hidden" id="form" novalidate>
+<h3 id="form-h">Add a charity</h3>
+<div><label class="l" for="f-name">Name of the charity <span aria-hidden="true">*</span></label>
+<input class="field" id="f-name" maxlength="150" autocomplete="off" placeholder="e.g., Parker County Food Pantry"></div>
+<div><label class="l" for="f-what">What the Guild does for them</label>
+<textarea class="field" id="f-what" rows="3" maxlength="600" style="min-height:90px" placeholder="e.g., We give a yearly donation and collect supplies at our meetings."></textarea></div>
+<div><label class="l" for="f-city">City (optional)</label>
+<input class="field" id="f-city" maxlength="80" autocomplete="off" placeholder="e.g., Weatherford, TX"></div>
+<div><label class="l" for="f-web">Website (optional)</label>
+<input class="field" id="f-web" maxlength="300" autocomplete="off" inputmode="url" placeholder="https://">
+<p class="hint">Members and visitors get a &ldquo;Visit their website&rdquo; link when this is filled in.</p></div>
+<p id="f-err" class="msg err hidden" role="alert" style="margin:0"></p>
+<div class="saverow"><button type="submit" class="btn-save" id="f-save">Save charity</button><button type="button" class="btn-cancel" id="f-cancel">Cancel</button></div>
+</form>
+
+<p id="loading" role="status" style="margin:0">Loading&hellip;</p>
+<p class="hidden" id="empty" style="margin:0;padding:14px 16px;border-radius:12px;background:#F0ECE3;color:#454A58"></p>
+<ul class="cl" id="list"></ul>
+
+<section style="display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8">
+<div><h2 style="margin:0 0 4px;font-size:16px;font-weight:700;color:#0157AE">Who can use this page</h2>
+<p style="margin:0;font-size:15px;line-height:1.5;color:#1F2433">The President, Vice President, Administrators and the Superuser add, change, reorder and remove charities. Each calendar year has its own list, so pick the year first; a new year can start from a copy of the year before. Visitors and members both read the list on the Charities We Support page. This is separate from the Organizations we support card on Comfort Quilts, which the Comfort Quilts Chair keeps.</p></div>
+</section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president');}},function(c){
+  var $=function(i){return document.getElementById(i)};
+  var sb=QGPC.sb, all=[], year=null, editId=null, confirmId=null;
+  var curYear=+new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric'}).format(new Date());
+  function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
+  function show(t,cls){var n=$('status');n.textContent=t;n.className='msg '+cls;n.style.margin='0';n.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  function say(t){show(t,'ok');}
+  function bad(t){show(t,'err');}
+  function ferr(t){var f=$('f-err');f.textContent=t;f.classList.remove('hidden');}
+  function rowsOf(y){return all.filter(function(r){return r.year===y;}).sort(function(a,b){return a.sort_order-b.sort_order;});}
+
+  function load(){
+    return sb.from('charities').select('*').then(function(r){
+      $('loading').classList.add('hidden');
+      if(r.error){bad('Could not load the charities. Please refresh and try again.');return;}
+      all=r.data||[];fillYears();draw();
+    });
+  }
+  function fillYears(){
+    var ys={};for(var y=curYear-2;y<=curYear+1;y++)ys[y]=1;
+    all.forEach(function(r){ys[r.year]=1;});
+    var list=Object.keys(ys).map(Number).sort(function(a,b){return a-b;});
+    var sel=$('year');sel.textContent='';
+    list.forEach(function(y){var o=el('option',null,String(y));o.value=y;sel.appendChild(o);});
+    if(year===null)year=curYear;
+    sel.value=year;
+  }
+  function draw(){
+    var rows=rowsOf(year);
+    $('list-h').textContent='Charities We Support, '+year;
+    $('count').textContent=(rows.length===1?'1 charity':rows.length+' charities')+'. Visitors and members both see this list.';
+    var em=$('empty');em.classList.toggle('hidden',rows.length>0);
+    em.textContent='The '+year+' list is empty. The Charities We Support page says no charities are listed for '+year+' until you add one.';
+    // offer a copy of the year before when this year is empty
+    var prev=rowsOf(year-1),cb=$('copybar');
+    if(!rows.length&&prev.length){
+      cb.classList.remove('hidden');
+      $('copy-text').textContent='Start the '+year+' list from the '+(year-1)+' list ('+prev.length+(prev.length===1?' charity':' charities')+')?';
+      $('copy-btn').textContent='Copy the '+(year-1)+' list';
+    }else cb.classList.add('hidden');
+    var ul=$('list');ul.textContent='';
+    rows.forEach(function(ch,i){
+      var li=el('li','ci'+(editId===ch.id?' on':''));
+      var row=el('div','row'),tx=el('span');tx.style.cssText='flex:1 1 auto;min-width:0';
+      tx.appendChild(el('span','nm',ch.name));
+      tx.appendChild(el('span','mt',[ch.city,ch.website?'Has a website link':'No website link'].filter(Boolean).join(' · ')));
+      if(ch.what)tx.appendChild(el('span','wh',ch.what));
+      row.appendChild(tx);row.appendChild(el('span','pos','No. '+(i+1)));li.appendChild(row);
+      var act=el('div','nact');
+      function btn(label,cls,fn,dis){var b=el('button','nbtn'+(cls?' '+cls:''),label);b.type='button';b.setAttribute('aria-label',label+' '+ch.name);if(dis)b.disabled=true;b.onclick=fn;act.appendChild(b);}
+      btn('Edit','',function(){confirmId=null;openForm(ch);});
+      btn('Move up','',function(){move(ch,-1,i);},i===0);
+      btn('Move down','',function(){move(ch,1,i);},i===rows.length-1);
+      btn('Delete','del',function(){confirmId=ch.id;draw();});
+      li.appendChild(act);
+      if(confirmId===ch.id){
+        var cf=el('div','confirm');cf.appendChild(el('p',null,'Remove this charity from the page? This can’t be undone.'));
+        var rw=el('div','saverow');
+        var y=el('button','btn-del solid','Yes, remove');y.type='button';y.onclick=function(){doDelete(ch,y);};
+        var k=el('button','btn-cancel','Keep it');k.type='button';k.onclick=function(){confirmId=null;draw();};
+        rw.appendChild(y);rw.appendChild(k);cf.appendChild(rw);li.appendChild(cf);
+      }
+      ul.appendChild(li);
+    });
+  }
+  function move(ch,dir,i){
+    sb.rpc('charity_move',{p_id:ch.id,p_dir:dir}).then(function(r){
+      if(r.error){bad('That did not move. Please try again.');return;}
+      say('Moved '+(dir<0?'up':'down')+'. “'+ch.name+'” is now No. '+(i+1+dir)+'.');load();
+    });
+  }
+  function doDelete(ch,b){
+    b.disabled=true;
+    sb.from('charities').delete().eq('id',ch.id).then(function(r){
+      confirmId=null;
+      if(r.error){bad('That did not delete. Please try again.');load();return;}
+      if(editId===ch.id)closeForm();
+      say('Removed. “'+ch.name+'” is off the '+year+' Charities We Support list.');load();
+    });
+  }
+  $('copy-btn').onclick=function(){
+    var b=this;b.disabled=true;
+    sb.rpc('charities_copy_year',{p_from:year-1,p_to:year}).then(function(r){
+      b.disabled=false;
+      if(r.error){bad('That did not copy. Please refresh and try again.');return;}
+      say('Copied '+r.data+(r.data===1?' charity':' charities')+' from '+(year-1)+'. Change or remove any that no longer apply.');load();
+    });
+  };
+  $('year').addEventListener('change',function(){year=+this.value;confirmId=null;closeForm();$('status').classList.add('hidden');draw();});
+
+  function openForm(ch){
+    editId=ch?ch.id:null;
+    $('form-h').textContent=ch?'Change this charity':'Add a charity';
+    $('f-save').textContent=ch?'Save changes':'Save charity';
+    $('f-name').value=ch?ch.name:'';$('f-what').value=ch&&ch.what?ch.what:'';
+    $('f-city').value=ch&&ch.city?ch.city:'';$('f-web').value=ch&&ch.website?ch.website:'';
+    $('f-err').classList.add('hidden');$('form').classList.remove('hidden');draw();
+    $('f-name').focus();$('form').scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  function closeForm(){editId=null;$('form').classList.add('hidden');draw();}
+  $('add-btn').onclick=function(){confirmId=null;openForm(null);};
+  $('f-cancel').onclick=closeForm;
+  $('form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var name=$('f-name').value.trim();
+    if(!name){ferr('Please type the name of the charity.');$('f-name').focus();return;}
+    var web=$('f-web').value.trim();
+    if(web&&!/^https?:\/\//i.test(web))web='https://'+web;
+    if(web&&!/^https?:\/\/[^\s.]+\.[^\s]+$/i.test(web)){ferr('That website address does not look right. It should look like https://example.org');$('f-web').focus();return;}
+    var rec={name:name,what:$('f-what').value.trim()||null,city:$('f-city').value.trim()||null,website:web||null};
+    var wasEdit=!!editId,btn=$('f-save');btn.disabled=true;
+    var q=wasEdit?sb.from('charities').update(rec).eq('id',editId):sb.from('charities').insert(Object.assign({year:year},rec));
+    q.then(function(r){
+      btn.disabled=false;
+      if(r.error){ferr('That did not save. Please try again.');return;}
+      say(wasEdit?'Saved. “'+name+'” is changed.':'Added. “'+name+'” is on the '+year+' list.');
+      editId=null;$('form').classList.add('hidden');load();
+    });
+  });
+  load();
+});
+</script>
+</body></html>

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Charities We Support</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.chead{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.chead h2{margin:0;font-size:24px}.chead p{margin:2px 0 0;color:#5A5F6E}
+.ctools{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap}
+.ctools label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:15px}
+.ctools select{min-height:46px;min-width:120px}
+.cl{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr));gap:16px}
+.cl li{border:1px solid #E4E0D6;border-radius:14px;padding:18px 20px;background:#fff;display:flex;flex-direction:column;gap:6px}
+.cl .nm{font:400 20px 'Young Serif',Georgia,serif}
+.cl .ct{font-size:14px;font-weight:600;color:#5A5F6E}
+.cl .wh{white-space:pre-wrap;line-height:1.5}
+.cl a.web{align-self:flex-start;margin-top:4px;min-height:44px;display:inline-flex;align-items:center;font-weight:600}
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);display:inline-flex;align-items:center;text-decoration:none}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="index.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions"><a class="homelink" id="homelink" href="index.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a></div>
+</div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Our Community</span>
+<h1 id="pg-title" style="margin:0">Charities We Support</h1><p class="stat-line">The organizations the Guild gives to and works with in our community.</p></div>
+</div></section>
+<div class="mwrap" style="max-width:1100px">
+<a class="backlink" id="backlink" href="index.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to Home</a>
+<section class="card" aria-labelledby="ch-h">
+<div class="chead">
+<div><h2 id="ch-h">Our charities</h2><p id="count" aria-live="polite">&nbsp;</p></div>
+<div class="ctools"><label>Year<select class="field" id="year"></select></label><a class="nbtn hidden" id="edit" href="charities-manage.html">Edit the list</a></div>
+</div>
+<p class="muted hidden" id="empty" style="margin:16px 0 0;color:#5A5F6E"></p>
+<ul class="cl" id="list" style="margin-top:18px"></ul>
+</section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  var sb=QGPC.sb, all=[], year=null;
+  var curYear=+new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric'}).format(new Date());
+  function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
+  function safeUrl(u){return /^https?:\/\//i.test(u||'')?u:null;}
+
+  // signed-in people get a Home link to their member home; people who can edit get the Edit button (follows Acting as)
+  QGPC.session().then(function(s){
+    if(!s)return;
+    $('homelink').href='home.html';$('backlink').href='home.html';
+    return sb.from('members').select('id').eq('auth_user_id',s.user.id).limit(1).then(function(r){
+      var m=r.data&&r.data[0];if(!m)return;
+      return sb.from('member_roles').select('role_key').eq('member_id',m.id).then(function(rr){
+        var held=(rr.data||[]).map(function(x){return x.role_key;});
+        var pick=null;try{pick=sessionStorage.getItem('qgpc_acting');}catch(e){}
+        if(pick&&pick!=='member'&&held.indexOf(pick)<0)pick=null;
+        if(!held.length)pick=null;
+        var roles=pick?(pick==='member'?[]:[pick]):held;
+        if(roles.some(function(k){return ['superuser','administrator','president','vice_president'].indexOf(k)>-1;}))$('edit').classList.remove('hidden');
+      });
+    });
+  });
+
+  function fillYears(){
+    var ys={};for(var y=curYear-2;y<=curYear+1;y++)ys[y]=1;
+    all.forEach(function(r){ys[r.year]=1;});
+    var list=Object.keys(ys).map(Number).sort(function(a,b){return a-b;});
+    var sel=$('year');sel.textContent='';
+    list.forEach(function(y){var o=el('option',null,String(y));o.value=y;sel.appendChild(o);});
+    if(year===null)year=ys[curYear]?curYear:list[list.length-1];
+    sel.value=year;
+  }
+  function draw(){
+    var rows=all.filter(function(r){return r.year===year;}).sort(function(a,b){return a.sort_order-b.sort_order;});
+    $('count').textContent=(rows.length===1?'1 charity':rows.length+' charities')+' in '+year;
+    var em=$('empty');em.classList.toggle('hidden',rows.length>0);
+    em.textContent='No charities are listed for '+year+' yet.';
+    var ul=$('list');ul.textContent='';
+    rows.forEach(function(c){
+      var li=el('li');li.appendChild(el('span','nm',c.name));
+      if(c.city)li.appendChild(el('span','ct',c.city));
+      if(c.what)li.appendChild(el('span','wh',c.what));
+      var u=safeUrl(c.website);
+      if(u){var a=el('a','web','Visit their website');a.href=u;a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label','Visit the website of '+c.name+' (opens in a new tab)');li.appendChild(a);}
+      ul.appendChild(li);
+    });
+  }
+  $('year').addEventListener('change',function(){year=+this.value;draw();});
+  sb.from('charities').select('*').then(function(r){
+    if(r.error){$('count').textContent='The list could not be loaded. Please refresh and try again.';return;}
+    all=r.data||[];fillYears();draw();
+  });
+})();
+</script>
+</body></html>
