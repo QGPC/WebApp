@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Assign Roles</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.rgroup{background:#fff;border:1px solid #E4E0D6;border-radius:18px;overflow:hidden}
+.rgroup>.gh{padding:20px 18px 14px;display:flex;flex-direction:column;gap:4px}
+.rgroup>.gh h2{margin:0;font-size:24px}
+.rgroup ul{list-style:none;margin:0;padding:0}
+.rrow{display:grid;grid-template-columns:minmax(170px,1.1fr) minmax(200px,1.5fr) minmax(170px,1.4fr) auto;gap:10px 20px;align-items:center;padding:14px 18px;border-top:1px solid #EDEAE2}
+.rrow .rn{display:flex;flex-direction:column;gap:2px}.rrow .rn b{font-size:16px}.rrow .rn small{font-size:13px;color:#5A5F6E}
+.holders{display:flex;flex-direction:column;gap:6px}
+.holder{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.hav{flex:0 0 auto;width:32px;height:32px;border-radius:999px;background:#EEF1F8;color:#0157AE;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.hav.vac{background:#F0ECE3;color:#8A8F9C}
+.hname{font-size:15px}.hname.vac{color:#5A5F6E;font-style:italic}
+.hmini{min-height:32px;padding:0 12px;border-radius:999px;border:1.5px solid #B42318;background:#fff;color:#B42318;font:600 13px var(--sans);cursor:pointer}
+.areas{display:flex;flex-wrap:wrap;gap:6px}
+.area{font-size:13px;font-weight:600;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE}
+.area.r{background:#FCEEE9;color:#9A3412}
+.ract{display:flex;justify-content:flex-end}
+.abtn{min-height:44px;padding:8px 16px;display:flex;align-items:center;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer}
+.lockd{min-height:44px;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#5A5F6E}
+.rpanel{grid-column:1/-1;padding:16px;background:#F7F5F0;border:1px solid #E4E0D6;border-radius:12px}
+.rpanel p{margin:0 0 10px;font-weight:600}
+.rpanel .field{margin:6px 0 10px;max-width:520px}
+.rpanel select.field{min-height:0;padding:6px}
+.rpanel .saverow{margin-top:6px}
+.rpanel.warn{background:#FDECEA;border-color:#F3B8B2}
+@media (max-width:760px){.rrow{grid-template-columns:1fr}.ract{justify-content:flex-start}}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</div></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Site Administration</span>
+<h1 id="pg-title" style="margin:0">Assign Roles</h1><p class="stat-line">Who holds each role, and which parts of the site that role can edit.</p></div>
+</div></section>
+<div class="mwrap" style="max-width:1200px" id="content">
+<p id="note" class="msg ok hidden" role="status"></p>
+<p id="loading" role="status">Loading roles&hellip;</p>
+<div id="groups" style="display:flex;flex-direction:column;gap:32px"></div>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+QGPCShell.start({need:function(c){return c.isAdmin;}},function(c){
+  var $=function(i){return document.getElementById(i)};
+  var MAX_ADMINS=4;
+  // What each role can edit (chips). r = rust (site-wide), otherwise blue.
+  var AREAS={
+    superuser:[['Entire site, code and files','r']],
+    administrator:[['All data','r'],['Assign roles','r']],
+    president:[['Guild Business + Executive Board section','r'],['President’s Page'],['Notices'],['Events'],['About our Guild']],
+    vice_president:[['Guild Business + Executive Board section','r'],['President’s Page']],
+    secretary:[['Guild Business + Executive Board section','r']],
+    treasurer:[['Guild Business + Executive Board section','r'],['Finance'],['Renewals & dues']],
+    past_president:[['Guild Business + Executive Board section','r']],
+    newsletter_chair:[['Newsletter Chair page']],
+    workshop_chair:[['Programs & Workshops'],['Events'],['Workshop registrations']],
+    membership_chair:[['Member records'],['Approve accounts'],['Renewals & dues']],
+    comfort_quilts_chair:[['Comfort Quilts Chair page']],
+    sunshine_shadows_chair:[['Sunshine & Shadows Review']],
+    beekeeper:[['Bees Chair page']],
+    program_chair:[['Programs & Workshops']],
+    publicity_chair:[['Notices']],
+    digital_av_coordinator:[['Gallery']],
+    show_and_tell_chair:[['Gallery']],
+    finance_assets_chair:[['Finance']],
+    retreats_chair:[['Retreats page'],['Events']],
+    quilt_show_chair:[['Quilt Show page'],['Events']],
+    auction_chair:[['Auction page'],['Events']]
+  };
+  var NOTES={president:'Executive Committee',vice_president:'Executive Committee',secretary:'Executive Committee',treasurer:'Executive Committee',superuser:'Site owner — not reassigned here'};
+  var GROUPS=[
+    {title:'Site administration',sub:'Only the Superuser can make someone an Administrator.',test:function(r){return r.sort_order<10;}},
+    {title:'Executive Board',sub:'The Executive Committee plus the Past President.',test:function(r){return r.sort_order>=10&&r.sort_order<30;}},
+    {title:'Committee chairs',sub:'A role can have co-chairs, and one person can hold several roles.',test:function(r){return r.sort_order>=30;}}
+  ];
+  var roles=[],members={},holders={},eligible=[];
+  var openAssign=null,openRemove=null;     // 'role|slot' and 'role|member'
+  function el(t,cls,txt){var e=document.createElement(t);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e;}
+  function full(m){return m.first_name+' '+m.last_name;}
+  function initials(m){return ((m.first_name||'?').charAt(0)+(m.last_name||'').charAt(0)).toUpperCase();}
+  function note(t,err){var n=$('note');n.textContent=t||'';n.className='msg '+(err?'err':'ok')+(t?'':' hidden');if(t)n.scrollIntoView({block:'center'});}
+  function labelOf(k){var r=roles.filter(function(x){return x.role_key===k;})[0];return r?r.label:k;}
+
+  function holderLine(m,role,canRemove,slotKey){
+    var h=el('div','holder');h.appendChild(el('span','hav',initials(m)));
+    h.appendChild(el('span','hname',full(m)));
+    if(canRemove){
+      var b=el('button','hmini','Remove');b.type='button';b.setAttribute('aria-label','Remove '+full(m)+' from '+labelOf(role));
+      b.addEventListener('click',function(){openRemove=role+'|'+m.id;openAssign=null;paint();});h.appendChild(b);
+    }
+    return h;
+  }
+  function removePanel(m,role){
+    var p=el('div','rpanel warn');p.setAttribute('role','alertdialog');
+    p.appendChild(el('p','','Remove '+full(m)+' as '+labelOf(role)+'? They lose what this role can edit right away. Their membership is not affected.'));
+    var row=el('div','saverow');
+    var yes=el('button','btn-del solid','Yes, remove');yes.type='button';
+    var no=el('button','btn-cancel','Keep');no.type='button';
+    no.addEventListener('click',function(){openRemove=null;paint();});
+    yes.addEventListener('click',function(){
+      yes.disabled=true;note('');
+      QGPC.sb.from('member_roles').delete().eq('member_id',m.id).eq('role_key',role).then(function(x){
+        if(x.error){note(x.error.message,true);yes.disabled=false;return;}
+        openRemove=null;note(full(m)+' is no longer '+labelOf(role)+'.');load();
+      });
+    });
+    row.appendChild(yes);row.appendChild(no);p.appendChild(row);return p;
+  }
+  function assignPanel(role,rowLabel){
+    var p=el('div','rpanel');
+    var lab=el('label','', 'Choose a member for '+rowLabel);lab.style.display='block';lab.style.fontWeight='600';lab.setAttribute('for','a-filter');p.appendChild(lab);
+    var hold={};(holders[role]||[]).forEach(function(id){hold[id]=1;});
+    var list=eligible.filter(function(m){return !hold[m.id];});
+    var f=el('input','field');f.id='a-filter';f.type='text';f.placeholder='Type part of a name to narrow the list';f.autocomplete='off';p.appendChild(f);
+    var sel=el('select','field');sel.size=7;sel.setAttribute('aria-label','Members');p.appendChild(sel);
+    p.appendChild(el('span','sub','Active members and members in the grace period are listed. Someone marked “no website account yet” can hold the role now; it works once they have signed in.'));
+    var row=el('div','saverow');
+    var go=el('button','btn-save','Assign');go.type='button';go.disabled=true;
+    var no=el('button','btn-cancel','Cancel');no.type='button';
+    row.appendChild(go);row.appendChild(no);p.appendChild(row);
+    function fill(){
+      var q=f.value.trim().toLowerCase();sel.textContent='';
+      list.filter(function(m){return !q||(full(m)+' '+m.email).toLowerCase().indexOf(q)>-1;}).forEach(function(m){
+        var o=el('option','',m.last_name+', '+m.first_name+' — '+m.email+(m.auth_user_id?'':' (no website account yet)'));o.value=m.id;sel.appendChild(o);
+      });
+      go.disabled=true;
+    }
+    f.addEventListener('input',fill);
+    sel.addEventListener('change',function(){go.disabled=!sel.value;});
+    no.addEventListener('click',function(){openAssign=null;paint();});
+    go.addEventListener('click',function(){
+      var m=members[sel.value];if(!m)return;
+      go.disabled=true;note('');
+      QGPC.sb.from('member_roles').insert({member_id:m.id,role_key:role}).then(function(x){
+        if(x.error){note(/duplicate|already/i.test(x.error.message)?full(m)+' already holds that role.':x.error.message,true);go.disabled=false;return;}
+        openAssign=null;note(full(m)+' is now '+labelOf(role)+'.');load();
+      });
+    });
+    fill();
+    setTimeout(function(){f.focus();},0);
+    return p;
+  }
+
+  function roleRow(role,rowLabel,opts){
+    // opts: ids (holder member ids shown on this row), canEdit, key (for the open-panel check), vacantWord
+    var li=el('li','rrow');
+    var rn=el('div','rn');rn.appendChild(el('b','',rowLabel));
+    var nt=NOTES[role];if(nt)rn.appendChild(el('small','',nt));li.appendChild(rn);
+    var hs=el('div','holders');
+    if(!opts.ids.length){var v=el('div','holder');v.appendChild(el('span','hav vac','—'));v.appendChild(el('span','hname vac','Vacant'));hs.appendChild(v);}
+    opts.ids.forEach(function(id){var m=members[id];if(m)hs.appendChild(holderLine(m,role,opts.canEdit,opts.key));});
+    li.appendChild(hs);
+    var ar=el('div','areas');(AREAS[role]||[]).forEach(function(a){ar.appendChild(el('span','area'+(a[1]==='r'?' r':''),a[0]));});li.appendChild(ar);
+    var act=el('div','ract');
+    if(opts.fixed){/* nothing */}
+    else if(opts.locked){var lk=el('span','lockd');lk.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>';lk.appendChild(document.createTextNode('Superuser only'));act.appendChild(lk);}
+    else if(opts.canAdd){
+      var b=el('button','abtn',opts.ids.length&&!opts.slot?'Add another':'Assign');b.type='button';
+      b.setAttribute('aria-label',b.textContent+' — '+rowLabel);
+      b.addEventListener('click',function(){openAssign=opts.key;openRemove=null;paint();});act.appendChild(b);
+    }
+    li.appendChild(act);
+    if(openAssign===opts.key)li.appendChild(assignPanel(role,rowLabel));
+    opts.ids.forEach(function(id){if(openRemove===role+'|'+id&&members[id])li.appendChild(removePanel(members[id],role));});
+    return li;
+  }
+
+  function paint(){
+    var g=$('groups');g.textContent='';
+    GROUPS.forEach(function(grp){
+      var rs=roles.filter(grp.test);if(!rs.length)return;
+      var sec=el('section','rgroup');var gh=el('div','gh');gh.appendChild(el('h2','',grp.title));gh.appendChild(el('span','sub',grp.sub));sec.appendChild(gh);
+      var ul=el('ul');
+      rs.forEach(function(r){
+        var ids=holders[r.role_key]||[];
+        if(r.role_key==='superuser'){ul.appendChild(roleRow('superuser','Superuser',{ids:ids,fixed:true,key:'superuser'}));}
+        else if(r.role_key==='administrator'){
+          var slots=Math.max(MAX_ADMINS,ids.length);
+          for(var i=0;i<slots;i++){
+            var one=ids[i]?[ids[i]]:[];
+            ul.appendChild(roleRow('administrator','Administrator '+(i+1),{ids:one,slot:true,key:'administrator|'+i,
+              canEdit:c.isSuper,locked:!c.isSuper,canAdd:c.isSuper&&!ids[i]}));
+          }
+        }else{
+          ul.appendChild(roleRow(r.role_key,r.label,{ids:ids,canEdit:true,canAdd:true,key:r.role_key}));
+        }
+      });
+      sec.appendChild(ul);g.appendChild(sec);
+    });
+  }
+  function load(){
+    Promise.all([
+      QGPC.sb.from('roles').select('role_key,label,sort_order').order('sort_order'),
+      QGPC.sb.from('members_with_status').select('id,first_name,last_name,email,status,auth_user_id').order('last_name').limit(2000),
+      QGPC.sb.from('member_roles').select('member_id,role_key,assigned_at').order('assigned_at')
+    ]).then(function(res){
+      if(res[0].error||res[1].error||res[2].error){$('loading').textContent='We could not load the roles. Please try again.';return;}
+      roles=res[0].data||[];members={};eligible=[];
+      (res[1].data||[]).forEach(function(m){members[m.id]=m;if(m.status==='active'||m.status==='grace')eligible.push(m);});
+      holders={};(res[2].data||[]).forEach(function(x){(holders[x.role_key]=holders[x.role_key]||[]).push(x.member_id);});
+      $('loading').classList.add('hidden');paint();
+    });
+  }
+  load();
+});
+</script>
+</body></html>
