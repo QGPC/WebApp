@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Export Member List</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</div></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Membership Chair</span>
+<h1 id="pg-title" style="margin:0">Export Member List</h1><p class="stat-line">Download a spreadsheet (CSV) of members.</p></div>
+</div></section>
+<div class="mwrap" id="content">
+<a class="backlink" href="membership-tools.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>Membership Page Admin</a>
+<p id="note" class="msg err hidden" role="alert"></p>
+<section class="pcard" aria-labelledby="which-t">
+<h2 id="which-t">Which members?</h2>
+<div class="f" style="max-width:420px"><label for="which">Include</label>
+<select class="field" id="which">
+<option value="all">All members</option>
+<option value="notrenewed" id="opt-nyr">Not yet renewed</option>
+<option value="active">Active members</option>
+<option value="grace">Grace period</option>
+<option value="inactive">Inactive members</option>
+</select></div>
+<p class="sub dark" id="count" role="status">&hellip;</p>
+<div class="dirnote" role="note"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg><span>The file holds members&rsquo; personal details (email, phone, address, birthday month and day). Keep it private, do not email it around, and delete it when you are finished. Each download is noted in the site log.</span></div>
+<div class="saverow"><button type="button" class="btn-save" id="dl" disabled>Download CSV</button><span id="saved" class="saved hidden" role="status"></span></div>
+<p class="sub">Columns: First name, Last name, Email, Membership type, Member since, Paid through, Status, Cell phone, Facebook name, Street address, City, State, ZIP, Directory opt-out, Birthday. The same names the member import uses. Opens in Excel; accented names display correctly.</p>
+</section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}},function(c){
+  var $=function(i){return document.getElementById(i)};
+  var MONL=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var SL={active:'Active',grace:'Grace period',inactive:'Inactive'};
+  var rows=[],nyrTarget=null;
+  function note(t){var n=$('note');n.textContent=t||'';n.classList.toggle('hidden',!t);}
+  function pick(){
+    var w=$('which').value;
+    return rows.filter(function(r){
+      if(w==='all')return true;
+      if(w==='notrenewed')return r.paid_through_year===nyrTarget-1&&(r.status==='active'||r.status==='grace');
+      return r.status===w;
+    });
+  }
+  function label(){
+    var w=$('which').value;
+    return w==='all'?'all members':w==='notrenewed'?'not yet renewed for '+nyrTarget:w;
+  }
+  function slug(){var w=$('which').value;return w==='all'?'members':w==='notrenewed'?'not-yet-renewed-for-'+nyrTarget:w+'-members';}
+  function showCount(){
+    var n=pick().length;
+    $('count').textContent=n+(n===1?' member':' members')+' will be included.';
+    $('dl').disabled=n===0;
+  }
+  // A cell that starts with = + - @ could run as a formula in Excel; put an apostrophe in front,
+  // except for ordinary phone numbers like +1 817 555 0100.
+  function safe(v){
+    v=v===null||v===undefined?'':String(v);
+    if(/^[=+\-@\t\r]/.test(v)&&!/^[+-]?[\d\s().-]+$/.test(v))v="'"+v;
+    return v;
+  }
+  function cell(v){v=safe(v);return /[",\r\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}
+  var COLS=['First name','Last name','Email','Membership type','Member since','Paid through','Status','Cell phone','Facebook name','Street address','City','State','ZIP','Directory opt-out','Birthday'];
+  function line(r){
+    return [r.first_name,r.last_name,r.email,r.membership_type,r.member_since,r.paid_through_year,SL[r.status]||r.status,
+      r.cell_phone,r.facebook_name,r.street_address,r.city,r.state,r.zip,r.directory_opt_out?'Yes':'',
+      r.birthday_month?MONL[r.birthday_month-1]+' '+r.birthday_day:''].map(cell).join(',');
+  }
+  function today(){var d=new Date(),p=function(n){return (n<10?'0':'')+n;};return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());}
+  $('which').addEventListener('change',showCount);
+  $('dl').addEventListener('click',function(){
+    var list=pick();if(!list.length)return;
+    var btn=$('dl');btn.disabled=true;note('');
+    var csv='﻿'+[COLS.map(cell).join(',')].concat(list.map(line)).join('\r\n')+'\r\n';
+    var blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+    var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='qgpc-'+slug()+'-'+today()+'.csv';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(function(){URL.revokeObjectURL(a.href);},2000);
+    QGPC.sb.rpc('log_member_export',{p_what:label(),p_count:list.length}).then(function(x){
+      btn.disabled=false;
+      var s=$('saved');s.textContent='Downloaded '+list.length+(list.length===1?' member.':' members.')+(x.error?' (The site log could not be updated.)':'');s.classList.remove('hidden');
+    });
+  });
+  Promise.all([
+    QGPC.sb.from('members_with_status').select('*').order('last_name').order('first_name').limit(2000),
+    QGPC.sb.from('site_config').select('renewals_open').limit(1)
+  ]).then(function(res){
+    if(res[0].error){note('We could not load the member list.');return;}
+    rows=res[0].data||[];
+    // same target year as the "Not yet renewed" count on the Membership Chair page
+    var now=new Date(),yr=now.getFullYear(),open=!!(res[1].data&&res[1].data[0]&&res[1].data[0].renewals_open);
+    nyrTarget=yr+((open&&now>new Date(yr,2,31,23,59,59))?1:0);
+    $('opt-nyr').textContent='Not yet renewed for '+nyrTarget;
+    var f=new URLSearchParams(location.search).get('filter');
+    if(f==='notrenewed'||f==='active'||f==='grace'||f==='inactive')$('which').value=f;
+    showCount();
+  });
+});
+</script>
+</body></html>

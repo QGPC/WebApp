@@ -23,12 +23,17 @@
 <h1 id="pg-title" style="margin:0">Membership Database</h1><p class="stat-line" id="count">&hellip;</p></div>
 <div class="greet-card dirsearch" style="flex-direction:column;align-items:stretch;gap:10px;padding:20px 24px;min-height:0">
 <div class="f"><label for="q">Find a member</label><input class="field" id="q" type="search" autocomplete="off" placeholder="Name or email"></div>
-<div class="grid2"><div class="f"><label for="fstatus">Status</label><select class="field" id="fstatus"><option value="">All</option><option value="active">Active</option><option value="grace">Grace period</option><option value="inactive">Inactive</option></select></div>
+<div class="grid2"><div class="f"><label for="fstatus">Status</label><select class="field" id="fstatus"><option value="">All</option><option value="notrenewed" id="opt-nyr">Not yet renewed</option><option value="active">Active</option><option value="grace">Grace period</option><option value="inactive">Inactive</option></select></div>
 <div class="f"><label for="ftype">Type</label><select class="field" id="ftype"><option value="">All</option><option>Regular</option><option>Junior</option><option>Exempt</option></select></div></div>
 </div></div></div></section>
 <div class="mwrap tools" id="content">
 <a class="backlink" href="membership-tools.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>Membership Page Admin</a>
 <p id="note" class="msg err hidden" role="alert"></p>
+<section class="pcard tight hidden" id="rbar" aria-labelledby="r-t"><h2 id="r-t">Renewal reminder</h2>
+<p class="sub dark" id="r-sub"></p>
+<div class="saverow"><button type="button" class="btn-save" id="r-go">Send a renewal reminder&hellip;</button><a class="cancel" href="membership-export.html?filter=notrenewed">Download this list (CSV)</a></div>
+<div class="delconfirm hidden" id="r-conf" role="alertdialog" aria-labelledby="r-q" style="background:#EEF1F8;border-color:#C9D6EE"><p id="r-q"></p><div class="saverow"><button type="button" class="btn-save" id="r-yes">Yes, send</button><button type="button" class="btn-cancel" id="r-no">Cancel</button></div></div>
+<p class="msg ok hidden" id="r-msg" role="status"></p></section>
 <nav class="azbar" aria-label="Jump to last name letter"><span>Last name begins with</span><span id="az"></span></nav>
 <div id="groups"></div>
 <p class="sub hidden" id="none">No members match.</p>
@@ -94,7 +99,7 @@
 <script>
 QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}},function(c){
   var $=function(i){return document.getElementById(i)};
-  var rows=[],sel=null,roleMap={},labels={};
+  var rows=[],sel=null,roleMap={},labels={},nyrTarget=null,firstLoad=true;
   function note(t){var n=$('note');n.textContent=t||'';n.classList.toggle('hidden',!t);}
   function say(id,t){var e=$(id);e.textContent=t||'';e.classList.toggle('hidden',!t);}
   var SL={active:'Active',grace:'Grace period',inactive:'Inactive'};
@@ -102,12 +107,68 @@ QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}}
   function checks(){return Array.prototype.slice.call(document.querySelectorAll('input[name=interest]'));}
   function match(r){
     var q=$('q').value.trim().toLowerCase(),fs=$('fstatus').value,ft=$('ftype').value;
-    if(fs&&r.status!==fs)return false;if(ft&&r.membership_type!==ft)return false;
+    // "Not yet renewed": still Active or in the grace period, but paid only through the year before the renewal target
+    if(fs==='notrenewed'){if(!(r.paid_through_year===nyrTarget-1&&(r.status==='active'||r.status==='grace')))return false;}
+    else if(fs&&r.status!==fs)return false;
+    if(ft&&r.membership_type!==ft)return false;
     if(!q)return true;
     return (r.first_name+' '+r.last_name+' '+r.last_name+' '+r.first_name+' '+(r.email||'')).toLowerCase().indexOf(q)>-1;
   }
+  function isNyr(r){return r.paid_through_year===nyrTarget-1&&(r.status==='active'||r.status==='grace');}
+  function rmsg(t,err){var m=$('r-msg');m.textContent=t||'';m.className='msg '+(err?'err':'ok')+(t?'':' hidden');}
+  function paintBar(){
+    var on=$('fstatus').value==='notrenewed';$('rbar').classList.toggle('hidden',!on);if(!on)return;
+    var n=rows.filter(isNyr).length;
+    $('r-sub').textContent=n+(n===1?' member has':' members have')+' not yet renewed for '+nyrTarget+'. A reminder email asks them to renew by March 31, '+nyrTarget+'. Reminders can be sent only while the Renew Membership button is on, and nobody is sent two within 7 days.';
+  }
+  // turns a Supabase function reply into (errorText, data)
+  function fnResult(x,done){
+    if(x.error&&x.error.context&&x.error.context.json){x.error.context.json().then(function(j){done(j.error||'unknown error.');}).catch(function(){done('unknown error.');});return;}
+    if(x.error){done('unknown error.');return;}
+    if(x.data&&x.data.error){done(x.data.error);return;}
+    done(null,x.data);
+  }
+  function runReminders(total){
+    var failed=[],sent=0;
+    function finish(err){
+      $('r-go').disabled=false;
+      var t=(err?'Stopped after sending '+sent+': '+err:'Sent '+sent+(sent===1?' reminder.':' reminders.'));
+      if(failed.length)t+=' These could not be sent: '+failed.map(function(f){return f.email;}).join(', ')+'. You may want to contact them yourself.';
+      rmsg(t,!!err||failed.length>0);
+    }
+    function next(){
+      QGPC.sb.functions.invoke('send-renewal-reminders',{body:{batch:20,exclude:failed.map(function(f){return f.id;})}}).then(function(x){
+        fnResult(x,function(err,d){
+          if(err){finish(err);return;}
+          sent+=d.sent;failed=failed.concat(d.failed||[]);
+          rmsg('Sent '+sent+' of '+total+'…');
+          if(d.remaining>0&&(d.sent>0||(d.failed||[]).length>0))next();else finish();
+        });
+      });
+    }
+    next();
+  }
+  $('r-go').addEventListener('click',function(){
+    rmsg('');$('r-conf').classList.add('hidden');var b=$('r-go');b.disabled=true;
+    QGPC.sb.functions.invoke('send-renewal-reminders',{body:{dry_run:true}}).then(function(x){
+      fnResult(x,function(err,d){
+        b.disabled=false;
+        if(err){rmsg(err,true);return;}
+        if(!d.to_send){rmsg('Nobody needs a reminder right now. '+d.not_renewed+' not yet renewed; '+d.skipped_waiting+' already have a renewal waiting for approval, '+d.skipped_recent+' were reminded in the last '+d.recent_days+' days'+(d.no_email?', '+d.no_email+' have no email address':'')+'.');return;}
+        var extra=[];if(d.skipped_waiting)extra.push(d.skipped_waiting+' with a renewal already waiting');if(d.skipped_recent)extra.push(d.skipped_recent+' reminded in the last '+d.recent_days+' days');
+        $('r-q').textContent='Email a renewal reminder to '+d.to_send+(d.to_send===1?' member':' members')+' who have not renewed for '+d.target+'?'+(extra.length?' (Skipping '+extra.join(' and ')+'.)':'')+' Each person gets their own email from the guild account. This cannot be unsent.';
+        $('r-yes').setAttribute('data-n',d.to_send);$('r-conf').classList.remove('hidden');
+      });
+    });
+  });
+  $('r-no').addEventListener('click',function(){$('r-conf').classList.add('hidden');});
+  $('r-yes').addEventListener('click',function(){
+    var n=parseInt(this.getAttribute('data-n'),10)||0;
+    $('r-conf').classList.add('hidden');$('r-go').disabled=true;rmsg('Sending…');runReminders(n);
+  });
   function letterOf(r){var c=(r.last_name||'#').charAt(0).toUpperCase();return /[A-Z]/.test(c)?c:'#';}
   function paintList(){
+    paintBar();
     var holder=$('holder'),det=$('detail');
     holder.appendChild(det);det.classList.add('hidden');
     var g=$('groups');g.textContent='';
@@ -220,9 +281,16 @@ QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}}
     Promise.all([
       QGPC.sb.from('members_with_status').select('*').order('last_name').order('first_name').limit(2000),
       QGPC.sb.from('member_roles').select('member_id,role_key'),
-      QGPC.sb.from('roles').select('role_key,label')
+      QGPC.sb.from('roles').select('role_key,label'),
+      QGPC.sb.from('site_config').select('renewals_open').limit(1)
     ]).then(function(res){
       if(res[0].error){note('We could not load the member list.');return;}
+      // same target year as the "Not yet renewed" count on the Membership Chair page
+      var now=new Date(),yr=now.getFullYear(),open=!!(res[3].data&&res[3].data[0]&&res[3].data[0].renewals_open);
+      nyrTarget=yr+((open&&now>new Date(yr,2,31,23,59,59))?1:0);
+      $('opt-nyr').textContent='Not yet renewed for '+nyrTarget;
+      if(firstLoad){firstLoad=false;var f=new URLSearchParams(location.search).get('filter');
+        if(f==='notrenewed'||f==='inactive'||f==='active'||f==='grace')$('fstatus').value=f;}
       rows=res[0].data||[];roleMap={};(res[1].data||[]).forEach(function(x){(roleMap[x.member_id]=roleMap[x.member_id]||[]).push(x.role_key);});
       labels={};(res[2].data||[]).forEach(function(x){labels[x.role_key]=x.label;});
       paintList();paintForm();
