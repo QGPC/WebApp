@@ -60,6 +60,8 @@ ul.notices .pinned{display:inline-block;margin:0 0 6px;font-size:12px;font-weigh
 </div></section>
 <div class="wrap">
 <div class="page">
+<section class="card hcard special hidden" id="special-card" aria-labelledby="special-h"><div class="hcard-h"><h2 id="special-h">Special Notices</h2></div>
+<ul class="special-list" id="special-list"></ul></section>
 <section class="card hcard" id="notices-card" aria-labelledby="notices-h"><div class="hcard-h"><h2 id="notices-h">Notices</h2></div>
 <ul class="notices" id="notices-list"></ul><p class="muted hidden" id="notices-none">No notices right now.</p></section>
 <section class="card hcard" id="events-card" aria-labelledby="ev-h"><div class="hcard-h"><h2 id="ev-h">Events</h2>
@@ -77,6 +79,7 @@ ul.notices .pinned{display:inline-block;margin:0 0 6px;font-size:12px;font-weigh
 <script src="assets/js/supabase-js-2.119.0.js"></script>
 <script src="assets/js/config.js"></script>
 <script src="assets/js/auth.js"></script>
+<script src="assets/js/special-notices.js"></script>
 <script>
 (function(){
   var $=function(i){return document.getElementById(i)};
@@ -120,6 +123,7 @@ ul.notices .pinned{display:inline-block;margin:0 0 6px;font-size:12px;font-weigh
 })();
 </script>
 <script>
+QGPCSpecial.show({members:false});
 // Public notices card: notices for Everyone that have not expired (even if someone is signed in).
 (function(){
   var $=function(i){return document.getElementById(i)};

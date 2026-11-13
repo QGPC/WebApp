@@ -283,3 +283,14 @@ a.acard:hover,a.acard:focus-visible{transform:translateY(-2px);box-shadow:0 8px 
 .dirnote svg{flex:0 0 auto;margin-top:3px}
 @media print{.site-head,.site-foot,.banner .dirsearch,.azbar,.dirtop,.dclose,#note{display:none!important}
  .dcard{border:0;min-height:0;padding:2px 0;break-inside:avoid}.dgrid{display:block;column-count:3}.dgroup{break-inside:avoid}.hst{background:none!important}.banner .greet-card{box-shadow:none}}
+
+/* Special Notices card (Welcome page and member home page) */
+.special{border:2px solid #E87446;background:#FFF6F1}
+.special .hcard-h h2{color:#9A3412}
+ul.special-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px}
+ul.special-list li{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
+ul.special-list li+li{border-top:1px solid #F3C9B6;padding-top:16px}
+ul.special-list img{width:200px;max-width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;border:1px solid #E4E0D6;flex:0 0 auto}
+ul.special-list li>div{flex:1 1 260px;min-width:0}
+ul.special-list h3{margin:0 0 6px;font-size:20px}
+ul.special-list p{margin:0;white-space:pre-wrap}

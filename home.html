@@ -74,6 +74,8 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
 </div></section>
 <div class="wrap"><div class="page">
 <p id="note" class="msg err hidden" role="alert"></p>
+<section class="card hcard special hidden" id="special-card" aria-labelledby="special-h"><div class="hcard-h"><h2 id="special-h">Special Notices</h2></div>
+<ul class="special-list" id="special-list"></ul></section>
 <section class="card hcard" id="notices-card" aria-labelledby="notices-h"><div class="hcard-h"><h2 id="notices-h">Notices</h2><a class="btn-save small hidden" id="post-notice" href="notices-manage.html">Post notice</a></div>
 <ul class="notices" id="notices-list"></ul><p class="muted hidden" id="notices-none">No notices right now.</p></section>
 <section class="card hcard" id="events-card" aria-labelledby="ev-h"><div class="hcard-h"><h2 id="ev-h">Events</h2>
@@ -90,6 +92,7 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
 <script src="assets/js/supabase-js-2.119.0.js"></script>
 <script src="assets/js/config.js"></script>
 <script src="assets/js/auth.js"></script>
+<script src="assets/js/special-notices.js"></script>
 <script>
 (function(){
   var $=function(i){return document.getElementById(i)};
@@ -100,7 +103,7 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
   var MEMBER=[{l:'Programs & Workshops',i:'programs-and-workshops'},{l:'Newsletters',i:'newsletters'},{l:'Member Directory',i:'member-directory',href:'directory.html'},{l:'Comfort Quilts',i:'comfort-quilts'},{l:'Our Community',i:'our-community'},{l:'Bees',i:'bees'},{l:'Gallery',i:'gallery'},{l:'About our Guild',i:'about-our-guild'}];
   var JOBS=[
     {l:'Membership Chair',i:'membership',href:'membership.html',r:['membership_chair','superuser']},
-    {l:'President’s Page',i:'presidents-page',r:['president','vice_president'],adm:1},
+    {l:'President’s Page',i:'presidents-page',href:'presidents-page.html',r:['president','vice_president'],adm:1},
     {l:'Newsletter Chair',i:'newsletter-manager',r:['newsletter_chair'],adm:1},
     {l:'Sunshine & Shadows Review',i:'sunshine-and-shadows-review',r:['sunshine_shadows_chair'],adm:1},
     {l:'Comfort Quilts Chair',i:'comfort-quilts-manager',r:['comfort_quilts_chair'],adm:1},
@@ -201,6 +204,7 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
         fill('tilebar',all.slice(0,PER_BAR));
         if(all.length>PER_BAR){fill('more-areas',all.slice(PER_BAR));$('more-btn').classList.remove('hidden');}
         var canPost=isAdm||has('president')||has('vice_president');
+        QGPCSpecial.show({members:full});
         if(canPost)$('post-notice').classList.remove('hidden');
         var today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
         var nq=QGPC.sb.from('notices').select('*').or('show_until.is.null,show_until.gte.'+today).order('pinned',{ascending:false}).order('created_at',{ascending:false});

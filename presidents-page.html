@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>President&rsquo;s Page</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.pcard{display:flex;align-items:center;gap:16px;width:100%;max-width:520px;box-sizing:border-box;min-height:72px;padding:16px 20px;background:#fff;border:2px solid #0157AE;border-radius:18px;text-decoration:none;color:#1F2433}
+.pcard img{flex:0 0 auto;width:48px;height:48px;border-radius:12px}
+.pcard .t{flex:1 1 auto;display:flex;flex-direction:column;gap:2px}
+.pcard .t b{font:400 22px 'Young Serif',Georgia,serif}
+.pcard .t span{font-size:14px;color:#5A5F6E}
+.pcard.soon{border-color:#C9C4B8;color:#5A5F6E;cursor:default}
+.pcard.soon .t b{color:#5A5F6E}
+.sn-sec{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:24px}
+.sn-sec h2{margin:0;font:400 26px 'Young Serif',Georgia,serif}
+.sn-sec>p{margin:0;color:#5A5F6E;font-size:15px;line-height:1.5}
+.sn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(460px,100%),1fr));gap:32px;align-items:start}
+.nlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.nitem{border:1px solid #E4E0D6;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;background:#fff}
+.nitem.exp{background:#F7F5F0}.nitem.on{border-color:#0157AE;background:#F4F6FB}
+.nitem .top{display:flex;gap:14px;align-items:flex-start}
+.nitem img{flex:0 0 auto;width:88px;aspect-ratio:4/3;object-fit:cover;border-radius:8px;border:1px solid #E4E0D6}
+.nitem .tt{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.nitem .tt b{font-size:17px}
+.nitem .sub{font-size:14px;color:#5A5F6E}
+.nact{display:flex;flex-wrap:wrap;gap:10px}
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer}
+.nbtn.del{border-color:#9A3412;color:#9A3412}
+.confirm{background:#FCEEE9;border-radius:10px;padding:12px 14px}.confirm p{margin:0 0 10px;font-weight:600;color:#9A3412}
+.nform{display:flex;flex-direction:column;gap:18px}
+.nform h3{margin:0;font:400 21px 'Young Serif',Georgia,serif}
+.nform label.l{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.nform .hint{margin:4px 0 0;font-size:14px;color:#5A5F6E}
+.nform fieldset{margin:0;padding:0;border:0;display:flex;flex-direction:column;gap:8px}
+.nform legend{padding:0;margin:0 0 8px;font-weight:600;font-size:15px}
+.nform .opt{display:flex;align-items:flex-start;gap:12px;min-height:44px;padding:12px 14px;border:1px solid #E4E0D6;border-radius:10px;background:#FAF8F3;cursor:pointer}
+.nform .opt input{width:20px;height:20px;margin:1px 0 0;accent-color:#0157AE;flex:0 0 auto}
+.nform .opt span{display:flex;flex-direction:column;gap:2px;font-weight:600;font-size:15px}.nform .opt small{font-weight:400;font-size:14px;color:#5A5F6E}
+.drop{position:relative;display:flex;align-items:center;gap:14px;min-height:72px;padding:14px 16px;border:2px dashed #C9C4B8;border-radius:12px;background:#FAF8F3;cursor:pointer}
+.drop input{position:absolute;width:1px;height:1px;opacity:0}
+.drop:focus-within{outline:3px solid rgba(1,87,174,.35)}
+.drop b{color:#0157AE;font-size:15px}.drop small{display:block;font-size:14px;color:#5A5F6E}
+.phbox{display:flex;align-items:center;gap:14px;padding:12px;border:1px solid #E4E0D6;border-radius:12px;background:#FAF8F3}
+.phbox img{width:104px;aspect-ratio:4/3;object-fit:cover;border-radius:8px;border:1px solid #E4E0D6;flex:0 0 auto}
+.phbox .nm{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:2px}.phbox .nm b{font-size:15px}.phbox .nm span{font-size:14px;color:#5A5F6E}
+.linkbtn{min-height:44px;padding:0 8px;border:0;background:none;color:#0157AE;font:600 14px var(--sans);text-decoration:underline;cursor:pointer}
+.linkbtn.del{color:#9A3412}
+.access{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8;color:#0157AE}
+.access h2{margin:0 0 4px;font-size:16px;font-weight:700}.access p{margin:0;font-size:15px;line-height:1.5;color:#1F2433}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</div></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Executive Board</span>
+<h1 id="pg-title" style="margin:0">President&rsquo;s Page</h1><p class="stat-line">Tools for the President, Vice President, Administrators and Superuser.</p></div>
+</div></section>
+<div class="mwrap" style="max-width:1200px" id="content">
+
+<a class="pcard" href="calendar-manage.html?cal=board"><img src="assets/tiles/manage-events.svg" alt=""><span class="t"><b>Board Calendar</b><span>Board meetings and important dates through the year</span></span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0157AE" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></a>
+<div class="pcard soon" aria-disabled="true"><img src="assets/tiles/messages.svg" alt=""><span class="t"><b>Email Members</b><span>Write one email and send it to every current member &middot; Coming soon</span></span></div>
+<div class="pcard soon" aria-disabled="true"><img src="assets/tiles/our-community.svg" alt=""><span class="t"><b>Charities We Support</b><span>Add, change and reorder the list of charities &middot; Coming soon</span></span></div>
+
+<section class="sn-sec" aria-labelledby="sn-title">
+<div><h2 id="sn-title">Special Notices</h2>
+<p>Urgent or important news shown in a highlighted card under the banner on the Welcome page and the member home page.</p></div>
+<p id="note" class="msg ok hidden" role="status" style="margin:0"></p>
+<p id="err" class="msg err hidden" role="alert" style="margin:0"></p>
+<div class="sn-grid">
+<div style="display:flex;flex-direction:column;gap:10px">
+<h3 style="margin:0;font-size:15px;font-weight:600">Special notices</h3>
+<p id="loading" role="status" style="margin:0">Loading&hellip;</p>
+<ul class="nlist" id="list"></ul>
+<p class="hidden" id="empty" style="margin:0;padding:14px 16px;border-radius:12px;background:#F0ECE3;color:#454A58;font-size:15px">No special notices yet. The card stays hidden on both pages until you post one.</p>
+</div>
+
+<form class="nform" id="form" novalidate>
+<h3 id="form-h">Post a new special notice</h3>
+<div><label class="l" for="f-head">Headline <span aria-hidden="true">*</span></label>
+<input class="field" id="f-head" maxlength="120" autocomplete="off" placeholder="e.g., Tonight&rsquo;s meeting is cancelled"></div>
+<div><label class="l" for="f-msg">Message</label>
+<textarea class="field" id="f-msg" rows="4" maxlength="800" placeholder="A sentence or two with the details." style="min-height:110px"></textarea></div>
+<div><span class="l" style="display:block;font-weight:600;font-size:15px;margin:0 0 8px">Photo <span style="font-weight:400;color:#5A5F6E">(optional)</span></span>
+<label class="drop" id="drop"><input type="file" id="f-file" accept="image/jpeg,image/png"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0157AE" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:0 0 auto"><path d="M12 16V4M7 9l5-5 5 5M4 16v4h16v-4"></path></svg><span><b>Add a photo</b><small>JPG or PNG. Shown beside the message.</small></span></label>
+<div class="phbox hidden" id="phbox"><img id="ph-img" alt=""><span class="nm"><b id="ph-name">Current photo</b><span id="ph-sub"></span></span>
+<span style="display:flex;flex-direction:column;align-items:flex-end"><label class="linkbtn" style="display:flex;align-items:center;position:relative;cursor:pointer"><input type="file" id="f-file2" accept="image/jpeg,image/png" style="position:absolute;width:1px;height:1px;opacity:0">Replace</label><button type="button" class="linkbtn del" id="ph-rm">Remove</button></span></div>
+<div class="hidden" id="altbox" style="margin-top:12px"><label class="l" for="f-alt">Photo description <span aria-hidden="true">*</span></label>
+<input class="field" id="f-alt" maxlength="200" autocomplete="off" placeholder="e.g., Flooded parking lot at the church">
+<p class="hint">Read aloud to visitors who use screen readers.</p></div></div>
+<fieldset><legend>Who sees it</legend>
+<label class="opt"><input type="radio" name="aud" value="all" checked><span>Everyone<small>Welcome page and member home page</small></span></label>
+<label class="opt"><input type="radio" name="aud" value="members"><span>Members only<small>Member home page, after signing in</small></span></label></fieldset>
+<div><label class="l" for="f-until">Show until</label>
+<input class="field" type="date" id="f-until" style="width:240px">
+<p class="hint">Optional. The notice comes down by itself after this date. Leave blank to keep it until you remove it.</p></div>
+<p id="f-err" class="msg err hidden" role="alert" style="margin:0"></p>
+<div class="saverow"><button type="submit" class="btn-save" id="f-save">Post special notice</button><button type="button" class="btn-cancel" id="f-cancel">Cancel</button></div>
+</form>
+</div></section>
+
+<section class="access" aria-labelledby="access-title"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:0 0 auto;margin-top:2px"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+<div><h2 id="access-title">Who can use this page</h2><p>The President, Vice President, Administrators and the Superuser. Other members don&rsquo;t see the President&rsquo;s Page tile.</p></div></section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/special-notices.js"></script>
+<script>
+QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president');}},function(c){
+  var $=function(i){return document.getElementById(i)};
+  var sb=QGPC.sb, BUCKET='special-notices', rows=[], editId=null, confirmId=null;
+  // photo state for the form: path = saved file, blob = new file chosen, gone = remove the saved one
+  var ph={path:null,blob:null,url:null,gone:false,alt:''};
+  var today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+  function say(t){var n=$('note');n.textContent=t;n.classList.remove('hidden');$('err').classList.add('hidden');}
+  function bad(t){var n=$('err');n.textContent=t;n.classList.remove('hidden');$('note').classList.add('hidden');}
+  function ferr(t){var f=$('f-err');f.textContent=t;f.classList.remove('hidden');}
+  var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function nice(d){var p=d.split('-');return MON[+p[1]-1]+' '+(+p[2])+', '+p[0];}
+  function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
+  function chip(t,cls){return el('span','chip '+cls,t);}
+
+  function load(){
+    return sb.from('special_notices').select('*').order('created_at',{ascending:false}).then(function(r){
+      $('loading').classList.add('hidden');
+      if(r.error){bad('Could not load the special notices. Please refresh and try again.');return;}
+      rows=r.data||[];draw();
+    });
+  }
+  function draw(){
+    var ul=$('list');ul.textContent='';
+    $('empty').classList.toggle('hidden',rows.length>0);
+    rows.forEach(function(n){
+      var expired=n.show_until&&n.show_until<today;
+      var li=el('li','nitem'+(expired?' exp':'')+(editId===n.id?' on':''));
+      var top=el('div','top');
+      if(n.photo_path){var im=el('img');im.src=QGPCSpecial.photoUrl(n.photo_path);im.alt=n.photo_alt||'';top.appendChild(im);}
+      var tx=el('div');tx.style.cssText='flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:6px';
+      var tt=el('div','tt');tt.appendChild(el('b',null,n.headline));
+      if(expired)tt.appendChild(chip('Expired','gray'));
+      tt.appendChild(chip(n.members_only?'Members only':'Everyone',n.members_only?'blue':'rust'));
+      tx.appendChild(tt);
+      var posted=n.created_at?nice(new Date(n.created_at).toLocaleDateString('en-CA',{timeZone:'America/Chicago'})):'';
+      tx.appendChild(el('span','sub','Posted '+posted+' · '+(n.show_until?'Shows until '+nice(n.show_until):'No end date')+(n.photo_path?' · Has a photo':'')));
+      top.appendChild(tx);li.appendChild(top);
+      var act=el('div','nact');
+      var b1=el('button','nbtn','Edit');b1.type='button';b1.setAttribute('aria-label','Edit '+n.headline);b1.onclick=function(){confirmId=null;openForm(n);};
+      var b2=el('button','nbtn del','Delete');b2.type='button';b2.setAttribute('aria-label','Delete '+n.headline);b2.onclick=function(){confirmId=n.id;draw();};
+      act.appendChild(b1);act.appendChild(b2);li.appendChild(act);
+      if(confirmId===n.id){
+        var cf=el('div','confirm');cf.appendChild(el('p',null,'Delete this notice? It comes off both pages and can’t be undone.'));
+        var row=el('div','saverow');
+        var y=el('button','btn-del solid','Yes, delete');y.type='button';y.onclick=function(){doDelete(n,y);};
+        var k=el('button','btn-cancel','Keep it');k.type='button';k.onclick=function(){confirmId=null;draw();};
+        row.appendChild(y);row.appendChild(k);cf.appendChild(row);li.appendChild(cf);
+      }
+      ul.appendChild(li);
+    });
+  }
+  function dropFile(path){if(path)sb.storage.from(BUCKET).remove([path]);}
+  function doDelete(n,btn){
+    btn.disabled=true;
+    sb.from('special_notices').delete().eq('id',n.id).then(function(r){
+      confirmId=null;
+      if(r.error){bad('That did not delete. Please try again.');load();return;}
+      dropFile(n.photo_path);
+      if(editId===n.id)closeForm();
+      say('Deleted. It no longer shows on the Welcome or member home page.');load();
+    });
+  }
+
+  // ---- photo handling: shrink in the browser (long side 1600 px, JPEG) before upload ----
+  function shrink(file){
+    return new Promise(function(res,rej){
+      var url=URL.createObjectURL(file),img=new Image();
+      img.onload=function(){
+        var w=img.naturalWidth,h=img.naturalHeight,m=1600,k=Math.min(1,m/Math.max(w,h));
+        var cv=document.createElement('canvas');cv.width=Math.round(w*k);cv.height=Math.round(h*k);
+        var g=cv.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,cv.width,cv.height);g.drawImage(img,0,0,cv.width,cv.height);
+        URL.revokeObjectURL(url);
+        cv.toBlob(function(b){b?res(b):rej();},'image/jpeg',0.85);
+      };
+      img.onerror=function(){URL.revokeObjectURL(url);rej();};
+      img.src=url;
+    });
+  }
+  function drawPhoto(){
+    var has=!!(ph.blob||(ph.path&&!ph.gone));
+    $('drop').classList.toggle('hidden',has);$('phbox').classList.toggle('hidden',!has);$('altbox').classList.toggle('hidden',!has);
+    if(has){
+      $('ph-img').src=ph.blob?ph.url:QGPCSpecial.photoUrl(ph.path);
+      $('ph-name').textContent=ph.blob?'New photo':'Current photo';
+      $('ph-sub').textContent=ph.blob?'New photo, not saved yet':'Saved with this notice';
+    }
+  }
+  function pick(e){
+    var f=e.target.files&&e.target.files[0];e.target.value='';
+    if(!f)return;
+    if(!/^image\/(jpeg|png)$/.test(f.type)){ferr('Please choose a JPG or PNG photo.');return;}
+    shrink(f).then(function(b){
+      if(ph.url)URL.revokeObjectURL(ph.url);
+      ph.blob=b;ph.url=URL.createObjectURL(b);ph.gone=false;$('f-err').classList.add('hidden');drawPhoto();
+    },function(){ferr('That photo could not be read. Please try another.');});
+  }
+  $('f-file').addEventListener('change',pick);$('f-file2').addEventListener('change',pick);
+  $('ph-rm').onclick=function(){if(ph.url)URL.revokeObjectURL(ph.url);ph.blob=null;ph.url=null;if(ph.path)ph.gone=true;$('f-alt').value='';drawPhoto();};
+
+  function resetPhoto(n){if(ph.url)URL.revokeObjectURL(ph.url);ph={path:n&&n.photo_path||null,blob:null,url:null,gone:false};}
+  function openForm(n){
+    editId=n?n.id:null;resetPhoto(n);
+    $('form-h').textContent=n?'Edit special notice':'Post a new special notice';
+    $('f-save').textContent=n?'Save changes':'Post special notice';
+    $('f-head').value=n?n.headline:'';$('f-msg').value=n&&n.message?n.message:'';
+    $('f-until').value=n&&n.show_until?n.show_until:'';$('f-alt').value=n&&n.photo_alt?n.photo_alt:'';
+    document.querySelector('input[name=aud][value='+(n&&n.members_only?'members':'all')+']').checked=true;
+    $('f-err').classList.add('hidden');drawPhoto();draw();
+    $('f-head').focus();$('form').scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  function closeForm(){editId=null;resetPhoto(null);
+    $('form-h').textContent='Post a new special notice';$('f-save').textContent='Post special notice';
+    $('f-head').value='';$('f-msg').value='';$('f-until').value='';$('f-alt').value='';
+    document.querySelector('input[name=aud][value=all]').checked=true;$('f-err').classList.add('hidden');drawPhoto();draw();}
+  $('f-cancel').onclick=function(){closeForm();$('note').classList.add('hidden');};
+
+  $('form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var head=$('f-head').value.trim();
+    if(!head){ferr('Please type a headline.');$('f-head').focus();return;}
+    var hasPhoto=!!(ph.blob||(ph.path&&!ph.gone)),alt=$('f-alt').value.trim();
+    if(hasPhoto&&!alt){ferr('Please describe the photo for visitors who use screen readers.');$('f-alt').focus();return;}
+    var members=document.querySelector('input[name=aud]:checked').value==='members';
+    var btn=$('f-save');btn.disabled=true;$('f-err').classList.add('hidden');
+    var oldPath=ph.path,newPath=null;
+    var up=ph.blob?(newPath=(self.crypto&&crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2))+'.jpg',
+      sb.storage.from(BUCKET).upload(newPath,ph.blob,{contentType:'image/jpeg',upsert:false})):Promise.resolve({});
+    up.then(function(u){
+      if(u&&u.error){btn.disabled=false;ferr('The photo did not upload. Please try again.');return;}
+      var path=newPath||(ph.gone?null:oldPath);
+      var rec={headline:head,message:$('f-msg').value.trim()||null,members_only:members,show_until:$('f-until').value||null,photo_path:path,photo_alt:path?alt:null};
+      var wasEdit=!!editId;
+      var q=editId?sb.from('special_notices').update(rec).eq('id',editId):sb.from('special_notices').insert(rec);
+      return q.then(function(r){
+        btn.disabled=false;
+        if(r.error){if(newPath)dropFile(newPath);ferr('That did not save. Please try again.');return;}
+        if(oldPath&&path!==oldPath)dropFile(oldPath);   // replaced or removed photo
+        say(wasEdit?'Changes saved.':(members?'Posted. Members see it on the member home page.':'Posted. It now shows on the Welcome page and the member home page.'));
+        closeForm();load();
+      });
+    });
+  });
+  load();
+});
+</script>
+</body></html>
