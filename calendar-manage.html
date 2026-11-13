@@ -48,6 +48,7 @@
 <h1 id="pg-title" style="margin:0">Guild Calendar</h1><p class="stat-line" id="sub">Sew days, socials and other Guild events through the year. Everyone sees them on the events card.</p></div>
 </div></section>
 <div class="mwrap" style="max-width:1200px" id="content">
+<a class="backlink hidden" id="back" href="presidents-page.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to the President&rsquo;s Page</a>
 <p id="note" class="msg ok hidden" role="status"></p>
 <p id="err" class="msg err hidden" role="alert"></p>
 <div class="ybar"><button type="button" class="yb" id="y-prev" aria-label="Previous year">&lsaquo;</button><span class="ylab" id="y-lab" aria-live="polite"></span><button type="button" class="yb" id="y-next" aria-label="Next year">&rsaquo;</button>
@@ -91,6 +92,7 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
   var $=function(i){return document.getElementById(i)};
   var sb=QGPC.sb;
   var slug=/[?&]cal=board\b/.test(location.search)?'board':'guild';
+  if(slug==='board')$('back').classList.remove('hidden');   // the Board Calendar is opened from the President's Page
   var MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
   var DOW=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   var today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());

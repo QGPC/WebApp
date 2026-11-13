@@ -48,6 +48,7 @@
 <h1 id="pg-title" style="margin:0">Email Members</h1><p class="stat-line">Write one email and send it to every current member.</p></div>
 </div></section>
 <div class="mwrap" style="max-width:900px" id="content">
+<a class="backlink hidden" id="back" href="presidents-page.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to the President&rsquo;s Page</a>
 
 <section class="ebox" id="resume-box" aria-labelledby="rs-h" style="display:none;border-color:#E87446;background:#FFF6F1">
 <h2 id="rs-h">A send was not finished</h2>
@@ -103,6 +104,8 @@
 QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president')||c.has('program_chair');}},function(c){
   var $=function(i){return document.getElementById(i)};
   var sb=QGPC.sb, st=null, sending=false;
+  // only people who can open the President's Page get the link back (the Program Chair cannot)
+  if(c.isAdmin||c.has('president')||c.has('vice_president'))$('back').classList.remove('hidden');
   var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
   // Messages appear right under the buttons, where the person is looking.
