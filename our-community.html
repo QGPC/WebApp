@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Our Community</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.ctools{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr));gap:16px}
+.pcard{display:flex;align-items:center;gap:16px;width:100%;box-sizing:border-box;min-height:84px;padding:16px 20px;background:#fff;border:2px solid #0157AE;border-radius:18px;text-decoration:none;color:#1F2433}
+.pcard img{flex:0 0 auto;width:52px;height:52px;border-radius:12px}
+.pcard .t{flex:1 1 auto;display:flex;flex-direction:column;gap:2px}
+.pcard .t b{font:400 22px 'Young Serif',Georgia,serif}
+.pcard .t span{font-size:14px;color:#5A5F6E}
+.pcard.soon{border-color:#C9C4B8;color:#5A5F6E;cursor:default}.pcard.soon .t b{color:#5A5F6E}
+.bd{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));gap:12px}
+.bd a{display:flex;align-items:center;gap:12px;min-height:64px;padding:10px 14px;border:1px solid #E4E0D6;border-radius:12px;background:#FAF8F3;color:#1F2433;text-decoration:none}
+.bd a.today{background:#FEF7F4;border-color:#F4BFAA}
+.bd .day{flex:0 0 auto;width:40px;height:40px;border-radius:10px;background:#0157AE;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:17px}
+.bd .nm{display:flex;flex-direction:column;font-weight:600}.bd .nm small{font-weight:700;font-size:13px;color:#9A3412}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="index.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions"><a class="homelink" id="homelink" href="index.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a></div>
+</div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Our Guild family</span>
+<h1 id="pg-title" style="margin:0">Our Community</h1><p class="stat-line">The ways we care for and celebrate each other.</p></div>
+</div></section>
+<div class="mwrap" style="max-width:1100px">
+<a class="backlink" id="backlink" href="index.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to Home</a>
+<div class="ctools">
+<div class="pcard soon hidden" id="c-sunshine" aria-disabled="true"><img src="assets/tiles/sunshine-and-shadows.svg" alt=""><span class="t"><b>Sunshine &amp; Shadows</b><span>Happy news and hard times in our Guild family. Share a note of your own. &middot; Coming soon</span></span></div>
+<div class="pcard soon" aria-disabled="true"><img src="assets/tiles/about.svg" alt=""><span class="t"><b>In the News</b><span>See where our Guild and its members have been mentioned in the news. &middot; Coming soon</span></span></div>
+<a class="pcard" href="charities.html"><img src="assets/tiles/our-community.svg" alt=""><span class="t"><b>Charities We Support</b><span>The charities the Guild gives to and works with in our community.</span></span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0157AE" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></a>
+</div>
+
+<section class="card hidden" id="bd-card" aria-labelledby="bd-h">
+<h2 id="bd-h" style="margin:0 0 4px;font-size:24px">Birthdays</h2>
+<p id="bd-sub" style="margin:0 0 16px;color:#5A5F6E"></p>
+<ul class="bd" id="bd-list"></ul>
+<p class="muted hidden" id="bd-none" style="margin:0;color:#5A5F6E">No birthdays this month.</p>
+</section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  var sb=QGPC.sb;
+  var MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
+  // today in the Guild's time zone
+  var p=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()).split('-');
+  var m=+p[1],d=+p[2];
+
+  // Visitors see the public cards. Members (Active or grace, or an Administrator) also get Sunshine & Shadows and the month's birthdays.
+  QGPC.session().then(function(s){
+    if(!s)return;
+    $('homelink').href='home.html';$('backlink').href='home.html';
+    // the same list the Member Directory uses: members who chose "Not listed" are left out, and non-members get an error
+    return sb.rpc('member_directory').then(function(x){
+      if(x.error||!x.data)return;
+      $('c-sunshine').classList.remove('hidden');
+      var list=x.data.filter(function(r){return r.birthday_month===m&&r.birthday_day;}).sort(function(a,b){return a.birthday_day-b.birthday_day||(a.last_name||'').localeCompare(b.last_name||'');});
+      $('bd-h').textContent=MON[m-1]+' Birthdays';
+      $('bd-sub').textContent='Guild members with a birthday in '+MON[m-1]+'.';
+      var ul=$('bd-list');ul.textContent='';
+      list.forEach(function(r){
+        var name=(r.first_name+' '+r.last_name).trim(),isToday=r.birthday_day===d;
+        var li=el('li'),a=el('a',isToday?'today':null);a.href='directory.html';
+        a.setAttribute('aria-label',name+', birthday on the '+r.birthday_day+(isToday?', today':'')+'. Open the Member Directory.');
+        a.appendChild(el('span','day',String(r.birthday_day)));
+        var nm=el('span','nm',name);if(isToday)nm.appendChild(el('small',null,'Birthday today'));
+        a.appendChild(nm);li.appendChild(a);ul.appendChild(li);
+      });
+      $('bd-none').classList.toggle('hidden',list.length>0);
+      $('bd-card').classList.remove('hidden');
+    });
+  });
+})();
+</script>
+</body></html>
