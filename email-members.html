@@ -48,8 +48,6 @@
 <h1 id="pg-title" style="margin:0">Email Members</h1><p class="stat-line">Write one email and send it to every current member.</p></div>
 </div></section>
 <div class="mwrap" style="max-width:900px" id="content">
-<p id="err" class="msg err hidden" role="alert"></p>
-<p id="note" class="msg ok hidden" role="status"></p>
 
 <section class="ebox" id="resume-box" aria-labelledby="rs-h" style="display:none;border-color:#E87446;background:#FFF6F1">
 <h2 id="rs-h">A send was not finished</h2>
@@ -78,6 +76,7 @@
 <button type="button" class="btn-cancel" id="b-test">Send me a test copy</button>
 <button type="button" class="btn-save" id="b-send">Send to members</button>
 </div>
+<p id="f-status" class="msg hidden" role="status" aria-live="polite" style="margin:0;font-size:16px"></p>
 <div class="preview hidden" id="preview" aria-live="polite"></div>
 <div class="confirm hidden" id="confirm" role="alert"><p id="confirm-q"></p>
 <div class="erow"><button type="button" class="btn-del solid" id="c-yes">Yes, send now</button><button type="button" class="btn-cancel" id="c-no">Not yet</button></div></div>
@@ -106,8 +105,10 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
   var sb=QGPC.sb, st=null, sending=false;
   var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
-  function say(t){var n=$('note');n.textContent=t;n.classList.remove('hidden');$('err').classList.add('hidden');}
-  function bad(t){var n=$('err');n.textContent=t;n.classList.remove('hidden');$('note').classList.add('hidden');window.scrollTo({top:0,behavior:'smooth'});}
+  // Messages appear right under the buttons, where the person is looking.
+  function show(t,cls){var n=$('f-status');n.textContent=t;n.className='msg '+cls;n.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  function say(t){show(t,'ok');}
+  function bad(t){show(t,'err');}
   function ferr(t){var f=$('f-err');f.textContent=t;f.classList.remove('hidden');}
   function plural(n,w){return n+' '+w+(n===1?'':'s');}
   function when(iso){var d=new Date(iso),p=new Intl.DateTimeFormat('en-US',{timeZone:'America/Chicago',month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'}).format(d);return p;}
@@ -163,12 +164,12 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
   };
   $('b-test').onclick=function(){
     var v=vals();if(!check(v))return;
-    busy(true);say('Sending a test copy to '+(st&&st.sender_email||'you')+'…');
+    busy(true);say('Sending a test copy to '+(st&&st.sender_email||'you')+'… please wait.');
     v.action='test';
     call(v).then(function(r){
       busy(false);
       if(r.error){bad(r.error);return;}
-      say('A test copy was sent to '+r.to+'. It may take a minute to arrive. (It counts as 1 of today’s emails.)');loadStatus();loadHistory();
+      say('✓ Test copy sent to '+r.to+'. It can take a minute to arrive; check your spam folder if you don’t see it. It counts as 1 of today’s emails.');loadStatus();loadHistory();
     });
   };
   $('b-send').onclick=function(){
@@ -201,22 +202,23 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
         if(r.remaining>0&&(r.sent_now+r.failed_now)>0){step();return;}
         busy(false);$('progress').classList.add('hidden');
         if(clearForm){$('f-sub').value='';$('f-msg').value='';$('preview').classList.add('hidden');}
-        say('Sent “'+subject+'” to '+plural(r.sent,'member')+'.'+(fails?' '+plural(fails,'address')+' did not go through; you can see which in the list below.':''));
-        loadStatus();loadHistory();window.scrollTo({top:0,behavior:'smooth'});
+        say('✓ Sent “'+subject+'” to '+plural(r.sent,'member')+'.'+(fails?' '+plural(fails,'address')+' did not go through; you can see which in the list below.':''));
+        loadStatus();loadHistory();
       });
     }
     step();
   }
 
   function loadHistory(){
-    return sb.from('member_emails').select('*').eq('is_test',false).order('created_at',{ascending:false}).limit(40).then(function(r){
+    return sb.from('member_emails').select('*').or('is_test.eq.false,sent_by.eq.'+c.member.id).order('created_at',{ascending:false}).limit(40).then(function(r){
       var ul=$('hist');ul.textContent='';
       if(r.error){$('hist-none').textContent='Could not load the list.';$('hist-none').classList.remove('hidden');return;}
       var rows=r.data||[];$('hist-none').classList.toggle('hidden',rows.length>0);
       var open=null;
       rows.forEach(function(e){
-        var li=el('li');li.appendChild(el('b',null,e.subject));
-        var unfinished=(e.sent+e.failed)<e.recipients;
+        var li=el('li');li.appendChild(el('b',null,(e.is_test?'Test copy: ':'')+e.subject));
+        var unfinished=!e.is_test&&(e.sent+e.failed)<e.recipients;
+        if(e.is_test){li.appendChild(el('span',null,when(e.created_at)+' · sent only to you'));ul.appendChild(li);return;}
         li.appendChild(el('span',null,when(e.created_at)+' · '+(e.sender_name||'')+(e.sender_role?' ('+e.sender_role+')':'')+' · '+plural(e.sent,'email')+' sent'+(e.failed?' · '+e.failed+' failed':'')+(unfinished?' · not finished ('+(e.recipients-e.sent-e.failed)+' left)':'')));
         ul.appendChild(li);
         if(unfinished&&!open&&(Date.now()-new Date(e.created_at).getTime())<36e5*24)open=e;
