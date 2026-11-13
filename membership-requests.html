@@ -111,6 +111,8 @@ QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}}
       st.appendChild(box);
       if(r.kind!=='renewal'){var bi=document.createElement('button');bi.type='button';bi.className='btn-save';bi.textContent='Send sign-in email again';
       bi.addEventListener('click',function(){bi.disabled=true;sendInvite(r.member_id,r.email,false,bi);});st.appendChild(bi);}
+      else{var bre=document.createElement('button');bre.type='button';bre.className='btn-save';bre.textContent='Send renewal email again';
+      bre.addEventListener('click',function(){bre.disabled=true;sendRenewalEmail(r.id,r.email,false,bre,true);});st.appendChild(bre);}
       var nx=rows.filter(function(x){return x.status==='new'||x.status==='paid';})[0];
       if(nx){var b=document.createElement('button');b.type='button';b.className='btn-save';b.textContent='Next request';b.addEventListener('click',function(){sel=nx.id;paint();});st.appendChild(b);}
       return;
@@ -121,7 +123,7 @@ QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}}
       st.appendChild(b1);
     }else{var done=document.createElement('div');done.className='paydone';done.textContent=r.payment_status==='not_required'?'No payment due — Exempt':'Payment received';st.appendChild(done);}
     var b2=document.createElement('button');b2.type='button';b2.className='btn-save step';b2.disabled=!paid;b2.innerHTML='<span class="stepn" aria-hidden="true">2</span>Membership Approved';
-    b2.addEventListener('click',function(){b2.disabled=true;note('');QGPC.sb.rpc('approve_membership_request',{p_id:r.id}).then(function(x){if(x.error){note(x.error.message);b2.disabled=false;return;}if(r.kind==='renewal'){note('Renewal approved.');reload();}else sendInvite(x.data,r.email,true);});});
+    b2.addEventListener('click',function(){b2.disabled=true;note('');QGPC.sb.rpc('approve_membership_request',{p_id:r.id}).then(function(x){if(x.error){note(x.error.message);b2.disabled=false;return;}if(r.kind==='renewal')sendRenewalEmail(r.id,r.email,true);else sendInvite(x.data,r.email,true);});});
     st.appendChild(b2);
     if(!paid){var h=document.createElement('span');h.className='sub';h.textContent='Confirm the payment first.';st.appendChild(h);}
     var bd=document.createElement('button');bd.type='button';bd.className='btn-del';bd.textContent='Decline this request\u2026';st.appendChild(bd);
@@ -157,6 +159,28 @@ QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}}
           note('Request declined. An email was sent to '+addr+'.');
         });
       });
+    });
+  }
+  function sendInvite(memberId,email,refresh,btn){
+    note('Sending the sign-in email…');
+    QGPC.sb.functions.invoke('invite-member',{body:{member_id:memberId}}).then(function(x){
+      var msg=(x.data&&x.data.error)||(x.error&&x.error.message&&x.error.message.indexOf('non-2xx')<0?x.error.message:'')||(x.error?'The sign-in email could not be sent.':'');
+      if(x.error&&x.error.context&&x.error.context.json){x.error.context.json().then(function(j){note('Approved, but the sign-in email was not sent: '+(j.error||msg));if(btn)btn.disabled=false;if(refresh)reload();}).catch(function(){note('Approved, but the sign-in email was not sent.');if(refresh)reload();});return;}
+      note(msg?'The sign-in email was not sent: '+msg:'Sign-in email sent to '+email+'.');
+      if(btn)btn.disabled=false;
+      if(refresh)reload();
+    });
+  }
+  // emails a member that their approved renewal is done; resend=true is the chair's "Send again" button
+  function sendRenewalEmail(requestId,email,refresh,btn,resend){
+    note('Sending the renewal email to '+email+'…');
+    function done(t){note(t);if(btn)btn.disabled=false;if(refresh)reload();}
+    QGPC.sb.functions.invoke('send-renewal-email',{body:{request_id:requestId,resend:!!resend}}).then(function(x){
+      function fail(t){done('Renewal approved, but the email to '+email+' was not sent: '+t+' You may want to tell them yourself.');}
+      if(x.error&&x.error.context&&x.error.context.json){x.error.context.json().then(function(j){fail(j.error||'unknown error.');}).catch(function(){fail('unknown error.');});return;}
+      if(x.error){fail('unknown error.');return;}
+      if(x.data&&x.data.error){fail(x.data.error);return;}
+      done('Renewal approved. An email was sent to '+email+'.');
     });
   }
   function paint(){paintList();paintDetail();}
