@@ -51,7 +51,7 @@
 <main id="main">
 <section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
 <div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Workshop Manager</span>
-<h1 id="pg-title" style="margin:0">Registrations to work</h1><p class="stat-line">Accept paid sign-ups here. People who have signed up but not paid are listed below; mark them paid (cash, check or online) and they move up to be accepted. Accepting opens the patterns and materials for that person and emails them.</p></div>
+<h1 id="pg-title" style="margin:0">Registrations to work</h1><p class="stat-line">Accept paid sign-ups here. People who have signed up but not paid are listed below; marking them paid registers them in one step. Accepting opens the patterns and materials for that person and emails them.</p></div>
 </div></section>
 <div class="mwrap" style="max-width:900px" id="content">
 <a class="backlink" href="workshop-registrations.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to Workshop Registrations</a>
@@ -63,7 +63,7 @@
 <p class="hidden" id="none" style="margin:0;padding:14px 16px;border-radius:12px;background:#E8F4EC;color:#1E5A33;font-weight:600">All caught up &mdash; no paid registrations are waiting for acceptance.</p>
 <div class="ml" id="list" style="display:flex;flex-direction:column;gap:12px"></div>
 <h2 class="sh" id="h-unpaid">Signed up, not yet paid</h2>
-<p class="hint" style="margin:0">When money arrives by cash, check or online, choose Mark paid. The person is then registered (holds a spot) and moves up to the list above.</p>
+<p class="hint" style="margin:0">When money arrives by cash, check or online, choose Mark paid and register. The person is registered right away: they are accepted, their materials open, and they are emailed.</p>
 <p class="hidden hint" id="none2" style="margin:0">Nobody is waiting to pay.</p>
 <div class="ml" id="list2" style="display:flex;flex-direction:column;gap:12px"></div>
 </div>
@@ -114,7 +114,7 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('workshop_chair')||c.h
       card.appendChild(el('span','mt',(m.ws_title||'Workshop')+(m.ws_date?' · '+nice(m.ws_date):'')+' · Signed up '+niceTs(r.signed_up_at)));
       card.appendChild(el('span','mt',(r.is_member?'Member':'Non-member')+' · Amount due '+money(r.total_due)));
       var full=m.ws_spots!=null&&(heldBy[r.month_id]||0)>=m.ws_spots;
-      var act=el('div','act'),b=el('button','nbtn solid',full?'Workshop full':'Mark paid');b.type='button';b.disabled=full;
+      var act=el('div','act'),b=el('button','nbtn solid',full?'Workshop full':'Mark paid and register');b.type='button';b.disabled=full;
       b.setAttribute('aria-label','Mark '+r.name+' paid');b.onclick=function(){openPay=r.id;draw();};
       if(openPay!==r.id){act.appendChild(b);}
       card.appendChild(act);
@@ -127,7 +127,7 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('workshop_chair')||c.h
     f.innerHTML='<div class="row"><div><label class="l" for="'+id+'">How was it paid?</label><select class="field" id="'+id+'"><option value="">Choose&hellip;</option><option value="cash">Cash</option><option value="check">Check</option><option value="online">Online</option></select></div>'+
       '<div id="'+id+'r" class="hidden"><label class="l" for="'+id+'n">Check number</label><input class="field" id="'+id+'n" maxlength="40" inputmode="numeric"></div></div>'+
       '<p class="mt" style="margin:0">Amount: '+money(r.total_due)+'</p><p class="err hidden" role="alert" id="'+id+'e"></p>'+
-      '<div class="act"><button type="submit" class="nbtn solid">Save payment</button><button type="button" class="nbtn" id="'+id+'x">Cancel</button></div>';
+      '<div class="act"><button type="submit" class="nbtn solid">Save payment and register</button><button type="button" class="nbtn" id="'+id+'x">Cancel</button></div>';
     var sel=f.querySelector('select'),rw=f.querySelector('#'+id+'r'),er=f.querySelector('#'+id+'e');
     sel.onchange=function(){rw.classList.toggle('hidden',sel.value!=='check');};
     f.querySelector('#'+id+'x').onclick=function(){openPay=null;draw();};
@@ -137,7 +137,15 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('workshop_chair')||c.h
       var go=f.querySelector('button[type=submit]');go.disabled=true;
       sb.rpc('workshop_mark_paid',{p_id:r.id,p_method:sel.value,p_ref:sel.value==='check'?f.querySelector('#'+id+'n').value:null}).then(function(x){
         if(x.error){go.disabled=false;er.textContent=/full/i.test(x.error.message||'')?'The workshop is full.':'That did not save. Please refresh and try again.';er.classList.remove('hidden');return;}
-        openPay=null;say(r.name+' is marked paid and registered. Accept them in the list above.');reload();
+        openPay=null;
+        return sb.rpc('workshop_accept',{p_id:r.id}).then(function(y){
+          if(y.error){say(r.name+' is marked paid, but could not be accepted. Accept them in the list above.','err');return reload();}
+          say('Paid and registered. Sending the email to '+r.name+'…');reload();
+          return sb.functions.invoke('send-workshop-accepted',{body:{registration_id:r.id}}).then(function(res){
+            if(res.error){say(r.name+' is paid and registered, but the email was not sent. Open the workshop month and choose Resend email.','err');return;}
+            say(r.name+' is paid and registered, and was emailed their materials.');
+          });
+        });
       });
     });
     setTimeout(function(){sel.focus();},0);

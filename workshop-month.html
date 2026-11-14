@@ -174,11 +174,20 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('workshop_chair')||c.h
         cf.appendChild(wrap);
         var sel=wrap.querySelector('select'),rw=wrap.querySelector('#'+pid+'r'),er=wrap.querySelector('#'+pid+'e');
         sel.onchange=function(){rw.classList.toggle('hidden',sel.value!=='check');};
-        var row=el('div','act');btn(row,'Save payment','solid',function(){
+        var row=el('div','act');btn(row,'Save payment and register','solid',function(){
           if(!sel.value){er.textContent='Please choose how it was paid.';er.classList.remove('hidden');sel.focus();return;}
           sb.rpc('workshop_mark_paid',{p_id:r.id,p_method:sel.value,p_ref:sel.value==='check'?wrap.querySelector('#'+pid+'n').value:null}).then(function(x){
             if(x.error){say(/full/i.test(x.error.message||'')?'The workshop is full.':'That did not work. Please refresh and try again.','err');return;}
-            confirm=null;say(r.name+' is marked paid and registered. Accept them on Registrations to work.');return load();
+            confirm=null;
+            return sb.rpc('workshop_accept',{p_id:r.id}).then(function(y){
+              if(y.error){say(r.name+' is marked paid, but could not be accepted. Accept them on Registrations to work.','err');return load();}
+              say('Paid and registered. Sending the email to '+r.name+'…');
+              return load().then(function(){return sb.functions.invoke('send-workshop-accepted',{body:{registration_id:r.id}});}).then(function(res){
+                if(res.error){say(r.name+' is paid and registered, but the email was not sent. Choose Resend email.','err');}
+                else say(r.name+' is paid and registered, and was emailed their materials.');
+                return load();
+              });
+            });
           });},false);
         btn(row,'Cancel','',function(){confirm=null;draw();});cf.appendChild(row);card.appendChild(cf);
       }
