@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sunshine and Shadows</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.nbtn:disabled{opacity:.45;cursor:default}
+.nbtn.del{border-color:#9A3412;color:#9A3412}
+.nbtn.solid{background:#0157AE;color:#fff}
+.cqc{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+.cqc>h2,.cqh h2{margin:0;font:400 24px 'Young Serif',Georgia,serif}
+.cqh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sub{margin:2px 0 0;color:#5A5F6E;font-size:15px}
+.cbadge{min-width:26px;height:26px;padding:0 8px;border-radius:999px;background:#E87446;color:#1F2433;font-weight:700;font-size:14px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box}
+.pl{font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;white-space:nowrap}
+.pl.gray{background:#F0ECE3;color:#454A58}
+.pl.new{background:#E87446;color:#1F2433}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer}
+.seg button[aria-pressed=true]{background:#0157AE;color:#fff}
+.confirm{background:#FCEEE9;border-radius:10px;padding:12px 14px}.confirm p{margin:0 0 10px;font-weight:600;color:#9A3412}
+.infobox{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8}
+.infobox h2{margin:0 0 4px;font-size:16px;font-weight:700;color:#0157AE}.infobox p{margin:0;font-size:15px;line-height:1.5;color:#1F2433}
+.blue-note{border:2px solid #0157AE;border-radius:14px;padding:16px 18px;background:#F4F6FB;display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.blue-note h3{margin:0;font-size:17px}.blue-note ul{margin:8px 0 0;padding-left:20px;line-height:1.5}
+.empty{margin:0;padding:14px 16px;border-radius:12px;background:#F0ECE3;color:#454A58}
+.toplinks{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.dl2{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:15px}.dl2 dt{font-weight:700;color:#5A5F6E}.dl2 dd{margin:0}
+.lbl{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+
+.ssl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.ssl li{display:flex;gap:14px;align-items:flex-start;padding:16px 18px;border:1px solid #E4E0D6;border-radius:14px;background:#fff}
+.ssi{flex:0 0 44px;width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.ssi.sun{background:#FCEEE9;color:#9A3412}.ssi.shadow{background:#EEF1F8;color:#0157AE}
+.ssl .meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:14px;color:#5A5F6E;font-weight:600}
+.ssl h3{margin:4px 0 4px;font-size:19px}.ssl p{margin:0;line-height:1.5}
+.ssl .card{display:inline-block;margin-top:8px;font-size:14px;color:#0157AE;font-weight:600}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions"><a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a><span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span><button type="button" class="pill out" id="out">Sign out</button></div>
+</div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Caring for each other</span>
+<h1 id="pg-title" style="margin:0">Sunshine & Shadows</h1><p class="stat-line" id="lead">Happy news and hard times in our Guild family, so we can celebrate, send a card or keep someone in our thoughts.</p><a class="nbtn solid" href="sunshine-share.html" style="margin-top:6px;align-self:flex-start">Share a Sunshine or Shadow</a></div>
+
+</div></section>
+<div class="mwrap" style="max-width:1000px;gap:22px" id="content">
+<a class="backlink" href="our-community.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to Our Community</a>
+<section class="cqc" aria-labelledby="list-title">
+<div class="cqh"><h2 id="list-title">Guild news</h2><div class="seg" id="filters" role="group" aria-label="Show"></div></div>
+<p id="loading" role="status" style="margin:0">Loading&hellip;</p>
+<ul class="ssl" id="list"></ul>
+<p class="empty hidden" id="none">Nothing has been posted yet.</p>
+</section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/comfort.js"></script>
+<script>
+QGPCShell.start({need:function(c){return c.full||c.isAdmin;}},function(ctx){
+  var $=function(i){return document.getElementById(i)};
+  var C=QGPCComfort,sb=QGPC.sb,el=C.el,show='all',rows=[];
+  var SUN='<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+  var SHA='<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>';
+  function draw(){
+    var fb=$('filters');fb.textContent='';
+    [['all','All'],['sun','Sunshine'],['shadow','Shadows']].forEach(function(f){var b=el('button',null,f[1]);b.type='button';b.setAttribute('aria-pressed',show===f[0]?'true':'false');b.onclick=function(){show=f[0];draw();};fb.appendChild(b);});
+    var ul=$('list');ul.textContent='';
+    var items=rows.filter(function(r){return show==='all'||r.kind===show;});
+    $('none').classList.toggle('hidden',items.length>0);
+    items.forEach(function(r){
+      var li=el('li'),ic=el('span','ssi '+r.kind);ic.innerHTML=r.kind==='sun'?SUN:SHA;li.appendChild(ic);
+      var d=el('div'),m=el('div','meta');m.appendChild(el('span',null,r.kind==='sun'?'Sunshine':'Shadow'));m.appendChild(el('span',null,'· '+C.nice(r.posted_at)));
+      if(r.posted_at&&(Date.now()-new Date(r.posted_at).getTime())<14*86400000)m.appendChild(el('span','pl new','New'));
+      d.appendChild(m);d.appendChild(el('h3',null,r.headline));d.appendChild(el('p',null,r.body));
+      if(r.card_address)d.appendChild(el('span','card','Cards may be sent to: '+r.card_address));
+      li.appendChild(d);ul.appendChild(li);
+    });
+  }
+  sb.rpc('sunshine_list').then(function(r){
+    $('loading').classList.add('hidden');
+    if(r.error){$('loading').classList.remove('hidden');$('loading').textContent='Could not load the notes. Please refresh and try again.';return;}
+    rows=r.data||[];draw();
+  });
+});
+</script>
+</body></html>

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Share a Sunshine or Shadow</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.nbtn:disabled{opacity:.45;cursor:default}
+.nbtn.del{border-color:#9A3412;color:#9A3412}
+.nbtn.solid{background:#0157AE;color:#fff}
+.cqc{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+.cqc>h2,.cqh h2{margin:0;font:400 24px 'Young Serif',Georgia,serif}
+.cqh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sub{margin:2px 0 0;color:#5A5F6E;font-size:15px}
+.cbadge{min-width:26px;height:26px;padding:0 8px;border-radius:999px;background:#E87446;color:#1F2433;font-weight:700;font-size:14px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box}
+.pl{font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;white-space:nowrap}
+.pl.gray{background:#F0ECE3;color:#454A58}
+.pl.new{background:#E87446;color:#1F2433}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer}
+.seg button[aria-pressed=true]{background:#0157AE;color:#fff}
+.confirm{background:#FCEEE9;border-radius:10px;padding:12px 14px}.confirm p{margin:0 0 10px;font-weight:600;color:#9A3412}
+.infobox{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8}
+.infobox h2{margin:0 0 4px;font-size:16px;font-weight:700;color:#0157AE}.infobox p{margin:0;font-size:15px;line-height:1.5;color:#1F2433}
+.blue-note{border:2px solid #0157AE;border-radius:14px;padding:16px 18px;background:#F4F6FB;display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.blue-note h3{margin:0;font-size:17px}.blue-note ul{margin:8px 0 0;padding-left:20px;line-height:1.5}
+.empty{margin:0;padding:14px 16px;border-radius:12px;background:#F0ECE3;color:#454A58}
+.toplinks{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.dl2{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:15px}.dl2 dt{font-weight:700;color:#5A5F6E}.dl2 dd{margin:0}
+.lbl{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+
+.kinds{border:0;margin:0;padding:0;display:grid;gap:10px}
+.kinds legend{font-weight:600;font-size:15px;margin-bottom:8px;padding:0}
+.kind{display:flex;gap:12px;align-items:center;padding:12px 14px;border:2px solid #E4E0D6;border-radius:12px;background:#fff;cursor:pointer}
+.kind:has(input:checked){border-color:#0157AE;background:#F4F6FB}
+.kind:focus-within{outline:3px solid rgba(1,87,174,.35);outline-offset:2px}
+.kind input{width:20px;height:20px;flex:0 0 auto}
+.kind b{display:block}.kind small{color:#5A5F6E;font-size:14px}
+.chk{display:flex;gap:10px;align-items:flex-start;line-height:1.4}.chk input{width:22px;height:22px;flex:0 0 auto;margin-top:1px}
+.sentwith{background:#F0ECE3;border-radius:12px;padding:12px 14px;font-size:15px;display:flex;flex-direction:column;gap:4px}
+.thanks{border:2px solid #0157AE;background:#F4F6FB;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.thanks h3{margin:0}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions"><a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a><span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span><button type="button" class="pill out" id="out">Sign out</button></div>
+</div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Sunshine & Shadows</span>
+<h1 id="pg-title" style="margin:0">Share a Sunshine or Shadow</h1><p class="stat-line" id="lead">Let the Guild know about happy news or a hard time, so we can celebrate or send a card.</p></div>
+
+</div></section>
+<div class="mwrap" style="max-width:760px;gap:22px" id="content">
+<a class="backlink" href="sunshine.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Sunshine & Shadows</a>
+<section class="cqc" aria-labelledby="share-title">
+<div><h2 id="share-title">Tell us what&rsquo;s happening</h2><p class="sub">The Sunshine &amp; Shadows Chair reviews every note before it appears on the Sunshine &amp; Shadows page.</p></div>
+<div class="thanks hidden" id="thanks" role="status" tabindex="-1"><h3>Thank you. Your note was sent.</h3><p style="margin:0">The Sunshine &amp; Shadows Chair will review it and may contact you with questions. It will appear on the Sunshine &amp; Shadows page once it&rsquo;s approved.</p>
+<div class="saverow"><a class="nbtn" href="sunshine.html">Back to Sunshine &amp; Shadows</a><button class="nbtn" id="again" type="button">Share another</button></div></div>
+<form id="form" novalidate style="display:grid;gap:18px">
+<fieldset class="kinds"><legend>Is this a Sunshine or a Shadow?</legend>
+<label class="kind"><input type="radio" name="kind" value="sun" checked><span><b>Sunshine</b><small>Happy news: births, weddings, awards, recoveries</small></span></label>
+<label class="kind"><input type="radio" name="kind" value="shadow"><span><b>Shadow</b><small>Hard news: illness, surgery, a loss in the family</small></span></label></fieldset>
+<div><label class="lbl" for="who">Who is it about?</label><input class="field" id="who" maxlength="120" placeholder="e.g., Mary Adams"></div>
+<div><label class="lbl" for="what">What would you like to share?</label><textarea class="field" id="what" rows="4" maxlength="1000" placeholder="A sentence or two"></textarea></div>
+<div><label class="lbl" for="card">Where can cards be sent? <span style="font-weight:400;color:#5A5F6E">(optional)</span></label><input class="field" id="card" maxlength="300" placeholder="Address, or &ldquo;her home address&rdquo;"></div>
+<label class="chk"><input type="checkbox" id="ok"><span>The person (or their family) is OK with this being shared with Guild members.</span></label>
+<div class="sentwith"><b>Sent with your contact details</b><span id="me"></span><span>Only the Chair sees these, so they can reach you with questions. To change them, use <a href="profile.html">My Profile</a>.</span></div>
+<div class="saverow"><button class="btn-save" id="send" type="submit">Send to the Chair</button><span class="msg err hidden" id="err" role="alert" style="margin:0"></span></div>
+</form></section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/comfort.js"></script>
+<script>
+QGPCShell.start({need:function(c){return c.full||c.isAdmin;}},function(ctx){
+  var $=function(i){return document.getElementById(i)};
+  var sb=QGPC.sb,m=ctx.member||{};
+  $('me').textContent=[(m.first_name||'')+' '+(m.last_name||''),m.email,m.cell_phone].filter(function(x){return x&&String(x).trim();}).join(' · ');
+  function reset(){$('form').classList.remove('hidden');$('thanks').classList.add('hidden');$('who').value='';$('what').value='';$('card').value='';$('ok').checked=false;$('err').classList.add('hidden');$('who').focus();}
+  $('again').onclick=reset;
+  $('form').addEventListener('submit',function(e){
+    e.preventDefault();var er=$('err');er.classList.add('hidden');
+    function bad(t,f){er.textContent=t;er.classList.remove('hidden');if(f)$(f).focus();}
+    var who=$('who').value.trim(),what=$('what').value.trim();
+    if(!who)return bad('Please say who it is about.','who');
+    if(!what)return bad('Please write what you would like to share.','what');
+    if(!$('ok').checked)return bad('Please check the box to confirm the person or family is OK with this being shared.','ok');
+    var kind=document.querySelector('input[name=kind]:checked').value,b=$('send');b.disabled=true;
+    sb.rpc('sunshine_submit',{p_kind:kind,p_about:who,p_body:what,p_card:$('card').value.trim()||null,p_consent:true}).then(function(r){
+      b.disabled=false;if(r.error)return bad(r.error.message||'That did not send. Please try again.');
+      $('form').classList.add('hidden');$('thanks').classList.remove('hidden');$('thanks').focus();
+    });
+  });
+});
+</script>
+</body></html>
