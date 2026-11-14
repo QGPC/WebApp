@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Newsletter Manager</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.nbtn:disabled{opacity:.45;cursor:default}
+.nbtn.del{border-color:#9A3412;color:#9A3412}
+.nbtn.solid{background:#0157AE;color:#fff}
+.cqc{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+.cqc>h2,.cqh h2{margin:0;font:400 24px 'Young Serif',Georgia,serif}
+.cqh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sub{margin:2px 0 0;color:#5A5F6E;font-size:15px}
+.cbadge{min-width:26px;height:26px;padding:0 8px;border-radius:999px;background:#E87446;color:#1F2433;font-weight:700;font-size:14px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box}
+.pl{font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;white-space:nowrap}
+.pl.gray{background:#F0ECE3;color:#454A58}
+.pl.new{background:#E87446;color:#1F2433}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer}
+.seg button[aria-pressed=true]{background:#0157AE;color:#fff}
+.confirm{background:#FCEEE9;border-radius:10px;padding:12px 14px}.confirm p{margin:0 0 10px;font-weight:600;color:#9A3412}
+.infobox{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8}
+.infobox h2{margin:0 0 4px;font-size:16px;font-weight:700;color:#0157AE}.infobox p{margin:0;font-size:15px;line-height:1.5;color:#1F2433}
+.blue-note{border:2px solid #0157AE;border-radius:14px;padding:16px 18px;background:#F4F6FB;display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.blue-note h3{margin:0;font-size:17px}.blue-note ul{margin:8px 0 0;padding-left:20px;line-height:1.5}
+.empty{margin:0;padding:14px 16px;border-radius:12px;background:#F0ECE3;color:#454A58}
+.toplinks{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.dl2{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:15px}.dl2 dt{font-weight:700;color:#5A5F6E}.dl2 dd{margin:0}
+.lbl{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+
+.nl-tell{display:flex;gap:14px;align-items:center;text-decoration:none;color:inherit;border:1px solid #E4E0D6;background:#fff;border-radius:16px;padding:14px 18px}
+.nl-tell b{display:block;font-size:17px}.nl-tell span.d{color:#5A5F6E;font-size:15px}
+.drop{display:flex;flex-direction:column;align-items:center;gap:6px;padding:22px;border:2px dashed #0157AE;border-radius:14px;background:#F4F6FB;color:#0157AE;font-weight:600;cursor:pointer;position:relative;text-align:center}
+.drop input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.drop:focus-within{outline:3px solid rgba(1,87,174,.35);outline-offset:2px}
+.drop small{font-weight:400;color:#5A5F6E}
+.filebox{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:12px 14px;border:1px solid #E4E0D6;border-radius:12px;background:#FAF8F3}
+.filebox .ic{font-weight:700;color:#9A3412;background:#FCEEE9;border-radius:8px;padding:6px 8px;font-size:13px}
+.filebox .nm{flex:1;min-width:0;overflow-wrap:anywhere}.filebox small{display:block;color:#5A5F6E}
+.filebtn{position:relative;overflow:hidden}.filebtn input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.filebtn:focus-within{outline:3px solid rgba(1,87,174,.35);outline-offset:2px}
+.nll{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.nll li{border:1px solid #E4E0D6;border-radius:12px;background:#fff;padding:12px 16px;display:flex;flex-direction:column;gap:10px}
+.nll li.on{background:#F4F6FB;border-color:#0157AE}
+.nll .row{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.nll .nm{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-weight:600;font-size:17px}
+.nll .mt{font-size:14px;color:#5A5F6E;overflow-wrap:anywhere}
+.nll .bt{display:flex;gap:8px;flex-wrap:wrap}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions"><a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a><span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span><button type="button" class="pill out" id="out">Sign out</button></div>
+</div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Newsletter Chair</span>
+<h1 id="pg-title" style="margin:0">Newsletter Manager</h1><p class="stat-line" id="lead">Add, edit and delete Guild newsletters.</p></div>
+
+</div></section>
+<div class="mwrap" style="max-width:1000px;gap:22px" id="content">
+
+<a class="nl-tell" href="whats-new-manage.html?page=newsletters"><span class="d"><b>Tell members what changed</b><span class="d">Post a short note to the What&rsquo;s New button on the home page, with a link to the Newsletters page.</span></span></a>
+<section class="cqc" aria-labelledby="form-title">
+<div class="cqh"><div><h2 id="form-title">Add a newsletter</h2><p class="sub" id="form-sub">Upload the new issue as a PDF.</p></div><button class="nbtn hidden" id="cancel-edit" type="button">Add a new one instead</button></div>
+<div class="row2"><div><label class="lbl" for="nl-month">Month</label><select class="field" id="nl-month"></select></div>
+<div><label class="lbl" for="nl-year">Year</label><input class="field" id="nl-year" inputmode="numeric" maxlength="4"></div></div>
+<div><span class="lbl" id="file-lbl">Newsletter PDF</span>
+<label class="drop" id="drop"><input type="file" id="pick" accept="application/pdf" aria-labelledby="file-lbl"><span>Choose the PDF from your computer</span><small>PDF only, up to 20 MB.</small></label>
+<div class="filebox hidden" id="filebox"><span class="ic" aria-hidden="true">PDF</span><span class="nm"><span id="fn"></span><small id="fm"></small></span><label class="nbtn filebtn">Replace<input type="file" id="pick2" accept="application/pdf" aria-label="Replace the PDF"></label></div></div>
+<div class="saverow"><button class="btn-save" id="publish" type="button">Publish</button><button class="nbtn" id="draft" type="button">Save as draft</button><span class="msg err hidden" id="f-err" role="alert" style="margin:0"></span></div>
+<p class="sub">The newest published issue automatically becomes the current issue on the Newsletters page. Save the original PDF in the Guild&rsquo;s Drive folder before uploading, and make the web copy small first (Save as PDF at minimum size). Check that the text can still be selected.</p>
+</section>
+<section class="cqc" aria-labelledby="all-title">
+<div class="cqh"><h2 id="all-title">All newsletters</h2><div class="seg" id="years" role="group" aria-label="Year"></div></div>
+<p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
+<p id="loading" role="status" style="margin:0">Loading&hellip;</p>
+<ul class="nll" id="rows"></ul>
+<p class="empty hidden" id="none">No newsletters for this year.</p>
+</section>
+<div class="toplinks"><a class="nbtn" href="newsletters.html">See the Newsletters page &rarr;</a></div>
+<section class="infobox"><div><h2>Who can use this page</h2><p>The Newsletter Chair, Administrators and the Superuser. Drafts are visible only here; members see an issue once it is published.</p></div></section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/comfort.js"></script>
+<script>
+QGPCShell.start({need:function(c){return c.has('newsletter_chair')||c.isAdmin;}},function(ctx){
+  var $=function(i){return document.getElementById(i)};
+  var C=QGPCComfort,sb=QGPC.sb,el=C.el,B='newsletters';
+  var MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var rows=[],year=null,editId=null,confirmId=null,newFile=null;
+  function label(n){return MONTHS[n.month-1]+' '+n.year;}
+  function say(t,bad){var n=$('status');n.textContent=t;n.className='msg '+(bad?'err':'ok');n.style.margin='0';}
+  function size(b){return b==null?'':(b/1048576).toFixed(1)+' MB';}
+  var ms=$('nl-month');MONTHS.forEach(function(m,i){var o=el('option',null,m);o.value=i+1;ms.appendChild(o);});
+  function load(){
+    return sb.from('newsletters').select('*').order('year',{ascending:false}).order('month',{ascending:false}).then(function(r){
+      $('loading').classList.add('hidden');
+      if(r.error){say('Could not load the newsletters. Please refresh and try again.',true);return;}
+      rows=r.data||[];
+      if(year===null)year=rows.length?rows[0].year:+C.today().slice(0,4);
+      draw();
+    });
+  }
+  function current(){var p=rows.filter(function(n){return n.status==='published';});return p.length?p[0]:null;}
+  function resetForm(){
+    editId=null;newFile=null;$('pick').value='';$('pick2').value='';
+    var t=C.today();$('nl-month').value=String(+t.slice(5,7));$('nl-year').value=t.slice(0,4);
+    $('form-title').textContent='Add a newsletter';$('form-sub').textContent='Upload the new issue as a PDF.';
+    $('cancel-edit').classList.add('hidden');$('f-err').classList.add('hidden');formFile();buttons();
+  }
+  function formFile(){
+    var ed=rows.filter(function(n){return n.id===editId;})[0];
+    var has=newFile||ed;
+    $('drop').classList.toggle('hidden',!!has);$('filebox').classList.toggle('hidden',!has);
+    if(newFile){$('fn').textContent=newFile.name;$('fm').textContent=size(newFile.size)+' · New file, not saved yet';}
+    else if(ed){$('fn').textContent=ed.file_name;$('fm').textContent=size(ed.size_bytes)+' · Current file';}
+  }
+  function buttons(){
+    var ed=rows.filter(function(n){return n.id===editId;})[0];
+    if(!ed){$('publish').textContent='Publish';$('draft').classList.remove('hidden');$('draft').textContent='Save as draft';}
+    else if(ed.status==='published'){$('publish').textContent='Save changes';$('draft').classList.add('hidden');}
+    else{$('publish').textContent='Publish';$('draft').classList.remove('hidden');$('draft').textContent='Save draft changes';}
+  }
+  function pick(inp){
+    var f=inp.files[0];if(!f)return;var er=$('f-err');er.classList.add('hidden');
+    if(f.type!=='application/pdf'&&!/\.pdf$/i.test(f.name)){er.textContent='That file is not a PDF.';er.classList.remove('hidden');inp.value='';return;}
+    if(f.size>20*1024*1024){er.textContent='That PDF is larger than 20 MB. Please make it smaller and try again.';er.classList.remove('hidden');inp.value='';return;}
+    f.slice(0,5).text().then(function(h){
+      if(h.indexOf('%PDF')!==0){er.textContent='That file does not look like a real PDF.';er.classList.remove('hidden');inp.value='';return;}
+      newFile=f;formFile();
+    });
+  }
+  $('pick').onchange=function(){pick(this);};$('pick2').onchange=function(){pick(this);};
+  $('cancel-edit').onclick=function(){resetForm();draw();};
+  function save(status){
+    var er=$('f-err');er.classList.add('hidden');
+    var ed=rows.filter(function(n){return n.id===editId;})[0];
+    var m=+$('nl-month').value,y=$('nl-year').value.trim();
+    if(!/^\d{4}$/.test(y)||+y<2000||+y>2100){er.textContent='Please type the year as four digits, like 2026.';er.classList.remove('hidden');return;}
+    y=+y;
+    if(!ed&&!newFile){er.textContent='Please choose the newsletter PDF.';er.classList.remove('hidden');return;}
+    var dup=rows.filter(function(n){return n.year===y&&n.month===m&&(!ed||n.id!==ed.id);})[0];
+    if(dup){er.textContent='There is already a newsletter for '+MONTHS[m-1]+' '+y+'. Edit that one, or delete it first.';er.classList.remove('hidden');return;}
+    var btns=[$('publish'),$('draft')];btns.forEach(function(b){b.disabled=true;});
+    var rec={year:y,month:m,status:ed&&ed.status==='published'?'published':status},old=null,up=Promise.resolve();
+    if(newFile)up=up.then(function(){
+      var path='issues/'+C.uuid()+'-'+C.safeName(newFile.name);
+      return sb.storage.from(B).upload(path,newFile,{contentType:'application/pdf'}).then(function(r){
+        if(r.error)throw r.error;if(ed)old=ed.pdf_path;rec.pdf_path=path;rec.file_name=newFile.name;rec.size_bytes=newFile.size;});
+    });
+    up.then(function(){return ed?sb.from('newsletters').update(rec).eq('id',ed.id):sb.from('newsletters').insert(rec);}).then(function(r){
+      if(r.error)throw r.error;
+      if(old)sb.storage.from(B).remove([old]);
+      var txt=ed?'Changes saved.':(rec.status==='published'?'Published. It’s now the current issue on the Newsletters page.':'Saved as a draft. Members can’t see it yet.');
+      if(ed&&ed.status==='draft'&&rec.status==='published')txt='Published. Members can now read it.';
+      year=y;resetForm();say(txt);return load();
+    }).catch(function(e){btns.forEach(function(b){b.disabled=false;});er.textContent='That did not save. '+(e&&e.message?e.message+' ':'')+'Please try again.';er.classList.remove('hidden');});
+  }
+  $('publish').onclick=function(){save('published');};
+  $('draft').onclick=function(){save('draft');};
+  function draw(){
+    var ys=[+C.today().slice(0,4)];rows.forEach(function(n){if(ys.indexOf(n.year)<0)ys.push(n.year);});if(ys.indexOf(year)<0)ys.push(year);
+    ys.sort(function(a,b){return b-a;});
+    var yb=$('years');yb.textContent='';
+    ys.forEach(function(y){var b=el('button',null,String(y));b.type='button';b.setAttribute('aria-pressed',y===year?'true':'false');b.onclick=function(){year=y;confirmId=null;draw();};yb.appendChild(b);});
+    var cur=current(),ul=$('rows');ul.textContent='';
+    var list=rows.filter(function(n){return n.year===year;});
+    $('none').classList.toggle('hidden',list.length>0);
+    list.forEach(function(n){
+      var li=el('li',n.id===editId?'on':''),row=el('div','row'),tx=el('div'),nm=el('div','nm',label(n));
+      var isCur=cur&&cur.id===n.id;
+      nm.appendChild(el('span','pl'+(n.status==='draft'?' gray':''),isCur?'Current':(n.status==='draft'?'Draft':'Published')));
+      tx.appendChild(nm);
+      tx.appendChild(el('div','mt',n.file_name+' · '+size(n.size_bytes)+' · '+(n.status==='published'?'Published '+C.nice(n.published_at):'Draft saved '+C.nice(n.updated_at)+' · not visible to members')));
+      row.appendChild(tx);
+      var bt=el('span','bt'),eb=el('button','nbtn',n.id===editId?'Editing':'Edit');eb.type='button';eb.setAttribute('aria-label','Edit the '+label(n)+' newsletter');
+      eb.onclick=function(){editId=n.id;newFile=null;confirmId=null;$('pick2').value='';
+        $('nl-month').value=String(n.month);$('nl-year').value=String(n.year);$('form-title').textContent='Edit '+label(n);$('form-sub').textContent='Change the month or replace the PDF.';
+        $('cancel-edit').classList.remove('hidden');$('f-err').classList.add('hidden');formFile();buttons();draw();$('form-title').scrollIntoView({behavior:'smooth',block:'start'});};
+      var db=el('button','nbtn del','Delete');db.type='button';db.setAttribute('aria-label','Delete the '+label(n)+' newsletter');db.onclick=function(){confirmId=n.id;draw();};
+      bt.appendChild(eb);bt.appendChild(db);row.appendChild(bt);li.appendChild(row);
+      if(confirmId===n.id){
+        var cf=el('div','confirm');cf.setAttribute('role','alert');cf.appendChild(el('p',null,'Delete the '+label(n)+' newsletter? Members won’t be able to read it, and it can’t be undone.'));
+        var rw=el('div','saverow'),y=el('button','btn-del solid','Yes, delete');y.type='button';var k=el('button','btn-cancel','Keep it');k.type='button';
+        k.onclick=function(){confirmId=null;draw();};
+        y.onclick=function(){y.disabled=true;sb.storage.from(B).remove([n.pdf_path]).then(function(){return sb.from('newsletters').delete().eq('id',n.id);}).then(function(r){confirmId=null;
+          if(r.error)say('That did not delete. Please try again.',true);else{say(label(n)+' deleted.');if(editId===n.id)resetForm();}load();});};
+        rw.appendChild(y);rw.appendChild(k);cf.appendChild(rw);li.appendChild(cf);
+      }
+      ul.appendChild(li);
+    });
+  }
+  resetForm();load();
+});
+</script>
+</body></html>
