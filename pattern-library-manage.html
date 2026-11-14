@@ -44,6 +44,7 @@
 .cl3{font-size:14px;color:#454A58}
 .filebtn{position:relative;overflow:hidden}.filebtn input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
 .filebtn:focus-within{outline:3px solid rgba(1,87,174,.35);outline-offset:2px}
+.klist{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}.klist li{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 </style>
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
@@ -127,10 +128,25 @@ QGPCShell.start({need:function(c){return c.has('comfort_quilts_chair')||c.isAdmi
     right.appendChild(rw);
     var mine=claims.filter(function(c){return c.pattern_id===p.id;});
     var cl=el('div','cl3');cl.appendChild(el('strong',null,'Claimed so far: '));
-    cl.appendChild(document.createTextNode(mine.length?mine.map(function(c){return (c.member_name||'A member')+' ('+C.nice(c.claimed_at).replace(/,? \d{4}$/,'')+')';}).join(', '):'None yet'));
-    if(mine.some(function(c){return !c.seen_by_chair;})){var t=el('span','pl new','New claim');t.style.marginLeft='8px';cl.appendChild(t);}
+    if(!mine.length)cl.appendChild(document.createTextNode('None yet'));
+    var kl=el('ul','klist');
+    mine.forEach(function(c){
+      var li=el('li');li.appendChild(el('span',null,(c.member_name||'A member')+' (claimed '+C.nice(c.claimed_at).replace(/,? \d{4}$/,'')+')'));
+      var b;
+      if(c.handed_out_at){
+        li.appendChild(el('span','pl','Handed out '+C.nice(c.handed_out_at).replace(/,? \d{4}$/,'')));
+        b=el('button','nbtn','Undo');b.type='button';b.setAttribute('aria-label','Undo hand out for '+(c.member_name||'this member'));
+        b.onclick=function(){b.disabled=true;sb.rpc('comfort_kit_undo_hand_out',{p_claim:c.id}).then(function(r){if(r.error)say((r.error.message||'That did not work.')+' Please try again.',true);else say('Hand out undone. The kit is back on the shelf.');load();});};
+      }else{
+        b=el('button','nbtn solid','Hand out');b.type='button';b.setAttribute('aria-label','Mark the kit handed out to '+(c.member_name||'this member'));
+        b.onclick=function(){b.disabled=true;sb.rpc('comfort_kit_hand_out',{p_claim:c.id}).then(function(r){if(r.error)say((r.error.message||'That did not work.')+' Please try again.',true);else say('Marked as handed out. Kits available went down by 1.');load();});};
+      }
+      li.appendChild(b);kl.appendChild(li);
+    });
+    cl.appendChild(kl);
+    if(mine.some(function(c){return !c.seen_by_chair;})){var t=el('span','pl new','New claim');t.style.marginLeft='8px';cl.insertBefore(t,cl.children[1]||null);}
     right.appendChild(cl);
-    right.appendChild(el('div','cl3','Members see a “Kits available” button when this number is more than 0.'));
+    right.appendChild(el('div','cl3','“Kits available” is how many kits are on the shelf. Press Hand out when you give a claimed kit to a member and this number goes down by 1. Members see a “Kits available” button while this number is more than the kits already claimed.'));
     // PDF
     var pdfRow=el('div'),pdl=el('label','nbtn filebtn',p.pdf_path?'Replace the PDF':'Choose the PDF'),pdi=el('input');pdi.type='file';pdi.accept='application/pdf';pdl.appendChild(pdi);
     var pdn=el('div','cl3',p.pdf_path?'PDF: '+C.shownName(p.pdf_path):'No PDF chosen');pdn.style.margin='6px 0 0';

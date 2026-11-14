@@ -100,14 +100,16 @@ QGPCShell.start({need:function(c){return c.full||c.isAdmin;}},function(ctx){
     var box=el('div','kit');box.id='kit-card';box.setAttribute('role','region');
     var head=el('div','cqh'),h=el('div');var h3=el('h3',null,'Kits available: '+p.name);h3.id='kit-title';box.setAttribute('aria-labelledby','kit-title');
     h.appendChild(h3);
-    h.appendChild(el('span','pl'+(p.mine||p.kits_left>0?'':' gray'),p.mine?'Claimed by you':(p.kits_left>0?'Kits available':'No kits left')));
+    h.appendChild(el('span','pl'+(p.mine||p.kits_left>0?'':' gray'),p.received?'Kit received':(p.mine?'Claimed by you':(p.kits_left>0?'Kits available':'No kits left'))));
     head.appendChild(h);
     var cl=el('button','nbtn','Close');cl.type='button';cl.onclick=function(){openId=null;draw();};head.appendChild(cl);box.appendChild(head);
     var dl=el('dl','dl2');
     [['Size',p.size_name||'—'],['Skill level',p.level],['Kits left',C.plural(p.kits_left,'kit')],['In a kit','Fabric, batting and the printed pattern, cut and ready to sew.'],['Pick up','Any Guild meeting, or contact the Comfort Quilts Chair.']]
       .forEach(function(x){dl.appendChild(el('dt',null,x[0]));dl.appendChild(el('dd',null,x[1]));});
     box.appendChild(dl);
-    if(p.mine){
+    if(p.received){
+      var rc=el('div','okbox');rc.appendChild(el('span',null,'The Comfort Quilts Chair has handed you a kit of this pattern. Thank you for sewing for our community!'));box.appendChild(rc);
+    }else if(p.mine){
       var ok=el('div','okbox');ok.appendChild(el('span',null,'You have claimed a kit. Thank you! The Comfort Quilts Chair will see that you claimed it. Pick it up at any Guild meeting or contact the chair.'));
       var g=el('button','nbtn','Give it back');g.type='button';g.onclick=function(){act('comfort_kit_release',p,'You gave the kit back.');};ok.appendChild(g);box.appendChild(ok);
     }else if(p.kits_left>0){
@@ -140,7 +142,7 @@ QGPCShell.start({need:function(c){return c.full||c.isAdmin;}},function(ctx){
       var a=el('div','act');
       if(urls[p.pdf_path]){var d=el('a','nbtn','Download PDF');d.href=urls[p.pdf_path];d.target='_blank';d.rel='noopener';a.appendChild(d);}
       if(p.mine||p.kits_left>0){
-        var k=el('button','nbtn'+(openId===p.id?' solid':''),p.mine?'Kit claimed':'Kits available');k.type='button';k.setAttribute('aria-controls','kit-card');
+        var k=el('button','nbtn'+(openId===p.id?' solid':''),p.received?'Kit received':(p.mine?'Kit claimed':'Kits available'));k.type='button';k.setAttribute('aria-controls','kit-card');
         k.appendChild(el('span','pl',p.mine?'1':String(p.kits_left)));
         k.onclick=function(){openId=openId===p.id?null:p.id;draw();if(openId){var c=$('kit-card');if(c)c.scrollIntoView({behavior:'smooth',block:'nearest'});}};a.appendChild(k);
       }

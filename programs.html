@@ -385,7 +385,7 @@ ul.matl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;ga
       var st=rs[0].data,my=(rs[1].data&&rs[1].data[0])||null,mats=rs[2].data||[],nm=+rs[3].data||0;
       var left=st&&st.spots_left!==null&&st.spots_left!==undefined?st.spots_left:(r.ws_spots!==null?r.ws_spots:null);
       if(left!==null)pills.insertBefore(el('span','spots',left?left+(left===1?' spot remaining':' spots remaining'):'Workshop full'),pills.firstChild);
-      if(st&&st.more_needed!==null&&st.more_needed!==undefined)pills.appendChild(el('span','needp'+(st.more_needed?'':' ok'),st.more_needed?st.more_needed+' more needed to run':'Enough signed up to run'));
+      if(st&&st.more_needed>0)pills.appendChild(el('span','needp',st.more_needed+' more needed to run'));
       pills.classList.toggle('hidden',!pills.childNodes.length);
       if(mats.length)dyn.appendChild(materialsSection(r,my,mats));
       var sa=el('div','suarea');sa.appendChild(signupSection(r,my,nm,left===0));dyn.appendChild(sa);
