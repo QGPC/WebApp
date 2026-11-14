@@ -120,7 +120,7 @@
     if(w.signedIn)$('homelink').href='home.html';
     if(w.roles.indexOf('superuser')>-1||w.roles.indexOf('administrator')>-1||w.roles.indexOf('beekeeper')>-1)$('edit').classList.remove('hidden');
   });
-  sb.from('bees').select('*').order('sort_order').order('name').then(function(r){
+  sb.rpc('bees_public').then(function(r){
     $('loading').classList.add('hidden');
     if(r.error){var n=$('none');n.textContent='The bees could not be loaded. Please refresh and try again.';n.classList.remove('hidden');return;}
     bees=r.data||[];draw();

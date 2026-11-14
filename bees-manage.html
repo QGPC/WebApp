@@ -66,7 +66,7 @@
 <a class="nl-tell" href="whats-new-manage.html?page=bees"><span><b>Tell members what changed</b><span class="d">Post a short note to the What&rsquo;s New button on the home page, with a link to the Bees page.</span></span></a>
 <div class="toplinks"><a class="nbtn" href="bees.html">See the Bees page &rarr;</a></div>
 <p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
-<section class="cqc" aria-labelledby="bt"><div class="cqh"><div><h2 id="bt">Our bees</h2><p class="sub">Press Save on a bee after you change it. The Bees page is public, so what you type here, including the contact person&rsquo;s email and phone, can be seen by visitors.</p></div>
+<section class="cqc" aria-labelledby="bt"><div class="cqh"><div><h2 id="bt">Our bees</h2><p class="sub">Press Save on a bee after you change it. The Bees page is public. The contact person comes from the member list; their email and phone are shown only if they have agreed.</p></div>
 <button class="btn-save" id="add" type="button">Add a bee</button></div>
 <p id="loading" role="status" style="margin:0">Loading&hellip;</p>
 <p class="empty hidden" id="none">No bees yet. Choose &ldquo;Add a bee&rdquo; to start the list.</p>
@@ -89,13 +89,14 @@
 QGPCShell.start({need:function(c){return c.has('beekeeper')||c.isAdmin;}},function(ctx){
   var $=function(i){return document.getElementById(i)};
   var C=QGPCComfort,sb=QGPC.sb,el=C.el,B='bees';
-  var bees=[],confirmId=null,fresh=[];
+  var bees=[],members=[],confirmId=null,fresh=[];
   function say(t,bad){var n=$('status');n.textContent=t;n.className='msg '+(bad?'err':'ok');n.style.margin='0';n.scrollIntoView({behavior:'smooth',block:'nearest'});}
   function pubUrl(p){return sb.storage.from(B).getPublicUrl(p).data.publicUrl;}
   function load(){
-    return sb.from('bees').select('*').order('sort_order').order('name').then(function(r){
-      $('loading').classList.add('hidden');
+    return Promise.all([sb.from('bees').select('*').order('sort_order').order('name'),sb.rpc('bees_member_pick')]).then(function(x){
+      var r=x[0];$('loading').classList.add('hidden');
       if(r.error){say('Could not load the bees. Please refresh and try again.',true);return;}
+      members=x[1].data||[];if(x[1].error)say('The member list could not be loaded, so contact people can’t be chosen yet. Has the new SQL file been run?',true);
       bees=r.data||[];draw();
     });
   }
@@ -127,8 +128,29 @@ QGPCShell.start({need:function(c){return c.has('beekeeper')||c.isAdmin;}},functi
     bo.onclick=function(){isOpen=true;sync();};bf.onclick=function(){isOpen=false;sync();};sync();seg.appendChild(bo);seg.appendChild(bf);op.appendChild(seg);right.appendChild(op);
     var ab=el('textarea','field');ab.rows=3;ab.maxLength=600;ab.value=b.about||'';right.appendChild(field('About this bee',ab));
     var ctb=el('div','ctb');ctb.appendChild(el('b',null,'Contact person'));
-    var cn=inp(b.contact_name,80),ce=inp(b.contact_email,120,'email'),cp=inp(b.contact_phone,40,'tel');
-    var r3=el('div','row2');r3.appendChild(field('Name',cn));r3.appendChild(field('Email',ce));r3.appendChild(field('Phone',cp));ctb.appendChild(r3);right.appendChild(ctb);
+    var cs=el('select','field');var o0=el('option',null,'No contact person');o0.value='';cs.appendChild(o0);
+    var known=false;members.forEach(function(m){var o=el('option',null,m.last_name+', '+m.first_name);o.value=m.id;cs.appendChild(o);if(m.id===b.contact_member_id)known=true;});
+    if(b.contact_member_id&&!known){var ox=el('option',null,'(a member who is no longer current)');ox.value=b.contact_member_id;cs.appendChild(ox);}
+    cs.value=b.contact_member_id||'';
+    ctb.appendChild(field('Choose a member',cs));
+    var info=el('div','cl3'),chkBox=el('div');chkBox.style.cssText='display:flex;flex-direction:column;gap:10px';
+    function mk(txt){var l=el('label'),c=el('input');c.type='checkbox';c.style.cssText='width:22px;height:22px;margin-right:10px;vertical-align:middle';l.style.cssText='display:flex;align-items:flex-start;line-height:1.4;font-size:15px';l.appendChild(c);var sp=el('span',null,txt);l.appendChild(sp);return {l:l,c:c,sp:sp};}
+    var ke=mk(''),kp=mk('');ke.c.checked=!!b.show_email;kp.c.checked=!!b.show_phone;
+    chkBox.appendChild(ke.l);chkBox.appendChild(kp.l);
+    var hint=el('div','cl3','Ask the contact first. The Bees page shows their name; their email and phone stay hidden unless you tick the boxes. The page always shows the email and phone currently in their member record.');
+    function who(){return members.filter(function(m){return m.id===cs.value;})[0];}
+    function syncC(){
+      var m=who();chkBox.classList.toggle('hidden',!cs.value);info.classList.toggle('hidden',!cs.value);
+      if(!cs.value)return;
+      var nm2=m?m.first_name:'This member';
+      info.textContent=m?('On file: '+(m.email||'no email')+' · '+(m.cell_phone||'no phone')):'Their member record is not available.';
+      ke.sp.textContent=nm2+' has agreed to have their email address shown on the Bees page.';
+      kp.sp.textContent=nm2+' has agreed to have their phone number shown on the Bees page.';
+      ke.c.disabled=!!(m&&!m.email);kp.c.disabled=!!(m&&!m.cell_phone);
+      if(ke.c.disabled)ke.c.checked=false;if(kp.c.disabled)kp.c.checked=false;
+    }
+    cs.onchange=function(){ke.c.checked=false;kp.c.checked=false;syncC();};
+    ctb.appendChild(info);ctb.appendChild(chkBox);ctb.appendChild(hint);syncC();right.appendChild(ctb);
     var btns=el('div','btns'),sv=el('button','btn-save',isNew?'Save bee':'Save changes');sv.type='button';btns.appendChild(sv);
     if(isNew){var cc=el('button','btn-cancel','Cancel');cc.type='button';cc.onclick=function(){fresh.splice(fresh.indexOf(b),1);draw();};btns.appendChild(cc);}
     else{var rm=el('button','nbtn del','Remove this bee');rm.type='button';rm.onclick=function(){confirmId=b.id;draw();};btns.appendChild(rm);}
@@ -147,10 +169,9 @@ QGPCShell.start({need:function(c){return c.has('beekeeper')||c.isAdmin;}},functi
     sv.onclick=function(){
       er.classList.add('hidden');
       var name=nm.value.trim();if(!name)return fail('Please type the bee’s name.');
-      var email=ce.value.trim();if(email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return fail('That email address doesn’t look right.');
       sv.disabled=true;
       var rec={name:name,meets_when:wh.value.trim()||null,meets_where:wr.value.trim()||null,about:ab.value.trim()||null,is_open:isOpen,
-        contact_name:cn.value.trim()||null,contact_email:email||null,contact_phone:cp.value.trim()||null},oldFile=null;
+        contact_member_id:cs.value||null,show_email:!!cs.value&&ke.c.checked&&!ke.c.disabled,show_phone:!!cs.value&&kp.c.checked&&!kp.c.disabled},oldFile=null;
       var up=Promise.resolve();
       if(st.photo)up=up.then(function(){return C.shrink(st.photo,1400);}).then(function(blob){
         if(blob.size<=2000000)return blob;return C.shrink(st.photo,900);
