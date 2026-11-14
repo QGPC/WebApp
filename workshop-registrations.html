@@ -48,14 +48,14 @@
 <main id="main">
 <section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
 <div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Workshop Manager</span>
-<h1 id="pg-title" style="margin:0">Workshop Registrations</h1><p class="stat-line">Sign-ups from the Programs &amp; Workshops page. Open Registrations to accept to accept them, or open a month to see its registrations, waitlist and cost analysis.</p></div>
+<h1 id="pg-title" style="margin:0">Workshop Registrations</h1><p class="stat-line">Sign-ups from the Programs &amp; Workshops page. Open Registrations to work to mark people paid and accept them, or open a month to see its registrations, waitlist and cost analysis.</p></div>
 </div></section>
 <div class="mwrap" style="max-width:900px" id="content">
 <a class="backlink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to Home</a>
 <p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
 <p id="loading" role="status" style="margin:0">Loading&hellip;</p>
 
-<a class="bcard hidden" id="acc-card" href="workshop-accept.html"><span><b>Registrations to accept</b><small id="acc-line">&nbsp;</small></span><span class="badge zero" id="acc-n" aria-hidden="true">0</span></a>
+<a class="bcard hidden" id="acc-card" href="workshop-accept.html"><span><b>Registrations to work</b><small id="acc-line">&nbsp;</small></span><span class="badge zero" id="acc-n" aria-hidden="true">0</span></a>
 <div class="ctop hidden" id="yr-bar"><div><h2 id="yr-h">Workshops</h2><p>People who have signed up but not paid are on the waitlist, as are people who joined a full workshop. A paid person who is waiting for acceptance holds a spot.</p></div>
 <div style="display:flex;gap:10px;align-items:center"><button type="button" class="nbtn" id="yprev" aria-label="Earlier year">&larr;</button><b id="yr" style="font-size:20px">2026</b><button type="button" class="nbtn" id="ynext" aria-label="Later year">&rarr;</button></div></div>
 <ul class="ml" id="up"></ul><p class="hint hidden" id="up-none"></p>
@@ -113,9 +113,9 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('workshop_chair')||c.h
     $('loading').classList.add('hidden');
     if(rs[0].error||rs[1].error){say('Could not load the workshops. Please refresh and try again.','err');return;}
     months=rs[0].data||[];regs=rs[1].data||[];
-    var w=regs.filter(function(x){return x.status==='waiting';}).length;
-    $('acc-n').textContent=w;$('acc-n').classList.toggle('zero',w===0);
-    $('acc-line').textContent=w===0?'All caught up. Nobody is waiting.':(w===1?'1 paid registration is waiting.':w+' paid registrations are waiting.');
+    var w=regs.filter(function(x){return x.status==='waiting';}).length,wl=regs.filter(function(x){return x.status==='waitlist';}).length;
+    $('acc-n').textContent=w+wl;$('acc-n').classList.toggle('zero',w+wl===0);
+    $('acc-line').textContent=w+wl===0?'All caught up. Nobody is waiting.':w+' paid, not yet accepted · '+wl+' on the waitlist';
     $('acc-card').classList.remove('hidden');$('yr-bar').classList.remove('hidden');draw();
   });
 });
