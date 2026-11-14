@@ -169,6 +169,9 @@ QGPCShell.start({need:function(c){return c.roles.length>0;}},function(c){
   }
   function closeForm(){$('form').classList.add('hidden');editId=null;}
   $('new-btn').onclick=function(){openForm(null);};
+  // Program Planning's "Tell members what changed" opens the form already set to that page
+  var qp=(location.search.match(/[?&]page=([a-z]+)/)||[])[1];
+  if(qp&&WN_PAGES.some(function(p){return p.k===qp;})){openForm(null);$('f-page').value=qp;$('f-btn').value=pg(qp).btn;preview();}
   $('f-cancel').onclick=closeForm;
   $('form').addEventListener('submit',function(e){
     e.preventDefault();

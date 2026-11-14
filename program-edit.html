@@ -98,12 +98,21 @@
 <div><label class="l" for="ws-kitto">Kit fee is paid to</label><input class="field" id="ws-kitto" maxlength="80" placeholder="e.g., The speaker, at the workshop"></div>
 </div>
 <div><label class="l" for="ws-kitdesc">What the kit includes</label><input class="field" id="ws-kitdesc" maxlength="300"></div>
+<label class="chk"><input type="checkbox" id="ws-kitguild"> The Guild collects the kit fee with the registration (leave unticked if it is paid to the speaker)</label>
+<div><label class="l" for="ws-pay">Payment link (optional)</label><input class="field" id="ws-pay" maxlength="400" inputmode="url" placeholder="https://">
+<p class="hint">The Zeffy link people use to pay. Add it when the payment form is ready.</p></div>
 <div><label class="l" for="ws-desc">About the workshop</label><textarea class="field" id="ws-desc" rows="5" maxlength="3000" style="min-height:120px"></textarea></div>
 <div><span class="l" style="display:block;font-weight:600;font-size:15px;margin-bottom:6px">Workshop photos (optional)</span>
 <div class="pl" id="wp-list"></div>
 <label class="drop" id="wp-drop" for="wp-file">Add photos</label>
 <input type="file" id="wp-file" accept="image/jpeg,image/png" multiple class="hidden">
 <p class="hint">JPG or PNG, up to 6. The first photo is the main one; use &ldquo;Make main&rdquo; to change it.</p></div>
+<div id="mat-box"><span class="l" style="display:block;font-weight:600;font-size:15px;margin-bottom:6px">Patterns &amp; materials</span>
+<p class="hint hidden" id="mat-hint">Save this month first, then you can add files.</p>
+<div id="mat-body" class="hidden"><p class="hint" style="margin:0 0 8px">These stay locked until the Workshop Manager accepts a person&rsquo;s registration. PDF, JPG, PNG or Word files, up to 20 MB each. Files are added or removed right away; you do not need to press Save.</p>
+<ul class="pl" id="mat-list" style="list-style:none;padding:0;margin:0 0 10px"></ul>
+<label class="drop" for="mat-file">Add files</label><input type="file" id="mat-file" class="hidden" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,application/pdf,image/jpeg,image/png,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+<p class="msg hidden" id="mat-msg" role="status" style="margin:8px 0 0"></p></div></div>
 </div>
 
 <hr style="border:0;border-top:1px solid #E4E0D6;width:100%;margin:6px 0">
@@ -191,6 +200,46 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
     });
   });
 
+  // ---- patterns & materials (saved right away; private files) ----
+  var MB='workshop-materials',OKT={'application/pdf':1,'image/jpeg':1,'image/png':1,'application/msword':1,'application/vnd.openxmlformats-officedocument.wordprocessingml.document':1};
+  function matMsg(t,bad){var m=$('mat-msg');m.textContent=t;m.className='msg '+(bad?'err':'ok');m.style.margin='8px 0 0';}
+  function sizeText(n){return !n?'':(n>=1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB');}
+  function loadMats(){
+    sb.from('workshop_materials').select('*').eq('month_id',row.id).order('sort_order').then(function(r){
+      var ul=$('mat-list');ul.textContent='';
+      (r.data||[]).forEach(function(f){
+        var li=el('li','pi');li.style.alignItems='center';li.appendChild(el('span',null,f.name+(f.bytes?' ('+sizeText(f.bytes)+')':'')));
+        li.firstChild.style.flex='1 1 200px';
+        var b=el('button','nbtn del','Remove');b.type='button';b.setAttribute('aria-label','Remove '+f.name);
+        b.onclick=function(){b.disabled=true;sb.storage.from(MB).remove([f.path]).then(function(){return sb.from('workshop_materials').delete().eq('id',f.id);}).then(function(x){
+          if(x&&x.error){matMsg('That file could not be removed. Please try again.',true);b.disabled=false;return;}matMsg('Removed '+f.name+'.');loadMats();});};
+        li.appendChild(b);ul.appendChild(li);
+      });
+      if(!(r.data||[]).length)ul.appendChild(el('li','hint','No files yet.'));
+    });
+  }
+  $('mat-file').addEventListener('change',function(e){
+    var files=Array.prototype.slice.call(e.target.files||[]);e.target.value='';if(!files.length||!row)return;
+    var n=0,skipped=[];
+    var chain=Promise.resolve();
+    files.forEach(function(f){
+      chain=chain.then(function(){
+        var okType=OKT[f.type]||/\.(pdf|docx?|jpe?g|png)$/i.test(f.name);
+        if(!okType||f.size>20971520){skipped.push(f.name);return;}
+        var clean=f.name.replace(/[^A-Za-z0-9._ -]/g,'_');
+        var path=row.id+'/'+Math.random().toString(36).slice(2,10)+'-'+clean;
+        var ct=f.type||(/\.pdf$/i.test(f.name)?'application/pdf':/\.docx$/i.test(f.name)?'application/vnd.openxmlformats-officedocument.wordprocessingml.document':/\.doc$/i.test(f.name)?'application/msword':/\.png$/i.test(f.name)?'image/png':'image/jpeg');
+        return sb.storage.from(MB).upload(path,f,{contentType:ct,upsert:false}).then(function(u){
+          if(u.error){skipped.push(f.name);return;}
+          return sb.from('workshop_materials').insert({month_id:row.id,name:f.name,path:path,bytes:f.size,sort_order:Date.now()%100000000}).then(function(x){
+            if(x.error){sb.storage.from(MB).remove([path]);skipped.push(f.name);return;}n++;});
+        });
+      });
+    });
+    matMsg('Uploading…');
+    chain.then(function(){loadMats();matMsg((n?'Added '+n+(n===1?' file. ':' files. '):'')+(skipped.length?'Not added: '+skipped.join(', ')+' (PDF, JPG, PNG or Word, up to 20 MB).':''),skipped.length&&!n);});
+  });
+
   // ---- fill the form ----
   function setv(id,v){$(id).value=(v===null||v===undefined)?'':v;}
   function fill(r){
@@ -202,11 +251,12 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
     var same=d.ws_same!==false;$('ws-same').checked=same;$('ws-other').checked=!same;
     setv('ws-speaker',d.ws_speaker);setv('ws-date',d.ws_date);setv('ws-time',d.ws_time);setv('ws-place',d.ws_place);
     setv('ws-title',d.ws_title);setv('ws-fee',d.ws_fee);setv('ws-spots',d.ws_spots);setv('ws-last',d.ws_last_date);
-    setv('ws-level',d.ws_level);setv('ws-kit',d.ws_kit_fee);setv('ws-kitto',d.ws_kit_to);setv('ws-kitdesc',d.ws_kit_desc);setv('ws-desc',d.ws_desc);
+    setv('ws-level',d.ws_level);setv('ws-kit',d.ws_kit_fee);setv('ws-kitto',d.ws_kit_to);setv('ws-kitdesc',d.ws_kit_desc);setv('ws-desc',d.ws_desc);$('ws-kitguild').checked=!!d.ws_kit_guild;setv('ws-pay',d.ws_pay_url);
     PH.wp=(d.ws_photos||[]).map(function(x){return {path:x.path,blob:null,url:null,alt:x.alt||''};});drawPh('wp');
     $('st-pub').checked=d.status==='published';$('st-draft').checked=d.status!=='published';
     toggles();
     $('f-del').classList.toggle('hidden',!r);
+    $('mat-hint').classList.toggle('hidden',!!r);$('mat-body').classList.toggle('hidden',!r);if(r)loadMats();
     $('pc-row').classList.toggle('hidden',!r);$('pc-hint').classList.toggle('hidden',!!r);$('wc-row').classList.toggle('hidden',!r);
     if(r){
       var mq=mkey.slice(0,7);$('pc-btn').href='program-costs.html?m='+mq;$('wc-btn').href='workshop-costs.html?m='+mq;$('wf-btn').href='workshop-fee.html?m='+mq;
@@ -247,6 +297,8 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
     if(pub&&!$('p-title').value.trim()){ferr('Please type the program title before you publish this month.');$('p-title').focus();return;}
     if(pub&&!$('p-date').value){ferr('Please choose the program date before you publish this month.');$('p-date').focus();return;}
     if(has&&pub&&!$('ws-title').value.trim()){ferr('Please type the workshop title, or untick the workshop, before you publish.');$('ws-title').focus();return;}
+    var payUrl=fixUrl($('ws-pay').value);
+    if(payUrl&&!/^https?:\/\/[^\s.]+\.[^\s]+$/i.test(payUrl)){ferr('That payment link does not look right. It should look like https://example.org');$('ws-pay').focus();return;}
     var fee=num('ws-fee','the fee'),kit=num('ws-kit','the kit fee'),sp=num('ws-spots','the number of spots');
     var bad=fee.err?fee:kit.err?kit:sp.err?sp:null;
     if(bad){ferr(bad.err);$(bad.id).focus();return;}
@@ -265,7 +317,7 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
         has_workshop:has,ws_same:$('ws-same').checked,ws_speaker:has&&$('ws-other').checked?v('ws-speaker'):null,
         ws_date:has?v('ws-date'):null,ws_time:has?v('ws-time'):null,ws_place:has?v('ws-place'):null,ws_title:has?v('ws-title'):null,
         ws_fee:has?fee.v:null,ws_spots:has?sp.v:null,ws_last_date:has?v('ws-last'):null,ws_level:has?v('ws-level'):null,
-        ws_kit_fee:has?kit.v:null,ws_kit_to:has?v('ws-kitto'):null,ws_kit_desc:has?v('ws-kitdesc'):null,ws_desc:has?v('ws-desc'):null,
+        ws_kit_fee:has?kit.v:null,ws_kit_to:has?v('ws-kitto'):null,ws_kit_desc:has?v('ws-kitdesc'):null,ws_desc:has?v('ws-desc'):null,ws_kit_guild:has&&$('ws-kitguild').checked,ws_pay_url:has?(payUrl||null):null,
         ws_photos:has?u[1]:[]};
       sb.from('program_months').upsert(rec,{onConflict:'month_on'}).select().then(function(r){
         if(r.error||!r.data||!r.data.length){

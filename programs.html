@@ -31,6 +31,24 @@
 .lb img{display:block;width:100%;height:auto;max-height:calc(100vh - 150px);object-fit:contain;background:#F0ECE3;border-radius:8px}
 .lb figcaption{font-size:15px;color:#454A58;text-align:center}
 .lb button{align-self:flex-end;min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer}
+.pill2.need{background:#FCEEE9;color:#9A3412}
+.su,.mats{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.suform{display:flex;flex-direction:column;gap:14px;border:1px solid #E4E0D6;border-radius:14px;padding:18px 20px;background:#FAF8F3;width:100%}
+.suform h3{margin:0;font:400 20px 'Young Serif',Georgia,serif}
+.suform fieldset{border:0;padding:0;margin:0}.suform legend{font-weight:700;margin-bottom:4px}
+.suform label.l{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.suform .radios{display:flex;gap:22px;flex-wrap:wrap}.suform .radios label{display:flex;gap:8px;align-items:center;font-weight:600;min-height:44px}
+.suform .radios input{width:22px;height:22px}
+.suform .hint{margin:4px 0 0;font-size:14px;color:#5A5F6E}
+.suform .sum{border:1px solid #E4E0D6;border-radius:12px;background:#fff;padding:12px 16px;display:flex;flex-direction:column;gap:6px}
+.suform .sum div{display:flex;justify-content:space-between;gap:16px}.suform .sum .tot{font-weight:700;font-size:18px;border-top:1px solid #E4E0D6;padding-top:8px;color:#0157AE}
+.suform .err{margin:0;padding:10px 14px;border-radius:10px;background:#FCEEE9;color:#9A3412;font-weight:600}
+.okbox{padding:14px 16px;border-radius:12px;background:#E8F4EC;color:#1E5A33;width:100%;box-sizing:border-box}
+.okbox p{margin:0 0 8px}.okbox p:last-child{margin:0}
+.matl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;width:100%}
+.matl li{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;border:1px solid #E4E0D6;border-radius:10px;padding:10px 14px;background:#fff;min-height:48px}
+.matl li.lock{border-style:dashed;background:#F4F1EA;color:#6B6F7B}
+.matl .sz{font-size:14px;color:#5A5F6E}
 .pc .gal{display:flex;flex-direction:column;gap:10px}
 .pc .gal a.main{display:block}
 .pc p{margin:0;line-height:1.55;white-space:pre-wrap}
@@ -121,11 +139,13 @@
   function step(k,n){var p=split(k),i=p[0]*12+(p[1]-1)+n;return mk(Math.floor(i/12),i%12+1);}
 
   // planners get buttons (follows "Acting as")
-  QGPC.session().then(function(s){
+  var who={signedIn:false,member:null,planner:false,manager:false};
+  var whoReady=QGPC.session().then(function(s){
     if(!s)return;
     $('backlink').href='home.html';
-    return sb.from('members').select('id').eq('auth_user_id',s.user.id).limit(1).then(function(r){
+    return sb.from('members').select('id,first_name,last_name,email').eq('auth_user_id',s.user.id).limit(1).then(function(r){
       var m=r.data&&r.data[0];if(!m)return;
+      who.signedIn=true;who.member=m;
       return sb.from('member_roles').select('role_key').eq('member_id',m.id).then(function(rr){
         var held=(rr.data||[]).map(function(x){return x.role_key;});
         var pick=null;try{pick=sessionStorage.getItem('qgpc_acting');}catch(e){}
@@ -133,13 +153,12 @@
         if(!held.length)pick=null;
         var roles=pick?(pick==='member'?[]:[pick]):held;
         if(roles.some(function(k){return ['superuser','administrator','president','vice_president','program_chair'].indexOf(k)>-1;})){
-          canEdit=true;$('edit').classList.remove('hidden');$('edit-m').classList.remove('hidden');
-          // planners may see drafts too: reload
-          load();
+          canEdit=true;who.planner=true;$('edit').classList.remove('hidden');$('edit-m').classList.remove('hidden');
         }
+        who.manager=who.planner||roles.some(function(k){return ['workshop_chair'].indexOf(k)>-1;});
       });
     });
-  });
+  }).catch(function(){});
 
   function drawWW(){
     var v=$('ww');v.textContent='';
@@ -172,6 +191,111 @@
     if(body.childNodes.length)s.appendChild(body);
     s.classList.remove('hidden');
   }
+
+  // ---- workshop sign-up, status pills and locked patterns & materials ----
+  var drawTok=0;
+  function bytesText(n){if(!n)return '';return n>=1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB';}
+  function payNote(r,total){
+    if(!safeUrl(r.ws_pay_url))return el('p',null,'Online payment is not open yet. Your sign-up is saved, and the Workshop Manager will let you know how to pay.');
+    var a=el('a','nbtn solid','Pay '+money(total)+' now');a.href=r.ws_pay_url;a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label','Pay '+money(total)+' now (opens in a new tab)');return a;
+  }
+  function regStatus(r,my,justNow){
+    var b=el('div','okbox');
+    if(justNow)b.appendChild(el('p',null,"You're signed up! Your sign-up is saved on the waitlist. Your spot is held once your payment is received."));
+    else if(my.status==='accepted')b.appendChild(el('p',null,'Your registration is accepted. The patterns and materials below are open to you.'));
+    else if(my.status==='waiting')b.appendChild(el('p',null,'Your payment was received and your spot is saved. The patterns and materials unlock when the Workshop Manager accepts your registration, and you will get an email when that happens.'));
+    else b.appendChild(el('p',null,'You are signed up and on the waitlist. Your spot is held once your payment is received.'));
+    if(my.status==='waitlist')b.appendChild(payNote(r,+my.total_due));
+    if(justNow)b.appendChild(el('p',null,'When the Workshop Manager accepts your registration, the patterns and materials unlock and you will get an email.'+(my.is_member?'':' As a non-member, your private link to them will be in that email.')));
+    return b;
+  }
+  function signupSection(r,my,nm,full){
+    var box=el('div','su');
+    if(r.status!=='published'){box.appendChild(el('p','hint','Sign-up opens when this month is published.'));return box;}
+    if(my){box.appendChild(regStatus(r,my,false));return box;}
+    if(r.ws_last_date&&r.ws_last_date<nowIso){box.appendChild(el('p',null,'Registration for this workshop has closed.'));return box;}
+    var member=who.signedIn;
+    if(!member&&!r.ws_nonmember_ok){
+      var p=el('p',null,'This workshop is open to Guild members. Please ');var l=el('a',null,'sign in');l.href='index.html';p.appendChild(l);p.appendChild(document.createTextNode(' to sign up.'));
+      box.appendChild(p);return box;
+    }
+    var btn=el('button','nbtn solid',full?'Join the waitlist':'Sign up for this workshop');btn.type='button';box.appendChild(btn);
+    var form=el('form','suform hidden');form.noValidate=true;
+    form.innerHTML='<h3></h3><p class="hint hidden" id="su-guest" style="margin:0"></p>'+
+      '<div><label class="l" for="su-name">Name</label><input class="field" id="su-name" maxlength="120" autocomplete="name"></div>'+
+      '<div><label class="l" for="su-email">Email</label><input class="field" id="su-email" maxlength="200" autocomplete="email" inputmode="email"></div>'+
+      '<div id="su-phrow" class="hidden"><label class="l" for="su-phone">Phone number</label><input class="field" id="su-phone" maxlength="40" autocomplete="tel" inputmode="tel"></div>'+
+      '<div class="sum" id="su-sum" aria-live="polite"></div><p class="err hidden" id="su-err" role="alert"></p>'+
+      '<div><button type="submit" class="btn-save" id="su-go"></button> <button type="button" class="btn-cancel" id="su-cancel">Cancel</button></div>';
+    form.querySelector('h3').textContent='Sign up: '+(r.ws_title||'Workshop');
+    box.appendChild(form);
+    var q=function(i){return form.querySelector('#'+i);};
+    var kit=r.ws_kit_guild?(+r.ws_kit_fee||0):0,nmFee=member?0:nm;
+    var nme=q('su-name'),em=q('su-email');
+    if(member){nme.value=((who.member.first_name||'')+' '+(who.member.last_name||'')).trim();em.value=who.member.email||'';nme.readOnly=em.readOnly=true;}
+    else{
+      q('su-phrow').classList.remove('hidden');
+      var g=q('su-guest');g.classList.remove('hidden');g.textContent='';
+      g.appendChild(document.createTextNode((nm>0?'A non-member fee of '+money(nm)+' is added to the workshop fee. ':'')+'Guild members: please '));
+      var sl=el('a',null,'sign in');sl.href='index.html';g.appendChild(sl);g.appendChild(document.createTextNode(' first so you are signed up as a member.'));
+    }
+    var sm=q('su-sum');
+    function line(a,b,cls){var d=el('div',cls);d.appendChild(el('span',null,a));d.appendChild(el('span',null,b));sm.appendChild(d);}
+    line('Workshop fee',money(+r.ws_fee||0));
+    if(nmFee>0)line('Non-member fee',money(nmFee));
+    if(kit>0)line('Kit fee',money(kit));
+    line('Total due',money((+r.ws_fee||0)+nmFee+kit),'tot');
+    if((+r.ws_kit_fee||0)>0&&!r.ws_kit_guild)sm.appendChild(el('p','hint','The kit fee of '+money(+r.ws_kit_fee)+(r.ws_kit_to?' is paid to '+r.ws_kit_to:' is paid separately')+' and is not part of the total above.'));
+    q('su-go').textContent=full?'Join the waitlist':'Sign up';
+    btn.onclick=function(){form.classList.remove('hidden');btn.classList.add('hidden');(member?q('su-go'):nme).focus();};
+    q('su-cancel').onclick=function(){form.classList.add('hidden');btn.classList.remove('hidden');btn.focus();};
+    form.addEventListener('submit',function(e){
+      e.preventDefault();var er=q('su-err');er.classList.add('hidden');
+      var go=q('su-go');go.disabled=true;
+      sb.rpc('workshop_signup',{p_month_id:r.id,p_name:nme.value,p_email:em.value,p_phone:member?null:q('su-phone').value}).then(function(x){
+        go.disabled=false;
+        if(x.error){er.textContent=x.error.message||'That did not work. Please try again.';er.classList.remove('hidden');return;}
+        var d=x.data||{};box.textContent='';box.appendChild(regStatus(r,{status:'waitlist',total_due:d.total_due,is_member:!!d.is_member},true));
+      });
+    });
+    return box;
+  }
+  function materialsSection(r,my,mats){
+    var open=who.manager||!!(my&&my.status==='accepted'),sec=el('div','mats');
+    sec.appendChild(el('h3',null,'Patterns & materials'));
+    if(!who.manager)sec.appendChild(el('p','hint',open?'Your registration is accepted, so these files are open to you.':
+      my?'You are signed up. These files unlock when the Workshop Manager accepts your registration.':
+      'Sign up for this workshop to get the patterns and materials. They unlock when the Workshop Manager accepts your registration.'+(r.ws_nonmember_ok?' Non-members get a private link in the email sent when the registration is accepted.':'')));
+    var ul=el('ul','matl'),msg=el('p','hint hidden');msg.setAttribute('role','alert');
+    mats.forEach(function(f){
+      var li=el('li',open?'':'lock'),nm=el('span',null,(open?'':'🔒 ')+f.name);li.appendChild(nm);
+      if(open){
+        var b=el('button','nbtn','Download');b.type='button';b.setAttribute('aria-label','Download '+f.name);
+        b.onclick=function(){sb.storage.from('workshop-materials').createSignedUrl(f.path,3600,{download:f.name}).then(function(x){
+          if(x.error||!x.data){msg.textContent='That file could not be opened. Please try again.';msg.classList.remove('hidden');return;}
+          msg.classList.add('hidden');window.location.href=x.data.signedUrl;});};
+        li.appendChild(b);
+      }else li.appendChild(el('span','sz','Locked'+(f.bytes?' · '+bytesText(f.bytes):'')));
+      ul.appendChild(li);
+    });
+    sec.appendChild(ul);sec.appendChild(msg);return sec;
+  }
+  function loadWorkshopExtras(r,dyn,pills){
+    var tok=++drawTok,pub=r.status==='published';
+    var pReg=who.signedIn?sb.from('workshop_registrations').select('*').eq('month_id',r.id).eq('member_id',who.member.id).limit(1):Promise.resolve({data:[]});
+    Promise.all([pub?sb.rpc('workshop_status',{p_month_id:r.id}):Promise.resolve({data:null}),pReg,
+      sb.from('workshop_materials').select('*').eq('month_id',r.id).order('sort_order'),
+      pub?sb.rpc('workshop_nonmember_fee',{p_month_id:r.id}):Promise.resolve({data:0})]).then(function(rs){
+      if(tok!==drawTok)return;
+      var st=rs[0].data,my=(rs[1].data&&rs[1].data[0])||null,mats=rs[2].data||[],nm=+rs[3].data||0;
+      var left=st&&st.spots_left!==null&&st.spots_left!==undefined?st.spots_left:(r.ws_spots!==null?r.ws_spots:null);
+      if(left!==null)pills.insertBefore(el('span','pill2 '+(left?'ok':'need'),left?left+(left===1?' spot left':' spots left'):'Workshop full'),pills.firstChild);
+      if(st&&st.more_needed!==null&&st.more_needed!==undefined)pills.appendChild(el('span','pill2 '+(st.more_needed?'need':'ok'),st.more_needed?st.more_needed+' more needed to run':'Enough signed up to run'));
+      pills.classList.toggle('hidden',!pills.childNodes.length);
+      dyn.appendChild(signupSection(r,my,nm,left===0));
+      if(mats.length)dyn.appendChild(materialsSection(r,my,mats));
+    });
+  }
   function drawWorkshop(r){
     var s=$('ws');s.textContent='';
     if(!r.has_workshop){s.classList.add('hidden');return;}
@@ -182,9 +306,8 @@
     var spk=r.ws_same===false?r.ws_speaker:r.prog_speaker;
     if(spk)s.appendChild(el('span','by','with '+spk));
     var pills=el('div','pills');
-    if(r.ws_spots!==null)pills.appendChild(el('span','pill2 ok',r.ws_spots+(r.ws_spots===1?' spot':' spots')));
     if(r.ws_level)pills.appendChild(el('span','pill2',r.ws_level));
-    if(pills.childNodes.length)s.appendChild(pills);
+    pills.classList.toggle('hidden',!pills.childNodes.length);s.appendChild(pills);
     var f=el('div','facts');
     fact(f,'When',[longDate(r.ws_date),r.ws_time].filter(Boolean).join(', '));fact(f,'Where',r.ws_place||r.prog_place);
     fact(f,'Fee',money(r.ws_fee));fact(f,'Register by',longDate(r.ws_last_date));
@@ -195,7 +318,7 @@
     if(r.ws_photos&&r.ws_photos.length)body.appendChild(gallery(r.ws_photos));
     if(tx.childNodes.length)body.appendChild(tx);
     if(body.childNodes.length)s.appendChild(body);
-    s.appendChild(el('p','soon','Online sign-up for workshops is coming soon. Watch this page and your Guild emails.'));
+    var dyn=el('div');dyn.style.cssText='display:flex;flex-direction:column;gap:18px';s.appendChild(dyn);loadWorkshopExtras(r,dyn,pills);
     s.classList.remove('hidden');
   }
   function drawMonth(){
@@ -260,7 +383,7 @@
       firstLoad=false;fillQuick();drawMonth();
     });
   }
-  load();
+  whoReady.then(load,load);
 })();
 
 </script>

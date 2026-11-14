@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Your workshop materials</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;text-decoration:none}
+.fl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.fl li{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;border:1px solid #E4E0D6;border-radius:12px;padding:12px 16px;background:#fff;min-height:56px}
+.fl .sz{font-size:14px;color:#5A5F6E;margin-left:8px}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="index.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions"><a class="homelink" id="homelink" href="index.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a></div>
+</div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Workshop</span>
+<h1 id="pg-title" style="margin:0">Your workshop materials</h1><p class="stat-line">Patterns and materials for your workshop.</p></div>
+</div></section>
+<div class="mwrap" style="max-width:800px">
+<section class="card" aria-live="polite">
+<p id="loading" role="status" style="margin:0">Loading&hellip;</p>
+<p class="hidden" id="err" role="alert" style="margin:0;padding:12px 14px;border-radius:10px;background:#FCEEE9;color:#9A3412;font-weight:600"></p>
+<div class="hidden" id="ok"><h2 id="w-t" style="margin:0 0 4px;font:400 24px 'Young Serif',Georgia,serif"></h2><p id="w-sub" style="margin:0 0 14px;color:#454A58"></p>
+<ul class="fl" id="files"></ul><p id="none" class="hidden" style="margin:0">No files have been added yet. Please check back later.</p>
+<p style="margin:16px 0 0;font-size:14px;color:#5A5F6E">This is your private link. Please do not share it. Download links stay open for one hour; reload this page for fresh ones.</p></div>
+</section></div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script>
+
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  var sb=QGPC.sb,t=(location.search.match(/[?&]t=([a-f0-9]{64})/)||[])[1];
+  function bad(m){$('loading').classList.add('hidden');$('err').textContent=m;$('err').classList.remove('hidden');}
+  if(!t){bad('This link is not valid. Please use the link in your email.');return;}
+  function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
+  function size(n){return !n?'':(n>=1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB');}
+  function longDate(d){return d?new Date(d+'T12:00:00Z').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric',timeZone:'UTC'}):'';}
+  sb.functions.invoke('workshop-materials',{body:{token:t}}).then(function(r){
+    if(r.error){
+      var p=r.error.context&&r.error.context.json?r.error.context.json():null;
+      return (p||Promise.resolve({})).then(function(j){bad(j&&j.error?j.error:'This link could not be opened. Please try again.');},function(){bad('This link could not be opened. Please try again.');});
+    }
+    var d=r.data||{},w=d.workshop||{};
+    $('loading').classList.add('hidden');$('ok').classList.remove('hidden');
+    $('w-t').textContent=w.ws_title||'Workshop';
+    $('w-sub').textContent='Hello '+(d.name||'')+'. '+[longDate(w.ws_date),w.ws_time].filter(Boolean).join(', ');
+    var ul=$('files');ul.textContent='';
+    (d.files||[]).forEach(function(f){
+      var li=el('li'),s=el('span',null,f.name);if(f.bytes)s.appendChild(el('span','sz',size(f.bytes)));li.appendChild(s);
+      var a=el('a','nbtn','Download');a.href=f.url;a.setAttribute('aria-label','Download '+f.name);li.appendChild(a);ul.appendChild(li);
+    });
+    $('none').classList.toggle('hidden',(d.files||[]).length>0);
+  });
+})();
+
+</script>
+</body></html>
