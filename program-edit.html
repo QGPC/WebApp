@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Plan a month</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.nform{border:1px solid #E4E0D6;border-radius:14px;padding:22px;background:#fff;display:flex;flex-direction:column;gap:16px}
+.nform h2{margin:0;font:400 22px 'Young Serif',Georgia,serif}
+.nform label.l{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.nform .hint{margin:4px 0 0;font-size:14px;color:#5A5F6E}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:16px}
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;text-decoration:none}
+.nbtn.del{border-color:#9A3412;color:#9A3412}
+.confirm{background:#FCEEE9;border-radius:10px;padding:12px 14px}.confirm p{margin:0 0 10px;font-weight:600;color:#9A3412}
+.radios{display:flex;gap:22px;flex-wrap:wrap}.radios label{display:flex;gap:8px;align-items:center;font-weight:600;min-height:44px}
+.radios input,.chk input{width:22px;height:22px}
+.chk{display:flex;gap:10px;align-items:center;font-weight:600;min-height:44px}
+.ph{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.ph img{width:120px;height:120px;object-fit:cover;border-radius:12px;border:1px solid #E4E0D6}
+.ph .drop{border:2px dashed #9AA6C4;border-radius:12px;padding:14px 18px;font-weight:600;color:#0157AE;cursor:pointer;display:inline-flex;min-height:44px;align-items:center;background:#F4F6FB}
+.stat{border-radius:12px;background:#EEF1F8;padding:12px 16px;font-size:15px}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</div></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Program Chair</span>
+<h1 id="pg-title" style="margin:0"><span id="mon-h">Plan a month</span></h1><p class="stat-line">Fill in the program, and the workshop if there is one. Nothing shows until you publish.</p></div>
+</div></section>
+<div class="mwrap" style="max-width:900px" id="content">
+<a class="backlink" href="program-planning.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to Program Planning</a>
+<p id="loading" role="status" style="margin:0">Loading&hellip;</p>
+<form class="nform hidden" id="form" novalidate>
+
+<h2>Monthly program</h2>
+<div class="two">
+<div><label class="l" for="p-date">Date</label><input class="field" type="date" id="p-date"></div>
+<div><label class="l" for="p-time">Time</label><input class="field" id="p-time" maxlength="60" placeholder="e.g., 6:30 PM"></div>
+</div>
+<div><label class="l" for="p-place">Place</label><input class="field" id="p-place" maxlength="150" placeholder="Leave blank to use the usual meeting place"></div>
+<div class="two">
+<div><label class="l" for="p-speaker">Speaker</label><input class="field" id="p-speaker" maxlength="120"></div>
+<div><label class="l" for="p-site">Speaker&rsquo;s website (optional)</label><input class="field" id="p-site" maxlength="300" inputmode="url" placeholder="https://"></div>
+</div>
+<div><label class="l" for="p-title">Program title</label><input class="field" id="p-title" maxlength="160"></div>
+<div><label class="l" for="p-about">About the program</label><textarea class="field" id="p-about" rows="5" maxlength="3000" style="min-height:120px"></textarea>
+<p class="hint">Type it or paste it in from a Word document.</p></div>
+<div><label class="l" for="p-bio">About the speaker</label><textarea class="field" id="p-bio" rows="4" maxlength="3000" style="min-height:100px"></textarea></div>
+<div><span class="l" style="display:block;font-weight:600;font-size:15px;margin-bottom:6px">Speaker photo (optional)</span>
+<div class="ph"><label class="drop" id="pp-drop" for="pp-file">Choose a JPG or PNG photo</label>
+<input type="file" id="pp-file" accept="image/jpeg,image/png" class="hidden">
+<div id="pp-box" class="hidden" style="display:none;gap:12px;align-items:center"><img id="pp-img" alt=""><button type="button" class="nbtn del" id="pp-rm">Remove photo</button></div></div>
+<div id="pp-altbox" class="hidden" style="margin-top:10px"><label class="l" for="pp-alt">Describe the photo for people who cannot see it <span aria-hidden="true">*</span></label>
+<input class="field" id="pp-alt" maxlength="150" placeholder="e.g., Jane Smith holding a log cabin quilt"></div></div>
+
+<hr style="border:0;border-top:1px solid #E4E0D6;width:100%;margin:6px 0">
+<h2>Workshop</h2>
+<label class="chk"><input type="checkbox" id="has-ws"> There is a workshop this month</label>
+<div id="ws-box" class="hidden" style="display:none;flex-direction:column;gap:16px">
+<div class="radios" role="radiogroup" aria-label="Workshop speaker">
+<label><input type="radio" name="wsame" id="ws-same" value="1" checked> Same speaker as the program</label>
+<label><input type="radio" name="wsame" id="ws-other" value="0"> A different speaker</label></div>
+<div id="ws-spk-box" class="hidden"><label class="l" for="ws-speaker">Workshop speaker</label><input class="field" id="ws-speaker" maxlength="120"></div>
+<div class="two">
+<div><label class="l" for="ws-date">Date</label><input class="field" type="date" id="ws-date"></div>
+<div><label class="l" for="ws-time">Time</label><input class="field" id="ws-time" maxlength="60" placeholder="e.g., 9:00 AM to 3:00 PM"></div>
+</div>
+<div><label class="l" for="ws-place">Place</label><input class="field" id="ws-place" maxlength="150" placeholder="Leave blank to use the program place"></div>
+<div><label class="l" for="ws-title">Workshop title</label><input class="field" id="ws-title" maxlength="160"></div>
+<div class="two">
+<div><label class="l" for="ws-fee">Fee for members ($)</label><input class="field" id="ws-fee" inputmode="decimal" maxlength="8" placeholder="e.g., 35"></div>
+<div><label class="l" for="ws-spots">Number of spots</label><input class="field" id="ws-spots" inputmode="numeric" maxlength="4"></div>
+<div><label class="l" for="ws-last">Last date to register</label><input class="field" type="date" id="ws-last"></div>
+<div><label class="l" for="ws-level">Skill level</label><input class="field" id="ws-level" maxlength="60" placeholder="e.g., Confident beginner"></div>
+</div>
+<div class="two">
+<div><label class="l" for="ws-kit">Kit fee ($, if any)</label><input class="field" id="ws-kit" inputmode="decimal" maxlength="8"></div>
+<div><label class="l" for="ws-kitto">Kit fee is paid to</label><input class="field" id="ws-kitto" maxlength="80" placeholder="e.g., The speaker, at the workshop"></div>
+</div>
+<div><label class="l" for="ws-kitdesc">What the kit includes</label><input class="field" id="ws-kitdesc" maxlength="300"></div>
+<div><label class="l" for="ws-desc">About the workshop</label><textarea class="field" id="ws-desc" rows="5" maxlength="3000" style="min-height:120px"></textarea></div>
+<div><span class="l" style="display:block;font-weight:600;font-size:15px;margin-bottom:6px">Workshop photo (optional)</span>
+<div class="ph"><label class="drop" id="wp-drop" for="wp-file">Choose a JPG or PNG photo</label>
+<input type="file" id="wp-file" accept="image/jpeg,image/png" class="hidden">
+<div id="wp-box" class="hidden" style="display:none;gap:12px;align-items:center"><img id="wp-img" alt=""><button type="button" class="nbtn del" id="wp-rm">Remove photo</button></div></div>
+<div id="wp-altbox" class="hidden" style="margin-top:10px"><label class="l" for="wp-alt">Describe the photo for people who cannot see it <span aria-hidden="true">*</span></label>
+<input class="field" id="wp-alt" maxlength="150" placeholder="e.g., Jane Smith holding a log cabin quilt"></div></div>
+</div>
+
+<hr style="border:0;border-top:1px solid #E4E0D6;width:100%;margin:6px 0">
+<fieldset style="border:0;padding:0;margin:0"><legend style="font-weight:700;font-size:16px;margin-bottom:6px">Who can see this month</legend>
+<div class="radios" role="radiogroup">
+<label><input type="radio" name="stat" id="st-draft" value="draft" checked> Draft (planners only)</label>
+<label><input type="radio" name="stat" id="st-pub" value="published"> Published (everyone)</label></div></fieldset>
+<p id="f-err" class="msg err hidden" role="alert" style="margin:0"></p>
+<div class="saverow"><button type="submit" class="btn-save" id="f-save">Save this month</button>
+<a class="btn-cancel" id="f-cancel" href="program-planning.html" style="display:inline-flex;align-items:center;text-decoration:none">Cancel</a>
+<button type="button" class="nbtn del hidden" id="f-del">Delete this month</button></div>
+<div class="confirm hidden" id="del-conf"><p>Delete this whole month, including its program and workshop? This can&rsquo;t be undone.</p>
+<div class="saverow"><button type="button" class="btn-del solid" id="del-yes">Yes, delete it</button><button type="button" class="btn-cancel" id="del-no">Keep it</button></div></div>
+</form>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+
+QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president')||c.has('program_chair');}},function(c){
+  var $=function(i){return document.getElementById(i)};
+  var sb=QGPC.sb,BUCKET='program-photos',row=null,mkey=null;
+  var MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var q=(location.search.match(/[?&]m=(\d{4})-(\d{2})/)||[]);
+  if(!q[1]||+q[2]<1||+q[2]>12){location.href='program-planning.html';return;}
+  mkey=q[1]+'-'+q[2]+'-01';
+  var title=MON[+q[2]-1]+' '+q[1];
+  $('mon-h').textContent=title;document.title=title+' · Program Planning';
+  function ferr(t){var f=$('f-err');f.textContent=t;f.classList.remove('hidden');f.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  function pubUrl(p){return sb.storage.from(BUCKET).getPublicUrl(p).data.publicUrl;}
+  function show(id,on,disp){var e=$(id);e.classList.toggle('hidden',!on);e.style.display=on?(disp||''):'none';}
+
+  // ---- photos (shrunk in the browser: long side 1600 px, JPEG) ----
+  function shrink(file){
+    return new Promise(function(res,rej){
+      var url=URL.createObjectURL(file),img=new Image();
+      img.onload=function(){
+        var w=img.naturalWidth,h=img.naturalHeight,k=Math.min(1,1600/Math.max(w,h));
+        var cv=document.createElement('canvas');cv.width=Math.round(w*k);cv.height=Math.round(h*k);
+        var g=cv.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,cv.width,cv.height);g.drawImage(img,0,0,cv.width,cv.height);
+        URL.revokeObjectURL(url);cv.toBlob(function(b){b?res(b):rej();},'image/jpeg',0.85);
+      };
+      img.onerror=function(){URL.revokeObjectURL(url);rej();};img.src=url;
+    });
+  }
+  var PH={pp:{path:null,blob:null,url:null,gone:false},wp:{path:null,blob:null,url:null,gone:false}};
+  function drawPh(p){
+    var s=PH[p],has=!!(s.blob||(s.path&&!s.gone));
+    show(p+'-drop',!has,'inline-flex');show(p+'-box',has,'flex');show(p+'-altbox',has,'block');
+    if(has)$(p+'-img').src=s.blob?s.url:pubUrl(s.path);
+  }
+  ['pp','wp'].forEach(function(p){
+    $(p+'-file').addEventListener('change',function(e){
+      var f=e.target.files&&e.target.files[0];e.target.value='';if(!f)return;
+      if(!/^image\/(jpeg|png)$/.test(f.type)){ferr('Please choose a JPG or PNG photo.');return;}
+      shrink(f).then(function(b){var s=PH[p];if(s.url)URL.revokeObjectURL(s.url);s.blob=b;s.url=URL.createObjectURL(b);s.gone=false;$('f-err').classList.add('hidden');drawPh(p);},
+        function(){ferr('That photo could not be read. Please try another.');});
+    });
+    $(p+'-rm').onclick=function(){var s=PH[p];if(s.url)URL.revokeObjectURL(s.url);s.blob=null;s.url=null;if(s.path)s.gone=true;$(p+'-alt').value='';drawPh(p);};
+  });
+
+  // ---- fill the form ----
+  function setv(id,v){$(id).value=(v===null||v===undefined)?'':v;}
+  function fill(r){
+    row=r;var d=r||{};
+    setv('p-date',d.prog_date);setv('p-time',d.prog_time);setv('p-place',d.prog_place);setv('p-speaker',d.prog_speaker);
+    setv('p-site',d.prog_site);setv('p-title',d.prog_title);setv('p-about',d.prog_about);setv('p-bio',d.prog_bio);
+    PH.pp={path:d.prog_photo||null,blob:null,url:null,gone:false};setv('pp-alt',d.prog_photo_alt);drawPh('pp');
+    $('has-ws').checked=!!d.has_workshop;
+    var same=d.ws_same!==false;$('ws-same').checked=same;$('ws-other').checked=!same;
+    setv('ws-speaker',d.ws_speaker);setv('ws-date',d.ws_date);setv('ws-time',d.ws_time);setv('ws-place',d.ws_place);
+    setv('ws-title',d.ws_title);setv('ws-fee',d.ws_fee);setv('ws-spots',d.ws_spots);setv('ws-last',d.ws_last_date);
+    setv('ws-level',d.ws_level);setv('ws-kit',d.ws_kit_fee);setv('ws-kitto',d.ws_kit_to);setv('ws-kitdesc',d.ws_kit_desc);setv('ws-desc',d.ws_desc);
+    PH.wp={path:d.ws_photo||null,blob:null,url:null,gone:false};setv('wp-alt',d.ws_photo_alt);drawPh('wp');
+    $('st-pub').checked=d.status==='published';$('st-draft').checked=d.status!=='published';
+    toggles();
+    $('f-del').classList.toggle('hidden',!r);
+    $('loading').classList.add('hidden');$('form').classList.remove('hidden');
+  }
+  function toggles(){show('ws-box',$('has-ws').checked,'flex');show('ws-spk-box',$('has-ws').checked&&$('ws-other').checked,'block');}
+  $('has-ws').onchange=toggles;$('ws-same').onchange=toggles;$('ws-other').onchange=toggles;
+
+  // ---- save ----
+  function num(id,what){
+    var v=$(id).value.trim().replace(/^\$/,'');if(!v)return {v:null};
+    if(!/^\d{1,5}(\.\d{1,2})?$/.test(v))return {err:'Please type '+what+' as a number, like 35 or 12.50.',id:id};
+    return {v:+v};
+  }
+  function fixUrl(u){u=u.trim();if(u&&!/^https?:\/\//i.test(u))u='https://'+u;return u;}
+  function upload(p){
+    var s=PH[p];if(!s.blob)return Promise.resolve({path:s.gone?null:s.path});
+    var path=(p==='pp'?'program-':'workshop-')+mkey.slice(0,7)+'-'+Math.random().toString(36).slice(2,10)+'.jpg';
+    return sb.storage.from(BUCKET).upload(path,s.blob,{contentType:'image/jpeg',upsert:false}).then(function(r){
+      if(r.error)return {error:true};return {path:path,fresh:true};
+    });
+  }
+  $('form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var pub=$('st-pub').checked,has=$('has-ws').checked;
+    var site=fixUrl($('p-site').value);
+    if(site&&!/^https?:\/\/[^\s.]+\.[^\s]+$/i.test(site)){ferr('That website address does not look right. It should look like https://example.org');$('p-site').focus();return;}
+    if(pub&&!$('p-title').value.trim()){ferr('Please type the program title before you publish this month.');$('p-title').focus();return;}
+    if(pub&&!$('p-date').value){ferr('Please choose the program date before you publish this month.');$('p-date').focus();return;}
+    if(has&&pub&&!$('ws-title').value.trim()){ferr('Please type the workshop title, or untick the workshop, before you publish.');$('ws-title').focus();return;}
+    var fee=num('ws-fee','the fee'),kit=num('ws-kit','the kit fee'),sp=num('ws-spots','the number of spots');
+    var bad=fee.err?fee:kit.err?kit:sp.err?sp:null;
+    if(bad){ferr(bad.err);$(bad.id).focus();return;}
+    if(sp.v!==null&&sp.v!==Math.floor(sp.v)){ferr('The number of spots must be a whole number.');$('ws-spots').focus();return;}
+    if(PH.pp.blob||(PH.pp.path&&!PH.pp.gone)){if(!$('pp-alt').value.trim()){ferr('Please describe the speaker photo.');$('pp-alt').focus();return;}}
+    if(has&&(PH.wp.blob||(PH.wp.path&&!PH.wp.gone))){if(!$('wp-alt').value.trim()){ferr('Please describe the workshop photo.');$('wp-alt').focus();return;}}
+    var b=$('f-save');b.disabled=true;b.textContent='Saving…';$('f-err').classList.add('hidden');
+    function done(){b.disabled=false;b.textContent='Save this month';}
+    Promise.all([upload('pp'),has?upload('wp'):Promise.resolve({path:null})]).then(function(u){
+      if(u[0].error||u[1].error){done();ferr('A photo did not upload. Please try again.');return;}
+      var v=function(id){return $(id).value.trim()||null;};
+      var rec={month_on:mkey,status:pub?'published':'draft',
+        prog_date:v('p-date'),prog_time:v('p-time'),prog_place:v('p-place'),prog_speaker:v('p-speaker'),prog_site:site||null,
+        prog_title:v('p-title'),prog_about:v('p-about'),prog_bio:v('p-bio'),
+        prog_photo:u[0].path,prog_photo_alt:u[0].path?v('pp-alt'):null,
+        has_workshop:has,ws_same:$('ws-same').checked,ws_speaker:has&&$('ws-other').checked?v('ws-speaker'):null,
+        ws_date:has?v('ws-date'):null,ws_time:has?v('ws-time'):null,ws_place:has?v('ws-place'):null,ws_title:has?v('ws-title'):null,
+        ws_fee:has?fee.v:null,ws_spots:has?sp.v:null,ws_last_date:has?v('ws-last'):null,ws_level:has?v('ws-level'):null,
+        ws_kit_fee:has?kit.v:null,ws_kit_to:has?v('ws-kitto'):null,ws_kit_desc:has?v('ws-kitdesc'):null,ws_desc:has?v('ws-desc'):null,
+        ws_photo:has?u[1].path:null,ws_photo_alt:has&&u[1].path?v('wp-alt'):null};
+      sb.from('program_months').upsert(rec,{onConflict:'month_on'}).select().then(function(r){
+        if(r.error||!r.data||!r.data.length){
+          done();[u[0],u[1]].forEach(function(x){if(x.fresh)sb.storage.from(BUCKET).remove([x.path]);});
+          ferr('That did not save. Please try again.');return;
+        }
+        // remove photo files that are no longer used
+        if(row){[[row.prog_photo,rec.prog_photo],[row.ws_photo,rec.ws_photo]].forEach(function(p){if(p[0]&&p[0]!==p[1])sb.storage.from(BUCKET).remove([p[0]]);});}
+        location.href='program-planning.html?saved='+encodeURIComponent(title+(pub?' is published.':' is saved as a draft.'));
+      });
+    });
+  });
+
+  // ---- delete ----
+  $('f-del').onclick=function(){$('del-conf').classList.remove('hidden');$('del-conf').scrollIntoView({behavior:'smooth',block:'nearest'});};
+  $('del-no').onclick=function(){$('del-conf').classList.add('hidden');};
+  $('del-yes').onclick=function(){
+    this.disabled=true;var self=this;
+    sb.from('program_months').delete().eq('id',row.id).then(function(r){
+      self.disabled=false;
+      if(r.error){ferr('That did not delete. Please try again.');return;}
+      [row.prog_photo,row.ws_photo].forEach(function(p){if(p)sb.storage.from(BUCKET).remove([p]);});
+      location.href='program-planning.html?saved='+encodeURIComponent(title+' was deleted.');
+    });
+  };
+
+  sb.from('program_months').select('*').eq('month_on',mkey).limit(1).then(function(r){
+    if(r.error){$('loading').textContent='Could not load this month. Please refresh and try again.';return;}
+    fill((r.data&&r.data[0])||null);
+  });
+});
+
+</script>
+</body></html>

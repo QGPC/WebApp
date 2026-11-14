@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Program Planning</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.ctop{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.ctop h2{margin:0;font-size:24px}.ctop p{margin:2px 0 0;color:#5A5F6E}
+.ctools{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.ctools label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:15px}
+.ctools select{min-height:46px;min-width:120px}
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;text-decoration:none}
+.nbtn.solid{background:#0157AE;color:#fff}
+.mlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.mi{border:1px solid #E4E0D6;border-radius:14px;padding:16px 18px;background:#fff;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.mi .mn{font:400 19px 'Young Serif',Georgia,serif;display:block}
+.mi .ln{display:block;font-size:15px;color:#1F2433;margin-top:2px}
+.mi .ln b{font-weight:700}
+.mi .none{color:#5A5F6E}
+.chip{display:inline-block;font-size:13px;font-weight:700;border-radius:999px;padding:2px 12px;margin-left:8px;vertical-align:middle;background:#EDEAE2;color:#454A58}
+.chip.pub{background:#DDEFE3;color:#1E5A33}.chip.dr{background:#FFF1D6;color:#7A4B00}
+.wbox{border:1px solid #E4E0D6;border-radius:14px;padding:20px 22px;background:#fff}
+.wbox h2{margin:0 0 4px;font-size:20px}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:18px;margin:14px 0}
+.wgrid h3{margin:0 0 6px;font-size:16px}
+.wgrid dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:15px}
+.wgrid dt{font-weight:600;color:#5A5F6E}.wgrid dd{margin:0}
+.wform{display:flex;flex-direction:column;gap:14px;margin-top:14px}
+.wform .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:16px}
+.wform fieldset{border:1px solid #E4E0D6;border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:12px;margin:0}
+.wform legend{font-weight:700;padding:0 6px}
+.wform label.l{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</div></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Program Chair</span>
+<h1 id="pg-title" style="margin:0">Program Planning</h1><p class="stat-line">Plan each month&rsquo;s program and workshop, and change where and when we meet.</p></div>
+</div></section>
+<div class="mwrap" style="max-width:900px" id="content">
+<a class="backlink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to Home</a>
+<p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
+
+<section class="wbox" aria-labelledby="ww-h">
+<div class="ctop"><div><h2 id="ww-h">Where &amp; when</h2><p>The standing details shown at the top of the Programs &amp; Workshops page.</p></div>
+<button type="button" class="nbtn" id="ww-edit">Change</button></div>
+<div class="wgrid" id="ww-view"></div>
+<form class="wform hidden" id="ww-form" novalidate>
+<div class="two">
+<fieldset><legend>Monthly program</legend>
+<div><label class="l" for="w-pd">Day</label><input class="field" id="w-pd" maxlength="80" placeholder="e.g., Second Thursday of each month"></div>
+<div><label class="l" for="w-pt">Time</label><input class="field" id="w-pt" maxlength="60" placeholder="e.g., 6:30 PM"></div>
+<div><label class="l" for="w-pp">Place</label><input class="field" id="w-pp" maxlength="120"></div>
+<div><label class="l" for="w-pa">Address</label><input class="field" id="w-pa" maxlength="200"></div>
+</fieldset>
+<fieldset><legend>Workshop</legend>
+<div><label class="l" for="w-wd">Day</label><input class="field" id="w-wd" maxlength="80" placeholder="e.g., The Saturday after the program"></div>
+<div><label class="l" for="w-wt">Time</label><input class="field" id="w-wt" maxlength="60" placeholder="e.g., 9:00 AM to 3:00 PM"></div>
+<div><label class="l" for="w-wp">Place</label><input class="field" id="w-wp" maxlength="120"></div>
+<div><label class="l" for="w-wa">Address</label><input class="field" id="w-wa" maxlength="200"></div>
+</fieldset></div>
+<div><label class="l" for="w-note">Note (optional)</label><textarea class="field" id="w-note" rows="2" maxlength="400" style="min-height:70px" placeholder="e.g., Doors open 30 minutes early. Guests are always welcome."></textarea></div>
+<p id="ww-err" class="msg err hidden" role="alert" style="margin:0"></p>
+<div class="saverow"><button type="submit" class="btn-save" id="ww-save">Save</button><button type="button" class="btn-cancel" id="ww-cancel">Cancel</button></div>
+</form>
+</section>
+
+<div class="ctop">
+<div><h2 id="yr-h">The year at a glance</h2><p id="yr-sub">&nbsp;</p></div>
+<div class="ctools"><label>Year<select class="field" id="year"></select></label>
+<a class="nbtn" href="programs.html">See the page</a>
+<a class="nbtn" href="email-members.html">Email Members</a></div>
+</div>
+<p id="loading" role="status" style="margin:0">Loading&hellip;</p>
+<ul class="mlist" id="list"></ul>
+
+<section style="display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8">
+<div><h2 style="margin:0 0 4px;font-size:16px;font-weight:700;color:#0157AE">How months work</h2>
+<p style="margin:0;font-size:15px;line-height:1.5;color:#1F2433">A month starts as a <b>draft</b>, which only the Program Chair, President, Vice President and Administrators can see. When you choose <b>Published</b>, it appears on the Programs &amp; Workshops page and on the Events calendar. Unpublish it again at any time.</p></div>
+</section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+
+QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president')||c.has('program_chair');}},function(c){
+  var $=function(i){return document.getElementById(i)};
+  var sb=QGPC.sb, rows={}, year=null, set={};
+  var MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var curYear=+new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric'}).format(new Date());
+  function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
+  function say(t,cls){var n=$('status');n.textContent=t;n.className='msg '+(cls||'ok');n.style.margin='0';n.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  function nice(d){if(!d)return '';var p=d.split('-');return MON[+p[1]-1].slice(0,3)+' '+(+p[2]);}
+  function key(y,m){return y+'-'+(m<10?'0':'')+m+'-01';}
+
+  // ---- Where & when ----
+  var WF=[['prog_day','w-pd'],['prog_time','w-pt'],['prog_place','w-pp'],['prog_address','w-pa'],['ws_day','w-wd'],['ws_time','w-wt'],['ws_place','w-wp'],['ws_address','w-wa'],['note','w-note']];
+  function drawWW(){
+    var v=$('ww-view');v.textContent='';
+    function blk(h,a,b,c2,d){
+      var x=el('div');x.appendChild(el('h3',null,h));var dl=el('dl');
+      [['Day',a],['Time',b],['Place',c2],['Address',d]].forEach(function(p){dl.appendChild(el('dt',null,p[0]));dl.appendChild(el('dd',null,p[1]||'Not set yet'));});
+      x.appendChild(dl);v.appendChild(x);
+    }
+    blk('Monthly program',set.prog_day,set.prog_time,set.prog_place,set.prog_address);
+    blk('Workshop',set.ws_day,set.ws_time,set.ws_place,set.ws_address);
+    if(set.note){var n=el('p',null,set.note);n.style.cssText='grid-column:1/-1;margin:0';v.appendChild(n);}
+  }
+  $('ww-edit').onclick=function(){
+    WF.forEach(function(f){$(f[1]).value=set[f[0]]||'';});
+    $('ww-err').classList.add('hidden');$('ww-form').classList.remove('hidden');$('ww-edit').classList.add('hidden');$('w-pd').focus();
+  };
+  function closeWW(){$('ww-form').classList.add('hidden');$('ww-edit').classList.remove('hidden');}
+  $('ww-cancel').onclick=closeWW;
+  $('ww-form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var rec={};WF.forEach(function(f){rec[f[0]]=$(f[1]).value.trim()||null;});
+    var b=$('ww-save');b.disabled=true;
+    sb.from('program_settings').update(rec).eq('id',1).select().then(function(r){
+      b.disabled=false;
+      if(r.error||!r.data||!r.data.length){var f=$('ww-err');f.textContent='That did not save. Please try again.';f.classList.remove('hidden');return;}
+      set=r.data[0];drawWW();closeWW();say('Saved. The Where & when card is updated.');
+    });
+  });
+
+  // ---- the year at a glance ----
+  function fillYears(){
+    var ys={};for(var y=curYear-1;y<=curYear+2;y++)ys[y]=1;
+    Object.keys(rows).forEach(function(k){ys[+k.slice(0,4)]=1;});
+    var list=Object.keys(ys).map(Number).sort(function(a,b){return a-b;});
+    var sel=$('year');sel.textContent='';
+    list.forEach(function(y){var o=el('option',null,String(y));o.value=y;sel.appendChild(o);});
+    if(year===null)year=curYear;
+    sel.value=year;
+  }
+  function draw(){
+    $('yr-h').textContent='The year at a glance, '+year;
+    var ul=$('list');ul.textContent='';var np=0,nd=0;
+    for(var m=1;m<=12;m++){
+      var r=rows[key(year,m)],li=el('li','mi'),tx=el('span');tx.style.cssText='flex:1 1 280px;min-width:0';
+      var h=el('span','mn',MON[m-1]);
+      if(r){h.appendChild(el('span','chip '+(r.status==='published'?'pub':'dr'),r.status==='published'?'Published':'Draft'));if(r.status==='published')np++;else nd++;}
+      else h.appendChild(el('span','chip','Not planned'));
+      tx.appendChild(h);
+      if(r){
+        var a=el('span','ln'),t1=el('b',null,'Program: ');a.appendChild(t1);
+        a.appendChild(document.createTextNode([r.prog_title||'Title not set',r.prog_speaker,nice(r.prog_date)].filter(Boolean).join(' · ')));tx.appendChild(a);
+        var w=el('span','ln');w.appendChild(el('b',null,'Workshop: '));
+        w.appendChild(document.createTextNode(r.has_workshop?[r.ws_title||'Title not set',nice(r.ws_date)].filter(Boolean).join(' · '):'None this month'));tx.appendChild(w);
+      }else tx.appendChild(el('span','ln none','Nothing planned yet.'));
+      li.appendChild(tx);
+      var b=el('a','nbtn'+(r?'':' solid'),r?'Edit':'Add');b.href='program-edit.html?m='+key(year,m).slice(0,7);
+      b.setAttribute('aria-label',(r?'Edit ':'Add ')+MON[m-1]+' '+year);li.appendChild(b);
+      ul.appendChild(li);
+    }
+    $('yr-sub').textContent=np+' published, '+nd+' in draft.';
+  }
+  $('year').addEventListener('change',function(){year=+this.value;draw();});
+  Promise.all([sb.from('program_months').select('*'),sb.from('program_settings').select('*').eq('id',1).limit(1)]).then(function(rs){
+    $('loading').classList.add('hidden');
+    if(rs[0].error){say('Could not load the months. Please refresh and try again.','err');return;}
+    (rs[0].data||[]).forEach(function(r){rows[r.month_on]=r;});
+    set=(rs[1].data&&rs[1].data[0])||{};
+    drawWW();fillYears();draw();
+    var sv=(location.search.match(/[?&]saved=([^&]*)/)||[])[1];
+    if(sv){try{say(decodeURIComponent(sv));history.replaceState(null,'','program-planning.html');}catch(e){}}
+  });
+});
+
+</script>
+</body></html>
