@@ -15,6 +15,9 @@
     sendReset: function(email){
       return sb.auth.resetPasswordForEmail(email.trim(), { redirectTo: siteRoot() + 'set-password.html' });
     },
+    requestFirstSignin: function(email){
+      return sb.functions.invoke('request-signin-link', { body: { email: email.trim() } });
+    },
     setPassword: function(pw){ return sb.auth.updateUser({ password: pw }); },
     session: function(){ return sb.auth.getSession().then(function(r){ return r.data.session; }); },
     friendly: function(err){

@@ -92,10 +92,10 @@ ul.notices .pinned{display:inline-block;margin:0 0 6px;font-size:12px;font-weigh
   function show(m){
     mode=m;
     $('pw-row').classList.toggle('hidden', m!=='signin');
-    $('sign-title').textContent = m==='signin' ? 'Member sign in' : 'Reset your password';
-    $('go').textContent = m==='signin' ? 'Sign in' : 'Email me a reset link';
+    $('sign-title').textContent = m==='signin' ? 'Member sign in' : 'Set up or reset your password';
+    $('go').textContent = m==='signin' ? 'Sign in' : 'Email me a link';
     $('toggle-reset').textContent = m==='signin' ? 'Forgot password?' : 'Back to sign in';
-    note('');
+    note(m==='reset'?'First time here, or forgot your password? Enter your email address and we will send you a link to set your password.':'');
   }
   function setOpen(o){
     card.classList.toggle('hidden',!o); btn.setAttribute('aria-expanded',o?'true':'false');
@@ -116,10 +116,13 @@ ul.notices .pinned{display:inline-block;margin:0 0 6px;font-size:12px;font-weigh
         else{location.href='home.html';}
       });
     }else{
+      var first=QGPC.requestFirstSignin(em).then(function(){},function(){});
       QGPC.sendReset(em).then(function(r){
+        first.then(function(){
         $('go').disabled=false;
         if(r.error&&/rate/i.test(r.error.message)){note(QGPC.friendly(r.error),'err');}
-        else{note('If that email belongs to a member, a link to set a new password is on its way.','ok');}
+        else{note('If that email belongs to a member, a link to set your password is on its way. It can take a few minutes. Please check your spam folder too.','ok');}
+        });
       });
     }
   });

@@ -30,6 +30,7 @@ Edge Functions > Deploy a new function > Via Editor. One function per folder und
 - `send-renewal-email` (renewal approved)
 - `send-renewal-reminders` (reminder to members who have not renewed)
 - `send-decline-email` (request declined)
+- `request-signin-link` (first sign-in link for members who have no account yet, such as imported members; run `supabase/37-first-signin.sql` first)
 To change a function later, open it in the dashboard, paste the new code over the old, Deploy.
 
 ## 5. Commit and push
