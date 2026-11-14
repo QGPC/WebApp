@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Import Members</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.nbtn:disabled{opacity:.45;cursor:default}
+.nbtn.del{border-color:#9A3412;color:#9A3412}
+.nbtn.solid{background:#0157AE;color:#fff}
+.cqc{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+.cqc>h2,.cqh h2{margin:0;font:400 24px 'Young Serif',Georgia,serif}
+.cqh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sub{margin:2px 0 0;color:#5A5F6E;font-size:15px}
+.cbadge{min-width:26px;height:26px;padding:0 8px;border-radius:999px;background:#E87446;color:#1F2433;font-weight:700;font-size:14px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box}
+.pl{font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;white-space:nowrap}
+.pl.gray{background:#F0ECE3;color:#454A58}
+.pl.new{background:#E87446;color:#1F2433}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer}
+.seg button[aria-pressed=true]{background:#0157AE;color:#fff}
+.confirm{background:#FCEEE9;border-radius:10px;padding:12px 14px}.confirm p{margin:0 0 10px;font-weight:600;color:#9A3412}
+.infobox{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8}
+.infobox h2{margin:0 0 4px;font-size:16px;font-weight:700;color:#0157AE}.infobox p{margin:0;font-size:15px;line-height:1.5;color:#1F2433}
+.blue-note{border:2px solid #0157AE;border-radius:14px;padding:16px 18px;background:#F4F6FB;display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.blue-note h3{margin:0;font-size:17px}.blue-note ul{margin:8px 0 0;padding-left:20px;line-height:1.5}
+.empty{margin:0;padding:14px 16px;border-radius:12px;background:#F0ECE3;color:#454A58}
+.toplinks{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.dl2{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:15px}.dl2 dt{font-weight:700;color:#5A5F6E}.dl2 dd{margin:0}
+.lbl{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+
+.ct{width:100%;border-collapse:collapse;font-size:14px}
+.ct th{text-align:left;padding:8px 10px;background:#F0ECE3;color:#454A58;font-weight:700;white-space:nowrap}
+.ct td{padding:8px 10px;border-top:1px solid #EDEAE2;vertical-align:top}
+.ct td.nw{white-space:nowrap}
+.h3{margin:4px 0 8px;font-size:17px}
+.counts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.cnt{border:1px solid #E4E0D6;border-radius:12px;padding:12px 14px;background:#FAF8F3}
+.cnt b{display:block;font:400 28px 'Young Serif',Georgia,serif}.cnt span{font-size:14px;color:#5A5F6E}
+.cnt.good{border-color:#0157AE;background:#F4F6FB}.cnt.bad{border-color:#E87446;background:#FCEEE9}
+.fab{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:8px;min-height:64px;padding:8px 14px;border:2px dashed #C9C4B8;border-radius:10px;font-size:16px;font-weight:600;color:#0157AE;cursor:pointer}
+.fab input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.hrow{display:flex;gap:10px 16px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:10px 0;border-top:1px solid #EDEAE2}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions"><a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a><span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span><button type="button" class="pill out" id="out">Sign out</button></div>
+</div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Superuser</span>
+<h1 id="pg-title" style="margin:0">Import Members</h1><p class="stat-line" id="lead">Load the member list from a CSV file. Superuser only.</p></div>
+
+</div></section>
+<div class="mwrap" style="max-width:1000px;gap:22px" id="content">
+<a class="backlink" href="admin.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to Site Administration</a>
+<p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
+<section class="infobox"><div><h2>Superuser only</h2><p>This creates member records only. No sign-in accounts are created and no emails are sent. Each member sets up an account the first time they sign in with the email address on file. Nothing is saved until you press the Import button in step 4.</p></div></section>
+
+<section class="cqc" aria-labelledby="s1"><div class="cqh"><div><h2 id="s1">1. Get the template</h2><p class="sub">Save your member list from Excel as <b>CSV UTF-8</b>, with these column headings in the first row. The order does not matter, and a column you do not have can be left out.</p></div><button class="nbtn" id="dl" type="button">Download the CSV template</button></div>
+<div style="overflow-x:auto"><table class="ct" id="coltab"><thead><tr><th>Column</th><th>Needed?</th><th>What to put in it</th><th class="inf hidden">In your file</th></tr></thead><tbody></tbody></table></div>
+<p class="sub" style="font-size:14px">The template has one sample row. Delete it before importing.</p></section>
+
+<section class="cqc" aria-labelledby="s2"><h2 id="s2">2. Choose your CSV file</h2>
+<label class="fab"><span id="fabtxt">Choose a CSV file</span><input type="file" id="file" accept=".csv,text/csv,text/plain"></label>
+<p class="msg err hidden" id="ferr" role="alert" style="margin:0"></p></section>
+
+<section class="cqc hidden" id="chk" aria-labelledby="s3"><div class="cqh"><div><h2 id="s3">3. Check the results</h2><p class="sub" id="chkfile">Nothing has been imported yet.</p></div></div>
+<div class="counts" id="counts"></div>
+<div id="extra"></div>
+<div id="readywrap"><h3 class="h3">First rows that are ready</h3><div style="overflow-x:auto"><table class="ct" id="ready"><thead><tr><th>Row</th><th>Name</th><th>Email</th><th>Type</th><th>Member since</th><th>Paid through</th><th>Status</th><th>On file?</th></tr></thead><tbody></tbody></table></div></div>
+<div id="skipwrap"><h3 class="h3" id="skiph">Rows that will be skipped</h3><div style="overflow-x:auto"><table class="ct" id="skips"><thead><tr><th>Row</th><th>Name</th><th>Problem</th></tr></thead><tbody></tbody></table></div></div>
+<fieldset style="border:0;padding:0;margin:0"><legend class="lbl">If an email is already in the member database</legend>
+<div class="seg" id="modeseg"><button type="button" data-m="skip" aria-pressed="true">Skip that row</button><button type="button" data-m="update" aria-pressed="false">Update that member</button></div>
+<p class="sub" id="modehelp" style="font-size:14px;margin-top:8px"></p></fieldset></section>
+
+<section class="cqc hidden" id="go" aria-labelledby="s4"><h2 id="s4">4. Import</h2>
+<label style="display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.45;cursor:pointer"><input type="checkbox" id="ok" style="width:20px;height:20px;margin-top:2px;accent-color:#0157AE"><span id="oktxt"></span></label>
+<p class="msg err hidden" id="gerr" role="alert" style="margin:0"></p>
+<div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn-save" id="doit" type="button" disabled>Import</button><button class="btn-cancel" id="cancel" type="button">Cancel</button></div></section>
+
+<section class="cqc hidden" id="done" aria-labelledby="s5" style="border-color:#0157AE"><h2 id="s5">Members imported</h2><p id="donetxt" style="margin:0;line-height:1.5"></p>
+<div style="display:flex;gap:10px;flex-wrap:wrap"><a class="nbtn solid" href="membership-database.html">Open the Membership Database</a><button class="nbtn" id="again" type="button">Import another file</button></div></section>
+
+<section class="cqc" aria-labelledby="s6"><div class="cqh"><div><h2 id="s6">Earlier imports</h2><p class="sub">Undo removes the members an import added. Anyone who has since signed in, holds a role or was changed is kept.</p></div></div>
+<div id="hist"><p class="empty">Loading&hellip;</p></div></section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/comfort.js"></script>
+<script>
+/*PURE-START*/
+var IMPORT={};
+IMPORT.COLS=[
+  {k:'first_name',label:'First name',req:1,help:'Their first name.',alias:['firstname','first','givenname']},
+  {k:'last_name',label:'Last name',req:1,help:'Their last name.',alias:['lastname','last','surname','familyname']},
+  {k:'email',label:'Email',req:1,help:'One email address. This is how the member signs in, and how rows are matched.',alias:['email','emailaddress']},
+  {k:'membership_type',label:'Membership type',req:1,help:'Regular, Exempt or Junior.',alias:['membershiptype','type','membership']},
+  {k:'member_since',label:'Member since',req:0,help:'The year they first joined, like 2009. Blank is fine.',alias:['membersince','joined','yearjoined']},
+  {k:'paid_through_year',label:'Paid through',req:0,help:'The year their dues cover, like 2026 (a date like 2026-12-31 or 12/31/2026 also works). Decides Active or Inactive. If it is blank, the member is imported as Inactive.',alias:['paidthrough','paidthroughyear','paidthru','duespaidthrough']},
+  {k:'cell_phone',label:'Cell phone',req:0,help:'Any format.',alias:['cellphone','cell','phone','mobile','phonenumber']},
+  {k:'facebook_name',label:'Facebook name',req:0,help:'The name they use on Facebook.',alias:['facebookname','facebook']},
+  {k:'street_address',label:'Street address',req:0,help:'Street or P.O. box. A single "Mailing address" column also works, if you put the whole address in it.',alias:['streetaddress','street','address','mailingaddress']},
+  {k:'city',label:'City',req:0,help:'',alias:['city','town']},
+  {k:'state',label:'State',req:0,help:'Like TX.',alias:['state']},
+  {k:'zip',label:'ZIP',req:0,help:'',alias:['zip','zipcode','postalcode']},
+  {k:'directory_opt_out',label:'Directory opt-out',req:0,help:'Yes if they do not want to be listed in the Member Directory. Blank or No means they are listed.',alias:['directoryoptout','optout']},
+  {k:'birthday',label:'Birthday',req:0,help:'Month and day only, like 04-17 or April 17. Any year is ignored and not saved.',alias:['birthday','birthdate','birthmonthday']}
+];
+IMPORT.norm=function(s){return String(s||'').toLowerCase().replace(/[^a-z0-9]/g,'');};
+IMPORT.parseCsv=function(text){
+  if(text.charCodeAt(0)===0xFEFF)text=text.slice(1);
+  var first=text.split(/\r?\n/)[0]||'';
+  var d=(first.indexOf(',')<0&&first.indexOf(';')>=0)?';':',';
+  var rows=[],row=[],f='',q=false,i=0,n=text.length,c;
+  while(i<n){
+    c=text.charAt(i);
+    if(q){
+      if(c==='"'){if(text.charAt(i+1)==='"'){f+='"';i+=2;continue;}q=false;i++;continue;}
+      f+=c;i++;continue;
+    }
+    if(c==='"'&&f===''){q=true;i++;continue;}
+    if(c===d){row.push(f);f='';i++;continue;}
+    if(c==='\r'||c==='\n'){
+      if(c==='\r'&&text.charAt(i+1)==='\n')i++;
+      row.push(f);f='';rows.push(row);row=[];i++;continue;
+    }
+    f+=c;i++;
+  }
+  if(f!==''||row.length){row.push(f);rows.push(row);}
+  return rows.filter(function(r){return r.some(function(x){return String(x).trim()!=='';});});
+};
+IMPORT.mapHeader=function(hdr){
+  var map={},ignored=[];
+  hdr.forEach(function(h,idx){
+    var n=IMPORT.norm(h),hit=null;
+    if(!n)return;
+    IMPORT.COLS.forEach(function(c){if(!hit&&c.alias.indexOf(n)>=0)hit=c.k;});
+    if(hit&&map[hit]===undefined)map[hit]=idx;else ignored.push(String(h).trim());
+  });
+  return {map:map,ignored:ignored};
+};
+IMPORT.year=function(v,what){
+  v=String(v||'').trim();if(!v)return {v:null};
+  var m=v.match(/^(\d{4})$/)||v.match(/^(\d{4})[-\/]\d{1,2}[-\/]\d{1,2}$/)||v.match(/^\d{1,2}[-\/]\d{1,2}[-\/](\d{4})$/);
+  if(!m)return {err:what+' "'+v+'" is not a year or a date.'};
+  var y=+m[1];if(y<1900||y>2200)return {err:what+' "'+v+'" is not a sensible year.'};
+  return {v:y};
+};
+IMPORT.MONTHS=['january','february','march','april','may','june','july','august','september','october','november','december'];
+IMPORT.birthday=function(v){
+  v=String(v||'').trim();if(!v)return {v:null};
+  var mo,dy,m;
+  if((m=v.match(/^(\d{1,2})[-\/](\d{1,2})$/))||(m=v.match(/^(\d{1,2})\/(\d{1,2})\/\d{2,4}$/))){mo=+m[1];dy=+m[2];}
+  else if((m=v.match(/^\d{4}-(\d{1,2})-(\d{1,2})$/))){mo=+m[1];dy=+m[2];}
+  else if((m=v.match(/^([A-Za-z]+)\.?\s+(\d{1,2})(?:st|nd|rd|th)?(?:,?\s*\d{4})?$/))){mo=IMPORT.monthNo(m[1]);dy=+m[2];}
+  else if((m=v.match(/^(\d{1,2})(?:st|nd|rd|th)?\s+([A-Za-z]+)\.?(?:,?\s*\d{4})?$/))){mo=IMPORT.monthNo(m[2]);dy=+m[1];}
+  if(!mo||!dy)return {err:'Birthday "'+v+'" is not a month and day.'};
+  var max=[31,29,31,30,31,30,31,31,30,31,30,31][mo-1];
+  if(mo<1||mo>12||dy<1||dy>max)return {err:'Birthday "'+v+'" is not a real date.'};
+  return {m:mo,d:dy};
+};
+IMPORT.monthNo=function(s){
+  s=s.toLowerCase();if(s.length<3)return 0;
+  for(var i=0;i<12;i++){if(IMPORT.MONTHS[i]===s||(s.length===3&&IMPORT.MONTHS[i].slice(0,3)===s)||(s==='sept'&&i===8))return i+1;}
+  return 0;
+};
+// Turns the parsed rows into {ready:[...], skipped:[...]}. A row number is its line in the file (header = row 1).
+IMPORT.check=function(rows){
+  var hm=IMPORT.mapHeader(rows[0]),map=hm.map,out={ready:[],skipped:[],found:map,ignored:hm.ignored,missing:[]};
+  IMPORT.COLS.forEach(function(c){if(c.req&&map[c.k]===undefined)out.missing.push(c.label);});
+  if(out.missing.length)return out;
+  var seen={};
+  function cell(r,k){var i=map[k];return i===undefined?'':String(r[i]===undefined?'':r[i]).replace(/\s*[\r\n]+\s*/g,', ').trim();}
+  for(var i=1;i<rows.length;i++){
+    var r=rows[i],rec={},name=(cell(r,'first_name')+' '+cell(r,'last_name')).trim(),bad=null,n=i+1;
+    rec.first_name=cell(r,'first_name');rec.last_name=cell(r,'last_name');
+    rec.email=cell(r,'email').toLowerCase();
+    var em=cell(r,'email');
+    if(!rec.first_name||!rec.last_name)bad='First or last name is missing.';
+    else if(!em)bad='No email address.';
+    else if(/[;,\s]/.test(em))bad='More than one email address in the cell, or spaces in it.';
+    else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em))bad='Email address "'+em+'" does not look right.';
+    else if(seen[rec.email])bad='Same email as row '+seen[rec.email]+' (the first copy is used).';
+    if(!bad){
+      var t=cell(r,'membership_type'),tl=t.toLowerCase();
+      if(tl==='regular')rec.membership_type='Regular';
+      else if(tl==='junior')rec.membership_type='Junior';
+      else if(tl.indexOf('exempt')===0)rec.membership_type='Exempt';
+      else bad=t?'Membership type "'+t+'" is not Regular, Exempt or Junior.':'Membership type is blank.';
+    }
+    if(!bad&&map.member_since!==undefined){var y=IMPORT.year(cell(r,'member_since'),'Member since');if(y.err)bad=y.err;else if(y.v!==null)rec.member_since=y.v;}
+    if(!bad&&map.paid_through_year!==undefined){var p=IMPORT.year(cell(r,'paid_through_year'),'Paid through');if(p.err)bad=p.err;else if(p.v!==null)rec.paid_through_year=p.v;}
+    if(!bad&&map.directory_opt_out!==undefined){
+      var o=cell(r,'directory_opt_out').toLowerCase();
+      if(o){if(/^(yes|y|true|1)$/.test(o))rec.directory_opt_out=true;else if(/^(no|n|false|0)$/.test(o))rec.directory_opt_out=false;else bad='Directory opt-out "'+o+'" is not Yes or No.';}
+    }
+    if(!bad&&map.birthday!==undefined){var b=IMPORT.birthday(cell(r,'birthday'));if(b.err)bad=b.err;else if(b.m){rec.birthday_month=b.m;rec.birthday_day=b.d;}}
+    if(!bad){
+      ['cell_phone','facebook_name','street_address','city','state','zip'].forEach(function(k){
+        if(map[k]!==undefined){var v=cell(r,k);if(v)rec[k]=k==='state'&&/^[A-Za-z]{2}$/.test(v)?v.toUpperCase():v;}
+      });
+    }
+    if(bad){out.skipped.push({row:n,name:name||'(no name)',why:bad});continue;}
+    seen[rec.email]=n;rec._row=n;
+    out.ready.push(rec);
+  }
+  return out;
+};
+IMPORT.statusOf=function(paid,today){
+  if(!paid)return 'Inactive';
+  var y=today.getFullYear();
+  if(paid>=y)return 'Active';
+  if(paid===y-1&&today.getMonth()<=2)return 'Active (grace)';
+  return 'Inactive';
+};
+/*PURE-END*/
+
+QGPCShell.start({need:function(c){return c.isSuper;}},function(ctx){
+  var $=function(i){return document.getElementById(i)};
+  var C=QGPCComfort,sb=QGPC.sb,el=C.el;
+  var parsed=null,fileName='',existing=null,mode='skip',busy=false;
+  function say(t,bad){var n=$('status');n.textContent=t;n.className='msg '+(bad?'err':'ok');n.style.margin='0';n.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  function hide(id,h){$(id).classList.toggle('hidden',!!h);}
+  function td(t,cls){var c=el('td',cls||null);c.textContent=t==null?'':String(t);return c;}
+
+  // ---- step 1: the column table and the template ----
+  function drawCols(found){
+    var tb=$('coltab').querySelector('tbody');tb.innerHTML='';
+    $('coltab').querySelector('.inf').classList.toggle('hidden',!found);
+    IMPORT.COLS.forEach(function(c){
+      var tr=el('tr');tr.appendChild(td(c.label,'nw'));
+      var n=el('td','nw');n.appendChild(el('span','pl'+(c.req?'':' gray'),c.req?'Required':'Optional'));tr.appendChild(n);
+      tr.appendChild(td(c.help));
+      if(found){
+        var has=found[c.k]!==undefined;
+        var f=el('td','nw');f.appendChild(el('span','pl'+(has?'':' gray'),has?'Found':'Not in your file'));tr.appendChild(f);
+      }
+      tb.appendChild(tr);
+    });
+  }
+  drawCols(null);
+  $('dl').onclick=function(){
+    var head=IMPORT.COLS.map(function(c){return c.label;});
+    var sample=['Jane','Sample','jane.sample@example.com','Regular','2015','2027','817-555-0100','Jane Sample Quilts','123 Main Street','Weatherford','TX','76086','No','April 17'];
+    function q(v){v=String(v);return /[",\r\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}
+    var csv='﻿'+head.map(q).join(',')+'\r\n'+sample.map(q).join(',')+'\r\n';
+    var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+    a.download='member-import-template.csv';document.body.appendChild(a);a.click();document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(a.href);},1000);
+  };
+
+  // ---- step 2: choose the file ----
+  function loadExisting(){
+    if(existing)return Promise.resolve(existing);
+    var set={},from=0;
+    function page(){
+      return sb.from('members').select('email').range(from,from+999).then(function(r){
+        if(r.error)throw r.error;
+        (r.data||[]).forEach(function(m){set[String(m.email).toLowerCase()]=1;});
+        if((r.data||[]).length===1000){from+=1000;return page();}
+        existing=set;return set;
+      });
+    }
+    return page();
+  }
+  $('file').onchange=function(e){
+    var f=e.target.files&&e.target.files[0];hide('ferr',true);
+    if(!f)return;
+    function fail(t){$('ferr').textContent=t;hide('ferr',false);e.target.value='';}
+    if(f.size>5*1024*1024)return fail('That file is larger than 5 MB. A member list should be much smaller. Please check that it is the right file.');
+    var rd=new FileReader();
+    rd.onerror=function(){fail('That file could not be read. Please try again.');};
+    rd.onload=function(){
+      var text=String(rd.result||'');
+      var rows=IMPORT.parseCsv(text);
+      if(rows.length<2)return fail('No member rows were found under the header row. Is it a CSV file with the column names in the first row?');
+      if(rows.length>3001)return fail('That file has more than 3000 rows. Please split it into smaller files.');
+      var res=IMPORT.check(rows);
+      if(res.missing.length)return fail('These required columns are not in your file: '+res.missing.join(', ')+'. Check the first row against the table above.');
+      parsed=res;fileName=f.name;parsed.total=rows.length-1;parsed.garbled=text.indexOf('�')>=0;
+      $('fabtxt').textContent=f.name+', '+parsed.total+' rows found under the header row. Choose a different file';
+      loadExisting().then(function(){render();},function(){fail('The current member list could not be read, so the file could not be compared with it. Please try again.');});
+    };
+    rd.readAsText(f,'UTF-8');
+  };
+
+  // ---- step 3: results ----
+  function counts(){
+    var isNew=0,isOld=0;
+    parsed.ready.forEach(function(r){if(existing[r.email])isOld++;else isNew++;});
+    return {isNew:isNew,isOld:isOld,go:isNew+(mode==='update'?isOld:0),skipOld:mode==='skip'?isOld:0};
+  }
+  function cnt(box,n,label,cls){var d=el('div','cnt'+(cls?' '+cls:''));d.appendChild(el('b',null,String(n)));d.appendChild(el('span',null,label));box.appendChild(d);}
+  function render(){
+    hide('chk',false);hide('go',false);hide('done',true);
+    var c=counts();
+    $('chkfile').textContent=fileName+'. Nothing has been imported yet.';
+    var cb=$('counts');cb.innerHTML='';
+    cnt(cb,parsed.total,'rows in the file');
+    cnt(cb,c.isNew,'new members','good');
+    if(c.isOld)cnt(cb,c.isOld,mode==='update'?'already on file, will be updated':'already on file, will be skipped');
+    cnt(cb,parsed.skipped.length,'rows with a problem, skipped',parsed.skipped.length?'bad':'');
+    drawCols(parsed.found);
+    var ex=$('extra');ex.innerHTML='';
+    if(parsed.garbled){var w=el('p','warn','Some characters in the file look garbled. Save the file again from Excel as CSV UTF-8 (not plain CSV) so accented names come through correctly.');ex.appendChild(w);}
+    if(parsed.ignored.length){ex.appendChild(el('p','sub','These columns are not used and will be ignored: '+parsed.ignored.join(', ')+'.'));}
+    var tb=$('ready').querySelector('tbody');tb.innerHTML='';
+    var today=new Date();
+    parsed.ready.slice(0,8).forEach(function(r){
+      var tr=el('tr');tr.appendChild(td(r._row));tr.appendChild(td(r.first_name+' '+r.last_name));tr.appendChild(td(r.email));
+      tr.appendChild(td(r.membership_type));tr.appendChild(td(r.member_since||''));tr.appendChild(td(r.paid_through_year||''));
+      tr.appendChild(td(IMPORT.statusOf(r.paid_through_year,today)));tr.appendChild(td(existing[r.email]?'Yes':'No'));tb.appendChild(tr);
+    });
+    hide('readywrap',!parsed.ready.length);
+    var act=0,ina=0;parsed.ready.forEach(function(r){if(IMPORT.statusOf(r.paid_through_year,today)==='Inactive')ina++;else act++;});
+    if(parsed.ready.length){var sn=el('p','sub','Once imported: '+act+' Active (or in the grace period) and '+ina+' Inactive, worked out from Paid through. '+(function(){var n=0;parsed.ready.forEach(function(r){if(!r.member_since)n++;});return n?n+' rows have no Member since (left blank, not skipped). ':'';})());sn.style.fontSize='14px';ex.appendChild(sn);}
+    var sk=$('skips').querySelector('tbody');sk.innerHTML='';
+    parsed.skipped.slice(0,200).forEach(function(s){var tr=el('tr');tr.appendChild(td(s.row));tr.appendChild(td(s.name));tr.appendChild(td(s.why));sk.appendChild(tr);});
+    $('skiph').textContent='Rows that will be skipped ('+parsed.skipped.length+')'+(parsed.skipped.length>200?', first 200 shown':'');
+    hide('skipwrap',!parsed.skipped.length);
+    var seg=$('modeseg').querySelectorAll('button');
+    for(var i=0;i<seg.length;i++)seg[i].setAttribute('aria-pressed',seg[i].getAttribute('data-m')===mode?'true':'false');
+    $('modehelp').textContent=mode==='skip'
+      ?'Skip leaves anyone already in the member database exactly as they are. Use this for the first load.'
+      :'Update changes the member already on file with the same email, using the cells in your file. A blank cell leaves the existing value alone. Membership type and Paid through are replaced.';
+    $('oktxt').textContent='I have looked at the preview'+(parsed.skipped.length?' and the '+parsed.skipped.length+' skipped rows':'')+', and I want to import the '+c.go+' member'+(c.go===1?'':'s')+' that '+(c.go===1?'is':'are')+' ready.';
+    $('ok').checked=false;$('doit').textContent='Import '+c.go+' member'+(c.go===1?'':'s');
+    $('doit').disabled=true;hide('gerr',true);
+    $('go').dataset.n=c.go;
+    $('chk').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  $('modeseg').onclick=function(e){var b=e.target.closest('button');if(!b||!parsed)return;mode=b.getAttribute('data-m');render();};
+  $('ok').onchange=function(){$('doit').disabled=!$('ok').checked||busy||!(+$('go').dataset.n>0);};
+  function reset(){
+    parsed=null;fileName='';existing=null;mode='skip';$('file').value='';$('fabtxt').textContent='Choose a CSV file';
+    hide('chk',true);hide('go',true);hide('done',true);hide('ferr',true);drawCols(null);
+  }
+  $('cancel').onclick=reset;
+  $('again').onclick=function(){reset();$('s2').scrollIntoView({behavior:'smooth'});};
+
+  // ---- step 4: import ----
+  $('doit').onclick=function(){
+    if(busy||!parsed)return;busy=true;$('doit').disabled=true;hide('gerr',true);$('doit').textContent='Importing…';
+    var leftAlone=counts().skipOld;
+    var send=parsed.ready.filter(function(r){return mode==='update'||!existing[r.email];}).map(function(r){var o=Object.assign({},r);delete o._row;return o;});
+    sb.rpc('import_members',{p_rows:send,p_mode:mode,p_file_name:fileName}).then(function(r){
+      busy=false;
+      if(r.error){$('gerr').textContent='Nothing was imported. '+(r.error.message||'Please try again.');hide('gerr',false);$('doit').textContent='Import';$('ok').onchange();return;}
+      var d=r.data||{};
+      hide('chk',true);hide('go',true);hide('done',false);
+      var t=d.added+' member'+(d.added===1?'':'s')+' added'+(d.updated?', '+d.updated+' updated':'')+'. '+parsed.skipped.length+' row'+(parsed.skipped.length===1?'':'s')+' with a problem '+(parsed.skipped.length===1?'was':'were')+' skipped'+(leftAlone?', and '+leftAlone+' already on file '+(leftAlone===1?'was':'were')+' left alone':'')+'. No accounts were created and no emails were sent. Each member can sign in with the email address on file.';
+      $('donetxt').textContent=t;$('done').scrollIntoView({behavior:'smooth',block:'start'});
+      existing=null;history();
+    });
+  };
+
+  // ---- earlier imports, with undo ----
+  function fmt(s){try{return new Date(s).toLocaleString([], {year:'numeric',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});}catch(e){return s;}}
+  function history(){
+    sb.from('member_imports').select('*').order('at',{ascending:false}).limit(10).then(function(r){
+      var h=$('hist');h.innerHTML='';
+      if(r.error){h.appendChild(el('p','empty','The earlier imports could not be loaded.'));return;}
+      if(!r.data||!r.data.length){h.appendChild(el('p','empty','No members have been imported yet.'));return;}
+      r.data.forEach(function(i){
+        var row=el('div','hrow'),L=el('div');
+        L.appendChild(el('b',null,(i.file_name||'(no file name)')));
+        var line=fmt(i.at)+'. '+i.added+' added'+(i.updated?', '+i.updated+' updated':'')+', '+i.skipped+' skipped.';
+        if(i.undone_at)line+=' Undone '+fmt(i.undone_at)+', '+(i.removed||0)+' removed.';
+        var s=el('div','sub',line);s.style.fontSize='14px';L.appendChild(s);row.appendChild(L);
+        if(!i.undone_at&&i.added>0){
+          var b=el('button','nbtn del','Undo this import');b.type='button';
+          var holder=el('div');holder.appendChild(b);
+          b.onclick=function(){
+            holder.innerHTML='';
+            var cf=el('div','confirm');cf.appendChild(el('p',null,'Remove the members this import added? Anyone who has since signed in, holds a role or was changed is kept. This cannot be undone, but you can import the file again.'));
+            var y=el('button','nbtn del','Yes, remove them');y.type='button';var k=el('button','nbtn','Keep them');k.type='button';
+            var rw=el('div');rw.style.cssText='display:flex;gap:10px;flex-wrap:wrap';rw.appendChild(y);rw.appendChild(k);cf.appendChild(rw);holder.appendChild(cf);
+            k.onclick=function(){history();};
+            y.onclick=function(){y.disabled=true;sb.rpc('undo_member_import',{p_batch:i.id}).then(function(u){
+              if(u.error){say('That could not be undone. '+(u.error.message||''),true);history();return;}
+              existing=null;
+              say('Import undone. '+u.data.removed+' member'+(u.data.removed===1?'':'s')+' removed'+(u.data.kept?'; '+u.data.kept+' kept because they signed in, hold a role or were changed':'')+'.');
+              history();
+            });};
+          };
+          row.appendChild(holder);
+        }
+        h.appendChild(row);
+      });
+    });
+  }
+  history();
+});
+</script>
+</body></html>
