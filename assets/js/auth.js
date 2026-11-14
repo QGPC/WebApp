@@ -29,6 +29,17 @@
     }
   };
 
+  // While a Superuser restores a backup, everyone else is sent to the "being restored" page.
+  // Superusers are never blocked. Call with the roles the person really holds.
+  window.QGPC.maintenanceGate = function(held){
+    if (held && held.indexOf('superuser') > -1) return Promise.resolve(false);
+    return sb.from('site_config').select('maintenance').limit(1).then(function(r){
+      var on = !!(r && r.data && r.data[0] && r.data[0].maintenance === true);
+      if (on) location.replace('maintenance.html');
+      return on;
+    }, function(){ return false; });
+  };
+
   // Every "home" link (the logo, the Home button, "Back to Home") goes to the member home when
   // someone is signed in and to the public welcome page when not.
   function fixHomeLinks(){

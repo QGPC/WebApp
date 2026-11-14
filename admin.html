@@ -86,7 +86,7 @@ QGPCShell.start({need:function(c){return c.isAdmin;}},function(ctx){
       ['Calendars','manage-events','calendars-manage.html','Choose which calendars feed the events card and the Full calendar page, and add new ones.'],
       ['Workshop Settings','site-settings','workshop-settings.html','Set the maximum workshop subsidy and the non-member workshop fee.'],
       ['Assign Roles','roles-and-permissions','roles.html','Assign and reassign board and committee roles.'],
-      ['Backups','site-administration',null,'Back up the site, see the last backup and set reminders.'],
+      ['Backups','site-administration','backups.html','Back up the site, see the last backup and set reminders.'],
       ['Reported Messages','reported-messages','reported-messages.html','Review private messages that members have reported.']
     ]},
     {title:'Superuser',superOnly:true,cards:[
@@ -94,9 +94,18 @@ QGPCShell.start({need:function(c){return c.isAdmin;}},function(ctx){
       ['Site Appearance','gallery','site-appearance.html','Choose the banner color and pattern used on every page.'],
       ['Import Members','membership','member-import.html','Load the first member list from a CSV file.'],
       ['Reset the Site','site-administration','reset-site.html','Clear test activity before the Guild goes live.'],
-      ['Restore from a Backup','site-administration',null,'Put the site back from a saved backup.']
+      ['Restore from a Backup','site-administration','restore-site.html','Put the site back from a saved backup.']
     ]}
   ];
+  // a banner when a backup is due
+  QGPC.sb.rpc('backup_status').then(function(r){
+    var d=r&&r.data;if(r.error||!d||!d.due)return;
+    var n=d.days_until_due,b=el('section','blue-note');b.setAttribute('role','alert');b.style.cssText='border-color:#E87446;background:#FCEEE9';
+    var tx=el('div');tx.appendChild(el('h3',null,'Time for a backup'));
+    tx.appendChild(el('p',null,d.never?'No backup of the site has been made yet.':'A backup was due '+(n<0?(-n)+' day'+(n===-1?'':'s')+' ago':'today')+'. A backup made by anyone clears this reminder for everyone.'));
+    b.appendChild(tx);var a=el('a','nbtn solid','Go to Backups');a.href='backups.html';b.appendChild(a);
+    $('content').insertBefore(b,$('secs'));
+  });
   var box=$('secs');
   SECTIONS.forEach(function(s){
     if(s.superOnly&&!ctx.isSuper)return;

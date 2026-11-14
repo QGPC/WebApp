@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Backups</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.nbtn:disabled{opacity:.45;cursor:default}
+.nbtn.solid{background:#0157AE;color:#fff}
+.cqc{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+.cqc>h2,.cqh h2{margin:0;font:400 24px 'Young Serif',Georgia,serif}
+.cqh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sub{margin:2px 0 0;color:#5A5F6E;font-size:15px}
+.pl{font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;white-space:nowrap}
+.pl.gray{background:#F0ECE3;color:#454A58}
+.infobox{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8}
+.infobox h2{margin:0 0 4px;font-size:16px;font-weight:700;color:#0157AE}.infobox p{margin:0;font-size:15px;line-height:1.5;color:#1F2433}
+.warnbox{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#FCEEE9;border:2px solid #E87446}
+.warnbox h2{margin:0 0 4px;font-size:17px;font-weight:700;color:#9A3412}.warnbox p{margin:0;font-size:15px;line-height:1.5;color:#1F2433}
+.lbl{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.tile3{border:1px solid #E4E0D6;border-radius:14px;padding:16px 18px;background:#FAF8F3}
+.tile3 small{display:block;font-weight:700;color:#5A5F6E;font-size:13px;text-transform:uppercase;letter-spacing:.04em}
+.tile3 b{display:block;font-size:20px;margin:4px 0 2px}.tile3 span{font-size:14px;color:#5A5F6E}
+.tile3.due{border-color:#E87446;background:#FCEEE9}
+.dest{display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.45;cursor:pointer;padding:12px 14px;border:2px solid #E4E0D6;border-radius:10px;background:#FAF8F3}
+.dest input{width:20px;height:20px;margin-top:2px;accent-color:#0157AE;flex:none}
+.dest small{display:block;color:#5A5F6E;font-size:14px}
+.dest.off{opacity:.6;cursor:default}
+.ct{width:100%;border-collapse:collapse;font-size:14px}
+.ct th{text-align:left;padding:8px 10px;background:#F0ECE3;color:#454A58;font-weight:700;white-space:nowrap}
+.ct td{padding:8px 10px;border-top:1px solid #EDEAE2;vertical-align:top}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.row2 .field{margin:0}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions"><a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a><span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span><button type="button" class="pill out" id="out">Sign out</button></div>
+</div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Administrator</span>
+<h1 id="pg-title" style="margin:0">Backups</h1><p class="stat-line" id="lead">Save a copy of everything on the site, see when the last one was made and set how often to be reminded.</p></div>
+</div></section>
+<div class="mwrap" style="max-width:1000px;gap:22px" id="content">
+<a class="backlink" href="admin.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to Site Administration</a>
+<p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
+
+<section class="warnbox hidden" id="dueban" role="alert"><div><h2>Time for a backup</h2><p id="duetxt"></p></div></section>
+<section class="warnbox hidden" id="maint" role="alert"><div><h2>The site is in maintenance mode</h2><p>Members are seeing a &ldquo;being restored&rdquo; page. This is normal while a restore is running. If no restore is running, a Superuser can turn it off on the Restore from a Backup page.</p></div></section>
+
+<section class="cqc" aria-labelledby="st-t"><div class="cqh"><div><h2 id="st-t">Backup status</h2><p class="sub" id="st-sub">Loading&hellip;</p></div><span class="pl" id="rolepill">&nbsp;</span></div>
+<div class="tiles">
+<div class="tile3" id="t-last"><small>Last backup</small><b id="last-d">&hellip;</b><span id="last-s"></span></div>
+<div class="tile3" id="t-rem"><small>Reminder</small><b id="rem-d">&hellip;</b><span>Superusers and Administrators are reminded by email.</span></div>
+<div class="tile3" id="t-due"><small>Next backup due</small><b id="due-d">&hellip;</b><span id="due-s"></span></div>
+</div></section>
+
+<section class="cqc" aria-labelledby="mk-t"><div class="cqh"><div><h2 id="mk-t">Make a backup</h2><p class="sub">Takes about a minute. The backup holds everything on the site, including members&rsquo; personal information, so treat the file like the membership list.</p></div></div>
+<fieldset style="border:0;padding:0;margin:0;display:flex;flex-direction:column;gap:10px"><legend class="lbl">Where should it go?</legend>
+<label class="dest off" id="dest-drive"><input type="radio" name="dest" value="drive" disabled><span>The Guild&rsquo;s Google Drive folder<small>Not connected yet. A Superuser connects it once the Guild&rsquo;s Google access is set up. Until then, save to a computer or drive.</small></span></label>
+<label class="dest"><input type="radio" name="dest" value="device" checked><span>This computer or a connected drive<small>You choose the folder when you press the button (Chrome and Edge). Other browsers save to the Downloads folder. Keep the file somewhere safe, not on a shared computer.</small></span></label></fieldset>
+<label class="dest" style="background:#fff"><input type="checkbox" id="usepw" checked><span>Protect this backup with a password (recommended)<small>The file is locked in your browser. The site never sees the password and does not keep it. Without it the backup cannot be opened or restored.</small></span></label>
+<div class="row2" id="pwrow"><div><label class="lbl" for="pw1">Password (at least 12 characters)</label><input class="field" id="pw1" type="password" autocomplete="new-password"></div>
+<div><label class="lbl" for="pw2">Type it again</label><input class="field" id="pw2" type="password" autocomplete="new-password"></div></div>
+<p class="msg err hidden" id="mkerr" role="alert" style="margin:0"></p>
+<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><button class="nbtn solid" id="mk" type="button" disabled>Make the backup</button><span class="sub" id="mkprog" style="font-size:15px" aria-live="polite"></span></div>
+<div class="infobox hidden" id="mkdone" role="status"><div><h2 id="mkdone-h">Backup saved</h2><p id="mkdone-p"></p></div></div>
+</section>
+
+<section class="cqc" aria-labelledby="fq-t"><div class="cqh"><div><h2 id="fq-t">Reminders</h2><p class="sub">When a backup is due, the Guild Home page shows a &ldquo;Time for a backup&rdquo; card, and an email goes to every Superuser and Administrator on the day it is due and again every week until a backup is made. A backup made by anyone clears the reminder for everyone.</p></div></div>
+<div style="max-width:340px"><label class="lbl" for="freq">Remind the Superuser and Administrators to back up</label>
+<select class="field" id="freq" style="margin-bottom:10px"><option value="7">Every week</option><option value="14">Every 2 weeks</option><option value="30">Every month</option><option value="90">Every 3 months</option></select>
+<button class="nbtn" id="freqsave" type="button" disabled>Save reminder setting</button></div>
+<p class="sub" id="remlast" style="font-size:14px"></p></section>
+
+<section class="cqc" aria-labelledby="rc-t"><h2 id="rc-t">Recent backups</h2>
+<div style="overflow-x:auto"><table class="ct" id="rctab"><thead><tr><th>Date</th><th>Made by</th><th>Kind</th><th>Saved to</th><th>Password</th><th>Size</th></tr></thead><tbody></tbody></table></div>
+<p class="sub" style="font-size:14px" id="rcnone"></p>
+<p class="sub" style="font-size:14px">Keep the 12 most recent backups, plus the last one before the Guild went live and the first one after it. Only a Superuser deletes old backup files, and never the newest two. The site keeps this list, not the files themselves.</p></section>
+
+<section class="cqc" aria-labelledby="rs-t"><h2 id="rs-t">Restore the site from a backup</h2>
+<p style="margin:0;line-height:1.5" id="rs-txt">Putting a backup back replaces what is on the site now, so only a Superuser can do it.</p>
+<div><a class="nbtn hidden" id="rs-link" href="restore-site.html">Restore from a backup&hellip;</a></div></section>
+
+<section class="infobox"><div><h2>Where to keep the password</h2><p>Put each backup&rsquo;s password in the Guild&rsquo;s password manager right away. Superusers and Administrators can both reach it. Never send a password or a backup file by email or text, and do not keep them in a personal account.</p></div></section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/comfort.js"></script>
+<script src="assets/js/zip-2.25.0.min.js"></script>
+<script src="assets/js/backup.js"></script>
+<script>
+QGPCShell.start({need:function(c){return c.isAdmin;}},function(ctx){
+  var $=function(i){return document.getElementById(i)};
+  var C=QGPCComfort,sb=QGPC.sb,el=C.el,B=QGPCBackup;
+  var st=null,busy=false;
+  document.querySelector('.eyebrow').textContent=ctx.isSuper?'Superuser':'Administrator';
+  $('rolepill').textContent=ctx.isSuper?'Superuser':'Administrator';
+  if(ctx.isSuper){$('rs-link').classList.remove('hidden');}
+  else{$('rs-txt').textContent='Only a Superuser can restore the site. If you think a restore is needed, ask a Superuser. You can make backups and read their passwords, but not restore them.';}
+  function say(t,bad){var n=$('status');n.textContent=t;n.className='msg '+(bad?'err':'ok');n.style.margin='0';n.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  function hide(id,h){$(id).classList.toggle('hidden',!!h);}
+  var CT='America/Chicago';
+  function fmtD(s){try{return new Date(s).toLocaleDateString([], {timeZone:CT,year:'numeric',month:'long',day:'numeric'});}catch(e){return s;}}
+  function fmtDT(s){try{return new Date(s).toLocaleString([], {timeZone:CT,year:'numeric',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});}catch(e){return s;}}
+  function fmtDate(iso){var p=String(iso).split('-');return new Date(+p[0],+p[1]-1,+p[2]).toLocaleDateString([], {year:'numeric',month:'long',day:'numeric'});}
+  var FREQ={7:'Every week',14:'Every 2 weeks',30:'Every month',90:'Every 3 months'};
+
+  function draw(){
+    $('st-sub').textContent=st.never?'No backup has been made yet.':'The last backup was made '+fmtD(st.last_at)+'.';
+    $('last-d').textContent=st.never?'None yet':fmtD(st.last_at);
+    var days=st.never?null:Math.max(0,Math.floor((Date.now()-new Date(st.last_at).getTime())/86400000));
+    $('last-s').textContent=st.never?'Make the first one now.':(days===0?'Today':days+' day'+(days===1?'':'s')+' ago')+(st.last_by?' · by '+st.last_by:'');
+    $('rem-d').textContent=FREQ[st.reminder_days]||('Every '+st.reminder_days+' days');
+    var n=st.days_until_due;
+    $('due-d').textContent=st.due?(n<0?'Overdue':'Due today'):'In '+n+' day'+(n===1?'':'s');
+    $('due-s').textContent=st.never?'Right away':fmtDate(st.due_date)+(n<0?' ('+(-n)+' day'+(n===-1?'':'s')+' ago)':'');
+    $('t-due').classList.toggle('due',!!st.due);
+    hide('dueban',!st.due);
+    $('duetxt').textContent=st.never?'No backup has been made yet. Make one below.':'A backup was due '+(n<0?(-n)+' day'+(n===-1?'':'s')+' ago':'today')+'. Make one below; this clears the reminder for everyone.';
+    hide('maint',!st.maintenance);
+    $('freq').value=String(st.reminder_days);$('freqsave').disabled=true;
+    $('remlast').textContent=st.last_reminder_at?'Last reminder email: '+fmtD(st.last_reminder_at)+'.':'No reminder email has been sent yet.';
+    var tb=$('rctab').querySelector('tbody');tb.innerHTML='';
+    (st.recent||[]).forEach(function(b){
+      var tr=el('tr');
+      [fmtDT(b.performed_at),b.by_name||'(removed member)',b.kind==='safety'?'Safety copy before a restore':b.kind==='reset'?'Quick copy (Reset the Site)':'Backup',
+       b.destination==='drive'?'Google Drive':'A device',b.encrypted?'Yes':'No',b.size_bytes?B.fmtSize(b.size_bytes):'—'].forEach(function(v){tr.appendChild(el('td',null,v));});
+      tb.appendChild(tr);
+    });
+    $('rcnone').textContent=(st.recent||[]).length?'':'No backups have been made yet.';
+    $('rctab').classList.toggle('hidden',!(st.recent||[]).length);
+  }
+  function load(){
+    return sb.rpc('backup_status').then(function(r){
+      if(r.error){say('The backup status could not be loaded. '+(r.error.message||''),true);return;}
+      st=r.data;draw();
+      // best effort: if a backup is due, make sure today's reminder email has gone out
+      if(st.due&&!sessionStorage.getItem('qgpc_bk_rem')){
+        try{sessionStorage.setItem('qgpc_bk_rem','1');}catch(e){}
+        sb.functions.invoke('send-backup-reminders',{body:{}}).then(function(){},function(){});
+      }
+    });
+  }
+
+  // ---- reminder frequency ----
+  $('freq').onchange=function(){$('freqsave').disabled=(+$('freq').value===st.reminder_days);};
+  $('freqsave').onclick=function(){
+    $('freqsave').disabled=true;
+    sb.rpc('set_backup_reminder',{p_days:+$('freq').value}).then(function(r){
+      if(r.error){say('The setting was not saved. '+(r.error.message||''),true);$('freqsave').disabled=false;return;}
+      say('Reminder setting saved.');load();
+    });
+  };
+
+  // ---- making a backup ----
+  function check(){
+    var usepw=$('usepw').checked,p1=$('pw1').value,p2=$('pw2').value,miss=[];
+    hide('pwrow',!usepw);
+    if(usepw){if(p1.length<12)miss.push('a password of at least 12 characters');else if(p1!==p2)miss.push('the same password typed twice');}
+    var ok=!miss.length&&!busy&&!!st;
+    $('mk').disabled=!ok;
+    $('mkerr').textContent=(usepw&&p1&&miss.length)?'Needs '+miss[0]+'.':'';hide('mkerr',!(usepw&&p1&&miss.length));
+    return ok;
+  }
+  ['usepw','pw1','pw2'].forEach(function(i){$(i).addEventListener('input',check);$(i).addEventListener('change',check);});
+  check();
+  $('mk').onclick=function(){
+    if(!check())return;
+    var pw=$('usepw').checked?$('pw1').value:'',name=B.fileName('manual');
+    busy=true;check();hide('mkdone',true);$('mkprog').textContent='Choose where to save the file…';
+    B.pickTarget(name).then(function(handle){
+      $('mkprog').textContent='Making the backup…';
+      return B.make(sb,{password:pw,who:ctx.member.first_name+' '+ctx.member.last_name,kind:'manual',onProgress:function(t){$('mkprog').textContent=t;}}).then(function(res){
+        return B.saveBlob(res.blob,res.name,handle).then(function(where){
+          return sb.rpc('backup_record',{p_kind:'manual',p_destination:'device',p_encrypted:res.encrypted,p_size:res.bytes,p_file:res.name,p_details:{counts:res.counts,files:res.fileCount,skipped:res.skipped.length}}).then(function(lr){
+            busy=false;$('mkprog').textContent='';
+            var rows=0;Object.keys(res.counts).forEach(function(k){rows+=res.counts[k];});
+            var msg='Saved as '+res.name+' ('+B.fmtSize(res.bytes)+') in '+where+'. It holds '+rows+' rows of information and '+res.fileCount+' uploaded file'+(res.fileCount===1?'':'s')+'.';
+            if(res.encrypted)msg+=' Put the password in the Guild’s password manager now. The site does not keep it, and without it this backup cannot be opened.';
+            if(res.skipped.length)msg+=' '+res.skipped.length+' uploaded file'+(res.skipped.length===1?' could':'s could')+' not be read and '+(res.skipped.length===1?'is':'are')+' not in the backup (for example: '+res.skipped[0].bucket+'/'+res.skipped[0].name+').';
+            if(lr.error)msg+=' The backup was saved but could not be added to the list below ('+(lr.error.message||'')+').';
+            $('mkdone-p').textContent=msg;hide('mkdone',false);
+            $('pw1').value='';$('pw2').value='';check();load();
+          });
+        });
+      });
+    }).catch(function(e){
+      busy=false;$('mkprog').textContent='';check();
+      if(e&&e.name==='AbortError'){return;}
+      say('The backup could not be made. Nothing was recorded. '+((e&&e.message)||''),true);
+    });
+  };
+  load();
+});
+</script>
+</body></html>

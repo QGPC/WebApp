@@ -93,6 +93,8 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
 </div></section>
 <div class="wrap"><div class="page">
 <p id="note" class="msg err hidden" role="alert"></p>
+<section class="card hcard hidden" id="backup-card" aria-labelledby="backup-h" role="alert" style="border:2px solid #E87446"><div class="hcard-h"><h2 id="backup-h">Time for a backup</h2><a class="btn-save small" href="backups.html">Go to Backups</a></div>
+<p id="backup-txt" style="margin:0;line-height:1.5"></p></section>
 <section class="card hcard special hidden" id="special-card" aria-labelledby="special-h"><div class="hcard-h"><h2 id="special-h">Special Notices</h2></div>
 <ul class="special-list" id="special-list"></ul></section>
 <div class="hpair">
@@ -186,6 +188,7 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
         var roles=pick?(pick==='member'?[]:[pick]):held;
         var has=function(k){return roles.indexOf(k)>-1;};
         var isAdm=has('superuser')||has('administrator');
+        QGPC.maintenanceGate(held);
         var st=m.status;
         var full=isAdm||st==='active'||st==='grace';   // Inactive members are treated like visitors
         $('hello').textContent=full?'Welcome back, '+m.first_name+'.':'Welcome, '+m.first_name+'.';
@@ -230,11 +233,19 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
         var pend3=sr?QGPC.sb.rpc('sunshine_pending_count').then(function(r){sr.badge=(!r.error&&r.data>0)?r.data:0;sr.badgeLabel='notes waiting';}):Promise.resolve();
         var rmj=jobs.filter(function(j){return j.l==='Reported Messages';})[0];
         var pend5=rmj?QGPC.sb.rpc('reported_messages_waiting').then(function(r){var n=(!r.error&&r.data>0)?r.data:0;rmj.badge=n;rmj.badgeLabel=n===1?'report waiting':'reports waiting';}):Promise.resolve();
+        var sa=jobs.filter(function(j){return j.l==='Site Administration';})[0];
+        var pend7=(isAdm&&sa)?QGPC.sb.rpc('backup_status').then(function(r){
+          var d=r&&r.data;if(r.error||!d||!d.due)return;
+          sa.badge='!';sa.badgeLabel='a backup is due';
+          var n=d.days_until_due,c=$('backup-card');
+          $('backup-txt').textContent=d.never?'No backup of the site has been made yet. A Superuser or Administrator can make one on the Backups page.':'A backup was due '+(n<0?(-n)+' day'+(n===-1?'':'s')+' ago':'today')+'. The last one was made '+new Date(d.last_at).toLocaleDateString([], {timeZone:'America/Chicago',year:'numeric',month:'long',day:'numeric'})+'. It takes about a minute on the Backups page, and a backup made by anyone clears this reminder for everyone.';
+          c.classList.remove('hidden');
+        }):Promise.resolve();
         var pend6=full?QGPC.sb.rpc('unread_message_count').then(function(r){var n=(!r.error&&r.data>0)?r.data:0;var b=$('msg-badge');b.textContent=n;b.classList.toggle('hidden',!n);b.setAttribute('aria-label',n+' unread '+(n===1?'message':'messages'));}):Promise.resolve();
         if(full)$('msg-pill').classList.remove('hidden');
         var NEWKEYS={'Programs & Workshops':['programs'],'Newsletters':['newsletters'],'Member Directory':['directory'],'Comfort Quilts':['comfort'],'Our Community':['sunshine','news'],'Retreats':['retreats'],'Bees':['bees'],'About our Guild':['about']};
         var pend4=full?QGPCNew.me().then(QGPCNew.keys).then(function(nk){MEMBER.forEach(function(t){t.isNew=(NEWKEYS[t.l]||[]).some(function(k){return nk[k];});});}):Promise.resolve();
-        return Promise.all([pending,pend2,pend3,pend4,pend5,pend6]).then(function(){
+        return Promise.all([pending,pend2,pend3,pend4,pend5,pend6,pend7]).then(function(){
         var all=jobs.concat(full?MEMBER:PUBLIC);
         fill('tilebar',all.slice(0,PER_BAR));
         if(all.length>PER_BAR){fill('more-areas',all.slice(PER_BAR));$('more-btn').classList.remove('hidden');}
