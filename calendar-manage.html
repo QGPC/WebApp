@@ -92,7 +92,7 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
   var $=function(i){return document.getElementById(i)};
   var sb=QGPC.sb;
   var slug=((location.search.match(/[?&]cal=([a-z0-9-]+)/)||[])[1])||'guild';
-  if(slug==='board')$('back').classList.remove('hidden');   // the Board Calendar is opened from the President's Page
+  if(slug==='board')$('back').classList.remove('hidden');   // the President's Calendar is opened from the President's Page
   var MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
   var DOW=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   var today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
@@ -101,8 +101,8 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
   function say(t){var n=$('note');n.textContent=t;n.classList.remove('hidden');$('err').classList.add('hidden');}
   function bad(t){var n=$('err');n.textContent=t;n.classList.remove('hidden');$('note').classList.add('hidden');}
   if(slug==='board'){
-    document.title='Board Calendar';$('pg-title').textContent='Board Calendar';
-    $('sub').textContent='Board meetings and important dates through the year. Visible to board members only.';
+    document.title="President's Calendar";$('pg-title').textContent="President's Calendar";
+    $('sub').textContent='Board meetings and important events for the Board throughout the year. Visible to board members only.';
     $('kind-row').classList.remove('hidden');
     $('f-vis').textContent='Board events are seen only by board members: the Executive Board, the committee chairs, Administrators and the Superuser.';
     $('who-note').textContent='Who can use this page: the President, Vice President, Administrators and the Superuser. Other board members see these events on the Guild home events card.';
