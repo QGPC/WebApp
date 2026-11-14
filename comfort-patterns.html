@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Comfort Quilts Pattern Library</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.nbtn:disabled{opacity:.45;cursor:default}
+.nbtn.del{border-color:#9A3412;color:#9A3412}
+.nbtn.solid{background:#0157AE;color:#fff}
+.cqc{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+.cqc>h2,.cqh h2{margin:0;font:400 24px 'Young Serif',Georgia,serif}
+.cqh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sub{margin:2px 0 0;color:#5A5F6E;font-size:15px}
+.cbadge{min-width:26px;height:26px;padding:0 8px;border-radius:999px;background:#E87446;color:#1F2433;font-weight:700;font-size:14px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box}
+.pl{font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;white-space:nowrap}
+.pl.gray{background:#F0ECE3;color:#454A58}
+.pl.new{background:#E87446;color:#1F2433}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer}
+.seg button[aria-pressed=true]{background:#0157AE;color:#fff}
+.confirm{background:#FCEEE9;border-radius:10px;padding:12px 14px}.confirm p{margin:0 0 10px;font-weight:600;color:#9A3412}
+.infobox{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8}
+.infobox h2{margin:0 0 4px;font-size:16px;font-weight:700;color:#0157AE}.infobox p{margin:0;font-size:15px;line-height:1.5;color:#1F2433}
+.blue-note{border:2px solid #0157AE;border-radius:14px;padding:16px 18px;background:#F4F6FB;display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.blue-note h3{margin:0;font-size:17px}.blue-note ul{margin:8px 0 0;padding-left:20px;line-height:1.5}
+.empty{margin:0;padding:14px 16px;border-radius:12px;background:#F0ECE3;color:#454A58}
+.toplinks{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.dl2{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:15px}.dl2 dt{font-weight:700;color:#5A5F6E}.dl2 dd{margin:0}
+.lbl{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+
+.pg{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:18px}
+.pc{border:1px solid #E4E0D6;border-radius:16px;background:#fff;overflow:hidden;display:flex;flex-direction:column}
+.pc .ph{aspect-ratio:4/3;background:#E9E4D8;display:flex;align-items:center;justify-content:center;color:#7a7466;font-size:14px}
+.pc .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.pc .in{padding:16px 18px 18px;display:flex;flex-direction:column;gap:10px}
+.pc .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font:600 18px var(--sans)}
+.pc .m{font-size:14px;color:#5A5F6E}
+.pc .act{display:flex;gap:10px;flex-wrap:wrap}
+.kit{border:2px solid #0157AE;background:#F4F6FB;border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.kit h3{margin:0;font-size:20px}
+.okbox{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:12px 14px;border-radius:12px;background:#fff;border:1px solid #0157AE}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions"><a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a><span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span><button type="button" class="pill out" id="out">Sign out</button></div>
+</div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Comfort Quilts</span>
+<h1 id="pg-title" style="margin:0">Pattern Library</h1><p class="stat-line" id="lead">Free, easy patterns sized for comfort quilts. Download a PDF and start sewing.</p></div>
+
+</div></section>
+<div class="mwrap" style="max-width:1200px;gap:22px" id="content">
+<a class="backlink" href="comfort-quilts.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to Comfort Quilts</a>
+<section class="cqc" aria-labelledby="pat-h">
+<div class="cqh"><div><h2 id="pat-h">Pattern library</h2><p class="sub">Free, easy patterns sized for comfort quilts. Download the PDF and start sewing.</p></div>
+<div class="seg" id="filters" role="group" aria-label="Filter by size"></div></div>
+<p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
+<div id="kit-slot"></div>
+<p id="loading" role="status" style="margin:0">Loading&hellip;</p>
+<p class="empty hidden" id="none"></p>
+<ul class="pg" id="list"></ul>
+</section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/comfort.js"></script>
+<script>
+QGPCShell.start({need:function(c){return c.full||c.isAdmin;}},function(ctx){
+  var $=function(i){return document.getElementById(i)};
+  var C=QGPCComfort,sb=QGPC.sb,el=C.el;
+  var rows=[],urls={},sizes=[],filter='All',openId=null;
+  function say(t,bad){var n=$('status');n.textContent=t;n.className='msg '+(bad?'err':'ok');n.style.margin='0';}
+  function load(){
+    return Promise.all([sb.rpc('comfort_patterns_list'),sb.from('comfort_sizes').select('name').order('sort_order')]).then(function(r){
+      $('loading').classList.add('hidden');
+      if(r[0].error){say('Could not load the patterns. Please refresh and try again.',true);return;}
+      rows=r[0].data||[];sizes=(r[1].data||[]).map(function(x){return x.name;});
+      return C.signed(rows.map(function(p){return p.photo_path;}).concat(rows.map(function(p){return p.pdf_path;}))).then(function(m){urls=m;draw();});
+    });
+  }
+  function kitCard(p){
+    var box=el('div','kit');box.id='kit-card';box.setAttribute('role','region');
+    var head=el('div','cqh'),h=el('div');var h3=el('h3',null,'Kits available: '+p.name);h3.id='kit-title';box.setAttribute('aria-labelledby','kit-title');
+    h.appendChild(h3);
+    h.appendChild(el('span','pl'+(p.mine||p.kits_left>0?'':' gray'),p.mine?'Claimed by you':(p.kits_left>0?'Kits available':'No kits left')));
+    head.appendChild(h);
+    var cl=el('button','nbtn','Close');cl.type='button';cl.onclick=function(){openId=null;draw();};head.appendChild(cl);box.appendChild(head);
+    var dl=el('dl','dl2');
+    [['Size',p.size_name||'—'],['Skill level',p.level],['Kits left',C.plural(p.kits_left,'kit')],['In a kit','Fabric, batting and the printed pattern, cut and ready to sew.'],['Pick up','Any Guild meeting, or contact the Comfort Quilts Chair.']]
+      .forEach(function(x){dl.appendChild(el('dt',null,x[0]));dl.appendChild(el('dd',null,x[1]));});
+    box.appendChild(dl);
+    if(p.mine){
+      var ok=el('div','okbox');ok.appendChild(el('span',null,'You have claimed a kit. Thank you! The Comfort Quilts Chair will see that you claimed it. Pick it up at any Guild meeting or contact the chair.'));
+      var g=el('button','nbtn','Give it back');g.type='button';g.onclick=function(){act('comfort_kit_release',p,'You gave the kit back.');};ok.appendChild(g);box.appendChild(ok);
+    }else if(p.kits_left>0){
+      var b=el('button','btn-save','Claim a kit');b.type='button';b.style.alignSelf='flex-start';b.onclick=function(){b.disabled=true;act('comfort_kit_claim',p,'You claimed a kit of '+p.name+'.');};box.appendChild(b);
+    }else box.appendChild(el('span',null,'All of the kits for this pattern have been claimed.'));
+    return box;
+  }
+  function act(fn,p,okMsg){
+    sb.rpc(fn,{p_pattern:p.id}).then(function(r){
+      if(r.error){say((r.error.message||'That did not work.')+' Please try again.',true);}else say(okMsg);
+      load();
+    });
+  }
+  function draw(){
+    var f=$('filters');f.textContent='';
+    var all=['All'].concat(sizes);rows.forEach(function(p){if(p.size_name&&all.indexOf(p.size_name)<0)all.push(p.size_name);});
+    all.forEach(function(l){var b=el('button',null,l);b.type='button';b.setAttribute('aria-pressed',filter===l?'true':'false');b.onclick=function(){filter=l;draw();};f.appendChild(b);});
+    var slot=$('kit-slot');slot.textContent='';
+    var op=rows.filter(function(p){return p.id===openId;})[0];if(op)slot.appendChild(kitCard(op));
+    var list=rows.filter(function(p){return filter==='All'||p.size_name===filter;});
+    $('none').classList.toggle('hidden',list.length>0);
+    $('none').textContent=rows.length?'No patterns match that size right now.':'No patterns have been added yet. Please check back soon.';
+    var ul=$('list');ul.textContent='';
+    list.forEach(function(p){
+      var li=el('li','pc'),ph=el('div','ph');
+      if(urls[p.photo_path]){var im=el('img');im.src=urls[p.photo_path];im.alt='Photo of the '+p.name+' quilt';im.loading='lazy';ph.appendChild(im);}else ph.textContent='No photo yet';
+      li.appendChild(ph);
+      var inn=el('div','in'),t=el('div','t');t.appendChild(el('span',null,p.name));if(p.is_new)t.appendChild(el('span','pl new','New'));inn.appendChild(t);
+      inn.appendChild(el('div','m',(p.size_name||'')+(p.size_name?' · ':'')+p.level));
+      var a=el('div','act');
+      if(urls[p.pdf_path]){var d=el('a','nbtn','Download PDF');d.href=urls[p.pdf_path];d.target='_blank';d.rel='noopener';a.appendChild(d);}
+      if(p.mine||p.kits_left>0){
+        var k=el('button','nbtn'+(openId===p.id?' solid':''),p.mine?'Kit claimed':'Kits available');k.type='button';k.setAttribute('aria-controls','kit-card');
+        k.appendChild(el('span','pl',p.mine?'1':String(p.kits_left)));
+        k.onclick=function(){openId=openId===p.id?null:p.id;draw();if(openId){var c=$('kit-card');if(c)c.scrollIntoView({behavior:'smooth',block:'nearest'});}};a.appendChild(k);
+      }
+      inn.appendChild(a);li.appendChild(inn);ul.appendChild(li);
+    });
+  }
+  load();
+});
+</script>
+</body></html>

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Comfort Quilts Manager</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.nbtn:disabled{opacity:.45;cursor:default}
+.nbtn.del{border-color:#9A3412;color:#9A3412}
+.nbtn.solid{background:#0157AE;color:#fff}
+.cqc{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+.cqc>h2,.cqh h2{margin:0;font:400 24px 'Young Serif',Georgia,serif}
+.cqh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sub{margin:2px 0 0;color:#5A5F6E;font-size:15px}
+.cbadge{min-width:26px;height:26px;padding:0 8px;border-radius:999px;background:#E87446;color:#1F2433;font-weight:700;font-size:14px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box}
+.pl{font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;white-space:nowrap}
+.pl.gray{background:#F0ECE3;color:#454A58}
+.pl.new{background:#E87446;color:#1F2433}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer}
+.seg button[aria-pressed=true]{background:#0157AE;color:#fff}
+.confirm{background:#FCEEE9;border-radius:10px;padding:12px 14px}.confirm p{margin:0 0 10px;font-weight:600;color:#9A3412}
+.infobox{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8}
+.infobox h2{margin:0 0 4px;font-size:16px;font-weight:700;color:#0157AE}.infobox p{margin:0;font-size:15px;line-height:1.5;color:#1F2433}
+.blue-note{border:2px solid #0157AE;border-radius:14px;padding:16px 18px;background:#F4F6FB;display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.blue-note h3{margin:0;font-size:17px}.blue-note ul{margin:8px 0 0;padding-left:20px;line-height:1.5}
+.empty{margin:0;padding:14px 16px;border-radius:12px;background:#F0ECE3;color:#454A58}
+.toplinks{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.dl2{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:15px}.dl2 dt{font-weight:700;color:#5A5F6E}.dl2 dd{margin:0}
+.lbl{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+
+.mc{display:flex;align-items:center;gap:16px;padding:20px 22px;border:1px solid #E4E0D6;border-radius:16px;background:#fff;text-decoration:none;color:#1F2433}
+.mc:hover,.mc:focus-visible{border-color:#0157AE;box-shadow:0 8px 24px rgba(31,36,51,.10)}
+.mc .tx{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:4px}
+.mc .tt{display:flex;align-items:center;gap:10px;font:400 21px 'Young Serif',Georgia,serif}
+.mc .ds{font-size:15px;color:#454A58;line-height:1.45}
+.mc .nw{font-size:14px;font-weight:700;color:#9A3412}
+.mc.wide{border:2px solid #0157AE;background:#F4F6FB}
+.mgrid{display:flex;flex-direction:column;gap:14px}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions"><a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a><span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span><button type="button" class="pill out" id="out">Sign out</button></div>
+</div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Comfort Quilts Chair</span>
+<h1 id="pg-title" style="margin:0">Comfort Quilts Manager</h1><p class="stat-line" id="lead">Choose what you want to work on.</p></div>
+
+</div></section>
+<div class="mwrap" style="max-width:900px;gap:22px" id="content">
+
+<a class="mc wide" href="whats-new-manage.html?page=comfort"><span class="tx"><span class="tt">Tell members what changed</span><span class="ds">Post a short note to the What&rsquo;s New card on the home page, with a link to the new page.</span></span><span aria-hidden="true">&rarr;</span></a>
+<div class="toplinks"><a class="nbtn" href="comfort-quilts.html">See the Comfort Quilts page &rarr;</a></div>
+<div class="mgrid">
+<a class="mc" href="comfort-page-admin.html"><span class="tx"><span class="tt">Comfort Quilts Page Admin</span><span class="ds">Welcome text, quilt sizes, current needs and the organizations we support.</span></span><span aria-hidden="true">&rarr;</span></a>
+<a class="mc" href="pattern-library-manage.html"><span class="tx"><span class="tt">Pattern Library<span class="cbadge hidden" id="b-kits" aria-hidden="true"></span></span><span class="ds">Add, replace and remove patterns: the PDF, a photo of the finished quilt, size, skill level and how many kits are available.</span><span class="nw hidden" id="l-kits"></span></span><span aria-hidden="true">&rarr;</span></a>
+<a class="mc" href="quilts-needing-work-manage.html"><span class="tx"><span class="tt">Quilts Needing Work<span class="cbadge hidden" id="b-quilts" aria-hidden="true"></span></span><span class="ds">Add quilts that are waiting to be finished, and see which ones members have claimed.</span><span class="nw hidden" id="l-quilts"></span></span><span aria-hidden="true">&rarr;</span></a>
+<a class="mc" href="comfort-stats.html"><span class="tx"><span class="tt">Comfort Quilt Statistics</span><span class="ds">Record quilts received and quilts given out, by date and by organization.</span></span><span aria-hidden="true">&rarr;</span></a>
+</div>
+<section class="infobox"><div><h2>Who can use this page</h2><p>The Comfort Quilts Chair, Administrators and the Superuser.</p></div></section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/comfort.js"></script>
+<script>
+QGPCShell.start({need:function(c){return c.has('comfort_quilts_chair')||c.isAdmin;}},function(ctx){
+  var $=function(i){return document.getElementById(i)};
+  QGPC.sb.rpc('comfort_chair_counts').then(function(r){
+    var d=r.data&&r.data[0];if(r.error||!d)return;
+    function put(b,l,n,one,many){if(!n)return;$(b).textContent=n;$(b).classList.remove('hidden');$(l).textContent=n===1?one:n+many;$(l).classList.remove('hidden');}
+    put('b-kits','l-kits',d.new_kits,'1 newly claimed kit to look at',' newly claimed kits to look at');
+    put('b-quilts','l-quilts',d.new_quilts,'1 newly claimed quilt to look at',' newly claimed quilts to look at');
+  });
+});
+</script>
+</body></html>

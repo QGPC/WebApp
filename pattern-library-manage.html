@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Manage the Pattern Library</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.nbtn:disabled{opacity:.45;cursor:default}
+.nbtn.del{border-color:#9A3412;color:#9A3412}
+.nbtn.solid{background:#0157AE;color:#fff}
+.cqc{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+.cqc>h2,.cqh h2{margin:0;font:400 24px 'Young Serif',Georgia,serif}
+.cqh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sub{margin:2px 0 0;color:#5A5F6E;font-size:15px}
+.cbadge{min-width:26px;height:26px;padding:0 8px;border-radius:999px;background:#E87446;color:#1F2433;font-weight:700;font-size:14px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box}
+.pl{font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;white-space:nowrap}
+.pl.gray{background:#F0ECE3;color:#454A58}
+.pl.new{background:#E87446;color:#1F2433}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer}
+.seg button[aria-pressed=true]{background:#0157AE;color:#fff}
+.confirm{background:#FCEEE9;border-radius:10px;padding:12px 14px}.confirm p{margin:0 0 10px;font-weight:600;color:#9A3412}
+.infobox{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8}
+.infobox h2{margin:0 0 4px;font-size:16px;font-weight:700;color:#0157AE}.infobox p{margin:0;font-size:15px;line-height:1.5;color:#1F2433}
+.blue-note{border:2px solid #0157AE;border-radius:14px;padding:16px 18px;background:#F4F6FB;display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.blue-note h3{margin:0;font-size:17px}.blue-note ul{margin:8px 0 0;padding-left:20px;line-height:1.5}
+.empty{margin:0;padding:14px 16px;border-radius:12px;background:#F0ECE3;color:#454A58}
+.toplinks{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.dl2{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:15px}.dl2 dt{font-weight:700;color:#5A5F6E}.dl2 dd{margin:0}
+.lbl{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+
+.pe{border:1px solid #E4E0D6;border-radius:16px;background:#fff;padding:18px;display:grid;grid-template-columns:200px 1fr;gap:18px}
+@media(max-width:640px){.pe{grid-template-columns:1fr}}
+.pe .ph{aspect-ratio:4/3;background:#E9E4D8;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#7a7466;font-size:14px;text-align:center}
+.pe .ph img{width:100%;height:100%;object-fit:cover}
+.pe .fl{display:flex;flex-direction:column;gap:12px;min-width:0}
+.pe .pick{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.pe .pick span.fn{font-size:13px;color:#5A5F6E;overflow-wrap:anywhere}
+.pe .btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.cl3{font-size:14px;color:#454A58}
+.filebtn{position:relative;overflow:hidden}.filebtn input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.filebtn:focus-within{outline:3px solid rgba(1,87,174,.35);outline-offset:2px}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions"><a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a><span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span><button type="button" class="pill out" id="out">Sign out</button></div>
+</div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Comfort Quilts Chair</span>
+<h1 id="pg-title" style="margin:0">Pattern Library</h1><p class="stat-line" id="lead">Add, replace and remove the patterns members can download. Each pattern needs a PDF and a photo of the finished quilt.</p></div>
+
+</div></section>
+<div class="mwrap" style="max-width:1000px;gap:22px" id="content">
+
+<div class="toplinks"><a class="nbtn" href="comfort-manager.html">Comfort Quilts Manager</a><a class="nbtn" href="comfort-patterns.html">See the Pattern Library &rarr;</a></div>
+<section class="blue-note hidden" id="newkits" aria-live="polite"><div><h3 id="nk-t"></h3><ul id="nk-list"></ul></div><button class="nbtn" id="nk-seen" type="button">Mark all as seen</button></section>
+<p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
+<section class="cqc" aria-labelledby="pt"><div class="cqh"><div><h2 id="pt">Patterns</h2><p class="sub">Each pattern needs a PDF and a photo of the finished quilt. Press Save on a pattern after you change it.</p></div>
+<button class="btn-save" id="add" type="button">Add a pattern</button></div>
+<p id="loading" role="status" style="margin:0">Loading&hellip;</p>
+<p class="empty hidden" id="none">No patterns yet. Choose &ldquo;Add a pattern&rdquo; to start the library.</p>
+<div id="list" style="display:flex;flex-direction:column;gap:16px"></div></section>
+<section class="infobox"><div><h2>Who can use this page</h2><p>The Comfort Quilts Chair, Administrators and the Superuser. Members see a &ldquo;Kits available&rdquo; button on a pattern when the number of kits is more than 0, and can claim one kit each. Photos are shrunk to a web size when you upload them. Keep the original PDF and photo in the Guild&rsquo;s Drive folder.</p></div></section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/comfort.js"></script>
+<script>
+QGPCShell.start({need:function(c){return c.has('comfort_quilts_chair')||c.isAdmin;}},function(ctx){
+  var $=function(i){return document.getElementById(i)};
+  var C=QGPCComfort,sb=QGPC.sb,el=C.el,B=C.BUCKET;
+  var pats=[],claims=[],sizes=[],urls={},confirmId=null,fresh=[];
+  var LEVELS=['Beginner','Easy','Intermediate'];
+  function say(t,bad){var n=$('status');n.textContent=t;n.className='msg '+(bad?'err':'ok');n.style.margin='0';n.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  function load(){
+    return Promise.all([sb.from('comfort_patterns').select('*').order('name'),sb.rpc('comfort_kit_claims_list'),sb.from('comfort_sizes').select('name').order('sort_order')]).then(function(r){
+      $('loading').classList.add('hidden');
+      if(r[0].error){say('Could not load the patterns. Please refresh and try again.',true);return;}
+      pats=r[0].data||[];claims=r[1].data||[];sizes=(r[2].data||[]).map(function(x){return x.name;});
+      return C.signed(pats.map(function(p){return p.photo_path;})).then(function(m){urls=m;draw();});
+    });
+  }
+  function drawNotice(){
+    var nw=claims.filter(function(c){return !c.seen_by_chair;});
+    $('newkits').classList.toggle('hidden',!nw.length);
+    $('nk-t').textContent=nw.length===1?'1 newly claimed kit':nw.length+' newly claimed kits';
+    var ul=$('nk-list');ul.textContent='';
+    nw.forEach(function(c){var li=el('li');var a=el('strong',null,c.member_name||'A member');li.appendChild(a);li.appendChild(document.createTextNode(' claimed a kit of '));li.appendChild(el('strong',null,c.pattern_name));li.appendChild(document.createTextNode(' ('+(c.size_name||'size not set')+', '+c.level+') on '+C.nice(c.claimed_at)+'.'));ul.appendChild(li);});
+  }
+  $('nk-seen').onclick=function(){sb.rpc('comfort_kits_mark_seen').then(function(r){if(r.error)say('That did not work. Please try again.',true);else{say('Marked as seen.');load();}});};
+  function field(label,node){var d=el('div'),l=el('label','lbl',label);d.appendChild(l);d.appendChild(node);return d;}
+  function card(p){
+    var isNew=!p.id,st={photo:null,pdf:null};
+    var w=el('div','pe'),left=el('div'),ph=el('div','ph');
+    function showPhoto(src){ph.textContent='';if(src){var im=el('img');im.src=src;im.alt='Photo of the '+(nm.value||'new')+' quilt';ph.appendChild(im);}else ph.textContent='No photo yet';}
+    left.appendChild(ph);
+    var pick=el('div','pick'),pl=el('label','nbtn filebtn','Choose a photo'),pi=el('input');pi.type='file';pi.accept='image/jpeg,image/png';pl.appendChild(pi);pick.appendChild(pl);
+    var pfn=el('span','fn',p.photo_path?'A photo is saved':'No photo chosen');pick.appendChild(pfn);left.appendChild(pick);
+    pi.onchange=function(){var f=pi.files[0];if(!f)return;st.photo=f;pfn.textContent=f.name;showPhoto(URL.createObjectURL(f));};
+    w.appendChild(left);
+    var right=el('div','fl');
+    var nm=el('input','field');nm.maxLength=120;nm.value=p.name||'';nm.placeholder='e.g., Pinwheel baby quilt';nm.id='n'+(p.id||fresh.indexOf(p));
+    var nd=field('Pattern name',nm);nd.firstChild.htmlFor=nm.id;right.appendChild(nd);
+    var rw=el('div','row2');
+    var sz=el('select','field'),szs=sizes.slice();if(p.size_name&&szs.indexOf(p.size_name)<0)szs.push(p.size_name);
+    szs.forEach(function(s){var o=el('option',null,s);o.value=s;sz.appendChild(o);});if(p.size_name)sz.value=p.size_name;
+    var lv=el('select','field');LEVELS.forEach(function(s){var o=el('option',null,s);o.value=s;lv.appendChild(o);});lv.value=p.level||'Beginner';
+    var kt=el('input','field');kt.type='text';kt.inputMode='numeric';kt.value=String(p.kits_available||0);
+    [['Size',sz],['Skill level',lv],['Kits available',kt]].forEach(function(x){var d=field(x[0],x[1]);var id='f'+Math.random().toString(36).slice(2);x[1].id=id;d.firstChild.htmlFor=id;rw.appendChild(d);});
+    right.appendChild(rw);
+    var mine=claims.filter(function(c){return c.pattern_id===p.id;});
+    var cl=el('div','cl3');cl.appendChild(el('strong',null,'Claimed so far: '));
+    cl.appendChild(document.createTextNode(mine.length?mine.map(function(c){return (c.member_name||'A member')+' ('+C.nice(c.claimed_at).replace(/,? \d{4}$/,'')+')';}).join(', '):'None yet'));
+    if(mine.some(function(c){return !c.seen_by_chair;})){var t=el('span','pl new','New claim');t.style.marginLeft='8px';cl.appendChild(t);}
+    right.appendChild(cl);
+    right.appendChild(el('div','cl3','Members see a “Kits available” button when this number is more than 0.'));
+    // PDF
+    var pdfRow=el('div'),pdl=el('label','nbtn filebtn',p.pdf_path?'Replace the PDF':'Choose the PDF'),pdi=el('input');pdi.type='file';pdi.accept='application/pdf';pdl.appendChild(pdi);
+    var pdn=el('div','cl3',p.pdf_path?'PDF: '+C.shownName(p.pdf_path):'No PDF chosen');pdn.style.margin='6px 0 0';
+    pdfRow.appendChild(pdl);pdfRow.appendChild(pdn);right.appendChild(pdfRow);
+    pdi.onchange=function(){var f=pdi.files[0];if(!f)return;if(f.type!=='application/pdf'&&!/\.pdf$/i.test(f.name)){say('That file is not a PDF.',true);pdi.value='';return;}if(f.size>20*1024*1024){say('That PDF is larger than 20 MB. Please make it smaller and try again.',true);pdi.value='';return;}st.pdf=f;pdn.textContent='PDF: '+f.name+' (not saved yet)';};
+    var btns=el('div','btns'),sv=el('button','btn-save',isNew?'Save pattern':'Save changes');sv.type='button';btns.appendChild(sv);
+    if(isNew){var cn=el('button','btn-cancel','Cancel');cn.type='button';cn.onclick=function(){fresh.splice(fresh.indexOf(p),1);draw();};btns.appendChild(cn);}
+    else{var rm=el('button','nbtn del','Remove this pattern');rm.type='button';rm.onclick=function(){confirmId=p.id;draw();};btns.appendChild(rm);}
+    right.appendChild(btns);
+    if(confirmId===p.id){
+      var cf=el('div','confirm');cf.appendChild(el('p',null,'Remove “'+p.name+'” and its files? Kit claims on it go too. This can’t be undone.'));
+      var rw2=el('div','saverow'),y=el('button','btn-del solid','Yes, remove');y.type='button';var k=el('button','btn-cancel','Keep it');k.type='button';
+      k.onclick=function(){confirmId=null;draw();};y.onclick=function(){y.disabled=true;
+        sb.storage.from(B).remove([p.photo_path,p.pdf_path].filter(Boolean)).then(function(){return sb.from('comfort_patterns').delete().eq('id',p.id);}).then(function(r){confirmId=null;if(r.error)say('That did not remove. Please try again.',true);else say('Removed “'+p.name+'”.');load();});};
+      rw2.appendChild(y);rw2.appendChild(k);cf.appendChild(rw2);right.appendChild(cf);
+    }
+    var er=el('p','msg err hidden');er.setAttribute('role','alert');er.style.margin='0';right.appendChild(er);
+    function fail(t){er.textContent=t;er.classList.remove('hidden');}
+    sv.onclick=function(){
+      er.classList.add('hidden');
+      var name=nm.value.trim();if(!name)return fail('Please type the pattern name.');
+      var kits=parseInt(kt.value.trim()===''?'0':kt.value,10);if(isNaN(kits)||kits<0||String(kits)!==(kt.value.trim()===''?'0':kt.value.trim()))return fail('Kits available must be a whole number, 0 or more.');
+      if(isNew&&!st.photo)return fail('Please choose a photo of the finished quilt.');
+      if(isNew&&!st.pdf)return fail('Please choose the PDF.');
+      sv.disabled=true;
+      var rec={name:name,size_name:sz.value||null,level:lv.value,kits_available:kits},oldFiles=[];
+      var up=Promise.resolve();
+      if(st.photo)up=up.then(function(){return C.shrink(st.photo,1600);}).then(function(b){var path='photos/'+C.uuid()+'.jpg';return sb.storage.from(B).upload(path,b,{contentType:'image/jpeg'}).then(function(r){if(r.error)throw r.error;if(p.photo_path)oldFiles.push(p.photo_path);rec.photo_path=path;});});
+      if(st.pdf)up=up.then(function(){var path='pdfs/'+C.uuid()+'-'+C.safeName(st.pdf.name);return sb.storage.from(B).upload(path,st.pdf,{contentType:'application/pdf'}).then(function(r){if(r.error)throw r.error;if(p.pdf_path)oldFiles.push(p.pdf_path);rec.pdf_path=path;});});
+      up.then(function(){return isNew?sb.from('comfort_patterns').insert(rec):sb.from('comfort_patterns').update(rec).eq('id',p.id);}).then(function(r){
+        if(r.error)throw r.error;
+        if(oldFiles.length)sb.storage.from(B).remove(oldFiles);
+        if(isNew)fresh.splice(fresh.indexOf(p),1);
+        say('Saved. “'+name+'” is in the Pattern Library.');load();
+      }).catch(function(e){sv.disabled=false;fail('That did not save. '+(e&&e.message?e.message+' ':'')+'Please try again.');});
+    };
+    showPhoto(p.photo_path?urls[p.photo_path]:null);
+    return w;
+  }
+  function draw(){
+    drawNotice();
+    var box=$('list');box.textContent='';
+    fresh.forEach(function(p){box.appendChild(card(p));});
+    pats.forEach(function(p){box.appendChild(card(p));});
+    $('none').classList.toggle('hidden',pats.length+fresh.length>0);
+  }
+  $('add').onclick=function(){fresh.unshift({});draw();var f=document.querySelector('#list .field');if(f)f.focus();};
+  load();
+});
+</script>
+</body></html>

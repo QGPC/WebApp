@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Comfort Quilt Statistics</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.nbtn:disabled{opacity:.45;cursor:default}
+.nbtn.del{border-color:#9A3412;color:#9A3412}
+.nbtn.solid{background:#0157AE;color:#fff}
+.cqc{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+.cqc>h2,.cqh h2{margin:0;font:400 24px 'Young Serif',Georgia,serif}
+.cqh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sub{margin:2px 0 0;color:#5A5F6E;font-size:15px}
+.cbadge{min-width:26px;height:26px;padding:0 8px;border-radius:999px;background:#E87446;color:#1F2433;font-weight:700;font-size:14px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box}
+.pl{font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;white-space:nowrap}
+.pl.gray{background:#F0ECE3;color:#454A58}
+.pl.new{background:#E87446;color:#1F2433}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer}
+.seg button[aria-pressed=true]{background:#0157AE;color:#fff}
+.confirm{background:#FCEEE9;border-radius:10px;padding:12px 14px}.confirm p{margin:0 0 10px;font-weight:600;color:#9A3412}
+.infobox{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8}
+.infobox h2{margin:0 0 4px;font-size:16px;font-weight:700;color:#0157AE}.infobox p{margin:0;font-size:15px;line-height:1.5;color:#1F2433}
+.blue-note{border:2px solid #0157AE;border-radius:14px;padding:16px 18px;background:#F4F6FB;display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.blue-note h3{margin:0;font-size:17px}.blue-note ul{margin:8px 0 0;padding-left:20px;line-height:1.5}
+.empty{margin:0;padding:14px 16px;border-radius:12px;background:#F0ECE3;color:#454A58}
+.toplinks{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.dl2{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:15px}.dl2 dt{font-weight:700;color:#5A5F6E}.dl2 dd{margin:0}
+.lbl{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+
+.sn{padding:8px 6px;margin-top:4px;border-radius:12px;font:400 26px/1.1 'Young Serif',Georgia,serif}
+.sn.in{background:#EEF1F8;color:#0157AE}.sn.out{background:#FCEEE9;color:#9A3412}.sn.hand{background:#F0ECE3;color:#1F2433}
+.logcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}
+.logcols h3{margin:0 0 10px;font-size:18px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:14px}.legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:6px}
+.chartwrap{overflow-x:auto}
+.byorg{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.byorg li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #EDEAE2}
+.ent{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.ent li{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:10px 14px;border:1px solid #E4E0D6;border-radius:12px;background:#fff}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions"><a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a><span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span><button type="button" class="pill out" id="out">Sign out</button></div>
+</div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Comfort Quilts Chair</span>
+<h1 id="pg-title" style="margin:0">Comfort Quilt Statistics</h1><p class="stat-line" id="lead">Record quilts as they come in and as they go out to the organizations we support.</p></div>
+<section aria-label="Totals" style="flex:0 1 420px;min-width:min(100%,280px);box-sizing:border-box;background:#fff;color:#1F2433;border-radius:18px;padding:18px 22px;box-shadow:0 10px 28px rgba(15,20,40,.30)">
+<h2 id="tot-t" style="margin:0 0 10px;font:400 22px 'Young Serif',Georgia,serif">Current Year</h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center">
+<div><div style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#5A5F6E">Quilts in</div><div class="sn in" id="t-in">&ndash;</div></div>
+<div><div style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#5A5F6E">Quilts out</div><div class="sn out" id="t-out">&ndash;</div></div>
+<div><div style="font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#5A5F6E">On hand</div><div class="sn hand" id="t-hand">&ndash;</div></div>
+</div></section>
+</div></section>
+<div class="mwrap" style="max-width:1100px;gap:22px" id="content">
+
+<div class="toplinks"><a class="nbtn" href="comfort-manager.html">Comfort Quilts Manager</a><span class="sub">These totals appear on the Comfort Quilts page.</span></div>
+<section class="cqc" aria-labelledby="lg"><div><h2 id="lg" style="margin:0;font:400 24px 'Young Serif',Georgia,serif">Quilts in and out</h2><p class="sub">Fill in either section or both, then choose Update the log once.</p></div>
+<div class="logcols">
+<div><h3>Quilts received</h3><div style="display:grid;gap:12px"><div><label class="lbl" for="in-date">Date received</label><input class="field" type="date" id="in-date"></div>
+<div><label class="lbl" for="in-n">Number of quilts</label><input class="field" id="in-n" inputmode="numeric" placeholder="e.g., 12"></div></div></div>
+<div><h3>Quilts given out</h3><div style="display:grid;gap:12px"><div><label class="lbl" for="out-date">Date given out</label><input class="field" type="date" id="out-date"></div>
+<div><label class="lbl" for="out-org">Receiving organization</label><select class="field" id="out-org"></select></div>
+<div class="hidden" id="other-wrap"><label class="lbl" for="out-other">Name of the other organization</label><input class="field" id="out-other" maxlength="120" placeholder="Organization name"></div>
+<div><label class="lbl" for="out-n">Number of quilts</label><input class="field" id="out-n" inputmode="numeric" placeholder="e.g., 12"></div></div></div></div>
+<div class="saverow"><button class="btn-save" id="upd" type="button">Update the log</button><span class="msg err hidden" id="log-err" role="alert" style="margin:0"></span><span class="msg ok hidden" id="log-ok" role="status" style="margin:0"></span></div></section>
+<section class="cqc" aria-labelledby="gr"><div class="cqh"><div><h2 id="gr">Quilts in and out, by month</h2><p class="sub">Bars show each month. Lines show running totals and the quilts on hand.</p></div>
+<div class="row2" style="grid-template-columns:140px 240px"><div><label class="lbl" for="year">Year</label><select class="field" id="year"></select></div>
+<div><label class="lbl" for="start">Quilts on hand on January 1</label><input class="field" id="start" inputmode="numeric"><span class="sub" id="carry" style="display:block;font-size:13px"></span></div></div></div>
+<p class="msg err hidden" id="start-err" role="alert" style="margin:0">Enter a whole number, 0 or more. Until then the graph starts at 0.</p>
+<div class="legend" aria-hidden="true"><span><i style="background:#0157AE"></i>Quilts in each month</span><span><i style="background:#E87446"></i>Quilts out each month</span><span><i style="background:#013A75"></i>Total in</span><span><i style="background:#6B2508"></i>Total out</span><span><i style="background:#5A9BD5"></i>On hand</span></div>
+<div class="chartwrap"><div id="chart" role="img"></div></div></section>
+<section class="cqc" aria-labelledby="bo"><div><h2 id="bo" style="margin:0;font:400 24px 'Young Serif',Georgia,serif">Quilts out, by organization</h2><p class="sub" id="bo-sub">Totals for the year shown above.</p></div>
+<ul class="byorg" id="byorg"></ul></section>
+<section class="cqc" aria-labelledby="en"><div><h2 id="en" style="margin:0;font:400 24px 'Young Serif',Georgia,serif">Entries for the year</h2><p class="sub">Remove an entry if it was typed by mistake.</p></div>
+<p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
+<ul class="ent" id="entries"></ul><p class="empty hidden" id="no-ent">No entries for this year yet.</p></section>
+<section class="infobox"><div><h2>Who can use this page</h2><p>The Comfort Quilts Chair, Administrators and the Superuser. Marking a quilt finished on Quilts Needing Work adds one &ldquo;quilt in&rdquo; here, dated that day.</p></div></section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/comfort.js"></script>
+<script>
+QGPCShell.start({need:function(c){return c.has('comfort_quilts_chair')||c.isAdmin;}},function(ctx){
+  var $=function(i){return document.getElementById(i)};
+  var C=QGPCComfort,sb=QGPC.sb,el=C.el;
+  var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var today=C.today(),curYear=+today.slice(0,4);
+  var ins=[],outs=[],starts={},orgs=[],year=curYear,confirmId=null;
+  function say(t,bad){var n=$('status');n.textContent=t;n.className='msg '+(bad?'err':'ok');n.style.margin='0';}
+  function sum(l){return l.reduce(function(a,x){return a+x.n;},0);}
+  function inYear(l,key,y){return l.filter(function(x){return x[key].slice(0,4)===String(y);});}
+  // On hand on Jan 1 of year y: the saved number, or what was left at the end of the year before (0 if there is no earlier data)
+  function startFor(y,depth){
+    if(starts[y]!==undefined)return starts[y];
+    var all=ins.concat(outs).map(function(x){return +(x.received_on||x.given_on).slice(0,4);});
+    if(!all.length||y<=Math.min.apply(null,all)||(depth||0)>60)return 0;
+    return Math.max(0,startFor(y-1,(depth||0)+1)+sum(inYear(ins,'received_on',y-1))-sum(inYear(outs,'given_on',y-1)));
+  }
+  function load(){
+    return Promise.all([sb.from('comfort_log_in').select('*').order('received_on'),sb.from('comfort_log_out').select('*').order('given_on'),sb.from('comfort_year_start').select('*'),sb.from('comfort_orgs').select('id,name').order('sort_order')]).then(function(r){
+      if(r[0].error||r[1].error||r[2].error){say('Could not load the log. Please refresh and try again.',true);return;}
+      ins=r[0].data||[];outs=r[1].data||[];starts={};(r[2].data||[]).forEach(function(x){starts[x.year]=x.on_hand;});orgs=r[3].data||[];
+      fillSelects();draw();
+    });
+  }
+  function fillSelects(){
+    var so=$('out-org'),keep=so.value;so.textContent='';
+    orgs.forEach(function(o){var op=el('option',null,o.name);op.value=o.id;so.appendChild(op);});
+    var ot=el('option',null,'Other');ot.value='other';so.appendChild(ot);if(keep)so.value=keep;
+    $('other-wrap').classList.toggle('hidden',so.value!=='other');
+    var ys={};ys[curYear]=1;ys[curYear-1]=1;ys[curYear+1]=1;ins.forEach(function(x){ys[+x.received_on.slice(0,4)]=1;});outs.forEach(function(x){ys[+x.given_on.slice(0,4)]=1;});ys[year]=1;
+    var ysel=$('year');ysel.textContent='';Object.keys(ys).map(Number).sort().forEach(function(y){var o=el('option',null,String(y));o.value=y;ysel.appendChild(o);});ysel.value=year;
+  }
+  $('out-org').onchange=function(){$('other-wrap').classList.toggle('hidden',this.value!=='other');};
+  $('year').onchange=function(){year=+this.value;confirmId=null;draw();};
+  $('in-date').value=today;$('out-date').value=today;
+
+  function wholeNum(s){s=String(s).trim();return /^\d+$/.test(s)&&+s>0?+s:null;}
+  $('upd').onclick=function(){
+    var er=$('log-err'),ok=$('log-ok');er.classList.add('hidden');ok.classList.add('hidden');
+    var inN=$('in-n').value.trim(),outN=$('out-n').value.trim(),jobs=[],msg=[];
+    if(!inN&&!outN){er.textContent='Fill in quilts received, quilts given out, or both.';er.classList.remove('hidden');return;}
+    if(inN){var n=wholeNum(inN);if(!n||!$('in-date').value){er.textContent='For quilts received, enter a date and a whole number of quilts (1 or more).';er.classList.remove('hidden');return;}
+      jobs.push(sb.from('comfort_log_in').insert({received_on:$('in-date').value,n:n}));msg.push(C.plural(n,'quilt')+' received');}
+    if(outN){var m=wholeNum(outN),sel=$('out-org').value,label,orgId=null;
+      if(sel==='other'){label=$('out-other').value.trim();if(!label){er.textContent='Please type the name of the other organization.';er.classList.remove('hidden');return;}}
+      else{var o=orgs.filter(function(x){return x.id===sel;})[0];if(!o){er.textContent='Please choose the receiving organization.';er.classList.remove('hidden');return;}label=o.name;orgId=o.id;}
+      if(!m||!$('out-date').value){er.textContent='For quilts given out, enter a date and a whole number of quilts (1 or more).';er.classList.remove('hidden');return;}
+      jobs.push(sb.from('comfort_log_out').insert({given_on:$('out-date').value,n:m,org_id:orgId,org_label:label}));msg.push(C.plural(m,'quilt')+' given out to '+label);}
+    var b=this;b.disabled=true;
+    Promise.all(jobs).then(function(rs){b.disabled=false;var e=rs.filter(function(r){return r.error;})[0];
+      if(e){er.textContent='That did not save. Please try again.';er.classList.remove('hidden');return;}
+      ok.textContent='Log updated: '+msg.join('; ')+'.';ok.classList.remove('hidden');
+      $('in-n').value='';$('out-n').value='';$('out-other').value='';load();});
+  };
+  $('start').addEventListener('change',function(){
+    var s=this.value.trim(),bad=!/^\d+$/.test(s);$('start-err').classList.toggle('hidden',!bad);if(bad){draw(true);return;}
+    sb.from('comfort_year_start').upsert({year:year,on_hand:+s}).then(function(r){if(r.error)say('That did not save. Please try again.',true);else{starts[year]=+s;draw();}});
+  });
+
+  function chart(startN,mi,mo){
+    var COL=60,PADL=56,TOP=14,PLOT=220,BASE=30,W=PADL+12*COL+16,H=TOP+PLOT+BASE,Y0=TOP+PLOT;
+    var ri=0,ro=0,hi=startN,run=[];
+    for(var i=0;i<12;i++){ri+=mi[i];ro+=mo[i];var oh=startN+ri-ro;run.push({ri:ri,ro:ro,oh:oh});hi=Math.max(hi,mi[i],mo[i],ri,ro,oh);}
+    var steps=[5,10,20,25,50,100,200,250,500,1000,2000],step=steps[steps.length-1];
+    for(var q=0;q<steps.length;q++){if(hi/steps[q]<=5){step=steps[q];break;}}
+    var top=Math.max(step,Math.ceil(hi/step)*step);
+    function y(v){return Y0-Math.round(v/top*PLOT);}
+    var NS='http://www.w3.org/2000/svg',svg=document.createElementNS(NS,'svg');svg.setAttribute('viewBox','0 0 '+W+' '+H);svg.setAttribute('width',W);svg.setAttribute('height',H);svg.setAttribute('aria-hidden','true');
+    function add(tag,at,txt){var e=document.createElementNS(NS,tag);Object.keys(at).forEach(function(k){e.setAttribute(k,at[k]);});if(txt)e.textContent=txt;svg.appendChild(e);return e;}
+    for(var t=0;t<=top;t+=step){add('line',{x1:PADL,x2:W-8,y1:y(t),y2:y(t),stroke:t===0?'#9A958A':'#E4E0D6'});add('text',{x:PADL-8,y:y(t)+4,'text-anchor':'end','font-size':12,fill:'#5A5F6E'},String(t));}
+    // current month limit: lines run through this month (or the whole year if it is over)
+    var last=year<curYear?11:(year>curYear?-1:+today.slice(5,7)-1);
+    for(var m=0;m<12;m++){
+      var cx=PADL+COL*m+COL/2;
+      add('text',{x:cx,y:H-8,'text-anchor':'middle','font-size':12,fill:'#5A5F6E'},MON[m]);
+      if(mi[m]){var r1=add('rect',{x:cx-20,y:y(mi[m]),width:18,height:Y0-y(mi[m]),fill:'#0157AE'});add('title',{},MON[m]+' in: '+mi[m]);}
+      if(mo[m]){add('rect',{x:cx+2,y:y(mo[m]),width:18,height:Y0-y(mo[m]),fill:'#E87446'});}
+    }
+    function line(key,color,dash){
+      var pts=[];if(key==='oh'&&last>=0)pts.push((PADL)+','+y(startN));
+      for(var m=0;m<=last;m++)pts.push((PADL+COL*m+COL/2)+','+y(run[m][key]));
+      if(pts.length>1)add('polyline',{points:pts.join(' '),fill:'none',stroke:color,'stroke-width':2.5,'stroke-dasharray':dash||''});
+      for(var m=0;m<=last;m++){var c=add('circle',{cx:PADL+COL*m+COL/2,cy:y(run[m][key]),r:4,fill:color});add('title',{},MON[m]+' '+({ri:'total in',ro:'total out',oh:'on hand'})[key]+': '+run[m][key]);}
+    }
+    line('ri','#013A75');line('ro','#6B2508');line('oh','#5A9BD5','6 4');
+    return {svg:svg,last:last,run:run};
+  }
+  function draw(keepStart){
+    var yIns=inYear(ins,'received_on',year),yOuts=inYear(outs,'given_on',year);
+    var startN=startFor(year),prev=starts[year]===undefined;
+    var inp=$('start');if(!keepStart)inp.value=String(startN);$('start-err').classList.toggle('hidden',true);
+    $('carry').textContent=prev?(year===Math.min.apply(null,[curYear].concat(ins.map(function(x){return +x.received_on.slice(0,4);}))) ?'Not set yet, so it starts at 0.':'Carried over from the end of '+(year-1)+'.'):'';
+    var mi=[],mo=[];for(var m=0;m<12;m++){mi.push(0);mo.push(0);}
+    yIns.forEach(function(x){mi[+x.received_on.slice(5,7)-1]+=x.n;});yOuts.forEach(function(x){mo[+x.given_on.slice(5,7)-1]+=x.n;});
+    var tin=sum(yIns),tout=sum(yOuts);
+    $('tot-t').textContent=year===curYear?'Current Year':year+' totals';
+    $('t-in').textContent=tin;$('t-out').textContent=tout;$('t-hand').textContent=startN+tin-tout;
+    var ch=chart(startN,mi,mo),box=$('chart');box.textContent='';box.appendChild(ch.svg);
+    var desc=[];for(var m=0;m<12;m++)if(mi[m]||mo[m])desc.push(MON[m]+' '+year+': '+mi[m]+' in, '+mo[m]+' out');
+    box.setAttribute('aria-label','Quilts in and out by month for '+year+'. Started with '+startN+' on hand. '+(desc.length?desc.join('. ')+'.':'No entries yet.')+' Totals: '+tin+' in, '+tout+' out, '+(startN+tin-tout)+' on hand.');
+    // by organization
+    var by={};yOuts.forEach(function(x){by[x.org_label]=(by[x.org_label]||0)+x.n;});
+    orgs.forEach(function(o){if(by[o.name]===undefined)by[o.name]=0;});
+    var ul=$('byorg');ul.textContent='';Object.keys(by).sort(function(a,b){return by[b]-by[a]||a.localeCompare(b);}).forEach(function(k){var li=el('li');li.appendChild(el('span',null,k));li.appendChild(el('strong',null,String(by[k])));ul.appendChild(li);});
+    $('bo-sub').textContent='Quilts given out in '+year+'.';
+    // entries
+    var rows=[];yIns.forEach(function(x){rows.push({t:'in',id:x.id,d:x.received_on,txt:C.plural(x.n,'quilt')+' received'+(x.source==='finished'?' (finished from Quilts Needing Work)':'')});});
+    yOuts.forEach(function(x){rows.push({t:'out',id:x.id,d:x.given_on,txt:C.plural(x.n,'quilt')+' given out to '+x.org_label});});
+    rows.sort(function(a,b){return a.d<b.d?1:a.d>b.d?-1:0;});
+    var en=$('entries');en.textContent='';$('no-ent').classList.toggle('hidden',rows.length>0);
+    rows.forEach(function(r){
+      var li=el('li');li.appendChild(el('span',null,C.nice(r.d)+' — '+r.txt));
+      if(confirmId===r.id){var s=el('span');s.style.cssText='display:flex;gap:8px;align-items:center';s.appendChild(el('strong',null,'Remove this entry?'));
+        var y=el('button','btn-del solid','Yes, remove');y.type='button';var k=el('button','btn-cancel','Keep it');k.type='button';k.onclick=function(){confirmId=null;draw();};
+        y.onclick=function(){y.disabled=true;sb.from(r.t==='in'?'comfort_log_in':'comfort_log_out').delete().eq('id',r.id).then(function(x){confirmId=null;if(x.error)say('That did not remove. Please try again.',true);else say('Removed.');load();});};
+        s.appendChild(y);s.appendChild(k);li.appendChild(s);}
+      else{var b=el('button','nbtn del','Remove');b.type='button';b.setAttribute('aria-label','Remove entry: '+C.nice(r.d)+', '+r.txt);b.onclick=function(){confirmId=r.id;draw();};li.appendChild(b);}
+      en.appendChild(li);
+    });
+  }
+  load();
+});
+</script>
+</body></html>

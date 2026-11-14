@@ -118,14 +118,14 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
   var T=function(f){return 'assets/tiles/'+f+'.svg'};
   var TIPS={"Programs & Workshops": "Get details about our programs and workshops planned for each month.", "Comfort Quilts": "Our outreach program. Learn about the organizations we support and get easy patterns.", "Bees": "Small groups that meet to sew together. Find one to join.", "Our Community": "Sunshine & Shadows and other ways we care for each other.", "About our Guild": "Learn the purpose and history of our Guild.", "Newsletters": "Read the current newsletter and past issues.", "Comfort Quilts Chair": "Update the Comfort Quilts page.", "Bees Chair": "Update the list of bees.", "Workshop Registrations": "See who signed up for workshops and accept registrations.", "Program Planning": "Plan each month\u2019s program and workshop, and keep the Where & when card current.", "Quilt Show Chair": "Show or hide the Quilt Show card, and edit its message and photos.", "Sunshine & Shadows Review": "Approve or decline notes from members.", "Membership Chair": "Review new member requests and manage the membership database.", "Newsletter Chair": "Add, edit and delete newsletters.", "President\u2019s Page": "Post and edit Special Notices.", "Reported Messages": "Review private messages that members have reported.", "Manage Notices": "Post, change, pin and remove the notices on this page.", "Roles & Permissions": "Choose who holds each Guild role and what each role can edit."};
   // href null = page not built yet. Fill these in as pages are built.
-  var PUBLIC=[{l:'Programs & Workshops',i:'programs-and-workshops',href:'programs.html'},{l:'Comfort Quilts',i:'comfort-quilts'},{l:'Gallery',i:'gallery'},{l:'Our Community',i:'our-community',href:'our-community.html'},{l:'About our Guild',i:'about-our-guild'}];
-  var MEMBER=[{l:'Programs & Workshops',i:'programs-and-workshops',href:'programs.html'},{l:'Newsletters',i:'newsletters'},{l:'Member Directory',i:'member-directory',href:'directory.html'},{l:'Comfort Quilts',i:'comfort-quilts'},{l:'Our Community',i:'our-community',href:'our-community.html'},{l:'Bees',i:'bees'},{l:'Gallery',i:'gallery'},{l:'About our Guild',i:'about-our-guild'}];
+  var PUBLIC=[{l:'Programs & Workshops',i:'programs-and-workshops',href:'programs.html'},{l:'Comfort Quilts',i:'comfort-quilts',href:'comfort-quilts.html'},{l:'Gallery',i:'gallery'},{l:'Our Community',i:'our-community',href:'our-community.html'},{l:'About our Guild',i:'about-our-guild'}];
+  var MEMBER=[{l:'Programs & Workshops',i:'programs-and-workshops',href:'programs.html'},{l:'Newsletters',i:'newsletters'},{l:'Member Directory',i:'member-directory',href:'directory.html'},{l:'Comfort Quilts',i:'comfort-quilts',href:'comfort-quilts.html'},{l:'Our Community',i:'our-community',href:'our-community.html'},{l:'Bees',i:'bees'},{l:'Gallery',i:'gallery'},{l:'About our Guild',i:'about-our-guild'}];
   var JOBS=[
     {l:'Membership Chair',i:'membership',href:'membership.html',r:['membership_chair','superuser']},
     {l:'President’s Page',i:'presidents-page',href:'presidents-page.html',r:['president','vice_president'],adm:1},
     {l:'Newsletter Chair',i:'newsletter-manager',r:['newsletter_chair'],adm:1},
     {l:'Sunshine & Shadows Review',i:'sunshine-and-shadows-review',r:['sunshine_shadows_chair'],adm:1},
-    {l:'Comfort Quilts Chair',i:'comfort-quilts-manager',r:['comfort_quilts_chair'],adm:1},
+    {l:'Comfort Quilts Chair',i:'comfort-quilts-manager',href:'comfort-manager.html',r:['comfort_quilts_chair'],adm:1},
     {l:'Bees Chair',i:'bees-manager',r:['beekeeper'],adm:1},
     {l:'Workshop Registrations',i:'workshop-registrations',href:'workshop-registrations.html',r:['workshop_chair'],adm:1},
     {l:'Program Planning',i:'program-planning',r:['program_chair'],adm:1,href:'program-planning.html'},
@@ -142,7 +142,7 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
     e.className='tile'+(t.href?'':' soon'); if(t.href)e.href=t.href; else e.tabIndex=0;
     var im=document.createElement('img');im.src=T(t.i);im.alt='';im.width=34;im.height=34;e.appendChild(im);
     var lab=document.createElement('span');lab.className='lab';lab.textContent=t.l;e.appendChild(lab);
-    if(t.badge){var bd=document.createElement('span');bd.className='badge';bd.textContent=t.badge;bd.setAttribute('aria-label',t.badge+(t.badge===1?' request waiting':' requests waiting'));e.appendChild(bd);}
+    if(t.badge){var bd=document.createElement('span');bd.className='badge';bd.textContent=t.badge;bd.setAttribute('aria-label',t.badge+' '+(t.badgeLabel||(t.badge===1?'request waiting':'requests waiting')));e.appendChild(bd);}
     var tip=TIPS[t.l]||'';
     if(tip||!t.href){var tp=document.createElement('span');tp.className='tip';tp.setAttribute('role','tooltip');tp.appendChild(document.createTextNode(tip));
       if(!t.href){var em=document.createElement('em');em.textContent='Coming soon';tp.appendChild(em);}
@@ -219,7 +219,9 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
         });
         var mt=jobs.filter(function(j){return j.l==='Membership Chair';})[0];
         var pending=mt?QGPC.sb.from('membership_requests').select('id',{count:'exact',head:true}).in('status',['new','paid']).then(function(r){mt.badge=(!r.error&&r.count>0)?r.count:0;}):Promise.resolve();
-        return pending.then(function(){
+        var cq=jobs.filter(function(j){return j.l==='Comfort Quilts Chair';})[0];
+        var pend2=cq?QGPC.sb.rpc('comfort_chair_counts').then(function(r){var d=r&&r.data;if(Array.isArray(d))d=d[0];var n=(!r.error&&d)?(d.new_quilts||0)+(d.new_kits||0):0;cq.badge=n;cq.badgeLabel='new claims';}):Promise.resolve();
+        return Promise.all([pending,pend2]).then(function(){
         var all=jobs.concat(full?MEMBER:PUBLIC);
         fill('tilebar',all.slice(0,PER_BAR));
         if(all.length>PER_BAR){fill('more-areas',all.slice(PER_BAR));$('more-btn').classList.remove('hidden');}
