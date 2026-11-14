@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Workshop Fee Analysis</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.card2{border:1px solid #E4E0D6;border-radius:14px;padding:20px 22px;background:#FAF8F3;display:flex;flex-direction:column;gap:16px}
+.card2 h2{margin:0;font:400 22px 'Young Serif',Georgia,serif}
+.card2 .hint{margin:4px 0 0;font-size:14px;color:#5A5F6E}
+.card2 label.l{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;text-decoration:none}
+.nbtn.solid{background:#0157AE;color:#fff}
+.nbtn.del{border-color:#9A3412;color:#9A3412}
+.clist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.crow{display:grid;grid-template-columns:minmax(140px,2fr) minmax(90px,1fr) minmax(80px,1fr) minmax(90px,1fr) auto;gap:10px;align-items:end;border:1px solid #E4E0D6;border-radius:12px;padding:12px;background:#fff}
+.crow.ro{background:#F4F1EA}
+.crow label{display:block;font-size:13px;font-weight:600;color:#5A5F6E;margin-bottom:4px}
+.crow .calc{min-height:46px;display:flex;align-items:center;font-weight:700}
+.crow .calc.ro{font-weight:600;color:#454A58}
+@media (max-width:720px){.crow{grid-template-columns:1fr 1fr}.crow .x{grid-column:1/-1}}
+.panel{border:1px solid #E4E0D6;border-radius:12px;padding:16px 18px;background:#fff;display:flex;flex-direction:column;gap:8px}
+.panel .tr{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:baseline}
+.panel .tr.big{font-size:20px;font-weight:700;border-top:1px solid #E4E0D6;padding-top:10px;color:#0157AE}
+.panel .tr.hl{background:#EEF1F8;border-radius:8px;padding:8px 10px;font-weight:700}
+.panel .note{margin:0;font-size:14px;color:#5A5F6E}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:16px}
+.tbl{width:100%;border-collapse:collapse;min-width:480px}
+.tbl th,.tbl td{text-align:right;padding:8px 10px;border-bottom:1px solid #E4E0D6}
+.tbl th:first-child,.tbl td:first-child{text-align:left}
+.tbl td.rust{color:#9A3412;font-weight:700}
+.tbl th small{display:block;font-weight:600;color:#5A5F6E}
+.scroll{overflow-x:auto}
+.big-n{font:700 26px var(--sans);color:#0157AE}
+.stack{display:flex;flex-direction:column;align-items:flex-end;gap:10px;text-align:right}
+.stack small{display:block;font-size:14px;font-weight:600;color:#5A5F6E}
+.dirty{font-weight:600;color:#7A4B00}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</div></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Program Chair</span>
+<h1 id="pg-title" style="margin:0">Workshop Fee Analysis</h1><p class="stat-line">What the workshop costs per person, and how a subsidy changes it, to help set the fee.</p></div>
+</div></section>
+<div class="mwrap" style="max-width:900px" id="content">
+<a class="backlink" id="back-edit" href="program-edit.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg><span>Back to <span id="mon-h">this month</span> on Add/Edit a Month</span></a>
+<p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
+<p id="loading" role="status" style="margin:0">Loading&hellip;</p>
+
+<section class="card2 hidden" id="card" aria-labelledby="fa-h">
+<div><h2 id="fa-h">Fee Analysis</h2><p class="hint">Use this to help choose the workshop fee. It starts from the total cost of the workshop and shows the fee that would cover it at the average attendance. Not shown to members.</p></div>
+
+<div class="panel">
+<div class="tr"><span>Total cost of the workshop <small style="color:#5A5F6E">(from the <a id="clink" href="workshop-costs.html">Workshop Cost Analysis</a>)</small></span><b id="a-total">$0.00</b></div>
+<div class="tr"><span>Maximum Workshop Subsidy <small style="color:#5A5F6E" id="a-setby"></small></span><b id="a-pct">0%</b></div>
+<div class="tr hl"><span>Maximum subsidy</span><span id="a-max">$0.00</span></div>
+<p class="note">Maximum subsidy = total cost of the workshop &times; the Maximum Workshop Subsidy percent: the most the Guild will put toward this workshop.</p></div>
+
+<div class="panel">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap">
+<div style="flex:1 1 240px;max-width:340px"><label class="l" for="att">Average workshop attendance</label>
+<input class="field" id="att" inputmode="numeric" maxlength="4" autocomplete="off">
+<p class="hint">How many people usually attend one of our workshops. Saved for all workshops.</p>
+<div style="margin-top:8px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button type="button" class="nbtn" id="att-save">Save attendance</button><span id="att-msg" role="status" style="font-weight:600"></span></div></div>
+<div class="stack"><div><small>Fee to break even at this attendance</small><span class="big-n" id="f-be">&mdash;</span></div>
+<div><small>Fee to break even if the Guild pays the maximum subsidy</small><span class="big-n" id="f-bes">&mdash;</span></div></div>
+</div></div>
+
+<div class="panel"><h3 style="margin:0;font-size:17px" id="sub-h">Guild subsidy by attendance</h3>
+<p class="note">The fees are the two break-even fees above, rounded to the nearest $5. A row shows what the Guild would put in at that attendance: total cost minus fee &times; attendees, never below $0.00.</p>
+<div class="scroll"><table class="tbl"><caption class="hidden">Guild subsidy by number of attendees</caption><thead><tr><th scope="col">Attendees</th>
+<th scope="col">Guild subsidy at the break-even fee<small id="h1"></small></th>
+<th scope="col">Guild subsidy at the break-even fee with the maximum subsidy<small id="h2"></small></th></tr></thead><tbody id="rows"></tbody></table></div>
+<p class="note">A figure in rust is above the maximum subsidy.</p></div>
+</section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+
+QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president')||c.has('program_chair');}},function(c){
+  var $=function(i){return document.getElementById(i)};
+  var sb=QGPC.sb,MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var q=(location.search.match(/[?&]m=(\d{4})-(\d{2})/)||[]);
+  if(!q[1]||+q[2]<1||+q[2]>12){location.href='program-planning.html';return;}
+  var mkey=q[1]+'-'+q[2]+'-01',mq=q[1]+'-'+q[2],title=MON[+q[2]-1]+' '+q[1];
+  $('mon-h').textContent=title;document.title=$('pg-title').textContent+' · '+title;
+  $('back-edit').href='program-edit.html?m='+mq;
+  function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
+  function n(v){var x=parseFloat(String(v==null?'':v).replace(/[$,\s]/g,''));return isFinite(x)&&x>0?x:0;}
+  function pct(v){return Math.min(n(v),100);}
+  function money(x){return '$'+(Math.round(x*100)/100).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+  function okNum(v){v=String(v==null?'':v).replace(/[$,\s]/g,'');return v===''||/^\d{1,7}(\.\d{1,2})?$/.test(v);}
+  function say(t,cls){var s=$('status');s.textContent=t;s.className='msg '+(cls||'ok');s.style.margin='0';s.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  var dirty=false;
+  function setDirty(d){dirty=d;var e=$('dirty');if(e)e.classList.toggle('hidden',!d);}
+  window.addEventListener('beforeunload',function(e){if(dirty){e.preventDefault();e.returnValue='';}});
+
+  $('clink').href='workshop-costs.html?m='+mq;
+  var total=0,maxPct=0,maxSub=0;
+  function r5(x){return Math.round(x/5)*5;}
+  function att(){var v=parseInt(String($('att').value).replace(/[^\d]/g,''),10);return isFinite(v)&&v>0?v:0;}
+  function draw(){
+    maxSub=total*maxPct/100;
+    $('a-total').textContent=money(total);$('a-pct').textContent=(+maxPct)+'%';$('a-max').textContent=money(maxSub);
+    var a=att(),fe=a?total/a:null,fs=a?Math.max(total-maxSub,0)/a:null;
+    $('f-be').textContent=fe===null?'—':money(fe);$('f-bes').textContent=fs===null?'—':money(fs);
+    var f1=fe===null?null:r5(fe),f2=fs===null?null:r5(fs);
+    $('h1').textContent=f1===null?'':'fee '+money(f1).replace('.00','');$('h2').textContent=f2===null?'':'fee '+money(f2).replace('.00','');
+    var tb=$('rows');tb.textContent='';
+    [10,12,14,16,18,20].forEach(function(cnt){
+      var tr=el('tr');tr.appendChild(el('td',null,String(cnt)));
+      [f1,f2].forEach(function(f){
+        if(f===null){tr.appendChild(el('td',null,'—'));return;}
+        var s=Math.max(total-f*cnt,0);
+        tr.appendChild(el('td',s>maxSub+0.004?'rust':null,money(s)));
+      });
+      tb.appendChild(tr);
+    });
+  }
+  $('att').addEventListener('input',draw);
+  $('att-save').onclick=function(){
+    var v=att(),m=$('att-msg');
+    if(!v){m.textContent='Please type a whole number above zero.';return;}
+    var b=this;b.disabled=true;
+    sb.rpc('set_avg_attendance',{p_n:v}).then(function(r){
+      b.disabled=false;m.textContent=r.error?'That did not save. Please try again.':'Saved.';
+    });
+  };
+  Promise.all([sb.rpc('workshop_total_cost',{p_month:mkey}),sb.from('workshop_settings').select('*').eq('id',1).limit(1)]).then(function(rs){
+    $('loading').classList.add('hidden');
+    if(rs[0].error||rs[1].error){say('Could not load the figures. Please refresh and try again.','err');return;}
+    total=+rs[0].data||0;var st=(rs[1].data&&rs[1].data[0])||{};
+    maxPct=+st.max_subsidy_pct||0;
+    $('att').value=st.avg_attendance||'';
+    if(c.isAdmin){var s=$('a-setby');s.textContent='(set on ';var l=el('a',null,'Workshop Settings');l.href='workshop-settings.html';s.appendChild(l);s.appendChild(document.createTextNode(')'));}
+    else $('a-setby').textContent='(set by an Administrator)';
+    $('card').classList.remove('hidden');draw();
+  });
+});
+
+</script>
+</body></html>

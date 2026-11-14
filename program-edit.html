@@ -24,6 +24,9 @@
 .pi .side{flex:1 1 240px;display:flex;flex-direction:column;gap:8px;min-width:0}
 .pi .main{font-size:13px;font-weight:700;color:#1E5A33}
 .drop{border:2px dashed #9AA6C4;border-radius:12px;padding:10px 18px;font-weight:600;color:#0157AE;cursor:pointer;display:inline-flex;min-height:44px;align-items:center;background:#F4F6FB}
+.costrow{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+.tile2{border:1px solid #E4E0D6;border-radius:12px;background:#EEF1F8;padding:10px 16px;display:flex;flex-direction:column;gap:2px}
+.tile2 span{font-size:14px;font-weight:600;color:#454A58}.tile2 b{font-size:24px;color:#0157AE}.tile2 small{font-size:13px;color:#5A5F6E}
 .stat{border-radius:12px;background:#EEF1F8;padding:12px 16px;font-size:15px}
 </style>
 </head><body>
@@ -47,6 +50,8 @@
 <form class="nform hidden" id="form" novalidate>
 
 <h2>Monthly program</h2>
+<div class="costrow hidden" id="pc-row"><div class="tile2"><span>Total cost of the program</span><b id="pc-total">$0.00</b><small>Not shown to members.</small></div><a class="nbtn" id="pc-btn" href="program-costs.html">Perform a Program Cost Analysis</a></div>
+<p class="hint hidden" id="pc-hint">Save this month first, then you can enter its costs.</p>
 <div class="two">
 <div><label class="l" for="p-date">Date</label><input class="field" type="date" id="p-date"></div>
 <div><label class="l" for="p-time">Time</label><input class="field" id="p-time" maxlength="60" placeholder="e.g., 6:30 PM"></div>
@@ -70,6 +75,8 @@
 <h2>Workshop</h2>
 <label class="chk"><input type="checkbox" id="has-ws"> There is a workshop this month</label>
 <div id="ws-box" class="hidden" style="display:none;flex-direction:column;gap:16px">
+<div class="costrow hidden" id="wc-row"><div class="tile2"><span>Total cost of the workshop</span><b id="wc-total">$0.00</b><small>Not shown to members.</small></div>
+<div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end"><a class="nbtn" id="wc-btn" href="workshop-costs.html">Perform Workshop Cost Analysis</a><a class="nbtn" id="wf-btn" href="workshop-fee.html">Perform Workshop Fee Analysis</a></div></div>
 <div class="radios" role="radiogroup" aria-label="Workshop speaker">
 <label><input type="radio" name="wsame" id="ws-same" value="1" checked> Same speaker as the program</label>
 <label><input type="radio" name="wsame" id="ws-other" value="0"> A different speaker</label></div>
@@ -200,6 +207,13 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
     $('st-pub').checked=d.status==='published';$('st-draft').checked=d.status!=='published';
     toggles();
     $('f-del').classList.toggle('hidden',!r);
+    $('pc-row').classList.toggle('hidden',!r);$('pc-hint').classList.toggle('hidden',!!r);$('wc-row').classList.toggle('hidden',!r);
+    if(r){
+      var mq=mkey.slice(0,7);$('pc-btn').href='program-costs.html?m='+mq;$('wc-btn').href='workshop-costs.html?m='+mq;$('wf-btn').href='workshop-fee.html?m='+mq;
+      function usd(x){return '$'+(Math.round(x*100)/100).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+      sb.rpc('program_total_cost',{p_month:mkey}).then(function(x){if(!x.error&&x.data!==null)$('pc-total').textContent=usd(+x.data);});
+      sb.rpc('workshop_total_cost',{p_month:mkey}).then(function(x){if(!x.error&&x.data!==null)$('wc-total').textContent=usd(+x.data);});
+    }
     $('loading').classList.add('hidden');$('form').classList.remove('hidden');
   }
   function toggles(){show('ws-box',$('has-ws').checked,'flex');show('ws-spk-box',$('has-ws').checked&&$('ws-other').checked,'block');}

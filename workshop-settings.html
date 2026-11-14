@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Workshop Settings</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.card2{border:1px solid #E4E0D6;border-radius:14px;padding:20px 22px;background:#FAF8F3;display:flex;flex-direction:column;gap:16px}
+.card2 h2{margin:0;font:400 22px 'Young Serif',Georgia,serif}
+.card2 .hint{margin:4px 0 0;font-size:14px;color:#5A5F6E}
+.card2 label.l{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;text-decoration:none}
+.nbtn.solid{background:#0157AE;color:#fff}
+.nbtn.del{border-color:#9A3412;color:#9A3412}
+.clist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.crow{display:grid;grid-template-columns:minmax(140px,2fr) minmax(90px,1fr) minmax(80px,1fr) minmax(90px,1fr) auto;gap:10px;align-items:end;border:1px solid #E4E0D6;border-radius:12px;padding:12px;background:#fff}
+.crow.ro{background:#F4F1EA}
+.crow label{display:block;font-size:13px;font-weight:600;color:#5A5F6E;margin-bottom:4px}
+.crow .calc{min-height:46px;display:flex;align-items:center;font-weight:700}
+.crow .calc.ro{font-weight:600;color:#454A58}
+@media (max-width:720px){.crow{grid-template-columns:1fr 1fr}.crow .x{grid-column:1/-1}}
+.panel{border:1px solid #E4E0D6;border-radius:12px;padding:16px 18px;background:#fff;display:flex;flex-direction:column;gap:8px}
+.panel .tr{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:baseline}
+.panel .tr.big{font-size:20px;font-weight:700;border-top:1px solid #E4E0D6;padding-top:10px;color:#0157AE}
+.panel .tr.hl{background:#EEF1F8;border-radius:8px;padding:8px 10px;font-weight:700}
+.panel .note{margin:0;font-size:14px;color:#5A5F6E}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:16px}
+.tbl{width:100%;border-collapse:collapse;min-width:480px}
+.tbl th,.tbl td{text-align:right;padding:8px 10px;border-bottom:1px solid #E4E0D6}
+.tbl th:first-child,.tbl td:first-child{text-align:left}
+.tbl td.rust{color:#9A3412;font-weight:700}
+.tbl th small{display:block;font-weight:600;color:#5A5F6E}
+.scroll{overflow-x:auto}
+.big-n{font:700 26px var(--sans);color:#0157AE}
+.stack{display:flex;flex-direction:column;align-items:flex-end;gap:10px;text-align:right}
+.stack small{display:block;font-size:14px;font-weight:600;color:#5A5F6E}
+.dirty{font-weight:600;color:#7A4B00}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</div></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Site Administration</span>
+<h1 id="pg-title" style="margin:0">Workshop Settings</h1><p class="stat-line">The most the Guild will subsidize a workshop, and the fee for non-members.</p></div>
+</div></section>
+<div class="mwrap" style="max-width:800px" id="content">
+<a class="backlink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to Home</a>
+<p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
+<p id="loading" role="status" style="margin:0">Loading&hellip;</p>
+<form class="card2 hidden" id="sub-form" novalidate>
+<div><h2>Maximum Workshop Subsidy</h2><p class="hint">The most the Guild will put toward one workshop, as a percent of that workshop&rsquo;s total cost. The Program Chair sees the dollar amount on the Workshop Fee Analysis. Not shown to members.</p></div>
+<div style="max-width:220px"><label class="l" for="pct">Maximum Workshop Subsidy (%)</label><input class="field" id="pct" inputmode="decimal" maxlength="6" autocomplete="off">
+<p class="hint">A number from 0 to 100. For example, 20 means the Guild will cover up to one fifth of a workshop&rsquo;s total cost.</p></div>
+<p class="hint" id="ex" style="margin:0"></p>
+<p id="sub-err" class="msg err hidden" role="alert" style="margin:0"></p>
+<div class="saverow"><button type="submit" class="btn-save" id="sub-save">Save subsidy</button></div>
+</form>
+<form class="card2 hidden" id="nm-form" novalidate>
+<div><h2>Non-member fee</h2><p class="hint">One fee for the whole calendar year. It applies to every workshop held that year.</p></div>
+<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><button type="button" class="nbtn" id="yprev" aria-label="Earlier year">&larr;</button><b id="yr" style="font-size:20px;min-width:70px;text-align:center"></b><button type="button" class="nbtn" id="ynext" aria-label="Later year">&rarr;</button></div>
+<div style="max-width:220px"><label class="l" for="nm" id="nm-l">Non-member fee ($)</label><input class="field" id="nm" inputmode="decimal" maxlength="8" autocomplete="off"></div>
+<p id="nm-err" class="msg err hidden" role="alert" style="margin:0"></p>
+<div class="saverow"><button type="submit" class="btn-save" id="nm-save">Save non-member fee</button></div>
+</form>
+<section style="display:flex;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8"><div><h2 style="margin:0 0 4px;font-size:16px;font-weight:700;color:#0157AE">Who can use this page</h2><p style="margin:0;font-size:15px;line-height:1.5;color:#1F2433">Administrators and the Superuser.</p></div></section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+
+QGPCShell.start({need:function(c){return c.isAdmin;}},function(c){
+  var $=function(i){return document.getElementById(i)};
+  var sb=QGPC.sb,fees={},year=+new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric'}).format(new Date());
+  var minY=year-1,maxY=year+9;
+  function say(t,cls){var s=$('status');s.textContent=t;s.className='msg '+(cls||'ok');s.style.margin='0';s.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  function money(x){return '$'+(Math.round(x*100)/100).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+  function ex(){var p=parseFloat($('pct').value);p=isFinite(p)?Math.min(Math.max(p,0),100):0;$('ex').textContent='For example, on a $530.00 workshop the maximum subsidy would be '+money(530*p/100)+'.';}
+  $('pct').addEventListener('input',ex);
+  $('sub-form').addEventListener('submit',function(e){
+    e.preventDefault();var er=$('sub-err');er.classList.add('hidden');
+    var v=$('pct').value.trim().replace(/%$/,'');
+    if(v===''){v='0';}
+    if(!/^\d{1,3}(\.\d{1,2})?$/.test(v)||+v>100){er.textContent='Please type a number from 0 to 100.';er.classList.remove('hidden');$('pct').focus();return;}
+    var b=$('sub-save');b.disabled=true;
+    sb.from('workshop_settings').update({max_subsidy_pct:+v}).eq('id',1).select().then(function(r){
+      b.disabled=false;
+      if(r.error||!r.data||!r.data.length){er.textContent='That did not save. Please try again.';er.classList.remove('hidden');return;}
+      $('pct').value=String(+v);ex();say('Saved. The Maximum Workshop Subsidy is '+(+v)+'% of a workshop’s total cost.');
+    });
+  });
+  function drawYear(){
+    $('yr').textContent=year;$('nm-l').textContent='Non-member fee for '+year+' ($)';
+    $('nm').value=fees[year]!==undefined?String(+fees[year]):'';
+    $('yprev').disabled=year<=minY;$('ynext').disabled=year>=maxY;$('nm-err').classList.add('hidden');
+  }
+  $('yprev').onclick=function(){if(year>minY){year--;$('status').classList.add('hidden');drawYear();}};
+  $('ynext').onclick=function(){if(year<maxY){year++;$('status').classList.add('hidden');drawYear();}};
+  $('nm-form').addEventListener('submit',function(e){
+    e.preventDefault();var er=$('nm-err');er.classList.add('hidden');
+    var v=$('nm').value.trim().replace(/^\$/,'');
+    if(!/^\d{1,5}(\.\d{1,2})?$/.test(v)){er.textContent='Please type the fee as a number, like 10 or 12.50.';er.classList.remove('hidden');$('nm').focus();return;}
+    var b=$('nm-save');b.disabled=true;
+    sb.from('nonmember_fees').upsert({year:year,fee:+v},{onConflict:'year'}).select().then(function(r){
+      b.disabled=false;
+      if(r.error||!r.data||!r.data.length){er.textContent='That did not save. Please try again.';er.classList.remove('hidden');return;}
+      fees[year]=+v;drawYear();say('Saved. The non-member fee for '+year+' is '+money(+v)+'.');
+    });
+  });
+  Promise.all([sb.from('workshop_settings').select('*').eq('id',1).limit(1),sb.from('nonmember_fees').select('*')]).then(function(rs){
+    $('loading').classList.add('hidden');
+    if(rs[0].error||rs[1].error){say('Could not load the settings. Please refresh and try again.','err');return;}
+    var st=(rs[0].data&&rs[0].data[0])||{};$('pct').value=st.max_subsidy_pct!==undefined?String(+st.max_subsidy_pct):'0';
+    (rs[1].data||[]).forEach(function(r){fees[r.year]=r.fee;if(r.year<minY)minY=r.year;if(r.year>maxY)maxY=r.year;});
+    $('sub-form').classList.remove('hidden');$('nm-form').classList.remove('hidden');ex();drawYear();
+  });
+});
+
+</script>
+</body></html>
