@@ -23,7 +23,12 @@
 .pc .facts{display:flex;flex-wrap:wrap;gap:8px 18px;color:#454A58;font-size:15px}
 .pc .body{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
 .pc.hasph .body{grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))}
-.pc img{width:100%;max-height:340px;object-fit:cover;border-radius:12px;border:1px solid #E4E0D6}
+.pc img{display:block;width:100%;height:auto;max-height:520px;object-fit:contain;background:#F0ECE3;border-radius:12px;border:1px solid #E4E0D6}
+.pc .gal{display:flex;flex-direction:column;gap:10px}
+.pc .gal a.main{display:block}
+.pc .thumbs{display:flex;gap:10px;flex-wrap:wrap}
+.pc .thumbs a{display:block}
+.pc .thumbs img{width:auto;height:90px;max-height:90px;border-radius:8px}
 .pc p{margin:0;line-height:1.55;white-space:pre-wrap}
 .pc a.web{font-weight:600;min-height:44px;display:inline-flex;align-items:center}
 .pills{display:flex;flex-wrap:wrap;gap:8px}
@@ -86,6 +91,16 @@
   function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
   function safeUrl(u){return /^https?:\/\//i.test(u||'')?u:null;}
   function pubUrl(p){return sb.storage.from('program-photos').getPublicUrl(p).data.publicUrl;}
+  function gallery(arr){
+    var g=el('div','gal');
+    arr.forEach(function(x,i){
+      var a=el('a',i===0?'main':null);a.href=pubUrl(x.path);a.target='_blank';a.rel='noopener noreferrer';
+      var im=el('img');im.src=pubUrl(x.path);im.alt=x.alt||'';im.loading='lazy';a.appendChild(im);
+      if(i===0){g.appendChild(a);if(arr.length>1){var t=el('div','thumbs');g.appendChild(t);}}
+      else g.lastChild.appendChild(a);
+    });
+    return g;
+  }
   function money(n){return n===null||n===undefined?null:'$'+(Math.round(n*100)%100?(+n).toFixed(2):String(Math.round(n)));}
   function longDate(d){if(!d)return null;return new Date(d+'T12:00:00Z').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric',timeZone:'UTC'});}
   function shortDate(d){var p=d.split('-');return MON[+p[1]-1].slice(0,3)+' '+(+p[2]);}
@@ -129,7 +144,7 @@
   function fact(box,label,val){if(!val)return;var s=el('span');s.appendChild(el('b',null,label+': '));s.appendChild(document.createTextNode(val));box.appendChild(s);}
   function para(box,head,text){if(!text)return;box.appendChild(el('h3',null,head));box.appendChild(el('p',null,text));}
   function drawProgram(r){
-    var s=$('prog');s.textContent='';s.classList.toggle('hasph',!!r.prog_photo);
+    var s=$('prog');s.textContent='';s.classList.toggle('hasph',!!(r.prog_photos&&r.prog_photos.length));
     s.appendChild(el('span','ey','Monthly program'));
     if(r.status!=='published')s.appendChild(el('span','dr','Draft: only planners can see this'));
     var h=el('h2',null,r.prog_title||'Program to be announced');h.id='pr-t';s.appendChild(h);
@@ -140,7 +155,7 @@
     para(tx,'About the program',r.prog_about);para(tx,'About the speaker',r.prog_bio);
     var u=safeUrl(r.prog_site);
     if(u){var a=el('a','web',"Visit the speaker’s website");a.href=u;a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label',"Visit the speaker’s website (opens in a new tab)");tx.appendChild(a);}
-    if(r.prog_photo){var im=el('img');im.src=pubUrl(r.prog_photo);im.alt=r.prog_photo_alt||'';im.loading='lazy';body.appendChild(im);}
+    if(r.prog_photos&&r.prog_photos.length)body.appendChild(gallery(r.prog_photos));
     if(tx.childNodes.length)body.appendChild(tx);
     if(body.childNodes.length)s.appendChild(body);
     s.classList.remove('hidden');
@@ -148,7 +163,7 @@
   function drawWorkshop(r){
     var s=$('ws');s.textContent='';
     if(!r.has_workshop){s.classList.add('hidden');return;}
-    s.classList.toggle('hasph',!!r.ws_photo);
+    s.classList.toggle('hasph',!!(r.ws_photos&&r.ws_photos.length));
     s.appendChild(el('span','ey','Workshop'));
     if(r.status!=='published')s.appendChild(el('span','dr','Draft: only planners can see this'));
     var h=el('h2',null,r.ws_title||'Workshop to be announced');h.id='wk-t';s.appendChild(h);
@@ -165,7 +180,7 @@
     if(f.childNodes.length)s.appendChild(f);
     var body=el('div','body'),tx=el('div');tx.style.cssText='display:flex;flex-direction:column;gap:12px';
     para(tx,'About the workshop',r.ws_desc);para(tx,'What the kit includes',r.ws_kit_desc);
-    if(r.ws_photo){var im=el('img');im.src=pubUrl(r.ws_photo);im.alt=r.ws_photo_alt||'';im.loading='lazy';body.appendChild(im);}
+    if(r.ws_photos&&r.ws_photos.length)body.appendChild(gallery(r.ws_photos));
     if(tx.childNodes.length)body.appendChild(tx);
     if(body.childNodes.length)s.appendChild(body);
     s.appendChild(el('p','soon','Online sign-up for workshops is coming soon. Watch this page and your Guild emails.'));
