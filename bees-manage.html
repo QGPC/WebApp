@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Manage the Bees</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.nbtn:disabled{opacity:.45;cursor:default}
+.nbtn.del{border-color:#9A3412;color:#9A3412}
+.nbtn.solid{background:#0157AE;color:#fff}
+.cqc{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+.cqc>h2,.cqh h2{margin:0;font:400 24px 'Young Serif',Georgia,serif}
+.cqh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sub{margin:2px 0 0;color:#5A5F6E;font-size:15px}
+.cbadge{min-width:26px;height:26px;padding:0 8px;border-radius:999px;background:#E87446;color:#1F2433;font-weight:700;font-size:14px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box}
+.pl{font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;white-space:nowrap}
+.pl.gray{background:#F0ECE3;color:#454A58}
+.pl.new{background:#E87446;color:#1F2433}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer}
+.seg button[aria-pressed=true]{background:#0157AE;color:#fff}
+.confirm{background:#FCEEE9;border-radius:10px;padding:12px 14px}.confirm p{margin:0 0 10px;font-weight:600;color:#9A3412}
+.infobox{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8}
+.infobox h2{margin:0 0 4px;font-size:16px;font-weight:700;color:#0157AE}.infobox p{margin:0;font-size:15px;line-height:1.5;color:#1F2433}
+.blue-note{border:2px solid #0157AE;border-radius:14px;padding:16px 18px;background:#F4F6FB;display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.blue-note h3{margin:0;font-size:17px}.blue-note ul{margin:8px 0 0;padding-left:20px;line-height:1.5}
+.empty{margin:0;padding:14px 16px;border-radius:12px;background:#F0ECE3;color:#454A58}
+.toplinks{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.dl2{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:15px}.dl2 dt{font-weight:700;color:#5A5F6E}.dl2 dd{margin:0}
+.lbl{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+
+.nl-tell{display:flex;gap:14px;align-items:center;text-decoration:none;color:inherit;border:2px solid #0157AE;background:#fff;border-radius:16px;padding:14px 18px}
+.nl-tell b{display:block;font-size:18px}.nl-tell .d{color:#5A5F6E;font-size:15px}
+.pe{border:1px solid #E4E0D6;border-radius:16px;background:#fff;padding:18px;display:grid;grid-template-columns:220px 1fr;gap:18px}
+@media(max-width:700px){.pe{grid-template-columns:1fr}}
+.pe .ph{aspect-ratio:16/9;background:#E9E4D8;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#7a7466;font-size:14px;text-align:center}
+.pe .ph img{width:100%;height:100%;object-fit:cover}
+.pe .fl{display:flex;flex-direction:column;gap:12px;min-width:0}
+.pe .pick{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.pe .pick span.fn{font-size:13px;color:#5A5F6E;overflow-wrap:anywhere}
+.pe .btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.pe .ctb{border:1px solid #E4E0D6;border-radius:12px;padding:12px;background:#FAF8F3;display:flex;flex-direction:column;gap:10px}
+.pe .ctb>b{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5A5F6E}
+.filebtn{position:relative;overflow:hidden}.filebtn input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.filebtn:focus-within{outline:3px solid rgba(1,87,174,.35);outline-offset:2px}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions"><a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a><span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span><button type="button" class="pill out" id="out">Sign out</button></div>
+</div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Bees Chair</span>
+<h1 id="pg-title" style="margin:0">Bees Manager</h1><p class="stat-line" id="lead">Add, update and remove the Guild&rsquo;s bees, their photos and contact people.</p></div>
+
+</div></section>
+<div class="mwrap" style="max-width:1000px;gap:22px" id="content">
+
+<a class="nl-tell" href="whats-new-manage.html?page=bees"><span><b>Tell members what changed</b><span class="d">Post a short note to the What&rsquo;s New button on the home page, with a link to the Bees page.</span></span></a>
+<div class="toplinks"><a class="nbtn" href="bees.html">See the Bees page &rarr;</a></div>
+<p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
+<section class="cqc" aria-labelledby="bt"><div class="cqh"><div><h2 id="bt">Our bees</h2><p class="sub">Press Save on a bee after you change it. The Bees page is public, so what you type here, including the contact person&rsquo;s email and phone, can be seen by visitors.</p></div>
+<button class="btn-save" id="add" type="button">Add a bee</button></div>
+<p id="loading" role="status" style="margin:0">Loading&hellip;</p>
+<p class="empty hidden" id="none">No bees yet. Choose &ldquo;Add a bee&rdquo; to start the list.</p>
+<div id="list" style="display:flex;flex-direction:column;gap:16px"></div></section>
+<section class="infobox"><div><h2>Who can use this page</h2><p>The Bees Chair, Administrators and the Superuser. Photos are shrunk to a web size when you upload them (JPG or PNG). Mark a bee &ldquo;Full&rdquo; when it can&rsquo;t take new members; it stays on the page and is left out of the &ldquo;Open to new members&rdquo; view.</p></div></section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/comfort.js"></script>
+<script>
+QGPCShell.start({need:function(c){return c.has('beekeeper')||c.isAdmin;}},function(ctx){
+  var $=function(i){return document.getElementById(i)};
+  var C=QGPCComfort,sb=QGPC.sb,el=C.el,B='bees';
+  var bees=[],confirmId=null,fresh=[];
+  function say(t,bad){var n=$('status');n.textContent=t;n.className='msg '+(bad?'err':'ok');n.style.margin='0';n.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  function pubUrl(p){return sb.storage.from(B).getPublicUrl(p).data.publicUrl;}
+  function load(){
+    return sb.from('bees').select('*').order('sort_order').order('name').then(function(r){
+      $('loading').classList.add('hidden');
+      if(r.error){say('Could not load the bees. Please refresh and try again.',true);return;}
+      bees=r.data||[];draw();
+    });
+  }
+  var seq=0;
+  function field(label,node){var d=el('div'),l=el('label','lbl',label);var id='bf'+(++seq);node.id=id;l.htmlFor=id;d.appendChild(l);d.appendChild(node);return d;}
+  function inp(v,max,type,ph){var i=el('input','field');i.type=type||'text';i.maxLength=max;i.value=v||'';if(ph)i.placeholder=ph;return i;}
+  function card(b){
+    var isNew=!b.id,st={photo:null,removePhoto:false};
+    var w=el('div','pe'),left=el('div'),ph=el('div','ph');
+    var nm=inp(b.name,80);
+    function showPhoto(src){ph.textContent='';if(src){var im=el('img');im.src=src;im.alt='Photo of the '+(nm.value||'new')+' bee';ph.appendChild(im);}else ph.textContent='No photo (optional)';}
+    left.appendChild(ph);
+    var pick=el('div','pick'),pl=el('label','nbtn filebtn',b.photo_path?'Replace the photo':'Choose a photo'),pi=el('input');pi.type='file';pi.accept='image/jpeg,image/png';pl.appendChild(pi);pick.appendChild(pl);
+    var pfn=el('span','fn',b.photo_path?'A photo is saved':'No photo chosen');pick.appendChild(pfn);
+    var rp=null;
+    if(b.photo_path){rp=el('button','nbtn del','Remove the photo');rp.type='button';rp.onclick=function(){st.removePhoto=true;st.photo=null;showPhoto(null);pfn.textContent='The photo will be removed when you save';rp.classList.add('hidden');};pick.appendChild(rp);}
+    left.appendChild(pick);
+    pi.onchange=function(){var f=pi.files[0];if(!f)return;st.photo=f;st.removePhoto=false;pfn.textContent=f.name+' (not saved yet)';showPhoto(URL.createObjectURL(f));};
+    w.appendChild(left);
+    var right=el('div','fl');
+    right.appendChild(field('Bee name',nm));
+    var rw=el('div','row2');
+    var wh=inp(b.meets_when,120,'text','e.g., 2nd Thursday, 6:30 – 8:30 pm'),wr=inp(b.meets_where,160,'text','e.g., Library meeting room, Aledo');
+    rw.appendChild(field('When it meets',wh));rw.appendChild(field('Where it meets',wr));right.appendChild(rw);
+    var op=el('div'),ol=el('span','lbl','New members');op.appendChild(ol);
+    var seg=el('div','seg');seg.setAttribute('role','group');seg.setAttribute('aria-label','New members');
+    var isOpen=b.id?!!b.is_open:true,bo=el('button',null,'Open'),bf=el('button',null,'Full');bo.type=bf.type='button';
+    function sync(){bo.setAttribute('aria-pressed',isOpen);bf.setAttribute('aria-pressed',!isOpen);}
+    bo.onclick=function(){isOpen=true;sync();};bf.onclick=function(){isOpen=false;sync();};sync();seg.appendChild(bo);seg.appendChild(bf);op.appendChild(seg);right.appendChild(op);
+    var ab=el('textarea','field');ab.rows=3;ab.maxLength=600;ab.value=b.about||'';right.appendChild(field('About this bee',ab));
+    var ctb=el('div','ctb');ctb.appendChild(el('b',null,'Contact person'));
+    var cn=inp(b.contact_name,80),ce=inp(b.contact_email,120,'email'),cp=inp(b.contact_phone,40,'tel');
+    var r3=el('div','row2');r3.appendChild(field('Name',cn));r3.appendChild(field('Email',ce));r3.appendChild(field('Phone',cp));ctb.appendChild(r3);right.appendChild(ctb);
+    var btns=el('div','btns'),sv=el('button','btn-save',isNew?'Save bee':'Save changes');sv.type='button';btns.appendChild(sv);
+    if(isNew){var cc=el('button','btn-cancel','Cancel');cc.type='button';cc.onclick=function(){fresh.splice(fresh.indexOf(b),1);draw();};btns.appendChild(cc);}
+    else{var rm=el('button','nbtn del','Remove this bee');rm.type='button';rm.onclick=function(){confirmId=b.id;draw();};btns.appendChild(rm);}
+    right.appendChild(btns);
+    if(confirmId===b.id){
+      var cf=el('div','confirm');cf.appendChild(el('p',null,'Remove “'+b.name+'” from the Bees page? This can’t be undone.'));
+      var r2=el('div','saverow'),y=el('button','btn-del solid','Yes, remove');y.type='button';var k=el('button','btn-cancel','Keep it');k.type='button';
+      k.onclick=function(){confirmId=null;draw();};
+      y.onclick=function(){y.disabled=true;
+        var gone=b.photo_path?sb.storage.from(B).remove([b.photo_path]):Promise.resolve();
+        gone.then(function(){return sb.from('bees').delete().eq('id',b.id);}).then(function(r){confirmId=null;if(r.error)say('That did not remove. Please try again.',true);else say('Removed “'+b.name+'”.');load();});};
+      r2.appendChild(y);r2.appendChild(k);cf.appendChild(r2);right.appendChild(cf);
+    }
+    var er=el('p','msg err hidden');er.setAttribute('role','alert');er.style.margin='0';right.appendChild(er);
+    function fail(t){er.textContent=t;er.classList.remove('hidden');}
+    sv.onclick=function(){
+      er.classList.add('hidden');
+      var name=nm.value.trim();if(!name)return fail('Please type the bee’s name.');
+      var email=ce.value.trim();if(email&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return fail('That email address doesn’t look right.');
+      sv.disabled=true;
+      var rec={name:name,meets_when:wh.value.trim()||null,meets_where:wr.value.trim()||null,about:ab.value.trim()||null,is_open:isOpen,
+        contact_name:cn.value.trim()||null,contact_email:email||null,contact_phone:cp.value.trim()||null},oldFile=null;
+      var up=Promise.resolve();
+      if(st.photo)up=up.then(function(){return C.shrink(st.photo,1400);}).then(function(blob){
+        if(blob.size<=2000000)return blob;return C.shrink(st.photo,900);
+      }).then(function(blob){
+        if(blob.size>2000000)throw new Error('That photo is still too large after shrinking.');
+        var path=C.uuid()+'.jpg';
+        return sb.storage.from(B).upload(path,blob,{contentType:'image/jpeg'}).then(function(r){if(r.error)throw r.error;if(b.photo_path)oldFile=b.photo_path;rec.photo_path=path;});
+      });
+      else if(st.removePhoto&&b.photo_path){rec.photo_path=null;oldFile=b.photo_path;}
+      up.then(function(){return isNew?sb.from('bees').insert(rec):sb.from('bees').update(rec).eq('id',b.id);}).then(function(r){
+        if(r.error)throw r.error;
+        if(oldFile)sb.storage.from(B).remove([oldFile]);
+        if(isNew)fresh.splice(fresh.indexOf(b),1);
+        say('Saved. “'+name+'” is on the Bees page.');load();
+      }).catch(function(e){sv.disabled=false;fail('That did not save. '+(e&&e.message?e.message+' ':'')+'Please try again.');});
+    };
+    w.appendChild(right);
+    showPhoto(b.photo_path?pubUrl(b.photo_path):null);
+    return w;
+  }
+  function draw(){
+    var box=$('list');box.textContent='';
+    fresh.forEach(function(b){box.appendChild(card(b));});
+    bees.forEach(function(b){box.appendChild(card(b));});
+    $('none').classList.toggle('hidden',bees.length+fresh.length>0);
+  }
+  $('add').onclick=function(){fresh.unshift({});draw();var f=document.querySelector('#list .field');if(f)f.focus();};
+  load();
+});
+</script>
+</body></html>

@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bees</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.nbtn:disabled{opacity:.45;cursor:default}
+.nbtn.del{border-color:#9A3412;color:#9A3412}
+.nbtn.solid{background:#0157AE;color:#fff}
+.cqc{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+.cqc>h2,.cqh h2{margin:0;font:400 24px 'Young Serif',Georgia,serif}
+.cqh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sub{margin:2px 0 0;color:#5A5F6E;font-size:15px}
+.cbadge{min-width:26px;height:26px;padding:0 8px;border-radius:999px;background:#E87446;color:#1F2433;font-weight:700;font-size:14px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box}
+.pl{font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;white-space:nowrap}
+.pl.gray{background:#F0ECE3;color:#454A58}
+.pl.new{background:#E87446;color:#1F2433}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer}
+.seg button[aria-pressed=true]{background:#0157AE;color:#fff}
+.confirm{background:#FCEEE9;border-radius:10px;padding:12px 14px}.confirm p{margin:0 0 10px;font-weight:600;color:#9A3412}
+.infobox{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8}
+.infobox h2{margin:0 0 4px;font-size:16px;font-weight:700;color:#0157AE}.infobox p{margin:0;font-size:15px;line-height:1.5;color:#1F2433}
+.blue-note{border:2px solid #0157AE;border-radius:14px;padding:16px 18px;background:#F4F6FB;display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.blue-note h3{margin:0;font-size:17px}.blue-note ul{margin:8px 0 0;padding-left:20px;line-height:1.5}
+.empty{margin:0;padding:14px 16px;border-radius:12px;background:#F0ECE3;color:#454A58}
+.toplinks{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.dl2{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:15px}.dl2 dt{font-weight:700;color:#5A5F6E}.dl2 dd{margin:0}
+.lbl{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+
+.bgrid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr));gap:20px}
+.bcard{display:flex;flex-direction:column;background:#fff;border:1px solid #E4E0D6;border-radius:18px;overflow:hidden}
+.bcard .ph{aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;background:#EEF1F8;color:#0157AE;overflow:hidden}
+.bcard .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.bcard .in{padding:18px 20px 20px;display:flex;flex-direction:column;gap:12px;flex:1 1 auto}
+.bcard h3{margin:0;font:400 22px/1.2 'Young Serif',Georgia,serif}
+.bcard .top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.bcard p{margin:0;font-size:15px;line-height:1.5;color:#454A58;overflow-wrap:anywhere}
+.bcard .mt{display:flex;flex-direction:column;gap:6px;font-size:15px}
+.bcard .mt span{display:flex;gap:8px;align-items:flex-start}.bcard .mt svg{color:#0157AE;flex:0 0 auto;margin-top:2px}
+.bcard .ct{margin-top:auto;display:flex;flex-direction:column;gap:6px;padding:12px 14px;border-radius:12px;background:#FAF8F3;border:1px solid #EDEAE2}
+.bcard .ct small{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5A5F6E}
+.bcard .ct b{font-size:16px}.bcard .ct .ln{display:flex;gap:6px 16px;flex-wrap:wrap}
+.bcard .ct a{min-height:36px;display:inline-flex;align-items:center;font-size:15px;font-weight:600;color:#0157AE;overflow-wrap:anywhere}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="index.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions"><a class="homelink" id="homelink" href="index.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a></div>
+</div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Sew together</span>
+<h1 id="pg-title" style="margin:0">Bees</h1><p class="stat-line" id="lead">Small groups of members who meet regularly to sew, share and learn. Reach out to a bee&rsquo;s contact to visit or join.</p><div style="margin-top:8px"><a class="nbtn hidden" id="edit" href="bees-manage.html" style="background:#fff">Edit the bees</a></div></div>
+
+</div></section>
+<div class="mwrap" style="max-width:1200px;gap:22px" id="content">
+
+<section class="cqc" aria-labelledby="bees-title" style="background:none;border:0;padding:0">
+<div class="cqh"><h2 id="bees-title">Our bees</h2>
+<div class="seg" role="group" aria-label="Show"><button type="button" id="f-all" aria-pressed="true">All bees</button><button type="button" id="f-open" aria-pressed="false">Open to new members</button></div></div>
+<p id="loading" role="status" style="margin:0">Loading&hellip;</p>
+<p class="empty hidden" id="none"></p>
+<ul class="bgrid" id="grid"></ul></section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/comfort.js"></script>
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  var C=QGPCComfort,sb=QGPC.sb,el=C.el,bees=[],show='all';
+  var IC_CLOCK='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+  var IC_PIN='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>';
+  var IC_BEE='<svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 14.5c3 0 6 2 6 5.5"/></svg>';
+  function row(icon,text){var s=el('span');s.innerHTML=icon;s.appendChild(document.createTextNode(text));return s;}
+  function draw(){
+    var g=$('grid');g.textContent='';
+    var list=bees.filter(function(b){return show==='all'||b.is_open;});
+    var n=$('none');n.classList.toggle('hidden',list.length>0);
+    n.textContent=bees.length?'No bees are open to new members right now. Check back soon, or contact the Guild.':'No bees are listed yet.';
+    list.forEach(function(b){
+      var li=el('li','bcard'),ph=el('div','ph');
+      if(b.photo_path){var im=el('img');im.alt='Photo of the '+b.name+' bee';im.loading='lazy';im.src=sb.storage.from('bees').getPublicUrl(b.photo_path).data.publicUrl;ph.appendChild(im);}
+      else{ph.setAttribute('aria-hidden','true');ph.innerHTML=IC_BEE;}
+      li.appendChild(ph);
+      var inn=el('div','in'),top=el('div','top');top.appendChild(el('h3',null,b.name));
+      top.appendChild(el('span','pl'+(b.is_open?'':' gray'),b.is_open?'Open to new members':'Full right now'));inn.appendChild(top);
+      if(b.about)inn.appendChild(el('p',null,b.about));
+      var mt=el('div','mt');if(b.meets_when)mt.appendChild(row(IC_CLOCK,b.meets_when));if(b.meets_where)mt.appendChild(row(IC_PIN,b.meets_where));
+      if(mt.childNodes.length)inn.appendChild(mt);
+      if(b.contact_name||b.contact_email||b.contact_phone){
+        var ct=el('div','ct');ct.appendChild(el('small',null,'Contact'));if(b.contact_name)ct.appendChild(el('b',null,b.contact_name));
+        var ln=el('span','ln');
+        if(b.contact_email){var a=el('a',null,b.contact_email);a.href='mailto:'+b.contact_email;ln.appendChild(a);}
+        if(b.contact_phone){var p=el('a',null,b.contact_phone);p.href='tel:'+b.contact_phone.replace(/[^0-9+]/g,'');ln.appendChild(p);}
+        if(ln.childNodes.length)ct.appendChild(ln);inn.appendChild(ct);
+      }
+      li.appendChild(inn);g.appendChild(li);
+    });
+  }
+  function pick(v){show=v;$('f-all').setAttribute('aria-pressed',v==='all');$('f-open').setAttribute('aria-pressed',v==='open');draw();}
+  $('f-all').onclick=function(){pick('all');};$('f-open').onclick=function(){pick('open');};
+  C.who().then(function(w){
+    if(w.signedIn)$('homelink').href='home.html';
+    if(w.roles.indexOf('superuser')>-1||w.roles.indexOf('administrator')>-1||w.roles.indexOf('beekeeper')>-1)$('edit').classList.remove('hidden');
+  });
+  sb.from('bees').select('*').order('sort_order').order('name').then(function(r){
+    $('loading').classList.add('hidden');
+    if(r.error){var n=$('none');n.textContent='The bees could not be loaded. Please refresh and try again.';n.classList.remove('hidden');return;}
+    bees=r.data||[];draw();
+  });
+})();
+</script>
+</body></html>
