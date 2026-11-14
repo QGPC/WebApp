@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reset the Site</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.nbtn:disabled{opacity:.45;cursor:default}
+.nbtn.del{border-color:#9A3412;color:#9A3412}
+.nbtn.solid{background:#0157AE;color:#fff}
+.cqc{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+.cqc>h2,.cqh h2{margin:0;font:400 24px 'Young Serif',Georgia,serif}
+.cqh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sub{margin:2px 0 0;color:#5A5F6E;font-size:15px}
+.cbadge{min-width:26px;height:26px;padding:0 8px;border-radius:999px;background:#E87446;color:#1F2433;font-weight:700;font-size:14px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box}
+.pl{font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;white-space:nowrap}
+.pl.gray{background:#F0ECE3;color:#454A58}
+.pl.new{background:#E87446;color:#1F2433}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer}
+.seg button[aria-pressed=true]{background:#0157AE;color:#fff}
+.confirm{background:#FCEEE9;border-radius:10px;padding:12px 14px}.confirm p{margin:0 0 10px;font-weight:600;color:#9A3412}
+.infobox{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8}
+.infobox h2{margin:0 0 4px;font-size:16px;font-weight:700;color:#0157AE}.infobox p{margin:0;font-size:15px;line-height:1.5;color:#1F2433}
+.blue-note{border:2px solid #0157AE;border-radius:14px;padding:16px 18px;background:#F4F6FB;display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.blue-note h3{margin:0;font-size:17px}.blue-note ul{margin:8px 0 0;padding-left:20px;line-height:1.5}
+.empty{margin:0;padding:14px 16px;border-radius:12px;background:#F0ECE3;color:#454A58}
+.toplinks{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.dl2{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:15px}.dl2 dt{font-weight:700;color:#5A5F6E}.dl2 dd{margin:0}
+.lbl{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+
+.ct{width:100%;border-collapse:collapse;font-size:14px}
+.ct th{text-align:left;padding:8px 10px;background:#F0ECE3;color:#454A58;font-weight:700;white-space:nowrap}
+.ct td{padding:8px 10px;border-top:1px solid #EDEAE2;vertical-align:top}
+.ct td.num{text-align:right;white-space:nowrap;font-weight:700}
+.kp{display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.45;cursor:pointer;padding:10px 12px;border:2px solid #E4E0D6;border-radius:10px;background:#FAF8F3}
+.kp input{width:20px;height:20px;margin-top:2px;accent-color:#0157AE;flex:none}
+.kp small{display:block;color:#5A5F6E;font-size:14px}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions"><a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a><span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span><button type="button" class="pill out" id="out">Sign out</button></div>
+</div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Superuser</span>
+<h1 id="pg-title" style="margin:0">Reset the Site</h1><p class="stat-line" id="lead">Clear the test information before the Guild goes live, then go live. Superuser only.</p></div>
+
+</div></section>
+<div class="mwrap" style="max-width:1000px;gap:22px" id="content">
+<a class="backlink" href="admin.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to Site Administration</a>
+<p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
+
+<section class="cqc" aria-labelledby="st-t"><div class="cqh"><div><h2 id="st-t">Site status</h2><p class="sub" id="st-sub">Loading&hellip;</p></div><span style="display:flex;gap:8px;flex-wrap:wrap"><span class="pl" style="background:#FCEEE9;color:#9A3412">Superuser only</span><span class="pl" id="modepill">&hellip;</span></span></div>
+<p id="st-explain" style="margin:0;line-height:1.5">A reset returns the site to how it was before anyone used it, so you can start fresh before the Guild goes live. It works only while the site is in testing mode, so it can never be used by accident after launch. Last reset: <b id="lastreset">never</b>.</p></section>
+
+<div id="tools">
+<section class="cqc" aria-labelledby="rm-t"><h2 id="rm-t">What a reset removes</h2>
+<div style="overflow-x:auto"><table class="ct" id="rmtab"><thead><tr><th>Information</th><th>Now on the site</th></tr></thead><tbody></tbody></table></div>
+<p class="sub" style="font-size:14px">The Superuser account is never removed. Roles, the site log and the list of earlier resets are kept.</p></section>
+
+<section class="cqc" aria-labelledby="kp-t"><h2 id="kp-t">What to keep</h2><p class="sub">All ticked is the usual choice. Untick something to clear it as well.</p>
+<div id="keeps" style="display:flex;flex-direction:column;gap:10px"></div></section>
+
+<section class="infobox"><div><h2>What a reset cannot do</h2><p>It cannot take back emails that were already sent. It does not change anything in Zeffy (test payments stay there; mark or refund them in Zeffy). It does not touch the old Guild website, the Guild&rsquo;s email or Google Drive. It cannot be undone from this page; the backup you download in step 1 is the only way back.</p></div></section>
+
+<section class="cqc" aria-labelledby="b1-t"><div class="cqh"><div><h2 id="b1-t">Step 1. Download a backup</h2><p class="sub">The reset stays locked until a backup has been saved in the last 30 minutes. The file holds members&rsquo; personal information, so keep it somewhere private and password protected, and delete it when you no longer need it.</p></div></div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><button class="nbtn" id="bk" type="button">Download a backup of everything</button><span class="sub" id="bkmsg" style="font-size:14px"></span></div>
+<p class="sub" style="font-size:14px">This backup holds all the information in the site&rsquo;s tables (as a .json file). It does not include uploaded files such as photos, PDFs and newsletters. The full Backups tool, which includes files, comes later.</p>
+<p class="msg err hidden" id="bkerr" role="alert" style="margin:0"></p></section>
+
+<section class="cqc" aria-labelledby="b2-t"><h2 id="b2-t">Step 2. Confirm and reset</h2>
+<label style="display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.45;cursor:pointer"><input type="checkbox" id="ok" style="width:20px;height:20px;margin-top:2px;accent-color:#0157AE"><span>I understand that this removes the information listed above and cannot be undone from this page.</span></label>
+<div class="row2"><div><label class="lbl" for="phrase">Type RESET in capital letters</label><input class="field" id="phrase" autocomplete="off" autocapitalize="characters" spellcheck="false"></div>
+<div><label class="lbl" for="pw">Your Superuser password</label><input class="field" id="pw" type="password" autocomplete="current-password"></div></div>
+<p class="sub" id="need" style="font-size:14px"></p>
+<p class="msg err hidden" id="rerr" role="alert" style="margin:0"></p>
+<div><button class="btn-save" id="doreset" type="button" disabled style="background:#9A3412;border-color:#9A3412">Reset the site</button></div></section>
+</div>
+
+<section class="cqc hidden" id="done" aria-labelledby="dn-t" style="border-color:#0157AE"><h2 id="dn-t">The site has been reset</h2><p id="donetxt" style="margin:0;line-height:1.5"></p>
+<ul id="donelist" style="margin:0;padding-left:20px;line-height:1.6"></ul>
+<p style="margin:0;line-height:1.5"><b>Next:</b> load the real member list with Import Members, look through the pages, then go live (below).</p>
+<div style="display:flex;gap:10px;flex-wrap:wrap"><a class="nbtn solid" href="member-import.html">Open Import Members</a><button class="nbtn" id="again" type="button">Reset again</button></div></section>
+
+<section class="cqc" id="livecard" aria-labelledby="lv-t"><div class="cqh"><div><h2 id="lv-t">Go live</h2><p class="sub" id="lvsub">When the Guild is ready to start using the site for real.</p></div></div>
+<div id="lvtest">
+<p style="margin:0 0 10px;line-height:1.5">Going live switches the reset tool off for good. The site cannot be put back into testing mode from the website itself (it takes a deliberate change in the Supabase dashboard). Before you go live, make sure you have made a backup, loaded the real member list and checked the pages.</p>
+<button class="nbtn del" id="lvopen" type="button">Go live&hellip;</button>
+<div class="confirm hidden" id="lvconf" style="margin-top:12px"><p>Type GO LIVE in capital letters. This cannot be undone from the website.</p>
+<input class="field" id="lvphrase" autocomplete="off" autocapitalize="characters" spellcheck="false" style="max-width:260px;margin-bottom:10px">
+<p class="msg err hidden" id="lverr" role="alert" style="margin:0 0 10px"></p>
+<div style="display:flex;gap:10px;flex-wrap:wrap"><button class="nbtn del" id="lvgo" type="button" disabled>Go live now</button><button class="nbtn" id="lvno" type="button">Not yet</button></div></div></div>
+<p id="lvlive" class="hidden" style="margin:0;line-height:1.5"></p></section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/comfort.js"></script>
+<script>
+/*PURE-START*/
+var RESET={};
+RESET.ROWS=[
+  ['Members and their sign-in accounts','members'],
+  ['Membership requests and renewals',['membership_requests']],
+  ['Workshop registrations',['workshop_registrations']],
+  ['Quilts Needing Work and kit claims',['quilts_needing_work','comfort_kit_claims']],
+  ['Sunshine & Shadows notes people shared',['sunshine_notes']],
+  ['What’s New posts and “seen” markers',['whats_new','last_seen']],
+  ['Notices and Special Notices (with their photos)',['notices','special_notices']],
+  ['Emails sent with Email Members (the record of them)',['member_emails']],
+  ['Comfort Quilt numbers entered',['comfort_log_in','comfort_log_out','comfort_year_start']],
+  ['Member import records',['member_imports']]
+];
+RESET.CONTENT=['program_months','program_month_costs','program_costs','nonmember_fees','workshop_materials','newsletters','charities','bees','guild_history_entries','comfort_patterns','events'];
+RESET.sum=function(counts,list){
+  if(list==='members')return +counts.members||0;
+  var n=0;list.forEach(function(t){n+=+counts[t]||0;});return n;
+};
+RESET.contentCount=function(counts){return RESET.sum(counts,RESET.CONTENT);};
+RESET.today=function(d){d=d||new Date();function p(n){return (n<10?'0':'')+n;}return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());};
+/*PURE-END*/
+
+QGPCShell.start({need:function(c){return c.isSuper;}},function(ctx){
+  var $=function(i){return document.getElementById(i)};
+  var C=QGPCComfort,sb=QGPC.sb,el=C.el;
+  var keep={settings:true,dues:true,admins:true,content:true},counts={},mode='testing',backupAt=0,busy=false;
+  function say(t,bad){var n=$('status');n.textContent=t;n.className='msg '+(bad?'err':'ok');n.style.margin='0';n.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  function hide(id,h){$(id).classList.toggle('hidden',!!h);}
+  function fmt(s){try{return new Date(s).toLocaleString([], {year:'numeric',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});}catch(e){return s;}}
+
+  // ---- keep choices ----
+  var KEEPS=[
+    ['settings','Site settings and appearance','The banner look, the Guild’s contact details and Facebook link.'],
+    ['dues','Dues amounts and the renewal button setting',''],
+    ['admins','The Administrator accounts','Kept together with their member records and sign-in accounts.'],
+    ['content','The pages and files the chairs prepared','Programs, workshops, newsletters, patterns, charities, Bees, Guild History and calendar events. Unticking this starts completely empty.']
+  ];
+  function drawKeeps(){
+    var b=$('keeps');b.innerHTML='';
+    KEEPS.forEach(function(k){
+      var l=el('label','kp'),i=el('input');i.type='checkbox';i.checked=keep[k[0]];
+      i.onchange=function(){keep[k[0]]=i.checked;if(k[0]==='admins')loadCounts();checkReady();};
+      l.appendChild(i);var s=el('span');s.appendChild(document.createTextNode(k[1]));if(k[2])s.appendChild(el('small',null,k[2]));l.appendChild(s);b.appendChild(l);
+    });
+  }
+  drawKeeps();
+
+  // ---- what a reset removes ----
+  function drawCounts(){
+    var tb=$('rmtab').querySelector('tbody');tb.innerHTML='';
+    RESET.ROWS.forEach(function(r){
+      var tr=el('tr'),a=el('td');a.textContent=r[0];
+      if(r[1]==='members'&&keep.admins)a.textContent=r[0]+' (except the Superuser and Administrators)';
+      else if(r[1]==='members')a.textContent=r[0]+' (except the Superuser)';
+      var n=el('td','num');n.textContent=RESET.sum(counts,r[1]);tr.appendChild(a);tr.appendChild(n);tb.appendChild(tr);
+    });
+    if(!keep.content){var tr=el('tr'),a=el('td','','Prepared pages and files (programs, workshops, newsletters and so on)'),n=el('td','num');n.textContent=RESET.contentCount(counts);tr.appendChild(a);tr.appendChild(n);tb.appendChild(tr);}
+    if(!keep.settings){var tr2=el('tr'),a2=el('td','','Banner look, contact details and Facebook link'),n2=el('td','num');n2.textContent=(+counts.guild_contact||0)+(+counts.site_appearance||0);tr2.appendChild(a2);tr2.appendChild(n2);tb.appendChild(tr2);}
+  }
+  function loadCounts(){
+    sb.rpc('reset_site_counts',{p_keep:keep}).then(function(r){
+      if(r.error){say('The counts could not be loaded. '+(r.error.message||''),true);return;}
+      counts=r.data.counts||{};mode=r.data.mode;drawCounts();drawMode(r.data.mode,r.data.last_reset_at);
+    });
+  }
+  function drawMode(m,last){
+    mode=m;var live=m==='live';
+    var p=$('modepill');p.textContent=live?'Live':'Testing mode';p.style.cssText=live?'background:#0157AE;color:#fff':'background:#E87446;color:#1F2433';
+    $('st-sub').textContent=live?'The Guild is using the site for real.':'The site is being tested. Information on it may be erased before the Guild goes live.';
+    $('lastreset').textContent=last?fmt(last):'never';
+    hide('tools',live);hide('lvtest',live);hide('lvlive',!live);
+    if(live){hide('done',true);$('st-explain').style.display='none';}
+  }
+  function liveText(){
+    sb.from('site_config').select('went_live_at').limit(1).then(function(r){
+      var w=r.data&&r.data[0]&&r.data[0].went_live_at;
+      $('lvlive').textContent='The site went live'+(w?' on '+fmt(w):'')+'. The reset tool is switched off, and nothing on this page can remove the Guild’s data.';
+      $('lvsub').textContent='The site is live.';
+    });
+  }
+
+  // ---- step 1: backup ----
+  $('bk').onclick=function(){
+    if(busy)return;busy=true;$('bk').disabled=true;hide('bkerr',true);$('bkmsg').textContent='Making the backup…';
+    sb.rpc('export_site_backup').then(function(r){
+      busy=false;$('bk').disabled=false;
+      if(r.error){$('bkmsg').textContent='';$('bkerr').textContent='The backup could not be made. '+(r.error.message||'');hide('bkerr',false);return;}
+      var doc=r.data,name='guild-backup-'+RESET.today()+'.json',total=0;
+      Object.keys(doc.counts||{}).forEach(function(k){total+=+doc.counts[k]||0;});
+      var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(doc)],{type:'application/json'}));
+      a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);
+      setTimeout(function(){URL.revokeObjectURL(a.href);},1500);
+      backupAt=Date.now();$('bkmsg').textContent='Saved as '+name+' ('+total+' rows). Good for 30 minutes.';
+      checkReady();
+    });
+  };
+
+  // ---- step 2: confirm ----
+  function ready(){
+    var recent=backupAt&&Date.now()-backupAt<29*60*1000;
+    var miss=[];
+    if(!recent)miss.push('download a backup (step 1)');
+    if(!$('ok').checked)miss.push('tick the box');
+    if($('phrase').value!=='RESET')miss.push('type RESET');
+    if(!$('pw').value)miss.push('enter your password');
+    return {ok:!miss.length&&!busy,miss:miss};
+  }
+  function checkReady(){var r=ready();$('doreset').disabled=!r.ok;$('need').textContent=r.ok?'':'Still needed: '+r.miss.join(', ')+'.';}
+  ['ok','phrase','pw'].forEach(function(i){$(i).addEventListener('input',checkReady);$(i).addEventListener('change',checkReady);});
+  checkReady();
+  function emptyBucket(b){
+    function listAll(prefix){
+      return sb.storage.from(b).list(prefix,{limit:1000}).then(function(r){
+        if(r.error)throw r.error;
+        var files=[],subs=[];
+        (r.data||[]).forEach(function(o){var p=prefix?prefix+'/'+o.name:o.name;if(o.id===null||o.id===undefined)subs.push(p);else files.push(p);});
+        return Promise.all(subs.map(listAll)).then(function(arr){return files.concat([].concat.apply([],arr));});
+      });
+    }
+    return listAll('').then(function(files){
+      var chunks=[];for(var i=0;i<files.length;i+=100)chunks.push(files.slice(i,i+100));
+      return chunks.reduce(function(p,c){return p.then(function(){return sb.storage.from(b).remove(c).then(function(x){if(x.error)throw x.error;});});},Promise.resolve()).then(function(){return files.length;});
+    });
+  }
+  $('doreset').onclick=function(){
+    var rd=ready();if(!rd.ok)return;busy=true;checkReady();hide('rerr',true);$('doreset').textContent='Checking your password…';
+    var email=ctx.session&&ctx.session.user&&ctx.session.user.email;
+    sb.auth.signInWithPassword({email:email,password:$('pw').value}).then(function(a){
+      if(a.error){busy=false;$('doreset').textContent='Reset the site';$('rerr').textContent='That password is not right. Nothing was reset.';hide('rerr',false);checkReady();return;}
+      $('doreset').textContent='Resetting…';
+      return sb.rpc('reset_site',{p_keep:keep,p_phrase:$('phrase').value}).then(function(r){
+        if(r.error){busy=false;$('doreset').textContent='Reset the site';$('rerr').textContent='Nothing was reset. '+(r.error.message||'');hide('rerr',false);checkReady();return;}
+        var d=r.data,list=$('donelist');list.innerHTML='';
+        var c=d.counts||{};
+        RESET.ROWS.forEach(function(row){var n=RESET.sum(c,row[1]);if(n)list.appendChild(el('li',null,row[0]+': '+n+' removed'));});
+        var files=0,bad=0;
+        var bs=(d.buckets||[]);
+        bs.reduce(function(p,b){return p.then(function(){return emptyBucket(b).then(function(n){files+=n;},function(){bad++;});});},Promise.resolve()).then(function(){
+          $('donetxt').textContent='Everything listed was removed'+(files?', along with '+files+' uploaded file'+(files===1?'':'s'):'')+'. '+(bad?bad+' file folder'+(bad===1?'':'s')+' could not be emptied; check them in Supabase Storage. ':'')+'The reset was written to the site log.';
+          busy=false;backupAt=0;$('doreset').textContent='Reset the site';$('ok').checked=false;$('phrase').value='';$('pw').value='';
+          hide('done',false);checkReady();$('done').scrollIntoView({behavior:'smooth',block:'start'});loadCounts();
+        });
+      });
+    });
+  };
+  $('again').onclick=function(){hide('done',true);$('bk').scrollIntoView({behavior:'smooth',block:'center'});};
+
+  // ---- go live ----
+  $('lvopen').onclick=function(){hide('lvconf',false);$('lvphrase').focus();};
+  $('lvno').onclick=function(){hide('lvconf',true);$('lvphrase').value='';$('lvgo').disabled=true;hide('lverr',true);};
+  $('lvphrase').addEventListener('input',function(){$('lvgo').disabled=$('lvphrase').value!=='GO LIVE';});
+  $('lvgo').onclick=function(){
+    $('lvgo').disabled=true;hide('lverr',true);
+    sb.rpc('go_live',{p_phrase:$('lvphrase').value}).then(function(r){
+      if(r.error){$('lverr').textContent='The site did not go live. '+(r.error.message||'');hide('lverr',false);$('lvgo').disabled=false;return;}
+      drawMode('live',null);liveText();say('The site is live.');
+    });
+  };
+
+  loadCounts();
+  sb.from('site_config').select('site_mode,went_live_at').limit(1).then(function(r){var s=r.data&&r.data[0];if(s&&s.site_mode==='live'){drawMode('live',null);liveText();}});
+});
+</script>
+</body></html>
