@@ -62,6 +62,7 @@ textarea.field{min-height:96px;resize:vertical;font-family:inherit}
 <div><label class="lbl" for="f-end">Last day (leave empty for a one-day retreat)</label><input class="field" id="f-end" type="date"></div></div>
 <div class="row2"><div><label class="lbl" for="f-place">Where</label><input class="field" id="f-place" maxlength="200"></div>
 <div><label class="lbl" for="f-cost">Cost</label><input class="field" id="f-cost" maxlength="200" placeholder="$250, meals included"></div></div>
+<div><label class="lbl" for="f-web">Retreat center website (optional)</label><input class="field" id="f-web" type="url" maxlength="500" placeholder="https://..."><p class="sub" style="font-size:14px">Copy the address from your browser. It must start with https:// or http://.</p></div>
 <div><label class="lbl" for="f-about">About this retreat</label><textarea class="field" id="f-about" maxlength="2000"></textarea></div>
 <div><label class="lbl" for="f-signup">How to sign up</label><textarea class="field" id="f-signup" maxlength="1000" placeholder="For example: contact the Retreats Chair, or pay by check at the next meeting."></textarea></div>
 <p class="sub" style="font-size:14px;margin:0">The first day of each retreat is put on the Guild events calendar for you, and it changes there when you change it here.</p>
@@ -109,7 +110,7 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('retreats_chair');}},f
         var w=el('div');w.style.cssText='display:flex;gap:10px;flex-wrap:wrap';w.appendChild(y);w.appendChild(k);cf.appendChild(w);R.appendChild(cf);
       }else{
         var e=el('button','nbtn','Edit');e.type='button';e.onclick=function(){
-          editId=n.id;$('f-name').value=n.name;$('f-start').value=n.starts_on;$('f-end').value=n.ends_on||'';$('f-place').value=n.place||'';$('f-cost').value=n.cost_text||'';$('f-about').value=n.about||'';$('f-signup').value=n.signup_text||'';
+          editId=n.id;$('f-name').value=n.name;$('f-start').value=n.starts_on;$('f-end').value=n.ends_on||'';$('f-place').value=n.place||'';$('f-web').value=n.website_url||'';$('f-cost').value=n.cost_text||'';$('f-about').value=n.about||'';$('f-signup').value=n.signup_text||'';
           $('f-t').textContent='Change this retreat';$('f-save').textContent='Save changes';$('f-cancel').classList.remove('hidden');ferr('');$('f-t').scrollIntoView({behavior:'smooth'});
         };
         var d=el('button','nbtn del','Delete');d.type='button';d.onclick=function(){confirmId=n.id;draw();};
@@ -122,9 +123,10 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('retreats_chair');}},f
   $('f-cancel').onclick=reset;
   $('form').addEventListener('submit',function(e){
     e.preventDefault();ferr('');
-    var rec={name:$('f-name').value.trim(),starts_on:$('f-start').value,ends_on:$('f-end').value||null,place:$('f-place').value.trim()||null,cost_text:$('f-cost').value.trim()||null,about:$('f-about').value.trim()||null,signup_text:$('f-signup').value.trim()||null};
+    var rec={name:$('f-name').value.trim(),starts_on:$('f-start').value,ends_on:$('f-end').value||null,place:$('f-place').value.trim()||null,website_url:$('f-web').value.trim()||null,cost_text:$('f-cost').value.trim()||null,about:$('f-about').value.trim()||null,signup_text:$('f-signup').value.trim()||null};
     if(!rec.name)return ferr('Please type the name of the retreat.');
     if(!/^\d{4}-\d{2}-\d{2}$/.test(rec.starts_on))return ferr('Please choose the first day.');
+    if(rec.website_url&&!/^https?:\/\/\S+$/i.test(rec.website_url))return ferr('The website address must start with https:// or http:// and have no spaces.');
     if(rec.ends_on&&rec.ends_on<rec.starts_on)return ferr('The last day cannot be before the first day.');
     $('f-save').disabled=true;
     var q=editId?sb.from('retreats').update(rec).eq('id',editId):sb.from('retreats').insert(rec);

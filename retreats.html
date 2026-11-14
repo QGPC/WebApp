@@ -42,7 +42,7 @@
 .rcard .mt span{display:flex;gap:8px;align-items:flex-start}.rcard .mt svg{color:#0157AE;flex:0 0 auto;margin-top:2px}
 .rcard .su{padding:12px 14px;border-radius:12px;background:#FAF8F3;border:1px solid #EDEAE2}
 .rcard .su small{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5A5F6E;margin-bottom:4px}
-.past{margin-top:8px}
+.yh{margin:8px 0 0;font:400 26px 'Young Serif',Georgia,serif}.rcard .web{align-self:flex-start;min-height:44px;display:inline-flex;align-items:center;gap:6px;font-weight:700;color:#0157AE;overflow-wrap:anywhere}
 </style>
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
@@ -60,13 +60,10 @@
 <div class="mwrap" style="max-width:1200px;gap:22px" id="content">
 
 <section class="cqc" aria-labelledby="rt" style="background:none;border:0;padding:0">
-<div class="cqh"><h2 id="rt">Upcoming retreats</h2></div>
+<div class="cqh"><h2 id="rt">Retreats by year</h2><div class="seg hidden" id="yrs" role="group" aria-label="Show year"></div></div>
 <p id="loading" role="status" style="margin:0">Loading&hellip;</p>
-<p class="empty hidden" id="none">No retreats are planned right now. Check back soon.</p>
-<ul class="rlist" id="up"></ul></section>
-<section class="cqc hidden" id="pastsec" aria-labelledby="pt" style="background:none;border:0;padding:0">
-<div class="cqh"><h2 id="pt">Past retreats</h2></div>
-<ul class="rlist" id="past"></ul></section>
+<p class="empty hidden" id="none">No retreats have been added yet. Check back soon.</p>
+<div id="out"></div></section>
 </div>
 </main>
 <footer class="site-foot"><div class="wrap">
@@ -83,7 +80,7 @@
 <script>
 (function(){
   var $=function(i){return document.getElementById(i)};
-  var C=QGPCComfort,sb=QGPC.sb,el=C.el;
+  var C=QGPCComfort,sb=QGPC.sb,el=C.el,items=[],year='all';
   var IC_PIN='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>';
   var IC_COST='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M14.5 9.5c-.5-1-1.5-1.5-2.5-1.5-1.4 0-2.5.8-2.5 2s1 1.7 2.5 2 2.5.8 2.5 2-1.1 2-2.5 2c-1 0-2-.5-2.5-1.5M12 6.5V8m0 8v1.5"/></svg>';
   function row(icon,text){var s=el('span');s.innerHTML=icon;s.appendChild(document.createTextNode(text));return s;}
@@ -92,9 +89,32 @@
     var li=el('li','rcard');li.appendChild(el('h3',null,r.name));li.appendChild(el('span','dates',range(r)));
     var mt=el('div','mt');if(r.place)mt.appendChild(row(IC_PIN,r.place));if(r.cost_text)mt.appendChild(row(IC_COST,r.cost_text));
     if(mt.childNodes.length)li.appendChild(mt);
+    var u=C.safeUrl(r.website_url);
+    if(u){var a=el('a','web','Visit the retreat center\u2019s website (opens in a new tab)');a.href=u;a.target='_blank';a.rel='noopener';li.appendChild(a);}
     if(r.about)li.appendChild(el('p',null,r.about));
     if(r.signup_text){var su=el('div','su');su.appendChild(el('small',null,'How to sign up'));su.appendChild(el('p',null,r.signup_text));li.appendChild(su);}
     return li;
+  }
+  function years(){var s={};items.forEach(function(r){s[r.starts_on.slice(0,4)]=1;});return Object.keys(s).sort().reverse();}
+  function draw(){
+    var out=$('out');out.textContent='';
+    var ys=years();$('none').classList.toggle('hidden',items.length>0);
+    ys.forEach(function(y){
+      if(year!=='all'&&year!==y)return;
+      out.appendChild(el('h3','yh',y));
+      var ul=el('ul','rlist');
+      items.filter(function(r){return r.starts_on.slice(0,4)===y;}).forEach(function(r){ul.appendChild(card(r));});
+      out.appendChild(ul);
+    });
+  }
+  function buttons(){
+    var b=$('yrs');b.textContent='';var ys=years();
+    if(ys.length<2){b.classList.add('hidden');return;}
+    b.classList.remove('hidden');
+    ['all'].concat(ys).forEach(function(y){
+      var x=el('button',null,y==='all'?'All years':y);x.type='button';x.setAttribute('aria-pressed',y===year);
+      x.onclick=function(){year=y;buttons();draw();};b.appendChild(x);
+    });
   }
   C.who().then(function(w){
     if(w.signedIn)$('homelink').href='home.html';
@@ -103,12 +123,7 @@
   sb.from('retreats').select('*').order('starts_on',{ascending:true}).then(function(r){
     $('loading').classList.add('hidden');
     if(r.error){var n=$('none');n.textContent='The retreats could not be loaded. Please refresh and try again.';n.classList.remove('hidden');return;}
-    var today=C.today(),up=[],past=[];
-    (r.data||[]).forEach(function(x){((x.ends_on||x.starts_on)>=today?up:past).push(x);});
-    past.reverse();
-    $('none').classList.toggle('hidden',up.length>0);
-    up.forEach(function(x){$('up').appendChild(card(x));});
-    if(past.length){$('pastsec').classList.remove('hidden');past.forEach(function(x){$('past').appendChild(card(x));});}
+    items=r.data||[];buttons();draw();
   });
 })();
 </script>
