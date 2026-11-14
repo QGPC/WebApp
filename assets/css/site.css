@@ -13,7 +13,7 @@ a{color:var(--cobalt)}
 .skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:#fff;padding:8px;z-index:9}
 
 /* Header */
-.site-head{position:relative;z-index:20;background:var(--white);border-bottom:1px solid var(--line)}
+.site-head{position:relative;z-index:200;background:var(--white);border-bottom:1px solid var(--line)}
 .head-top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:12px 0}
 .brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink)}
 .brand img{width:52px;height:52px}
@@ -23,8 +23,8 @@ a{color:var(--cobalt)}
 .tile{position:relative;flex:0 0 auto;display:flex;align-items:center;gap:10px;min-height:48px;padding:6px 12px 6px 6px;background:#FAF8F3;border:1px solid #E4E0D6;border-radius:10px;color:var(--ink);text-decoration:none;font-weight:600;font-size:14px;line-height:1.2;white-space:nowrap;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease}
 .tile img{width:34px;height:34px;border-radius:8px;flex:0 0 auto}
 a.tile:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(31,36,51,.10);border-color:var(--cobalt)}
-.tile:hover,.tile:focus-visible{z-index:5}
-.tip{position:absolute;left:50%;top:calc(100% + 10px);transform:translate(-50%,4px);width:max-content;max-width:220px;padding:10px 14px;border-radius:10px;background:#FFFDF8;color:var(--ink);border:1px solid #D9D3C5;font-size:14px;font-weight:500;line-height:1.4;text-align:center;white-space:normal;box-shadow:0 10px 28px rgba(15,20,40,.35);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .15s ease,transform .15s ease,visibility .15s}
+.tile:hover,.tile:focus-visible{z-index:50}
+.tip{z-index:60;position:absolute;left:50%;top:calc(100% + 10px);transform:translate(-50%,4px);width:max-content;max-width:220px;padding:10px 14px;border-radius:10px;background:#FFFDF8;color:var(--ink);border:1px solid #D9D3C5;font-size:14px;font-weight:500;line-height:1.4;text-align:center;white-space:normal;box-shadow:0 10px 28px rgba(15,20,40,.35);opacity:0;visibility:hidden;pointer-events:none;transition:opacity .15s ease,transform .15s ease,visibility .15s}
 .tip::before{content:"";position:absolute;left:50%;top:-6px;width:12px;height:12px;background:#FFFDF8;border-left:1px solid #D9D3C5;border-top:1px solid #D9D3C5;transform:translateX(-50%) rotate(45deg);border-radius:2px 0 0 0}
 .tile:hover .tip,.tile:focus-visible .tip{opacity:1;visibility:visible;transform:translate(-50%,0)}
 .tip em{display:block;font-style:normal;font-size:12px;font-weight:700;color:var(--persimmon-dark);margin-top:2px}
