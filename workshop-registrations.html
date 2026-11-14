@@ -87,7 +87,7 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('workshop_chair')||c.h
   var months=[],regs=[],year=+today.slice(0,4);
   function chip(m){
     var r=regs.filter(function(x){return x.month_id===m.id;});
-    var held=r.filter(function(x){return x.status!=='waitlist';}).length,wl=r.length-held;
+    var held=r.filter(function(x){return x.status==='waiting'||x.status==='accepted';}).length,wl=r.filter(function(x){return x.status==='waitlist';}).length;
     var s=held+(m.ws_spots!==null?' of '+m.ws_spots:'')+' spots held';if(wl)s+=' · '+wl+' on the waitlist';
     return s;
   }
@@ -109,13 +109,14 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('workshop_chair')||c.h
   $('past-btn').onclick=function(){var p=$('past'),h=p.classList.toggle('hidden');this.setAttribute('aria-expanded',String(!h));this.textContent=h?'Show past workshops':'Hide past workshops';};
   $('yprev').onclick=function(){year--;draw();};$('ynext').onclick=function(){year++;draw();};
   Promise.all([sb.from('program_months').select('id,month_on,ws_title,ws_date,ws_spots,has_workshop,status').eq('has_workshop',true).eq('status','published').order('month_on'),
-    sb.from('workshop_registrations').select('id,month_id,status')]).then(function(rs){
+    sb.from('workshop_registrations').select('id,month_id,status,refund_status')]).then(function(rs){
     $('loading').classList.add('hidden');
     if(rs[0].error||rs[1].error){say('Could not load the workshops. Please refresh and try again.','err');return;}
     months=rs[0].data||[];regs=rs[1].data||[];
     var w=regs.filter(function(x){return x.status==='waiting';}).length,wl=regs.filter(function(x){return x.status==='waitlist';}).length;
+    var rf=regs.filter(function(x){return x.refund_status==='owed';}).length;
     $('acc-n').textContent=w+wl;$('acc-n').classList.toggle('zero',w+wl===0);
-    $('acc-line').textContent=w+wl===0?'All caught up. Nobody is waiting.':w+' paid, not yet accepted · '+wl+' on the waitlist';
+    $('acc-line').textContent=(w+wl===0&&rf===0?'All caught up. Nobody is waiting.':w+' paid, not yet accepted · '+wl+' on the waitlist')+(rf?' · '+rf+(rf===1?' refund owed':' refunds owed'):'');
     $('acc-card').classList.remove('hidden');$('yr-bar').classList.remove('hidden');draw();
   });
 });

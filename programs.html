@@ -282,7 +282,7 @@
   }
   function loadWorkshopExtras(r,dyn,pills){
     var tok=++drawTok,pub=r.status==='published';
-    var pReg=who.signedIn?sb.from('workshop_registrations').select('*').eq('month_id',r.id).eq('member_id',who.member.id).limit(1):Promise.resolve({data:[]});
+    var pReg=who.signedIn?sb.from('workshop_registrations').select('*').eq('month_id',r.id).eq('member_id',who.member.id).neq('status','cancelled').limit(1):Promise.resolve({data:[]});
     Promise.all([pub?sb.rpc('workshop_status',{p_month_id:r.id}):Promise.resolve({data:null}),pReg,
       sb.from('workshop_materials').select('*').eq('month_id',r.id).order('sort_order'),
       pub?sb.rpc('workshop_nonmember_fee',{p_month_id:r.id}):Promise.resolve({data:0})]).then(function(rs){

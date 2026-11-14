@@ -34,6 +34,7 @@
 .res b{font-size:22px}.res span{font-size:14px}.res .t{font-weight:700;font-size:15px}
 .resgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
 .hint{font-size:14px;color:#5A5F6E;margin:0}
+#rm-form{margin-top:10px;display:flex;flex-direction:column;gap:10px}#rm-form.hidden{display:none}
 .panel2{border:1px solid #E4E0D6;border-radius:12px;padding:14px 16px;background:#fff}
 .chk2{display:flex;gap:10px;align-items:center;min-height:44px;font-size:16px}.chk2 input{width:22px;height:22px}
 </style>
@@ -60,6 +61,12 @@
 <section class="sec hidden" id="card" aria-labelledby="w-t">
 <div><h2 id="w-t">Workshop</h2><p class="hint" id="w-sub" style="margin-top:4px"></p><p class="hint" id="w-open" style="margin-top:2px;font-weight:600;color:#454A58"></p></div>
 
+<div class="panel2 hidden" id="tools"><div class="act" style="display:flex;flex-wrap:wrap;gap:10px"><button type="button" class="nbtn solid" id="rm-open">Send a reminder email</button><button type="button" class="nbtn" id="dl-csv">Download registered list (CSV)</button></div>
+<p class="hint" id="rm-last" style="margin:8px 0 0"></p>
+<form id="rm-form" class="hidden" novalidate><p class="hint" id="rm-to" style="margin:0"></p>
+<div><label class="l" for="rm-msg">Message (each person is greeted by first name)</label><textarea class="field" id="rm-msg" rows="9" maxlength="4000" style="width:100%"></textarea></div>
+<p class="err hidden" id="rm-err" role="alert"></p>
+<div class="act" style="display:flex;flex-wrap:wrap;gap:10px"><button type="submit" class="nbtn solid" id="rm-send">Send reminder</button><button type="button" class="nbtn" id="rm-cancel">Cancel</button></div></form></div>
 <div class="panel2"><label class="chk2"><input type="checkbox" id="nm-ok"> <b>Non-member sign-up allowed</b></label>
 <p class="hint" id="nm-note" style="margin:4px 0 0"></p></div>
 <h3>Registrations</h3>
@@ -70,6 +77,11 @@
 <p class="hint" id="wl-note">People who have signed up but not paid, and people who joined a full workshop. Marking someone paid records their payment and registers them.</p>
 <p class="hint hidden" id="wl-none">No one is on the waitlist.</p>
 <div id="wl" style="display:flex;flex-direction:column;gap:12px"></div>
+
+<h3 id="cx-h">Cancelled</h3>
+<p class="hint" id="cx-note">Cancelled registrations give up their spot. If the person had paid, a refund is owed until it is marked refunded. Only the Workshops Chair can cancel and record refunds.</p>
+<p class="hint hidden" id="cx-none">No cancelled registrations.</p>
+<div id="cx" style="display:flex;flex-direction:column;gap:12px"></div>
 
 <h3>Cost analysis</h3>
 <p class="hint">Total cost, fee and maximum subsidy come from the workshop pages (Workshop Cost Analysis, Fee Analysis and Workshop Settings). Registered counts paid registrants who have a spot. Non-member fees are not counted.</p>
@@ -111,8 +123,8 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('workshop_chair')||c.h
 
   var q=(location.search.match(/[?&]m=(\d{4})-(\d{2})/)||[]);
   if(!q[1]||+q[2]<1||+q[2]>12){location.href='workshop-registrations.html';return;}
-  var mkey=q[1]+'-'+q[2]+'-01',m=null,regs=[],confirm=null;
-  function held(){return regs.filter(function(r){return r.status!=='waitlist';}).length;}
+  var mkey=q[1]+'-'+q[2]+'-01',m=null,regs=[],confirm=null,canCancel=!!(c.isAdmin||c.has('workshop_chair'));
+  function held(){return regs.filter(function(r){return r.status==='waiting'||r.status==='accepted';}).length;}
   function tag(r){return (r.is_member?'Member':'Non-member')+' · '+(r.paid?'Paid '+money(r.total_due)+(r.pay_method?' by '+r.pay_method+(r.pay_ref?' #'+r.pay_ref:''):''):'Not paid · '+money(r.total_due)+' due');}
   function btn(parent,label,cls,fn,dis,aria){var b=el('button','nbtn'+(cls?' '+cls:''),label);b.type='button';if(dis)b.disabled=true;if(aria)b.setAttribute('aria-label',aria);b.onclick=fn;parent.appendChild(b);return b;}
   function removeBox(card,r,what){
@@ -120,6 +132,41 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('workshop_chair')||c.h
     var cf=el('div','confirm');cf.appendChild(el('p',null,'Remove '+r.name+' from '+what+'? This can’t be undone.'));
     var row=el('div','act');btn(row,'Yes, remove','del',function(){act('workshop_remove',r,'Removed '+r.name+'.');},false);
     btn(row,'Keep','',function(){confirm=null;draw();});cf.appendChild(row);card.appendChild(cf);
+  }
+  function cancelBox(card,r){
+    if(confirm!=='cx'+r.id)return;
+    var cf=el('div','confirm');
+    cf.appendChild(el('p',null,'Cancel '+r.name+'’s registration? They give up their spot and their materials lock.'+(r.paid?' They paid '+money(r.total_due)+', so a refund of '+money(r.total_due)+' will be recorded as owed.':' They have not paid, so nothing is owed.')));
+    var lab=el('label','chk2'),cb=document.createElement('input');cb.type='checkbox';cb.checked=true;lab.appendChild(cb);lab.appendChild(document.createTextNode(' Email them that it was cancelled'));cf.appendChild(lab);
+    var row=el('div','act');
+    btn(row,'Yes, cancel registration','del',function(){
+      sb.rpc('workshop_cancel',{p_id:r.id}).then(function(x){
+        if(x.error){say('That did not work. Please refresh and try again.','err');return;}
+        confirm=null;var owed=+x.data||0;
+        say(r.name+'’s registration is cancelled.'+(owed>0?' A refund of '+money(owed)+' is owed.':''));
+        return load().then(function(){
+          if(!cb.checked)return;
+          say(r.name+'’s registration is cancelled.'+(owed>0?' A refund of '+money(owed)+' is owed. ':' ')+'Sending the email…');
+          return sb.functions.invoke('send-workshop-cancelled',{body:{registration_id:r.id}}).then(function(res){
+            say(res.error?r.name+'’s registration is cancelled, but the email was not sent.':r.name+'’s registration is cancelled and they were emailed.',res.error?'err':'ok');
+          });
+        });
+      });},false);
+    btn(row,'Keep','',function(){confirm=null;draw();});cf.appendChild(row);card.appendChild(cf);
+  }
+  function refundBox(card,r){
+    if(confirm!=='rf'+r.id)return;
+    var cf=el('div','confirm');cf.style.background='#EEF1F8';var p=el('p','','Record that '+money(r.refund_due)+' was refunded to '+r.name+'.');p.style.color='#0157AE';cf.appendChild(p);
+    var pid='rf'+r.id.slice(0,6),wrap=el('div');
+    wrap.innerHTML='<label class="l" for="'+pid+'">How was it refunded?</label><select class="field" id="'+pid+'" style="max-width:260px"><option value="">Choose&hellip;</option><option value="cash">Cash</option><option value="check">Check</option><option value="online">Online</option></select><div style="margin-top:8px"><label class="l" for="'+pid+'n">Check number or note (optional)</label><input class="field" id="'+pid+'n" maxlength="120" style="max-width:360px"></div><p class="err hidden" id="'+pid+'e" role="alert"></p>';
+    cf.appendChild(wrap);var sel=wrap.querySelector('select'),er=wrap.querySelector('#'+pid+'e');
+    var row=el('div','act');btn(row,'Save refund','solid',function(){
+      if(!sel.value){er.textContent='Please choose how it was refunded.';er.classList.remove('hidden');sel.focus();return;}
+      sb.rpc('workshop_refunded',{p_id:r.id,p_method:sel.value,p_note:wrap.querySelector('#'+pid+'n').value}).then(function(x){
+        if(x.error){say('That did not work. Please refresh and try again.','err');return;}
+        confirm=null;say('Refund recorded for '+r.name+'.');return load();
+      });},false);
+    btn(row,'Cancel','',function(){confirm=null;draw();});cf.appendChild(row);card.appendChild(cf);
   }
   function act(fn,r,done,after){
     sb.rpc(fn,{p_id:r.id}).then(function(x){
@@ -139,7 +186,7 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('workshop_chair')||c.h
     $('w-t').textContent=m.ws_title||'Workshop';
     $('w-sub').textContent=[nice(m.ws_date),spots!==null?spots+(spots===1?' spot':' spots'):'No spot limit'].filter(Boolean).join(' · ');
     $('w-open').textContent=(spots!==null?Math.max(spots-h,0)+' open of '+spots+'. ':'')+regs.filter(function(r){return r.status==='waiting';}).length+' waiting for acceptance.';
-    var list=regs.filter(function(r){return r.status!=='waitlist';}).sort(function(a,b){return a.signed_up_at<b.signed_up_at?-1:1;});
+    var list=regs.filter(function(r){return r.status==='waiting'||r.status==='accepted';}).sort(function(a,b){return a.signed_up_at<b.signed_up_at?-1:1;});
     $('reg-none').classList.toggle('hidden',list.length>0);
     var box=$('regs');box.textContent='';
     list.forEach(function(r){
@@ -153,8 +200,9 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('workshop_chair')||c.h
         btn(a,'Undo accept','',function(){act('workshop_unaccept',r,'Undone. '+r.name+'’s files are locked again.');},false,'Undo accept for '+r.name);
         btn(a,'Resend email','',function(){resend(r);},false,'Resend the acceptance email to '+r.name);
       }else{var l=el('a','nbtn','Accept on Registrations to work');l.href='workshop-accept.html';a.appendChild(l);}
-      btn(a,'Remove','del',function(){confirm='rm'+r.id;draw();},false,'Remove '+r.name);
-      card.appendChild(a);removeBox(card,r,'this workshop');box.appendChild(card);
+      if(canCancel)btn(a,'Cancel registration','del',function(){confirm='cx'+r.id;draw();},false,'Cancel '+r.name+'’s registration');
+      if(!r.paid)btn(a,'Remove','del',function(){confirm='rm'+r.id;draw();},false,'Remove '+r.name);
+      card.appendChild(a);cancelBox(card,r);removeBox(card,r,'this workshop');box.appendChild(card);
     });
     var wl=regs.filter(function(r){return r.status==='waitlist';}).sort(function(a,b){return a.signed_up_at<b.signed_up_at?-1:1;});
     var full=spots!==null&&h>=spots;
@@ -166,8 +214,9 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('workshop_chair')||c.h
       card.appendChild(el('span','mt',tag(r)+' · Signed up '+niceTs(r.signed_up_at)));
       var a=el('div','act');
       btn(a,full?'Workshop full':'Mark paid and register','solid',function(){confirm='pay'+r.id;draw();},full,'Mark '+r.name+' paid and register');
-      btn(a,'Remove','del',function(){confirm='rm'+r.id;draw();},false,'Remove '+r.name+' from the waitlist');
-      card.appendChild(a);
+      if(canCancel&&r.paid)btn(a,'Cancel registration','del',function(){confirm='cx'+r.id;draw();},false,'Cancel '+r.name+'’s registration');
+      if(!r.paid)btn(a,'Remove','del',function(){confirm='rm'+r.id;draw();},false,'Remove '+r.name+' from the waitlist');
+      card.appendChild(a);cancelBox(card,r);
       if(confirm==='pay'+r.id){
         var cf=el('div','confirm');cf.style.background='#EEF1F8';var p=el('p','','Record a payment of '+money(r.total_due)+' from '+r.name+' and register them?');p.style.color='#0157AE';cf.appendChild(p);
         var pid='pm'+r.id.slice(0,6),wrap=el('div');wrap.innerHTML='<label class="l" for="'+pid+'">How was it paid?</label><select class="field" id="'+pid+'" style="max-width:260px"><option value="">Choose&hellip;</option><option value="cash">Cash</option><option value="check">Check</option><option value="online">Online</option></select><div id="'+pid+'r" class="hidden" style="margin-top:8px"><label class="l" for="'+pid+'n">Check number</label><input class="field" id="'+pid+'n" maxlength="40" inputmode="numeric" style="max-width:260px"></div><p class="err hidden" id="'+pid+'e" role="alert"></p>';
@@ -193,6 +242,21 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('workshop_chair')||c.h
       }
       removeBox(card,r,'the waitlist');wb.appendChild(card);
     });
+    var cx=regs.filter(function(r){return r.status==='cancelled';}).sort(function(a,b){return a.cancelled_at<b.cancelled_at?1:-1;});
+    $('cx-none').classList.toggle('hidden',cx.length>0);
+    var cb=$('cx');cb.textContent='';
+    cx.forEach(function(r){
+      var card=el('div','rc');card.appendChild(el('span','nm',r.name));
+      card.appendChild(el('span','mt',[r.email,r.phone].filter(Boolean).join(' · ')));
+      card.appendChild(el('span','mt',tag(r)+' · Cancelled '+niceTs(r.cancelled_at)));
+      var chip=r.refund_status==='owed'?el('span','chip warn','Refund owed '+money(r.refund_due)):r.refund_status==='refunded'?el('span','chip ok','Refunded '+money(r.refund_due)+' on '+niceTs(r.refunded_at)+' by '+r.refund_method+(r.refund_note?' ('+r.refund_note+')':'')):el('span','chip','Nothing to refund');
+      chip.style.alignSelf='flex-start';card.appendChild(chip);
+      var a=el('div','act');
+      if(canCancel&&r.refund_status==='owed')btn(a,'Mark refunded','solid',function(){confirm='rf'+r.id;draw();},false,'Mark the refund to '+r.name+' as paid');
+      if(canCancel&&r.refund_status!=='owed')btn(a,'Delete record','del',function(){confirm='rm'+r.id;draw();},false,'Delete the record for '+r.name);
+      if(a.childNodes.length)card.appendChild(a);
+      refundBox(card,r);removeBox(card,r,'the cancelled list');cb.appendChild(card);
+    });
     cost(h);
   }
   var total=null,maxPct=0;
@@ -213,6 +277,54 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('workshop_chair')||c.h
       setRes(p[0],more===0,more===0?'0 more needed':more+(more===1?' more registrant':' more registrants'),note);
     });
   }
+
+  function longDate(d){if(!d)return '';var p=d.split('-'),dt=new Date(Date.UTC(+p[0],+p[1]-1,+p[2],12));return dt.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric',timeZone:'UTC'});}
+  function registered(){return regs.filter(function(r){return r.status==='waiting'||r.status==='accepted';});}
+  function tools(){
+    $('tools').classList.toggle('hidden',!canCancel);
+    if(!canCancel)return;
+    $('rm-last').textContent=m.ws_reminder_at?'Last reminder sent '+niceTs(m.ws_reminder_at)+(m.ws_reminder_count!=null?' to '+m.ws_reminder_count+(m.ws_reminder_count===1?' person.':' people.'):'.'):'No reminder has been sent yet.';
+  }
+  function defaultReminder(){
+    var when=[longDate(m.ws_date),m.ws_time].filter(Boolean).join(', '),where=m.ws_place||m.prog_place||'';
+    var l=['This is a friendly reminder that '+(m.ws_title||'the workshop')+' is coming up'+(when?' on '+when.replace(/\.$/,''):'')+'.'];
+    if(where)l.push('Where: '+where);
+    l.push('If you can no longer come, please reply to this email so we can offer your spot to someone on the waitlist.');
+    l.push('We look forward to seeing you!');
+    return l.join('\n\n');
+  }
+  $('rm-open').onclick=function(){
+    var n=registered().length,f=$('rm-form');
+    if(!n){say('Nobody is registered yet, so there is nobody to remind.','err');return;}
+    $('rm-to').textContent='This goes to the '+n+(n===1?' person':' people')+' registered (accepted, or paid and waiting for acceptance). It does not go to the waitlist.';
+    $('rm-msg').value=defaultReminder();$('rm-err').classList.add('hidden');f.classList.remove('hidden');$('rm-msg').focus();
+  };
+  $('rm-cancel').onclick=function(){$('rm-form').classList.add('hidden');$('rm-open').focus();};
+  $('rm-form').addEventListener('submit',function(e){
+    e.preventDefault();var er=$('rm-err'),msg=$('rm-msg').value.trim();er.classList.add('hidden');
+    if(!msg){er.textContent='Please write the reminder.';er.classList.remove('hidden');return;}
+    var go=$('rm-send'),n=registered().length;go.disabled=true;go.textContent='Sending…';
+    sb.functions.invoke('send-workshop-reminder',{body:{month_id:m.id,message:msg}}).then(function(res){
+      go.disabled=false;go.textContent='Send reminder';
+      var d=res.data||{};
+      if(res.error||!d.ok){er.textContent='The reminder was not sent. Please try again.';er.classList.remove('hidden');return;}
+      $('rm-form').classList.add('hidden');
+      var bad=(d.failed||[]).length;
+      say(bad?'Reminder sent to '+d.sent+' of '+n+'. It could not be sent to: '+d.failed.join(', ')+'.':'Reminder sent to '+d.sent+(d.sent===1?' person.':' people.'),bad?'err':'ok');
+      m.ws_reminder_at=new Date().toISOString();m.ws_reminder_count=d.sent;tools();
+    });
+  });
+  function csvCell(v){v=v==null?'':String(v);return /[",\n\r]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}
+  $('dl-csv').onclick=function(){
+    var list=registered().sort(function(a,b){return a.name.toLowerCase()<b.name.toLowerCase()?-1:1;});
+    if(!list.length){say('Nobody is registered yet, so there is nothing to download.','err');return;}
+    var rows=[['Name','Email','Phone','Member or non-member','Status','Paid','Amount','Payment method','Check number','Signed up','Accepted']];
+    list.forEach(function(r){rows.push([r.name,r.email,r.phone||'',r.is_member?'Member':'Non-member',r.status==='accepted'?'Accepted':'Waiting for acceptance',r.paid?'Yes':'No',(+r.total_due||0).toFixed(2),r.pay_method||'',r.pay_method==='check'?(r.pay_ref||''):'',(r.signed_up_at||'').slice(0,10),(r.accepted_at||'').slice(0,10)]);});
+    var csv='﻿'+rows.map(function(x){return x.map(csvCell).join(',');}).join('\r\n')+'\r\n';
+    var a=document.createElement('a'),u=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+    a.href=u;a.download='workshop-registered-'+mkey.slice(0,7)+'.csv';document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(function(){URL.revokeObjectURL(u);},1000);
+    say('Downloaded the list of '+list.length+(list.length===1?' registered person.':' registered people.'));
+  };
   function nmNote(){
     $('nm-ok').checked=!!m.ws_nonmember_ok;
     $('nm-note').textContent=m.ws_nonmember_ok?'On: people who are not signed in can sign up from the Programs & Workshops page, give their name, email and phone, and pay the non-member fee.':'Off: only signed-in Guild members can sign up.';
@@ -234,7 +346,7 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('workshop_chair')||c.h
         if(rs[0].error){say('Could not load the registrations. Please refresh and try again.','err');return;}
         regs=rs[0].data||[];total=(rs[1].error||rs[1].data===null||+rs[1].data===0)?null:+rs[1].data;
         maxPct=(rs[2].data&&rs[2].data[0]&&+rs[2].data[0].max_subsidy_pct)||0;
-        $('card').classList.remove('hidden');nmNote();draw();
+        $('card').classList.remove('hidden');nmNote();tools();draw();
       });
     });
   }
