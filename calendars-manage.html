@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calendars</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.nbtn:disabled{opacity:.45;cursor:default}
+.nbtn.del{border-color:#9A3412;color:#9A3412}
+.nbtn.solid{background:#0157AE;color:#fff}
+.cqc{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+.cqc>h2,.cqh h2{margin:0;font:400 24px 'Young Serif',Georgia,serif}
+.cqh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sub{margin:2px 0 0;color:#5A5F6E;font-size:15px}
+.cbadge{min-width:26px;height:26px;padding:0 8px;border-radius:999px;background:#E87446;color:#1F2433;font-weight:700;font-size:14px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box}
+.pl{font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;white-space:nowrap}
+.pl.gray{background:#F0ECE3;color:#454A58}
+.pl.new{background:#E87446;color:#1F2433}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer}
+.seg button[aria-pressed=true]{background:#0157AE;color:#fff}
+.confirm{background:#FCEEE9;border-radius:10px;padding:12px 14px}.confirm p{margin:0 0 10px;font-weight:600;color:#9A3412}
+.infobox{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8}
+.infobox h2{margin:0 0 4px;font-size:16px;font-weight:700;color:#0157AE}.infobox p{margin:0;font-size:15px;line-height:1.5;color:#1F2433}
+.blue-note{border:2px solid #0157AE;border-radius:14px;padding:16px 18px;background:#F4F6FB;display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.blue-note h3{margin:0;font-size:17px}.blue-note ul{margin:8px 0 0;padding-left:20px;line-height:1.5}
+.empty{margin:0;padding:14px 16px;border-radius:12px;background:#F0ECE3;color:#454A58}
+.toplinks{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.dl2{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:15px}.dl2 dt{font-weight:700;color:#5A5F6E}.dl2 dd{margin:0}
+.lbl{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+
+.cl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.cl li{display:flex;gap:14px;align-items:center;padding:12px 16px;border:1px solid #E4E0D6;border-radius:12px;background:#fff;flex-wrap:wrap}
+.cl .sw{flex:0 0 auto;min-width:64px;text-align:center;color:#fff;font-weight:700;font-size:13px;border-radius:8px;padding:6px 10px}
+.cl .tx{flex:1;min-width:220px}.cl .tx b{display:block;font-size:17px}.cl .tx small{color:#5A5F6E;font-size:14px;line-height:1.4}
+.cl .bt{display:flex;gap:8px;flex-wrap:wrap}
+.cl li.offc{background:#FAF8F3}
+.opts{display:flex;gap:8px;flex-wrap:wrap}
+.opts button{min-height:44px;padding:0 16px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;gap:8px;align-items:center}
+.opts button[aria-pressed=true]{background:#0157AE;color:#fff}
+.opts .sw2{width:16px;height:16px;border-radius:4px;border:2px solid #fff;box-shadow:0 0 0 1px #1F2433}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions"><a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a><span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span><button type="button" class="pill out" id="out">Sign out</button></div>
+</div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Site Administration</span>
+<h1 id="pg-title" style="margin:0">Calendars</h1><p class="stat-line" id="lead">Choose which calendars feed the events card and the Calendar page.</p></div>
+
+</div></section>
+<div class="mwrap" style="max-width:1000px;gap:22px" id="content">
+<a class="backlink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to Home</a>
+<section class="cqc" aria-labelledby="cals-t"><div><h2 id="cals-t">Your calendars</h2><p class="sub">Every event on the site belongs to one of these calendars. The events card on the home pages and the Calendar page show the calendars that are turned on. A calendar that is turned off is hidden from everyone, and its events are kept.</p></div>
+<p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
+<p id="loading" role="status" style="margin:0">Loading&hellip;</p>
+<ul class="cl" id="cals"></ul></section>
+<section class="cqc" aria-labelledby="add-t"><div><h2 id="add-t">Add a calendar</h2><p class="sub">For a new kind of event, such as retreats, the Quilt Show or the Auction. It shows on the events card and the Calendar page right away. No one has to change the site.</p></div>
+<form id="form" novalidate style="display:grid;gap:18px">
+<div><label class="lbl" for="nc-name">Calendar name</label><input class="field" id="nc-name" maxlength="40" placeholder="Retreats" style="max-width:420px"><p class="sub" style="font-size:14px">This name also appears as the label on each of its events.</p></div>
+<div><span class="lbl" id="col-l">Color</span><div class="opts" id="colors" role="group" aria-labelledby="col-l"></div></div>
+<div><span class="lbl" id="vis-l">Who can see its events</span><div class="opts" id="vis" role="group" aria-labelledby="vis-l"></div></div>
+<div><span class="lbl" id="src-l">Where its events come from</span><div class="opts" id="src" role="group" aria-labelledby="src-l"></div><p class="sub" id="src-help" style="font-size:14px"></p></div>
+<div id="who-wrap"><label class="lbl" for="nc-who">Who can add events</label><select class="field" id="nc-who" style="max-width:420px"></select><p class="sub" style="font-size:14px">The President, Vice President, Administrators and the Superuser can always add events. You can also let the holder of one more role add them.</p></div>
+<div class="saverow"><button class="btn-save" type="submit" id="save">Save calendar</button><button class="nbtn" type="button" id="clear">Clear the form</button><span class="msg err hidden" id="err" role="alert" style="margin:0"></span></div>
+</form></section>
+<section class="infobox"><div><h2>How this works</h2><p>Every event is one record that belongs to a calendar. Monthly programs and Workshops are made automatically from Program Planning, so nobody types them twice. Other calendars hold events typed in on that calendar&rsquo;s page. Who can use this page: Administrators and the Superuser.</p></div></section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/comfort.js"></script>
+<script>
+QGPCShell.start({need:function(c){return c.isAdmin;}},function(ctx){
+  var $=function(i){return document.getElementById(i)};
+  var C=QGPCComfort,sb=QGPC.sb,el=C.el;
+  var COLORS=[['Cobalt','#0157AE'],['Rust','#9A3412'],['Teal','#0F6E78'],['Gold','#8A6F3B'],['Green','#2F6B5A']];
+  var VIS=[['public','Everyone, including visitors'],['members','Members only'],['board','Board members only']];
+  var SRC=[['manual','Typed in on its own page'],['derived','Made from another page']];
+  var cals=[],roles=[],nc={color:0,vis:'public',src:'manual'};
+  var VL={public:'Public',members:'Members only',board:'Board members only'};
+  function say(t,bad){var n=$('status');n.textContent=t;n.className='msg '+(bad?'err':'ok');n.style.margin='0';n.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  function load(){
+    return Promise.all([sb.from('calendars').select('*').order('sort_order'),sb.from('roles').select('role_key,label').order('sort_order')]).then(function(r){
+      $('loading').classList.add('hidden');
+      if(r[0].error){say('Could not load the calendars. Please refresh and try again.',true);return;}
+      cals=r[0].data||[];roles=r[1].data||[];
+      var s=$('nc-who');if(!s.options.length){var o=el('option',null,'Only those four roles');o.value='';s.appendChild(o);roles.forEach(function(x){var op=el('option',null,'Also: '+x.label);op.value=x.role_key;s.appendChild(op);});}
+      draw();
+    });
+  }
+  function draw(){
+    var ul=$('cals');ul.textContent='';
+    cals.forEach(function(c){
+      var li=el('li',c.active?'':'offc'),sw=el('span','sw',c.name.slice(0,12));sw.style.background=c.color;li.appendChild(sw);
+      var tx=el('span','tx'),role=roles.filter(function(x){return x.role_key===c.editor_role;})[0];
+      tx.appendChild(el('b',null,c.name));
+      tx.appendChild(el('small',null,(c.kind==='derived'?'Made automatically from Program Planning':'Typed in on its own page')+' · '+VL[c.visibility]+(c.kind==='manual'?' · Events added by: the President, Vice President, Administrators, Superuser'+(role?' and the '+role.label:''):'')));
+      li.appendChild(tx);
+      var bt=el('span','bt');
+      if(c.kind==='manual'){var a=el('a','nbtn','Add or change events');a.href='calendar-manage.html?cal='+encodeURIComponent(c.slug);a.setAttribute('aria-label','Add or change events on the '+c.name+' calendar');bt.appendChild(a);}
+      var t=el('button','nbtn'+(c.active?' solid':''),c.active?'Turned on':'Turned off');t.type='button';t.setAttribute('aria-pressed',c.active?'true':'false');t.setAttribute('aria-label',c.name+' calendar: '+(c.active?'turned on. Press to turn off':'turned off. Press to turn on'));
+      t.onclick=function(){t.disabled=true;sb.from('calendars').update({active:!c.active}).eq('id',c.id).then(function(r){if(r.error)say('That did not save. Please try again.',true);else say('The '+c.name+' calendar is now turned '+(c.active?'off':'on')+'.');load();});};
+      bt.appendChild(t);li.appendChild(bt);ul.appendChild(li);
+    });
+  }
+  function opts(box,list,key,sw){
+    box.textContent='';
+    list.forEach(function(o,i){var v=sw?i:o[0];var b=el('button');b.type='button';b.setAttribute('aria-pressed',nc[key]===v?'true':'false');
+      if(sw){var s=el('span','sw2');s.style.background=o[1];s.setAttribute('aria-hidden','true');b.appendChild(s);b.appendChild(document.createTextNode(o[0]));}else b.textContent=o[1];
+      b.onclick=function(){nc[key]=v;drawForm();};box.appendChild(b);});
+  }
+  function drawForm(){
+    opts($('colors'),COLORS,'color',true);opts($('vis'),VIS,'vis');opts($('src'),SRC,'src');
+    $('src-help').textContent=nc.src==='manual'?'People you allow type each event in on the calendar’s own page (opened with “Add or change events”).':'The events are read from a page that already holds the dates, for example a Retreats page or the Quilt Show page, so nobody types them twice. That page must exist first, and a developer has to connect it. Until then the calendar stays empty.';
+    $('who-wrap').classList.toggle('hidden',nc.src!=='manual');
+  }
+  function slugify(n){var s=n.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,30)||'calendar';var b=s,i=2;while(cals.some(function(c){return c.slug===s;}))s=b+'-'+(i++);return s;}
+  $('clear').onclick=function(){nc={color:0,vis:'public',src:'manual'};$('nc-name').value='';$('nc-who').value='';$('err').classList.add('hidden');drawForm();};
+  $('form').addEventListener('submit',function(e){
+    e.preventDefault();var er=$('err');er.classList.add('hidden');
+    var name=$('nc-name').value.trim();
+    if(!name){er.textContent='Enter a name for the calendar.';er.classList.remove('hidden');$('nc-name').focus();return;}
+    if(cals.some(function(c){return c.name.toLowerCase()===name.toLowerCase();})){er.textContent='There is already a calendar with that name.';er.classList.remove('hidden');return;}
+    var max=cals.reduce(function(a,c){return Math.max(a,c.sort_order||0);},0),b=$('save');b.disabled=true;
+    sb.from('calendars').insert({slug:slugify(name),name:name,color:COLORS[nc.color][1],visibility:nc.vis,kind:nc.src,editor_role:(nc.src==='manual'&&$('nc-who').value)||null,sort_order:max+10}).then(function(r){
+      b.disabled=false;if(r.error){er.textContent='That did not save. '+(r.error.message||'')+' Please try again.';er.classList.remove('hidden');return;}
+      $('clear').click();say('The '+name+' calendar was added. It now shows on the events card and the Calendar page.');load();
+    });
+  });
+  drawForm();load();
+});
+</script>
+</body></html>

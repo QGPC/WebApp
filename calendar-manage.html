@@ -88,10 +88,10 @@
 <script src="assets/js/shell.js"></script>
 <script>
 // One page for the two typed-in calendars: calendar-manage.html?cal=guild  or  ?cal=board
-QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president');}},function(c){
+QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president')||c.roles.length>0;}},function(c){
   var $=function(i){return document.getElementById(i)};
   var sb=QGPC.sb;
-  var slug=/[?&]cal=board\b/.test(location.search)?'board':'guild';
+  var slug=((location.search.match(/[?&]cal=([a-z0-9-]+)/)||[])[1])||'guild';
   if(slug==='board')$('back').classList.remove('hidden');   // the Board Calendar is opened from the President's Page
   var MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
   var DOW=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -196,7 +196,18 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
   });
   sb.from('calendars').select('*').eq('slug',slug).limit(1).then(function(r){
     if(r.error||!r.data||!r.data.length){$('loading').classList.add('hidden');bad('This calendar is not set up yet. Ask the Superuser to run the events database file.');return;}
-    cal=r.data[0];load();
+    cal=r.data[0];
+    var four=c.isAdmin||c.has('president')||c.has('vice_president');
+    if(cal.kind!=='manual'||!(four||(cal.editor_role&&c.has(cal.editor_role)))){location.href='home.html';return;}
+    if(slug!=='board'&&slug!=='guild'){
+      document.title=cal.name;$('pg-title').textContent=cal.name;
+      $('sub').textContent='Events on the '+cal.name+' calendar through the year.';
+      var vt={public:'Everyone, including visitors, will see this event.',members:'Only signed-in members will see this event.',board:'Only board members will see this event.'};
+      $('f-vis').textContent=vt[cal.visibility]||'';
+      $('who-note').textContent='Who can use this page: the President, Vice President, Administrators and the Superuser'+(cal.editor_role?', and the holder of the role chosen on the Calendars page':'')+'.';
+      if(c.isAdmin){$('back').href='calendars-manage.html';$('back').lastChild.textContent='Back to Calendars';$('back').classList.remove('hidden');}
+    }
+    load();
   });
 });
 </script>
