@@ -113,7 +113,7 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('workshop_chair')||c.h
   if(!q[1]||+q[2]<1||+q[2]>12){location.href='workshop-registrations.html';return;}
   var mkey=q[1]+'-'+q[2]+'-01',m=null,regs=[],confirm=null;
   function held(){return regs.filter(function(r){return r.status!=='waitlist';}).length;}
-  function tag(r){return (r.is_member?'Member':'Non-member')+' · '+(r.paid?'Paid '+money(r.total_due):'Not paid · '+money(r.total_due)+' due');}
+  function tag(r){return (r.is_member?'Member':'Non-member')+' · '+(r.paid?'Paid '+money(r.total_due)+(r.pay_method?' by '+r.pay_method+(r.pay_ref?' #'+r.pay_ref:''):''):'Not paid · '+money(r.total_due)+' due');}
   function btn(parent,label,cls,fn,dis,aria){var b=el('button','nbtn'+(cls?' '+cls:''),label);b.type='button';if(dis)b.disabled=true;if(aria)b.setAttribute('aria-label',aria);b.onclick=fn;parent.appendChild(b);return b;}
   function removeBox(card,r,what){
     if(confirm!=='rm'+r.id)return;
@@ -170,7 +170,16 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('workshop_chair')||c.h
       card.appendChild(a);
       if(confirm==='pay'+r.id){
         var cf=el('div','confirm');cf.style.background='#EEF1F8';var p=el('p','','Record a payment of '+money(r.total_due)+' from '+r.name+' and register them?');p.style.color='#0157AE';cf.appendChild(p);
-        var row=el('div','act');btn(row,'Yes, mark paid','solid',function(){act('workshop_mark_paid',r,r.name+' is marked paid and registered. Accept them on Registrations to accept.');},false);
+        var pid='pm'+r.id.slice(0,6),wrap=el('div');wrap.innerHTML='<label class="l" for="'+pid+'">How was it paid?</label><select class="field" id="'+pid+'" style="max-width:260px"><option value="">Choose&hellip;</option><option value="cash">Cash</option><option value="check">Check</option><option value="online">Online</option></select><div id="'+pid+'r" class="hidden" style="margin-top:8px"><label class="l" for="'+pid+'n">Check number</label><input class="field" id="'+pid+'n" maxlength="40" inputmode="numeric" style="max-width:260px"></div><p class="err hidden" id="'+pid+'e" role="alert"></p>';
+        cf.appendChild(wrap);
+        var sel=wrap.querySelector('select'),rw=wrap.querySelector('#'+pid+'r'),er=wrap.querySelector('#'+pid+'e');
+        sel.onchange=function(){rw.classList.toggle('hidden',sel.value!=='check');};
+        var row=el('div','act');btn(row,'Save payment','solid',function(){
+          if(!sel.value){er.textContent='Please choose how it was paid.';er.classList.remove('hidden');sel.focus();return;}
+          sb.rpc('workshop_mark_paid',{p_id:r.id,p_method:sel.value,p_ref:sel.value==='check'?wrap.querySelector('#'+pid+'n').value:null}).then(function(x){
+            if(x.error){say(/full/i.test(x.error.message||'')?'The workshop is full.':'That did not work. Please refresh and try again.','err');return;}
+            confirm=null;say(r.name+' is marked paid and registered. Accept them on Registrations to accept.');return load();
+          });},false);
         btn(row,'Cancel','',function(){confirm=null;draw();});cf.appendChild(row);card.appendChild(cf);
       }
       removeBox(card,r,'the waitlist');wb.appendChild(card);
