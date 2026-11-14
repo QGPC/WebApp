@@ -67,7 +67,8 @@ begin
       'member_emails','sunshine_notes','comfort_kit_claims','quilts_needing_work','comfort_log_in','comfort_log_out',
       'comfort_year_start','member_imports',
       'program_months','program_month_costs','program_costs','nonmember_fees','workshop_materials','newsletters','charities',
-      'bees','guild_history_entries','comfort_patterns','news_items','retreats','events','guild_contact','site_appearance'] loop
+      'bees','guild_history_entries','comfort_patterns','news_items','retreats','events','guild_contact','site_appearance',
+      'conversations','message_blocks','member_messaging'] loop
     out := out || jsonb_build_object(t, public._count_rows(t));
   end loop;
   return jsonb_build_object('counts', out,
@@ -120,7 +121,8 @@ begin
   -- test activity (always cleared)
   foreach t in array array['membership_requests','workshop_registrations','whats_new','last_seen','notices','special_notices',
       'member_emails','sunshine_notes','comfort_kit_claims','quilts_needing_work','comfort_log_in','comfort_log_out',
-      'comfort_year_start','member_imports','signin_link_requests'] loop
+      'comfort_year_start','member_imports','signin_link_requests',
+      'conversations','message_blocks','member_messaging'] loop
     if to_regclass('public.' || quote_ident(t)) is not null then
       execute format('delete from public.%I where true', t);
       get diagnostics n = row_count;

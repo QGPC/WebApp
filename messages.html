@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Messages</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.nbtn:disabled{opacity:.45;cursor:default}
+.nbtn.del{border-color:#9A3412;color:#9A3412}
+.nbtn.solid{background:#0157AE;color:#fff}
+.cqc{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box;min-width:0}
+.cqh{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.cqh h2{margin:0;font:400 24px 'Young Serif',Georgia,serif}
+.sub{margin:0;color:#5A5F6E;font-size:15px}
+.empty{margin:0;padding:14px 16px;border-radius:12px;background:#F0ECE3;color:#454A58}
+.cbadge{min-width:24px;height:24px;padding:0 7px;border-radius:999px;background:#E87446;color:#1F2433;font-weight:700;font-size:13px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;flex:0 0 auto}
+.mgrid{display:grid;grid-template-columns:minmax(280px,380px) minmax(0,1fr);gap:20px;align-items:start}
+.clist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.cbtn{width:100%;text-align:left;display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:12px;border:1.5px solid #E4E0D6;background:#fff;cursor:pointer;font:16px var(--sans);color:#1F2433;min-height:44px;box-sizing:border-box}
+.cbtn[aria-current=true]{border-color:#0157AE;background:#F4F6FB}
+.cbtn.unread b.nm{color:#0157AE}
+.cbtn .tx{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:2px}
+.cbtn b.nm{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cbtn .pv{font-size:14px;color:#5A5F6E;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cbtn .tm{font-size:12px;color:#5A5F6E;white-space:nowrap;flex:0 0 auto}
+.cbtn .rt{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex:0 0 auto}
+.thead{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;justify-content:space-between}
+.thead h2{margin:0;font:400 24px/1.2 'Young Serif',Georgia,serif;overflow-wrap:anywhere}
+.back{display:none}
+.msgs{list-style:none;margin:0;padding:4px 2px;display:flex;flex-direction:column;gap:12px;max-height:55vh;min-height:160px;overflow-y:auto}
+.bub{max-width:min(560px,92%);padding:10px 14px;border-radius:14px;display:flex;flex-direction:column;gap:4px;box-sizing:border-box}
+.bub.theirs{align-self:flex-start;background:#fff;border:1.5px solid #E4E0D6}
+.bub.mine{align-self:flex-end;background:#EEF1F8;border:1.5px solid #C9D3EA}
+.bub.gone{align-self:center;background:#F0ECE3;border:0;color:#454A58;font-style:italic;font-size:15px}
+.bub .who{font-size:13px;font-weight:700;color:#0157AE}
+.bub .bd{margin:0;font-size:16px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}
+.bub .mt{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;font-size:13px;color:#5A5F6E}
+.lk{background:none;border:0;padding:0;min-height:32px;font:600 13px var(--sans);color:#0157AE;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.lk.del{color:#9A3412}
+.inl{display:flex;flex-direction:column;gap:8px;padding:10px 12px;border-radius:10px;background:#FCEEE9;margin-top:4px}
+.inl p{margin:0;font-size:14px;line-height:1.45;color:#1F2433}
+.inl .row{display:flex;gap:8px;flex-wrap:wrap}
+textarea.field{min-height:96px;resize:vertical}
+.compose{display:flex;flex-direction:column;gap:10px;border-top:1px solid #E4E0D6;padding-top:14px}
+.compose .f textarea{min-height:90px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.plist{list-style:none;margin:0;padding:6px;border:1.5px solid #C9C4B8;border-radius:12px;max-height:260px;overflow-y:auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:2px}
+.plist label{display:flex;align-items:center;gap:10px;min-height:44px;padding:0 10px;border-radius:8px;cursor:pointer;font-size:16px}
+.plist label:hover{background:#F4F6FB}
+.plist input{width:20px;height:20px;accent-color:#0157AE;flex:0 0 auto}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chp{display:inline-flex;align-items:center;gap:6px;padding:4px 6px 4px 12px;border-radius:999px;background:#EEF1F8;color:#0157AE;font-weight:700;font-size:14px}
+.chp button{border:0;background:#fff;border-radius:999px;width:28px;height:28px;cursor:pointer;color:#0157AE;font-weight:700;font-size:16px;line-height:1}
+.privnote{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:12px;background:#EEF1F8;font-size:14px;line-height:1.5}
+.errline{margin:0;color:#9A3412;font-weight:600}
+@media (max-width:860px){
+  .mgrid{grid-template-columns:1fr}
+  .mgrid.inpane #listcard{display:none}
+  .mgrid:not(.inpane) #pane{display:none}
+  .back{display:inline-flex}
+}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</div></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Members only</span>
+<h1 id="pg-title" style="margin:0">Messages</h1>
+<p class="stat-line">Private messages with other Guild members, one to one or in a small group.</p></div>
+</div></section>
+<div class="mwrap" style="max-width:1200px;gap:18px">
+<p id="note" class="msg err hidden" role="alert"></p>
+<div class="mgrid" id="mgrid">
+
+<section class="cqc" id="listcard" aria-labelledby="inbox-h">
+<div class="cqh"><h2 id="inbox-h">Conversations</h2><button type="button" class="nbtn solid" id="newbtn">New message</button></div>
+<p class="empty hidden" id="susp">An Administrator has turned off your messaging. You can still read your messages, but you cannot send new ones.</p>
+<p id="loading" role="status" style="margin:0">Loading&hellip;</p>
+<p class="empty hidden" id="none">No messages yet. Choose &ldquo;New message&rdquo; to write to a member.</p>
+<ul class="clist" id="clist"></ul>
+</section>
+
+<section class="cqc" id="pane" aria-label="Conversation">
+<div id="v-empty"><p class="empty" style="margin:0">Choose a conversation, or start a new message.</p></div>
+
+<div id="v-thread" class="hidden" style="display:flex;flex-direction:column;gap:14px">
+<div class="thead"><div style="min-width:0">
+<button type="button" class="nbtn back" id="back" style="margin-bottom:10px">&lsaquo; All conversations</button>
+<h2 id="t-title" tabindex="-1"></h2><p class="sub" id="t-sub"></p></div>
+<button type="button" class="nbtn del hidden" id="leave">Leave this group</button></div>
+<div id="leave-conf" class="inl hidden"><p><strong>Leave this group?</strong> You will no longer see it or get its messages. No one can add you back.</p><div class="row"><button type="button" class="nbtn del" id="leave-yes">Leave the group</button><button type="button" class="nbtn" id="leave-no">Stay</button></div></div>
+<ul class="msgs" id="msgs" role="log" aria-live="polite" aria-label="Messages in this conversation" tabindex="0"></ul>
+<form class="compose" id="cf" novalidate>
+<div class="f"><label for="cbody">Reply</label><textarea class="field" id="cbody" rows="3" maxlength="4000" placeholder="Write a message"></textarea></div>
+<div class="row"><button type="submit" class="btn-save" id="csend">Send</button><span class="errline hidden" id="cerr" role="alert"></span></div>
+</form>
+<p class="sub hidden" id="nosend">An Administrator has turned off your messaging, so you cannot send messages right now.</p>
+<div class="privnote" role="note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:0 0 auto;margin-top:2px"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg><span>Only the people in this conversation can read it. These messages are not a secure place for passwords or bank details. If a message upsets you, use <em>Report</em>: an Administrator will see that message and the ones just before and after it.</span></div>
+</div>
+
+<form id="v-new" class="hidden" novalidate style="display:flex;flex-direction:column;gap:14px">
+<div class="thead"><div><button type="button" class="nbtn back" id="nback" style="margin-bottom:10px">&lsaquo; All conversations</button><h2 style="margin:0;font:400 24px 'Young Serif',Georgia,serif" id="n-title" tabindex="-1">New message</h2></div></div>
+<p class="sub">Choose one member for a private conversation, or several for a group (up to 12 people, including you). Only members who accept private messages are listed. No one can be added after a group starts.</p>
+<div class="f"><label for="nq">Find a member</label><input class="field" id="nq" type="search" autocomplete="off" placeholder="Type a first or last name"></div>
+<div class="chips" id="chosen" aria-live="polite"></div>
+<p class="empty hidden" id="nopeople">No members are available to message right now.</p>
+<ul class="plist" id="plist" aria-label="Members you can message"></ul>
+<div class="f hidden" id="gname-wrap"><label for="gname">Group name (optional)</label><input class="field" id="gname" maxlength="80" placeholder="For example: Retreat crew"></div>
+<div class="f"><label for="nbody">Message</label><textarea class="field" id="nbody" rows="5" maxlength="4000" placeholder="Write your message"></textarea></div>
+<div class="privnote" role="note"><span>Only the people you choose can read this. These messages are not a secure place for passwords or bank details.</span></div>
+<div class="row"><button type="submit" class="btn-save" id="nsend">Send message</button><button type="button" class="nbtn" id="ncancel">Cancel</button><span class="errline hidden" id="nerr" role="alert"></span></div>
+</form>
+</section>
+</div>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/comfort.js"></script>
+<script>
+QGPCShell.start({need:function(c){return c.full;}},function(ctx){
+  var $=function(i){return document.getElementById(i)};
+  var sb=QGPC.sb,el=QGPCComfort.el;
+  var convs=[],cur=null,thread=null,sig='',people=[],chosen={},suspended=false,sending=false;
+  var TZ='America/Chicago';
+  var fmtT=new Intl.DateTimeFormat('en-US',{timeZone:TZ,hour:'numeric',minute:'2-digit'});
+  var fmtD=new Intl.DateTimeFormat('en-US',{timeZone:TZ,month:'short',day:'numeric'});
+  var fmtDay=new Intl.DateTimeFormat('en-CA',{timeZone:TZ});
+  function when(d){var x=new Date(d);return fmtDay.format(x)===fmtDay.format(new Date())?fmtT.format(x):fmtD.format(x)+', '+fmtT.format(x);}
+  function short(d){var x=new Date(d);return fmtDay.format(x)===fmtDay.format(new Date())?fmtT.format(x):fmtD.format(x);}
+  function say(id,t){var e=$(id);e.textContent=t||'';e.classList.toggle('hidden',!t);}
+  // Our own database messages are written for members; anything else gets a general line.
+  function errText(e){return e&&e.code==='P0001'&&e.message?e.message:'Something went wrong. Please try again.';}
+  function names(list){return (list||[]).map(function(p){return p.name;});}
+  function convName(c,others){
+    if(c.title)return c.title;
+    var n=names(others);if(!n.length)return 'Former member';
+    var s=n.join(', ');return s.length>60?s.slice(0,57)+'…':s;
+  }
+
+  // ---------- which pane is showing ----------
+  function pane(which){
+    $('v-empty').classList.toggle('hidden',which!=='empty');
+    $('v-thread').classList.toggle('hidden',which!=='thread');
+    $('v-new').classList.toggle('hidden',which!=='new');
+    $('mgrid').classList.toggle('inpane',which!=='empty');
+  }
+  function go(h){if(location.hash.slice(1)===h)route();else location.hash=h;}
+  function route(){
+    var h=location.hash.slice(1),m;
+    if((m=/^c=([0-9a-f-]{36})$/i.exec(h))){openConv(m[1].toLowerCase());}
+    else if(/^new(=[0-9a-f-]{36})?$/i.test(h)){var p=/^new=([0-9a-f-]{36})$/i.exec(h);openNew(p?p[1].toLowerCase():null);}
+    else{cur=null;thread=null;pane('empty');drawList();}
+  }
+
+  // ---------- the list ----------
+  function loadList(){
+    return sb.rpc('my_conversations').then(function(r){
+      $('loading').classList.add('hidden');
+      if(r.error){say('note','Your messages could not be loaded. Please refresh the page.');return;}
+      say('note','');convs=r.data||[];drawList();
+    });
+  }
+  function drawList(){
+    var ul=$('clist');ul.textContent='';
+    $('none').classList.toggle('hidden',convs.length>0);
+    convs.forEach(function(c){
+      var li=el('li'),b=el('button','cbtn'+(c.unread?' unread':''));b.type='button';
+      b.setAttribute('aria-current',c.id===cur?'true':'false');
+      var tx=el('span','tx');tx.appendChild(el('b','nm',convName(c,c.participants)));
+      var pv=c.last_deleted?'Message deleted':((c.last_sender?c.last_sender.split(' ')[0]+': ':'')+(c.last_body||'')).replace(/\s+/g,' ');
+      tx.appendChild(el('span','pv',pv));
+      var rt=el('span','rt');rt.appendChild(el('span','tm',short(c.last_sent_at)));
+      if(c.unread){var bd=el('span','cbadge',String(c.unread));bd.setAttribute('aria-label',c.unread+' unread');rt.appendChild(bd);}
+      b.appendChild(tx);b.appendChild(rt);
+      b.addEventListener('click',function(){go('c='+c.id);});
+      li.appendChild(b);ul.appendChild(li);
+    });
+  }
+
+  // ---------- one conversation ----------
+  function openConv(id){
+    cur=id;pane('thread');drawList();
+    sb.rpc('conversation_thread',{p_conversation:id}).then(function(r){
+      if(cur!==id)return;
+      if(r.error){say('note',errText(r.error));cur=null;pane('empty');return;}
+      say('note','');sig='';renderThread(r.data,true);
+      $('t-title').focus();
+      markRead(id);
+    });
+  }
+  function markRead(id){
+    sb.rpc('mark_conversation_read',{p_conversation:id}).then(function(){
+      convs.forEach(function(c){if(c.id===id)c.unread=0;});drawList();
+    });
+  }
+  function signature(j){return (j.messages||[]).map(function(m){return m.id+(m.deleted?'d':'')+(m.reported?'r':'');}).join(',')+'|'+j.can_send;}
+  function renderThread(j,force){
+    var s=signature(j);
+    if(!force&&s===sig)return;
+    if(!force&&document.querySelector('#msgs .inl'))return;   // do not disturb an open Delete or Report box
+    sig=s;thread=j;
+    var others=(j.participants||[]).filter(function(p){return !p.me;});
+    $('t-title').textContent=convName(j,others);
+    $('t-sub').textContent=j.is_group?((j.participants||[]).length+' people: you, '+(names(others).join(', ')||'no one else now')):'Private conversation';
+    $('leave').classList.toggle('hidden',!j.is_group);
+    $('leave-conf').classList.add('hidden');
+    var box=$('msgs'),atEnd=force||(box.scrollHeight-box.scrollTop-box.clientHeight<80);
+    box.textContent='';
+    (j.messages||[]).forEach(function(m){box.appendChild(bubble(m));});
+    if(!(j.messages||[]).length)box.appendChild(el('li','bub gone','No messages to show.'));
+    if(atEnd)box.scrollTop=box.scrollHeight;
+    $('cf').classList.toggle('hidden',!j.can_send);$('nosend').classList.toggle('hidden',!!j.can_send);
+  }
+  function bubble(m){
+    var li=el('li','bub '+(m.deleted?'gone':(m.mine?'mine':'theirs')));
+    if(m.deleted){
+      li.appendChild(document.createTextNode(m.removed?'This message was removed by an Administrator.':'This message was deleted.'));
+      return li;
+    }
+    if(!m.mine)li.appendChild(el('span','who',m.sender));
+    li.appendChild(el('p','bd',m.body));
+    var mt=el('div','mt');mt.appendChild(el('span',null,when(m.sent_at)));
+    if(m.mine){
+      var d=el('button','lk del','Delete');d.type='button';d.addEventListener('click',function(){askDelete(li,m,mt);});mt.appendChild(d);
+    }else if(m.reported){
+      mt.appendChild(el('span',null,'Reported. An Administrator will review it.'));
+    }else{
+      var r=el('button','lk','Report');r.type='button';r.addEventListener('click',function(){askReport(li,m,mt);});mt.appendChild(r);
+    }
+    li.appendChild(mt);return li;
+  }
+  function askDelete(li,m,mt){
+    mt.classList.add('hidden');
+    var b=el('div','inl');b.appendChild(el('p',null,'Delete this message for everyone in the conversation? It cannot be undone.'));
+    var row=el('div','row'),y=el('button','nbtn del','Delete message'),n=el('button','nbtn','Keep it');y.type=n.type='button';
+    var er=el('p','errline hidden');er.setAttribute('role','alert');
+    y.addEventListener('click',function(){
+      y.disabled=true;
+      sb.rpc('delete_my_message',{p_message:m.id}).then(function(r){
+        if(r.error){y.disabled=false;er.textContent=errText(r.error);er.classList.remove('hidden');return;}
+        refreshThread(true);loadList();
+      });
+    });
+    n.addEventListener('click',function(){b.remove();mt.classList.remove('hidden');});
+    row.appendChild(y);row.appendChild(n);b.appendChild(row);b.appendChild(er);li.appendChild(b);y.focus();
+  }
+  function askReport(li,m,mt){
+    mt.classList.add('hidden');
+    var b=el('div','inl');
+    b.appendChild(el('p',null,'Report this message to the Administrators? They will see this message and the ones just before and after it. The member is not told who reported it.'));
+    var f=el('div','f'),lab=el('label',null,'What is wrong? (optional)'),id='rr-'+m.id;lab.setAttribute('for',id);
+    var ta=el('textarea','field');ta.id=id;ta.rows=3;ta.maxLength=1000;f.appendChild(lab);f.appendChild(ta);b.appendChild(f);
+    var row=el('div','row'),y=el('button','nbtn solid','Send report'),n=el('button','nbtn','Cancel');y.type=n.type='button';
+    var er=el('p','errline hidden');er.setAttribute('role','alert');
+    y.addEventListener('click',function(){
+      y.disabled=true;
+      sb.rpc('report_message',{p_message:m.id,p_reason:ta.value}).then(function(r){
+        if(r.error){y.disabled=false;er.textContent=errText(r.error);er.classList.remove('hidden');return;}
+        refreshThread(true);
+      });
+    });
+    n.addEventListener('click',function(){b.remove();mt.classList.remove('hidden');});
+    row.appendChild(y);row.appendChild(n);b.appendChild(row);b.appendChild(er);li.appendChild(b);ta.focus();
+  }
+  function refreshThread(force){
+    var id=cur;if(!id)return;
+    sb.rpc('conversation_thread',{p_conversation:id}).then(function(r){
+      if(cur!==id||r.error)return;
+      renderThread(r.data,!!force);
+    });
+  }
+
+  // ---------- reply ----------
+  $('cf').addEventListener('submit',function(e){
+    e.preventDefault();if(sending||!cur)return;say('cerr','');
+    var t=$('cbody').value.trim();if(!t){say('cerr','Please write a message.');$('cbody').focus();return;}
+    sending=true;$('csend').disabled=true;
+    sb.rpc('send_message',{p_conversation:cur,p_body:t}).then(function(r){
+      sending=false;$('csend').disabled=false;
+      if(r.error){say('cerr',errText(r.error));return;}
+      $('cbody').value='';
+      sb.rpc('conversation_thread',{p_conversation:cur}).then(function(x){if(!x.error){sig='';renderThread(x.data,true);}});
+      loadList();
+    });
+  });
+  $('cbody').addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();$('cf').requestSubmit();}});
+  $('back').addEventListener('click',function(){go('');});
+  $('leave').addEventListener('click',function(){$('leave-conf').classList.remove('hidden');$('leave-yes').focus();});
+  $('leave-no').addEventListener('click',function(){$('leave-conf').classList.add('hidden');$('leave').focus();});
+  $('leave-yes').addEventListener('click',function(){
+    var b=this;b.disabled=true;
+    sb.rpc('leave_conversation',{p_conversation:cur}).then(function(r){
+      b.disabled=false;
+      if(r.error){say('note',errText(r.error));return;}
+      go('');loadList();
+    });
+  });
+
+  // ---------- new message ----------
+  function openNew(pre){
+    if(suspended){go('');return;}
+    cur=null;thread=null;pane('new');drawList();
+    chosen={};$('nq').value='';$('nbody').value='';$('gname').value='';say('nerr','');
+    sb.rpc('messaging_directory').then(function(r){
+      if(r.error){say('nerr',errText(r.error));return;}
+      people=r.data||[];
+      if(pre&&people.some(function(p){return p.id===pre;}))chosen[pre]=true;
+      else if(pre)say('nerr','That member is not able to receive private messages.');
+      drawPeople();
+      (pre&&chosen[pre]?$('nbody'):$('nq')).focus();
+    });
+  }
+  function nameOf(p){return p.first_name+' '+p.last_name;}
+  function drawPeople(){
+    var q=$('nq').value.trim().toLowerCase(),ul=$('plist');ul.textContent='';
+    $('nopeople').classList.toggle('hidden',people.length>0);ul.classList.toggle('hidden',!people.length);
+    people.forEach(function(p){
+      if(q&&nameOf(p).toLowerCase().indexOf(q)<0&&(p.last_name+' '+p.first_name).toLowerCase().indexOf(q)<0)return;
+      var li=el('li'),lab=el('label'),cb=el('input');cb.type='checkbox';cb.checked=!!chosen[p.id];
+      cb.addEventListener('change',function(){
+        if(cb.checked&&Object.keys(chosen).length>=11){cb.checked=false;say('nerr','A group can have up to 12 people, including you.');return;}
+        say('nerr','');if(cb.checked)chosen[p.id]=true;else delete chosen[p.id];drawChosen();
+      });
+      lab.appendChild(cb);lab.appendChild(document.createTextNode(nameOf(p)));li.appendChild(lab);ul.appendChild(li);
+    });
+    drawChosen();
+  }
+  function drawChosen(){
+    var box=$('chosen');box.textContent='';var ids=Object.keys(chosen);
+    ids.forEach(function(id){
+      var p=people.filter(function(x){return x.id===id;})[0];if(!p)return;
+      var s=el('span','chp',nameOf(p)),x=el('button',null,'×');x.type='button';x.setAttribute('aria-label','Remove '+nameOf(p));
+      x.addEventListener('click',function(){delete chosen[id];drawPeople();});
+      s.appendChild(x);box.appendChild(s);
+    });
+    $('gname-wrap').classList.toggle('hidden',ids.length<2);
+  }
+  $('nq').addEventListener('input',drawPeople);
+  $('newbtn').addEventListener('click',function(){go('new');});
+  $('nback').addEventListener('click',function(){go('');});
+  $('ncancel').addEventListener('click',function(){go('');});
+  $('v-new').addEventListener('submit',function(e){
+    e.preventDefault();if(sending)return;say('nerr','');
+    var ids=Object.keys(chosen),t=$('nbody').value.trim();
+    if(!ids.length){say('nerr','Please choose at least one member.');$('nq').focus();return;}
+    if(!t){say('nerr','Please write a message.');$('nbody').focus();return;}
+    sending=true;$('nsend').disabled=true;
+    sb.rpc('start_conversation',{p_recipients:ids,p_title:ids.length>1?$('gname').value:null,p_body:t}).then(function(r){
+      sending=false;$('nsend').disabled=false;
+      if(r.error){say('nerr',errText(r.error));return;}
+      loadList().then(function(){go('c='+r.data);});
+    });
+  });
+
+  // ---------- keep it fresh: check about every 30 seconds while the page is in view ----------
+  setInterval(function(){
+    if(document.hidden||sending)return;
+    loadList().then(function(){
+      if(cur){refreshThread(false);if(thread)markRead(cur);}
+    });
+  },30000);
+  document.addEventListener('visibilitychange',function(){if(!document.hidden){loadList();if(cur)refreshThread(false);}});
+  window.addEventListener('hashchange',route);
+
+  sb.rpc('my_messaging_settings').then(function(r){
+    suspended=!!(r.data&&r.data.suspended);
+    $('susp').classList.toggle('hidden',!suspended);$('newbtn').disabled=suspended;
+  }).then(function(){return loadList();}).then(route);
+});
+</script>
+</body></html>

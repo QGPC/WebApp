@@ -6,6 +6,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/site.css">
+<style>.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}</style>
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
 <header class="site-head"><div class="wrap">
@@ -38,6 +39,7 @@
 <div class="dtop"><span class="photo big" aria-hidden="true"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg></span>
 <div class="dinfo"><h3 id="d-name"></h3>
 <dl><div><dt>Cell</dt><dd id="d-cell"></dd></div><div><dt>Email</dt><dd id="d-email"></dd></div><div><dt>Mailing address</dt><dd id="d-addr"></dd></div><div><dt>Birthday</dt><dd id="d-bday"></dd></div></dl>
+<div id="d-msg" class="hidden" style="margin:10px 0"></div>
 <div id="d-int-wrap"><span class="dt2">Quilting Interests</span><div class="ints" id="d-int"></div></div></div>
 <button type="button" class="dclose" id="dclose" aria-label="Close details"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
 </section>
@@ -56,7 +58,7 @@
 <script>
 QGPCShell.start({need:function(c){return c.full;}},function(c){
   var $=function(i){return document.getElementById(i)};
-  var rows=[],sel=null;
+  var rows=[],sel=null,canMsg=null;
   var MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
   function note(t){var n=$('note');n.textContent=t||'';n.classList.toggle('hidden',!t);}
   var isChair=c.isSuper||c.has('membership_chair');
@@ -75,6 +77,12 @@ QGPCShell.start({need:function(c){return c.full;}},function(c){
     var ints=(r.interests||[]).slice();if(r.interests_other)ints.push(r.interests_other);
     var box=$('d-int');box.textContent='';ints.forEach(function(x){var s=document.createElement('span');s.className='chip blue';s.textContent=x;box.appendChild(s);});
     $('d-int-wrap').classList.toggle('hidden',!ints.length);
+    var dm=$('d-msg');dm.textContent='';
+    if(canMsg&&c.member&&r.id!==c.member.id){
+      dm.classList.remove('hidden');
+      if(canMsg[r.id]){var a=document.createElement('a');a.className='nbtn';a.href='messages.html#new='+r.id;a.textContent='Send a private message';dm.appendChild(a);}
+      else{var t=document.createElement('span');t.className='sub';t.textContent='This member has turned off private messages.';dm.appendChild(t);}
+    }else dm.classList.add('hidden');
   }
   function paint(){
     var det=$('detail');$('content').appendChild(det);det.classList.add('hidden');
@@ -111,6 +119,10 @@ QGPCShell.start({need:function(c){return c.full;}},function(c){
   }
   $('dclose').addEventListener('click',function(){var id=sel;sel=null;paint();var b=id&&document.querySelector('.dcard[data-id="'+id+'"]');if(b)b.focus();});
   $('q').addEventListener('input',paint);
+  // who accepts private messages (if the messages database file is not installed yet, no button is shown)
+  QGPC.sb.rpc('messaging_directory').then(function(x){
+    if(x.error)return;canMsg={};(x.data||[]).forEach(function(p){canMsg[p.id]=true;});
+  });
   QGPC.sb.rpc('member_directory').then(function(x){
     if(x.error){note('We could not load the directory. Please try again later.');return;}
     rows=x.data||[];paint();

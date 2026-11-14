@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reported Messages</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.nbtn:disabled{opacity:.45;cursor:default}
+.nbtn.del{border-color:#9A3412;color:#9A3412}
+.nbtn.solid{background:#0157AE;color:#fff}
+.cqc{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+.cqh{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.cqh h2{margin:0;font:400 24px 'Young Serif',Georgia,serif}
+.sub{margin:0;color:#5A5F6E;font-size:15px}
+.empty{margin:0;padding:14px 16px;border-radius:12px;background:#F0ECE3;color:#454A58}
+.pl{font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;white-space:nowrap}
+.pl.wait{background:#E87446;color:#1F2433}
+.pl.gray{background:#F0ECE3;color:#454A58}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer}
+.seg button[aria-pressed=true]{background:#0157AE;color:#fff}
+.infobox{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8}
+.infobox h2{margin:0 0 4px;font-size:16px;font-weight:700;color:#0157AE}.infobox p{margin:0;font-size:15px;line-height:1.5;color:#1F2433}
+.rlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:18px}
+.rep{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:12px}
+.rep .top{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between}
+.rep h3{margin:0;font:400 20px 'Young Serif',Georgia,serif}
+.rep .why{margin:0;padding:10px 12px;border-radius:10px;background:#F4F6FB;font-size:15px;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere}
+.ctx{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.ctx li{padding:10px 14px;border-radius:12px;border:1.5px solid #E4E0D6;background:#FAF8F3;display:flex;flex-direction:column;gap:2px}
+.ctx li.hit{border-color:#9A3412;background:#FCEEE9}
+.ctx .w{font-size:13px;font-weight:700;color:#5A5F6E}
+.ctx li.hit .w{color:#9A3412}
+.ctx p{margin:0;font-size:16px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}
+.ctx .gone{font-style:italic;color:#454A58}
+.acts{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.inl{display:flex;flex-direction:column;gap:8px;padding:12px 14px;border-radius:10px;background:#FCEEE9}
+.inl p{margin:0;font-size:15px;line-height:1.45;font-weight:600;color:#9A3412}
+.errline{margin:0;color:#9A3412;font-weight:600}
+.res{margin:0;font-size:14px;color:#454A58}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</div></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:680px"><span class="eyebrow">Administrators</span>
+<h1 id="pg-title" style="margin:0">Reported Messages</h1>
+<p class="stat-line">Private messages that members have reported. You see only the reported message and the ones just before and after it.</p>
+<div style="margin-top:8px"><a class="nbtn" href="admin.html" style="background:#fff">Back to Site Administration</a></div></div>
+</div></section>
+<div class="mwrap" style="max-width:1000px;gap:20px">
+<section class="infobox"><div><h2>How reports work</h2><p>Reports are about one message, not a whole conversation. The reporting member is not named to the member who wrote the message. &ldquo;Remove this message&rdquo; erases its text and leaves a short note for everyone in the conversation. &ldquo;Turn off messaging&rdquo; lets that member read their messages but not send any. Decisions are recorded in the site log, never the message text.</p></div></section>
+<section class="cqc" aria-labelledby="rl-h">
+<div class="cqh"><h2 id="rl-h">Reports</h2><div class="seg" id="seg" role="group" aria-label="Show reports"></div></div>
+<p id="note" class="errline hidden" role="alert"></p>
+<p id="loading" role="status" style="margin:0">Loading&hellip;</p>
+<p class="empty hidden" id="none"></p>
+<ul class="rlist" id="out-list"></ul>
+</section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/comfort.js"></script>
+<script>
+QGPCShell.start({need:function(c){return c.isAdmin;}},function(ctx){
+  var $=function(i){return document.getElementById(i)};
+  var sb=QGPC.sb,el=QGPCComfort.el,filter='waiting',rows=[];
+  var fmt=new Intl.DateTimeFormat('en-US',{timeZone:'America/Chicago',month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});
+  var STAT={waiting:'Waiting',dismissed:'Report dismissed',removed:'Message removed',messaging_off:'Messaging turned off'};
+  function errText(e){return e&&e.code==='P0001'&&e.message?e.message:'Something went wrong. Please try again.';}
+  function say(t){var n=$('note');n.textContent=t||'';n.classList.toggle('hidden',!t);}
+  function buttons(){
+    var b=$('seg');b.textContent='';
+    [['waiting','Waiting'],['resolved','Resolved'],['all','All']].forEach(function(f){
+      var x=el('button',null,f[1]);x.type='button';x.setAttribute('aria-pressed',filter===f[0]);
+      x.addEventListener('click',function(){filter=f[0];buttons();load();});b.appendChild(x);
+    });
+  }
+  function load(){
+    $('loading').classList.remove('hidden');$('none').classList.add('hidden');$('out-list').textContent='';say('');
+    sb.rpc('reported_messages_list',{p_filter:filter}).then(function(r){
+      $('loading').classList.add('hidden');
+      if(r.error){say(errText(r.error));return;}
+      rows=r.data||[];draw();
+    });
+  }
+  function draw(){
+    var ul=$('out-list');ul.textContent='';
+    var n=$('none');n.classList.toggle('hidden',rows.length>0);
+    n.textContent=filter==='waiting'?'No reports are waiting. Nothing needs your attention.':'No reports to show.';
+    rows.forEach(function(r){ul.appendChild(card(r));});
+  }
+  function card(r){
+    var li=el('li','rep'),top=el('div','top');
+    top.appendChild(el('h3',null,'Message from '+r.member));
+    top.appendChild(el('span','pl'+(r.status==='waiting'?' wait':' gray'),STAT[r.status]||r.status));
+    li.appendChild(top);
+    li.appendChild(el('p','sub','Reported by '+r.reporter+' on '+fmt.format(new Date(r.reported_at))));
+    if(r.reason){li.appendChild(el('p','why',r.reason));}
+    var ul=el('ul','ctx');ul.setAttribute('aria-label','The reported message and the ones around it');
+    (r.snapshot||[]).forEach(function(m){
+      var x=el('li',m.reported?'hit':'');
+      x.appendChild(el('span','w',(m.reported?'Reported message · ':'')+m.sender+' · '+fmt.format(new Date(m.sent_at))));
+      x.appendChild(m.deleted?el('p','gone','(deleted since)'):el('p',null,m.body));
+      ul.appendChild(x);
+    });
+    li.appendChild(ul);
+    if(r.status!=='waiting'&&r.resolved_by){li.appendChild(el('p','res','Closed by '+r.resolved_by+(r.resolved_at?' on '+fmt.format(new Date(r.resolved_at)):'')+'.'));}
+    var acts=el('div','acts'),holder=el('div');
+    function act(label,cls,fn){var b=el('button','nbtn'+(cls?' '+cls:''),label);b.type='button';b.addEventListener('click',fn);acts.appendChild(b);return b;}
+    function run(action,btn){
+      btn.disabled=true;
+      sb.rpc('resolve_message_report',{p_report:r.id,p_action:action}).then(function(x){
+        if(x.error){btn.disabled=false;say(errText(x.error));return;}
+        load();
+      });
+    }
+    function confirm(text,label,action){
+      holder.textContent='';
+      var b=el('div','inl');b.appendChild(el('p',null,text));
+      var row=el('div','acts'),y=el('button','nbtn del',label),n=el('button','nbtn','Cancel');y.type=n.type='button';
+      y.addEventListener('click',function(){run(action,y);});
+      n.addEventListener('click',function(){holder.textContent='';});
+      row.appendChild(y);row.appendChild(n);b.appendChild(row);holder.appendChild(b);y.focus();
+    }
+    if(r.status==='waiting'){
+      act('Dismiss report','solid',function(e){run('dismiss',e.currentTarget);});
+      act('Remove this message','del',function(){confirm('Remove this message? Its text is erased for everyone, and the conversation shows a short note that an Administrator removed it.','Remove the message','remove');});
+      if(r.member_id&&!r.messaging_off)act('Turn off this member’s messaging','del',function(){confirm('Turn off messaging for '+r.member+'? They can still read their messages but cannot send any, until you turn it back on.','Turn off messaging','messaging_off');});
+    }else{
+      act('Reopen','',function(e){run('reopen',e.currentTarget);});
+    }
+    if(r.member_id&&r.messaging_off){
+      var back=act('Turn '+r.member.split(' ')[0]+'’s messaging back on','',function(){
+        back.disabled=true;
+        sb.rpc('admin_set_messaging_suspended',{p_member:r.member_id,p_suspended:false}).then(function(x){
+          if(x.error){back.disabled=false;say(errText(x.error));return;}load();
+        });
+      });
+      acts.appendChild(el('span','pl gray','Messaging is off for this member'));
+    }
+    li.appendChild(acts);li.appendChild(holder);
+    return li;
+  }
+  buttons();load();
+});
+</script>
+</body></html>
