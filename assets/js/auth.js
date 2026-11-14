@@ -25,4 +25,22 @@
       return 'Something went wrong. Please try again.';
     }
   };
+
+  // Every "home" link (the logo, the Home button, "Back to Home") goes to the member home when
+  // someone is signed in and to the public welcome page when not.
+  function fixHomeLinks(){
+    sb.auth.getSession().then(function(r){
+      var to = (r.data && r.data.session) ? 'home.html' : 'index.html';
+      var list = document.querySelectorAll('a.brand, a.homelink, a.backlink, a.pwlink, #back a');
+      for(var i=0;i<list.length;i++){
+        var a = list[i], isHome = a.classList.contains('brand') || a.classList.contains('homelink');
+        if(!isHome){
+          var t = (a.textContent||'').replace(/\s+/g,' ').trim();
+          if(!/^Back to (Home|the Guild home page)/i.test(t)) continue;
+        }
+        a.setAttribute('href', to);
+      }
+    });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', fixHomeLinks); else fixHomeLinks();
 })();
