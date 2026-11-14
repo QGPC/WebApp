@@ -24,11 +24,14 @@
 .pc .body{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
 .pc.hasph .body{grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))}
 .pc img{display:block;width:100%;height:auto;max-height:520px;object-fit:contain;background:#F0ECE3;border-radius:12px;border:1px solid #E4E0D6}
+.lb{position:fixed;inset:0;z-index:1000;background:rgba(20,24,38,.82);display:flex;align-items:center;justify-content:center;padding:20px;cursor:zoom-out}
+.lb.hidden{display:none}
+.lb figure{margin:0;max-width:min(1100px,100%);max-height:100%;background:#fff;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:8px;position:relative}
+.lb img{display:block;max-width:100%;max-height:calc(100vh - 150px);width:auto;height:auto;margin:0 auto;border-radius:8px}
+.lb figcaption{font-size:15px;color:#454A58;text-align:center}
+.lb button{align-self:flex-end;min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer}
 .pc .gal{display:flex;flex-direction:column;gap:10px}
 .pc .gal a.main{display:block}
-.pc .thumbs{display:flex;gap:10px;flex-wrap:wrap}
-.pc .thumbs a{display:block}
-.pc .thumbs img{width:auto;height:90px;max-height:90px;border-radius:8px}
 .pc p{margin:0;line-height:1.55;white-space:pre-wrap}
 .pc a.web{font-weight:600;min-height:44px;display:inline-flex;align-items:center}
 .pills{display:flex;flex-wrap:wrap;gap:8px}
@@ -71,6 +74,7 @@
 <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:8px"><label style="font-weight:600" for="qyear">Year</label><select class="field" id="qyear" style="min-height:46px;min-width:120px"></select></div>
 <ul class="ql" id="ql"></ul></section>
 </div>
+<div class="lb hidden" id="lb" role="dialog" aria-modal="true" aria-label="Photo"><figure><button type="button" id="lb-x">Close</button><img id="lb-img" alt=""><figcaption id="lb-cap"></figcaption></figure></div>
 </main>
 <footer class="site-foot"><div class="wrap">
 <div><b>Quilter&rsquo;s Guild of Parker County</b>
@@ -91,13 +95,20 @@
   function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
   function safeUrl(u){return /^https?:\/\//i.test(u||'')?u:null;}
   function pubUrl(p){return sb.storage.from('program-photos').getPublicUrl(p).data.publicUrl;}
+  var lbFrom=null;
+  function openLb(x,from){
+    lbFrom=from;$('lb-img').src=pubUrl(x.path);$('lb-img').alt=x.alt||'';$('lb-cap').textContent=x.alt||'';
+    $('lb').classList.remove('hidden');$('lb-x').focus();
+  }
+  function closeLb(){$('lb').classList.add('hidden');$('lb-img').src='';if(lbFrom)lbFrom.focus();}
+  $('lb').addEventListener('click',closeLb);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!$('lb').classList.contains('hidden'))closeLb();});
   function gallery(arr){
     var g=el('div','gal');
-    arr.forEach(function(x,i){
-      var a=el('a',i===0?'main':null);a.href=pubUrl(x.path);a.target='_blank';a.rel='noopener noreferrer';
-      var im=el('img');im.src=pubUrl(x.path);im.alt=x.alt||'';im.loading='lazy';a.appendChild(im);
-      if(i===0){g.appendChild(a);if(arr.length>1){var t=el('div','thumbs');g.appendChild(t);}}
-      else g.lastChild.appendChild(a);
+    arr.forEach(function(x){
+      var a=el('a','main');a.href=pubUrl(x.path);a.setAttribute('aria-label','Enlarge photo'+(x.alt?': '+x.alt:''));
+      a.onclick=function(e){e.preventDefault();openLb(x,a);};
+      var im=el('img');im.src=pubUrl(x.path);im.alt=x.alt||'';im.loading='lazy';a.appendChild(im);g.appendChild(a);
     });
     return g;
   }
