@@ -54,7 +54,7 @@
 <main id="main">
 <section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
 <div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Sew away together</span>
-<h1 id="pg-title" style="margin:0">Retreats</h1><p class="stat-line" id="lead">Our Guild retreats: when and where they are, what they cost and how to sign up.</p><div style="margin-top:8px"><a class="nbtn hidden" id="edit" href="retreats-manage.html" style="background:#fff">Edit the retreats</a></div></div>
+<h1 id="pg-title" style="margin:0">Retreats</h1><p class="stat-line" id="lead">Our Guild retreats: when and where they are, what they cost and how to sign up. For members.</p><div style="margin-top:8px"><a class="nbtn hidden" id="edit" href="retreats-manage.html" style="background:#fff">Edit the retreats</a></div></div>
 
 </div></section>
 <div class="mwrap" style="max-width:1200px;gap:22px" id="content">
@@ -118,12 +118,17 @@
   }
   C.who().then(function(w){
     if(w.signedIn)$('homelink').href='home.html';
+    if(!w.full){
+      $('loading').classList.add('hidden');var n=$('none');
+      n.textContent='The Retreats page is for Guild members. Please sign in to see it.';n.classList.remove('hidden');
+      return;
+    }
     var r=w.roles;if(['superuser','administrator','retreats_chair'].some(function(k){return r.indexOf(k)>-1;}))$('edit').classList.remove('hidden');
-  });
-  sb.from('retreats').select('*').order('starts_on',{ascending:true}).then(function(r){
-    $('loading').classList.add('hidden');
-    if(r.error){var n=$('none');n.textContent='The retreats could not be loaded. Please refresh and try again.';n.classList.remove('hidden');return;}
-    items=r.data||[];buttons();draw();
+    sb.from('retreats').select('*').order('starts_on',{ascending:true}).then(function(r){
+      $('loading').classList.add('hidden');
+      if(r.error){var n=$('none');n.textContent='The retreats could not be loaded. Please refresh and try again.';n.classList.remove('hidden');return;}
+      items=r.data||[];buttons();draw();
+    });
   });
 })();
 </script>
