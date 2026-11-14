@@ -45,13 +45,6 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
 .act-conf{margin:0 0 8px;color:#fff;font-weight:600;display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
 .evfoot{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;margin-top:16px}
 .evfoot .evtools{margin-top:0}.evfoot .evl2{display:flex;flex-wrap:wrap;gap:10px}
-.eqpanel{margin-top:14px;border:2px solid #0157AE;border-radius:14px;background:#F4F6FB;padding:14px 16px}
-.eqpanel .eqh{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:10px}
-.eqpanel .eqy{display:flex;gap:10px;align-items:center;font:400 20px 'Young Serif',Georgia,serif}
-.eqpanel ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
-.eqpanel li{display:grid;grid-template-columns:48px 1fr;gap:10px;padding:8px 0;border-top:1px solid #D9DEEC;align-items:start}
-.eqpanel .qm{font-weight:700;color:#0157AE}.eqpanel a{color:#0157AE;font-weight:600}.eqpanel .none{color:#5A5F6E}
-.eqpanel .qt{display:flex;flex-direction:column;gap:4px;font-size:15px}
 </style>
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
@@ -108,10 +101,8 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
 <section class="card hcard" id="events-card" aria-labelledby="ev-h"><div class="hcard-h"><h2 id="ev-h">Events</h2>
 <div class="evstep"><button type="button" class="evb" id="ev-prev" aria-label="Previous month">&lsaquo;</button><span class="evlab" id="ev-lab" aria-live="polite"></span><button type="button" class="evb" id="ev-next" aria-label="Next month">&rsaquo;</button></div></div>
 <ul class="evl" id="ev-list"></ul><p class="muted hidden" id="ev-none">No events this month.</p>
-<div class="evfoot"><div class="evl2"><a class="nbtn" href="calendar.html">Full calendar</a><span class="evtools hidden" id="ev-tools"><a class="nbtn" href="calendar-manage.html?cal=guild">Guild Calendar</a><a class="nbtn hidden" id="ev-board" href="calendar-manage.html?cal=board">President&rsquo;s Calendar</a></span></div>
-<button type="button" class="nbtn" id="eq-btn" aria-expanded="false" aria-controls="eq-panel">Program quick look</button></div>
-<div class="eqpanel hidden" id="eq-panel" role="region" aria-labelledby="eq-h"><div class="eqh"><div class="eqy"><button type="button" class="evb" id="eq-prev" aria-label="Previous year">&lsaquo;</button><span id="eq-h">Programs</span><button type="button" class="evb" id="eq-next" aria-label="Next year">&rsaquo;</button></div><button type="button" class="nbtn" id="eq-close">Close</button></div>
-<ul id="eq-list"></ul></div></section>
+<div class="evfoot"><div class="evl2"><a class="nbtn" href="calendar.html">Full calendar</a></div></div>
+</section>
 </div>
 </div></div></main>
 <footer class="site-foot"><div class="wrap">
@@ -346,8 +337,6 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
         (function(){
           var MONL=['January','February','March','April','May','June','July','August','September','October','November','December'],DW=['SUN','MON','TUE','WED','THU','FRI','SAT'],DWL=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
           var cur=today.slice(0,7),months=[],idx=0,evs=[],cals={};
-          if(canPost){$('ev-tools').classList.remove('hidden');}
-          if(canPost&&full)$('ev-board').classList.remove('hidden');
           var draw=function(){
             var key=months[idx],y=+key.slice(0,4),mo=+key.slice(5,7);
             $('ev-h').textContent=MONL[mo-1]+' events';$('ev-lab').textContent=MONL[mo-1].slice(0,3)+' '+y;
@@ -370,41 +359,6 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
             });
           };
           $('ev-prev').addEventListener('click',function(){if(idx>0){idx--;draw();}});
-          // Program quick look: the monthly program and workshop for each month of a year, each linking to the Programs page
-          (function(){
-            var rows={},years=[],qy=+today.slice(0,4),loaded=false;
-            function sd(d){return d?MONL[+d.slice(5,7)-1].slice(0,3)+' '+(+d.slice(8,10)):'';}
-            function dq(){
-              var ul=$('eq-list');ul.textContent='';var any=false,ix=years.indexOf(qy);
-              $('eq-h').textContent=qy+' programs';$('eq-prev').disabled=ix<=0;$('eq-next').disabled=ix<0||ix>=years.length-1;
-              Object.keys(rows).sort().filter(function(k){return +k.slice(0,4)===qy;}).forEach(function(k){
-                var r=rows[k],mm=k.slice(0,7);any=true;
-                var li=document.createElement('li'),mo=document.createElement('span');mo.className='qm';mo.textContent=MONL[+k.slice(5,7)-1].slice(0,3);
-                var bx=document.createElement('span');bx.className='qt';
-                var a=document.createElement('a');a.href='programs.html?m='+mm;var s=document.createElement('strong');s.textContent='Program';a.appendChild(s);
-                a.appendChild(document.createTextNode(' · '+(r.prog_date?sd(r.prog_date)+' · ':'')+(r.prog_title||'To be announced')+(r.status!=='published'?' (draft)':'')));bx.appendChild(a);
-                if(r.has_workshop){var w=document.createElement('a');w.href='programs.html?m='+mm;var s2=document.createElement('strong');s2.textContent='Workshop';w.appendChild(s2);
-                  w.appendChild(document.createTextNode(' · '+(r.ws_date?sd(r.ws_date)+' · ':'')+(r.ws_title||'To be announced')));bx.appendChild(w);}
-                else{var n=document.createElement('span');n.className='none';var s3=document.createElement('strong');s3.textContent='Workshop';n.appendChild(s3);n.appendChild(document.createTextNode(' · None this month'));bx.appendChild(n);}
-                li.appendChild(mo);li.appendChild(bx);ul.appendChild(li);
-              });
-              if(!any){var e=document.createElement('li');e.textContent='Nothing is posted for '+qy+' yet.';ul.appendChild(e);}
-            }
-            function load(){
-              return QGPC.sb.from('program_months').select('month_on,status,prog_date,prog_title,has_workshop,ws_date,ws_title').then(function(r){
-                if(r.error){$('eq-list').textContent='The programs could not be loaded. Please try again.';return;}
-                rows={};var ys={};ys[+today.slice(0,4)]=1;(r.data||[]).forEach(function(x){rows[x.month_on]=x;ys[+x.month_on.slice(0,4)]=1;});
-                years=Object.keys(ys).map(Number).sort(function(a,b){return a-b;});loaded=true;dq();
-              });
-            }
-            $('eq-btn').addEventListener('click',function(){
-              var open=$('eq-panel').classList.contains('hidden');$('eq-panel').classList.toggle('hidden',!open);this.setAttribute('aria-expanded',open?'true':'false');
-              if(open&&!loaded)load();
-            });
-            $('eq-close').addEventListener('click',function(){$('eq-panel').classList.add('hidden');$('eq-btn').setAttribute('aria-expanded','false');$('eq-btn').focus();});
-            $('eq-prev').addEventListener('click',function(){var i=years.indexOf(qy);if(i>0){qy=years[i-1];dq();}});
-            $('eq-next').addEventListener('click',function(){var i=years.indexOf(qy);if(i>-1&&i<years.length-1){qy=years[i+1];dq();}});
-          })();
           $('ev-next').addEventListener('click',function(){if(idx<months.length-1){idx++;draw();}});
           Promise.all([QGPC.sb.from('calendars').select('*'),QGPC.sb.from('events').select('*').order('starts_on').order('time_text')]).then(function(r){
             (r[0].data||[]).forEach(function(c){cals[c.id]=c;});
