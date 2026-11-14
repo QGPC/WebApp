@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>About Our Guild</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.nbtn:disabled{opacity:.45;cursor:default}
+.nbtn.del{border-color:#9A3412;color:#9A3412}
+.nbtn.solid{background:#0157AE;color:#fff}
+.cqc{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+.cqc>h2,.cqh h2{margin:0;font:400 24px 'Young Serif',Georgia,serif}
+.cqh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sub{margin:2px 0 0;color:#5A5F6E;font-size:15px}
+.cbadge{min-width:26px;height:26px;padding:0 8px;border-radius:999px;background:#E87446;color:#1F2433;font-weight:700;font-size:14px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box}
+.pl{font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;white-space:nowrap}
+.pl.gray{background:#F0ECE3;color:#454A58}
+.pl.new{background:#E87446;color:#1F2433}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer}
+.seg button[aria-pressed=true]{background:#0157AE;color:#fff}
+.confirm{background:#FCEEE9;border-radius:10px;padding:12px 14px}.confirm p{margin:0 0 10px;font-weight:600;color:#9A3412}
+.infobox{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8}
+.infobox h2{margin:0 0 4px;font-size:16px;font-weight:700;color:#0157AE}.infobox p{margin:0;font-size:15px;line-height:1.5;color:#1F2433}
+.blue-note{border:2px solid #0157AE;border-radius:14px;padding:16px 18px;background:#F4F6FB;display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.blue-note h3{margin:0;font-size:17px}.blue-note ul{margin:8px 0 0;padding-left:20px;line-height:1.5}
+.empty{margin:0;padding:14px 16px;border-radius:12px;background:#F0ECE3;color:#454A58}
+.toplinks{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.dl2{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:15px}.dl2 dt{font-weight:700;color:#5A5F6E}.dl2 dd{margin:0}
+.lbl{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+
+.bigbtn{display:flex;align-items:center;gap:16px;width:100%;min-height:88px;padding:12px 24px 12px 12px;box-sizing:border-box;background:#fff;border:1px solid #E4E0D6;border-radius:16px;color:#1F2433;text-align:left;text-decoration:none;font:inherit;cursor:pointer}
+.bigbtn:hover,.bigbtn:focus-visible{border-color:#0157AE}
+.bigbtn .ic{flex:0 0 auto;width:64px;height:64px;border-radius:12px;background:#EEF1F8;color:#0157AE;display:flex;align-items:center;justify-content:center}
+.bigbtn .ic.hot{background:#FCEEE9;color:#9A3412}
+.bigbtn .tx{flex:1 1 auto;display:flex;flex-direction:column;gap:4px}.bigbtn .tx b{font-size:24px}.bigbtn .tx span{font-size:16px;color:#5A5F6E;line-height:1.45}
+.bigbtn .chev{flex:0 0 auto;transition:transform .15s}.bigbtn[aria-expanded=true] .chev{transform:rotate(180deg)}
+.people{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:12px}
+.pcl{flex:1 1 auto;min-height:88px;display:flex;align-items:center;gap:14px;padding:12px 16px 12px 12px;box-sizing:border-box;border:1px solid #E4E0D6;border-radius:14px;background:#FAF8F3;font:inherit;color:#1F2433;text-align:left;width:100%}
+button.pcl{border:2px solid #E4E0D6;cursor:pointer}button.pcl[aria-expanded=true]{border-color:#0157AE;background:#F4F6FB}button.pcl:hover{border-color:#0157AE}
+.people li{display:flex}
+.av{flex:0 0 auto;width:64px;height:64px;border-radius:999px;background:#EEF1F8;color:#0157AE;border:2px solid #fff;box-shadow:0 0 0 1px #C9C4B8;display:flex;align-items:center;justify-content:center;font:400 22px 'Young Serif',Georgia,serif}
+.pcl .nm{display:flex;flex-direction:column;gap:2px;line-height:1.25;min-width:0}
+.pcl .nm small{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#9A3412}.pcl .nm b{font-size:18px;font-weight:600}
+.det{padding:20px;background:#F4F6FB;border:1px solid #D8DEEC;border-radius:14px;display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap}
+.det .av{width:110px;height:110px;border-radius:16px;font-size:36px}
+.det .rt{flex:1 1 360px;min-width:0;display:flex;flex-direction:column;gap:14px}
+.det h3{margin:0;font:400 24px 'Young Serif',Georgia,serif}.det small{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#9A3412}
+.det dl{margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:12px 24px}
+.det dt{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5A5F6E}.det dd{margin:0;font-size:16px;word-break:break-word}
+.det .tg{display:flex;gap:6px;flex-wrap:wrap}.det .tg span{font-size:13px;font-weight:600;color:#0157AE;background:#fff;border:1px solid #D8DEEC;padding:4px 10px;border-radius:999px}
+.det .x{align-self:flex-start;width:44px;height:44px;border:0;border-radius:999px;background:#fff;color:#1F2433;cursor:pointer;font-size:20px}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="index.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions"><a class="homelink" id="homelink" href="index.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a></div>
+</div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Who we are</span>
+<h1 id="pg-title" style="margin:0">About Our Guild</h1><p class="stat-line" id="lead">The people and purpose behind the Quilter&rsquo;s Guild of Parker County.</p></div>
+
+</div></section>
+<div class="mwrap" style="max-width:1040px;gap:22px" id="content">
+
+<button type="button" class="bigbtn" id="board-btn" aria-expanded="false" aria-controls="board-panel"><span class="ic"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><circle cx="17" cy="9" r="2.6"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 14.5c3 0 6 2 6 5.5"/></svg></span><span class="tx"><b>Our Board</b><span id="board-intro">Board members and committee chairs.</span></span><svg class="chev" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+<div id="board-panel" style="display:none;flex-direction:column;gap:24px"></div>
+<a class="bigbtn" href="guild-history.html"><span class="ic hot"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="tx"><b>Guild History</b><span>How the Guild began and how it has grown.</span></span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/comfort.js"></script>
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  var C=QGPCComfort,sb=QGPC.sb,el=C.el,full=false,rows=[],open=false,sel=null;
+  var MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var GROUPS=[['board-title','Our Board Members','The volunteers who lead the Guild this year.',function(r){return r.sort_order<30;}],
+              ['chairs-title','Our Committee Chairs','The chairs who look after each area of the Guild.',function(r){return r.sort_order>=30;}]];
+  function ini(r){return ((r.first_name||'?').charAt(0)+(r.last_name||'').charAt(0)).toUpperCase();}
+  function key(r){return r.role_key+'|'+r.member_id;}
+  function addDt(dl,k,v,href){var d=el('div'),t=el('dt',null,k),dd=el('dd');if(href){var a=el('a',null,v);a.href=href;dd.appendChild(a);}else dd.textContent=v;d.appendChild(t);d.appendChild(dd);dl.appendChild(d);}
+  function detail(r){
+    var d=el('div','det'),av=el('span','av',ini(r));av.setAttribute('aria-hidden','true');d.appendChild(av);
+    var rt=el('div','rt'),top=el('div');top.style.cssText='display:flex;justify-content:space-between;gap:12px;align-items:flex-start';
+    var h=el('div');h.appendChild(el('small',null,r.role_label));h.appendChild(el('h3',null,r.first_name+' '+r.last_name));top.appendChild(h);
+    var x=el('button','x','×');x.type='button';x.setAttribute('aria-label','Close details');x.onclick=function(){sel=null;draw();};top.appendChild(x);rt.appendChild(top);
+    var shared=r.email||r.cell_phone||r.address||r.birthday_month;
+    if(!shared){rt.appendChild(el('p',null,'Contact details are not shared for this member.'));}
+    else{
+      var dl=el('dl');
+      if(r.cell_phone)addDt(dl,'Cell',r.cell_phone,'tel:'+r.cell_phone.replace(/[^0-9+]/g,''));
+      if(r.email)addDt(dl,'Email',r.email,'mailto:'+r.email);
+      if(r.address)addDt(dl,'Mailing address',r.address);
+      if(r.birthday_month&&r.birthday_day)addDt(dl,'Birthday',MON[r.birthday_month-1]+' '+r.birthday_day);
+      rt.appendChild(dl);
+      if(r.interests&&r.interests.length){var w=el('div');w.appendChild(el('dt',null,'Quilting Interests'));w.firstChild.style.cssText='font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5A5F6E;margin-bottom:6px';var tg=el('div','tg');r.interests.forEach(function(i){tg.appendChild(el('span',null,i));});w.appendChild(tg);rt.appendChild(w);}
+    }
+    d.appendChild(rt);return d;
+  }
+  function draw(){
+    var p=$('board-panel');p.textContent='';
+    $('board-intro').textContent=full?'Board members and committee chairs. Open a card for contact details.':'Board members and committee chairs.';
+    $('board-btn').setAttribute('aria-expanded',open);p.style.display=open?'flex':'none';
+    if(!open)return;
+    if(!rows.length){p.appendChild(el('p','empty','No one is listed yet.'));return;}
+    GROUPS.forEach(function(g){
+      var list=rows.filter(function(r){return g[3](r);});if(!list.length)return;
+      var sec=el('section','cqc');sec.setAttribute('aria-labelledby',g[0]);
+      sec.appendChild(el('h2',null,g[1])).id=g[0];sec.appendChild(el('p','sub',full?g[2].replace(/\.$/,'')+'. Open a card for contact details.':g[2]));
+      var ul=el('ul','people'),chosen=null;
+      list.forEach(function(r){
+        var li=el('li'),av=el('span','av',ini(r));av.setAttribute('aria-hidden','true');
+        var nm=el('span','nm');nm.appendChild(el('small',null,r.role_label));nm.appendChild(el('b',null,r.first_name+' '+r.last_name));
+        var c;
+        if(full){c=el('button','pcl');c.type='button';c.setAttribute('aria-expanded',sel===key(r));c.onclick=function(){sel=sel===key(r)?null:key(r);draw();};if(sel===key(r))chosen=r;}
+        else c=el('div','pcl');
+        c.appendChild(av);c.appendChild(nm);li.appendChild(c);ul.appendChild(li);
+      });
+      sec.appendChild(ul);if(chosen)sec.appendChild(detail(chosen));p.appendChild(sec);
+    });
+  }
+  $('board-btn').onclick=function(){open=!open;sel=null;draw();};
+  C.who().then(function(w){if(w.signedIn)$('homelink').href='home.html';full=!!w.full;draw();});
+  sb.rpc('about_leaders').then(function(r){rows=(r.data||[]);draw();});
+  draw();
+})();
+</script>
+</body></html>

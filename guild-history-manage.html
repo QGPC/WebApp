@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Edit Guild History</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.nbtn:disabled{opacity:.45;cursor:default}
+.nbtn.del{border-color:#9A3412;color:#9A3412}
+.nbtn.solid{background:#0157AE;color:#fff}
+.cqc{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+.cqc>h2,.cqh h2{margin:0;font:400 24px 'Young Serif',Georgia,serif}
+.cqh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sub{margin:2px 0 0;color:#5A5F6E;font-size:15px}
+.cbadge{min-width:26px;height:26px;padding:0 8px;border-radius:999px;background:#E87446;color:#1F2433;font-weight:700;font-size:14px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box}
+.pl{font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;white-space:nowrap}
+.pl.gray{background:#F0ECE3;color:#454A58}
+.pl.new{background:#E87446;color:#1F2433}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer}
+.seg button[aria-pressed=true]{background:#0157AE;color:#fff}
+.confirm{background:#FCEEE9;border-radius:10px;padding:12px 14px}.confirm p{margin:0 0 10px;font-weight:600;color:#9A3412}
+.infobox{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8}
+.infobox h2{margin:0 0 4px;font-size:16px;font-weight:700;color:#0157AE}.infobox p{margin:0;font-size:15px;line-height:1.5;color:#1F2433}
+.blue-note{border:2px solid #0157AE;border-radius:14px;padding:16px 18px;background:#F4F6FB;display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.blue-note h3{margin:0;font-size:17px}.blue-note ul{margin:8px 0 0;padding-left:20px;line-height:1.5}
+.empty{margin:0;padding:14px 16px;border-radius:12px;background:#F0ECE3;color:#454A58}
+.toplinks{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.dl2{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:15px}.dl2 dt{font-weight:700;color:#5A5F6E}.dl2 dd{margin:0}
+.lbl{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+
+.hrow{display:flex;flex-direction:column;gap:10px;padding:14px 16px;border:1px solid #E4E0D6;border-radius:12px;background:#fff}
+.hrow .t{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.hrow .yr{flex:0 0 auto;min-width:84px;font:400 22px 'Young Serif',Georgia,serif;color:#9A3412}
+.hrow .tx{flex:1 1 320px;min-width:0;display:flex;flex-direction:column;gap:4px}.hrow .tx b{font-size:17px;line-height:1.3}.hrow .tx span{font-size:15px;color:#454A58;line-height:1.45;white-space:pre-line}
+.hrow .b{display:flex;gap:8px;flex-wrap:wrap}
+.hform{display:flex;flex-direction:column;gap:16px;padding:20px;border:1px solid #E4E0D6;border-radius:14px;background:#FAF8F3}
+.hform h3{margin:0;font:400 21px 'Young Serif',Georgia,serif}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions"><a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a><span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span><button type="button" class="pill out" id="out">Sign out</button></div>
+</div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Site Administration</span>
+<h1 id="pg-title" style="margin:0">Edit Guild History</h1><p class="stat-line" id="lead">Change the introduction and the timeline on the Guild History page.</p></div>
+
+</div></section>
+<div class="mwrap" style="max-width:1000px;gap:22px" id="content">
+<a class="backlink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to Home</a>
+<div class="toplinks"><a class="nbtn" href="guild-history.html">See the page &rarr;</a></div>
+<p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
+<section class="cqc" aria-labelledby="gi-t"><h2 id="gi-t">Introduction</h2>
+<div><label class="lbl" for="gi">The paragraph at the top of the page</label><textarea id="gi" class="field" rows="5" maxlength="3000"></textarea></div>
+<div><button class="btn-save" id="gi-save" type="button">Save introduction</button></div></section>
+<section class="cqc" aria-labelledby="gt-t"><div class="cqh"><div><h2 id="gt-t">Timeline</h2><p class="sub" id="count"></p></div><button class="btn-save" id="add" type="button">Add an entry</button></div>
+<form class="hform hidden" id="form" novalidate><h3 id="f-h">Add an entry</h3>
+<div><label class="lbl" for="f-year">Year</label><input class="field" id="f-year" maxlength="20" placeholder="e.g., 1987" style="max-width:220px"></div>
+<div><label class="lbl" for="f-title">Heading</label><input class="field" id="f-title" maxlength="120" placeholder="e.g., Our first quilt show"></div>
+<div><label class="lbl" for="f-text">Details</label><textarea class="field" id="f-text" rows="3" maxlength="2000" placeholder="What happened, who was involved, where."></textarea></div>
+<p class="msg err hidden" id="f-err" role="alert" style="margin:0"></p>
+<div style="display:flex;gap:12px;flex-wrap:wrap"><button class="btn-save" id="f-save" type="submit">Add entry</button><button class="btn-cancel" id="f-cancel" type="button">Cancel</button></div></form>
+<p class="empty hidden" id="none">The timeline is empty. The Guild History page says no entries have been added until you add one.</p>
+<ul id="list" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px"></ul></section>
+<section class="infobox"><div><h2>Who can use this page</h2><p>Administrators and the Superuser. Everyone can read the Guild History page. Entries are shown oldest first, in order of the year you type; an entry with no year goes last.</p></div></section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/auth.js"></script>
+<script src="assets/js/shell.js"></script>
+<script src="assets/js/comfort.js"></script>
+<script>
+QGPCShell.start({need:function(c){return c.isAdmin;}},function(ctx){
+  var $=function(i){return document.getElementById(i)};
+  var C=QGPCComfort,sb=QGPC.sb,el=C.el,rows=[],editId=null,confirmId=null;
+  function say(t,bad){var n=$('status');n.textContent=t;n.className='msg '+(bad?'err':'ok');n.style.margin='0';n.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  function num(s){return /^\d+$/.test(s)?parseInt(s,10):null;}
+  function cmp(a,b){var x=a.year_text||'',y=b.year_text||'';if(!x&&y)return 1;if(x&&!y)return -1;var nx=num(x),ny=num(y);if(nx!==null&&ny!==null&&nx!==ny)return nx-ny;return x<y?-1:(x>y?1:0);}
+  function load(){
+    return Promise.all([sb.from('guild_history_settings').select('intro').limit(1),sb.from('guild_history_entries').select('*')]).then(function(r){
+      if(r[1].error){say('Could not load the history. Please refresh and try again.',true);return;}
+      if(!$('gi').dataset.loaded){$('gi').value=(r[0].data&&r[0].data[0]&&r[0].data[0].intro)||'';$('gi').dataset.loaded='1';}
+      rows=(r[1].data||[]).slice().sort(cmp);draw();
+    });
+  }
+  function draw(){
+    $('count').textContent=(rows.length===1?'1 entry':rows.length+' entries')+'. Shown oldest first, in order of the year you type.';
+    $('none').classList.toggle('hidden',rows.length>0);
+    var ul=$('list');ul.textContent='';
+    rows.forEach(function(e){
+      var li=el('li','hrow');if(e.id===editId)li.style.borderColor='#0157AE';if(e.id===confirmId)li.style.borderColor='#9A3412';
+      var t=el('div','t');t.appendChild(el('span','yr',e.year_text||'(no year)'));var tx=el('span','tx');tx.appendChild(el('b',null,e.title));if(e.details)tx.appendChild(el('span',null,e.details));t.appendChild(tx);li.appendChild(t);
+      if(e.id===confirmId){
+        var cf=el('div','confirm');cf.appendChild(el('p',null,'Remove this entry from the history? This can’t be undone.'));
+        var r2=el('div','saverow'),y=el('button','btn-del solid','Yes, remove');y.type='button';var k=el('button','btn-cancel','Keep it');k.type='button';
+        k.onclick=function(){confirmId=null;draw();};
+        y.onclick=function(){y.disabled=true;sb.from('guild_history_entries').delete().eq('id',e.id).then(function(r){confirmId=null;if(r.error)say('That did not remove. Please try again.',true);else say('Removed. “'+e.title+'” is off the Guild History page.');if($('form').dataset.id===e.id)closeForm();load();});};
+        r2.appendChild(y);r2.appendChild(k);cf.appendChild(r2);li.appendChild(cf);
+      }else{
+        var b=el('div','b'),ed=el('button','nbtn','Edit');ed.type='button';ed.setAttribute('aria-label','Edit '+e.title);
+        ed.onclick=function(){openForm(e);};
+        var dl=el('button','nbtn del','Delete');dl.type='button';dl.setAttribute('aria-label','Delete '+e.title);dl.onclick=function(){confirmId=e.id;draw();};
+        b.appendChild(ed);b.appendChild(dl);li.appendChild(b);
+      }
+      ul.appendChild(li);
+    });
+  }
+  function openForm(e){
+    editId=e?e.id:null;$('form').dataset.id=editId||'';$('form').classList.remove('hidden');$('f-err').classList.add('hidden');
+    $('f-h').textContent=e?'Change this entry':'Add an entry';$('f-save').textContent=e?'Save changes':'Add entry';
+    $('f-year').value=e?e.year_text:'';$('f-title').value=e?e.title:'';$('f-text').value=e?e.details:'';
+    draw();$('f-title').focus();$('form').scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  function closeForm(){editId=null;$('form').dataset.id='';$('form').classList.add('hidden');draw();}
+  $('add').onclick=function(){openForm(null);};$('f-cancel').onclick=closeForm;
+  $('form').addEventListener('submit',function(ev){
+    ev.preventDefault();var title=$('f-title').value.trim();
+    if(!title){$('f-err').textContent='Please type a heading for the entry.';$('f-err').classList.remove('hidden');return;}
+    var rec={year_text:$('f-year').value.trim(),title:title,details:$('f-text').value.trim()};
+    $('f-save').disabled=true;var wasEdit=!!editId;
+    (wasEdit?sb.from('guild_history_entries').update(rec).eq('id',editId):sb.from('guild_history_entries').insert(rec)).then(function(r){
+      $('f-save').disabled=false;
+      if(r.error){$('f-err').textContent='That did not save. Please try again.';$('f-err').classList.remove('hidden');return;}
+      closeForm();say(wasEdit?'Saved. “'+title+'” is changed.':'Added. “'+title+'” is on the Guild History page.');load();
+    });
+  });
+  $('gi-save').onclick=function(){
+    $('gi-save').disabled=true;
+    sb.from('guild_history_settings').update({intro:$('gi').value.trim()}).eq('id',true).then(function(r){
+      $('gi-save').disabled=false;
+      if(r.error)say('That did not save. Please try again.',true);else say('Saved. The introduction on the Guild History page is updated.');
+    });
+  };
+  load();
+});
+</script>
+</body></html>
