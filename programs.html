@@ -62,6 +62,85 @@
 .ql a:hover,.ql a[aria-current="true"]{background:#EEF1F8}
 .ql b{min-width:92px;color:#0157AE}
 .soon{padding:12px 14px;border-radius:10px;background:#F0ECE3;color:#454A58;font-size:15px}
+
+.pbanner{padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap}
+.pleft{flex:1 1 460px;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+.qlbtn{display:flex;align-items:center;gap:16px;min-height:76px;padding:12px 26px 12px 12px;box-sizing:border-box;background:#fff;border:0;border-radius:18px;text-align:left;font:inherit;color:#1F2433;cursor:pointer;box-shadow:0 10px 28px rgba(15,20,40,.30)}
+.qlbtn img{flex:0 0 auto;border-radius:12px;display:block}.qlbtn span{display:flex;flex-direction:column;gap:2px}.qlbtn b{font-size:22px}.qlbtn small{font-size:15px;font-weight:600;color:#5A5F6E}
+.wwaside{flex:0 1 400px;min-width:0;box-sizing:border-box;background:#fff;color:#1F2433;border-radius:18px;padding:22px 24px;display:flex;flex-direction:column;gap:16px;box-shadow:0 10px 28px rgba(15,20,40,.30)}
+.wwaside h2{margin:0;font:400 22px 'Young Serif',Georgia,serif}
+.wwgrp{display:flex;flex-direction:column;gap:6px}.wwgrp h3{margin:0;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#9A3412}
+.wwln{display:flex;gap:8px;font-size:15px;line-height:1.45}.wwln svg{flex:0 0 auto;margin-top:2px;color:#0157AE}.wwln .pl{display:flex;flex-direction:column}.wwln .pl b{font-weight:600}.wwln .pl span{color:#454A58}
+.wwsep{height:1px;background:#EDEAE2}
+.wwnote{margin:0;padding:10px 12px;border-radius:10px;background:#F0ECE3;color:#454A58;font-size:14px;line-height:1.5}
+.qlwrap{max-width:1200px;width:100%;margin:0 auto;padding:20px 24px 0;box-sizing:border-box}
+.qlwrap.hidden{display:none}
+.qlpanel{max-width:520px;margin:0 auto;background:#fff;border:2px solid #0157AE;border-radius:16px;padding:14px 18px;display:flex;flex-direction:column;gap:10px;box-shadow:0 8px 24px rgba(31,36,51,.08)}
+.qlhead{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.qlhead h2{margin:0;font:400 24px 'Young Serif',Georgia,serif}
+.yrs{display:flex;align-items:center;gap:8px}.yrs span{min-width:80px;text-align:center;font:400 22px 'Young Serif',Georgia,serif}
+.cbtn{width:44px;height:44px;border-radius:999px;border:1px solid #C9C4B8;background:#fff;color:#1F2433;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:0 0 auto}
+.cbtn:disabled{color:#B5B0A4;cursor:default}
+.ql{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.ql li{display:flex;gap:16px;align-items:center;padding:6px 14px;border-radius:10px;border:1px solid #E4E0D6;background:#FAF8F3}
+.ql li.cur{border-color:#0157AE;background:#EEF1F8}
+.ql .qm{flex:0 0 auto;width:48px;font:400 18px 'Young Serif',Georgia,serif;color:#9A3412}
+.ql .qt{display:flex;flex-direction:column;min-width:0;font-size:14px;line-height:1.4}
+.ql .qt a,.ql .qt span.ql-p{min-height:44px;display:flex;align-items:center;gap:4px}
+.ql .qt a{color:#0157AE;text-decoration:underline;text-underline-offset:3px}
+.ql .qt span.none{color:#5A5F6E}
+.mnav{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.mstep{display:flex;align-items:center;gap:8px}.mstep h2{margin:0;min-width:210px;text-align:center;font:400 28px 'Young Serif',Georgia,serif}
+.mact{display:flex;gap:8px;flex-wrap:wrap}
+.obtn{min-height:44px;padding:8px 16px;box-sizing:border-box;display:flex;align-items:center;gap:6px;border-radius:999px;background:#E87446;color:#1F2433;font-weight:700;font-size:14px;text-decoration:none}
+.obtn.out{background:transparent;border:2px solid #E87446;color:#9A3412}
+.art{background:#fff;border:1px solid #E4E0D6;border-radius:18px;overflow:hidden}
+.art .hd{padding:18px 24px;border-bottom:1px solid #EDEAE2;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.art .dt{flex:0 0 auto;width:68px;height:72px;border-radius:12px;background:#EEF1F8;color:#0157AE;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.art .dt.ws{background:#FCEEE9;color:#9A3412}
+.art .dt span{font-size:12px;font-weight:700;letter-spacing:.1em}.art .dt b{font:400 28px/1 'Young Serif',Georgia,serif}
+.art .ht{display:flex;flex-direction:column;gap:2px;min-width:0}
+.art .ht .sp,.art .ht h3{margin:0;font:400 26px/1.2 'Young Serif',Georgia,serif;color:#1F2433}
+.art .ht .eb{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9A3412}
+.art .ht .meta{font-size:15px;color:#5A5F6E}
+.art .bd{padding:24px;display:grid;grid-template-columns:minmax(0,1fr);gap:28px;align-items:start}
+.art .bd.hasph{grid-template-columns:minmax(0,1fr) minmax(0,2fr)}
+@media (max-width:700px){.art .bd.hasph{grid-template-columns:minmax(0,1fr)}}
+.art .tx{display:flex;flex-direction:column;gap:20px;min-width:0}
+.art .tx section{display:flex;flex-direction:column;gap:8px}
+.art .tx h4{margin:0;font-size:17px;font-weight:700}
+.art .tx p{margin:0;color:#454A58;line-height:1.6;white-space:pre-wrap}
+.art a.web{align-self:flex-start;min-height:44px;display:flex;align-items:center;gap:8px;font-weight:700;font-size:16px;color:#0157AE}
+.art .gal{display:flex;flex-direction:column;gap:12px}
+.art .gal a.main{display:block}
+.art .gal img{display:block;width:100%;height:auto;max-height:520px;object-fit:contain;background:#F0ECE3;border-radius:14px;border:1px solid #E4E0D6}
+.art .wssec{border-top:1px solid #E4E0D6}
+.art .facts{margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:12px}
+.art .facts div{padding:12px 14px;border-radius:12px;background:#FAF8F3;border:1px solid #EDEAE2;display:flex;flex-direction:column;gap:2px}
+.art .facts dt{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5A5F6E}.art .facts dd{margin:0;font-weight:600;font-size:15px}
+.pills{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px;margin-top:8px}
+.pills.hidden{display:none}
+.spots{padding:6px 18px;border-radius:999px;background:#E87446;color:#1F2433;font-size:18px;font-weight:800;letter-spacing:.01em}
+.needp{padding:6px 14px;border-radius:999px;background:#FCEEE9;border:1px solid #F4BFAA;color:#9A3412;font-size:15px;font-weight:700}
+.needp.ok{background:#E8F4EC;border-color:#BFE0C9;color:#1E5A33}
+.art .mats{display:flex;flex-direction:column;gap:8px;align-items:stretch}
+.art .mats h4{margin:0;font-size:17px;font-weight:700}
+.fnote{padding:10px 14px;border-radius:10px;background:#F0ECE3;color:#454A58;font-size:14px;line-height:1.45}.fnote.open{background:#EEF1F8;color:#0157AE}
+ul.matl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.matl li{border:0;padding:0;min-height:0;background:none;display:block}
+.matrow{display:flex;align-items:center;gap:12px;min-height:52px;padding:8px 14px 8px 8px;box-sizing:border-box;background:#fff;border:1px solid #E4E0D6;border-radius:10px;text-decoration:none;color:#1F2433;width:100%;font:inherit;text-align:left;cursor:pointer}
+.matrow:hover{border-color:#0157AE}
+.matrow.lock{background:#F4F2EC;border:1px dashed #C9C4B8;color:#5A5F6E;cursor:default}
+.matrow .ex{flex:0 0 auto;width:36px;height:36px;border-radius:8px;background:#FCEEE9;color:#9A3412;font-size:11px;font-weight:800;letter-spacing:.04em;display:flex;align-items:center;justify-content:center}
+.matrow .ex.b{background:#EEF1F8;color:#0157AE}.matrow.lock .ex{background:#E4E0D6;color:#5A5F6E}
+.matrow .nm{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:1px}.matrow .nm b{font-weight:600;font-size:15px}.matrow .nm small{font-size:13px;color:#5A5F6E}
+.suarea{display:flex;flex-direction:column;gap:14px;padding-top:16px;border-top:1px solid #EDEAE2}
+.suopen{min-height:52px;padding:12px 26px;box-sizing:border-box;display:flex;align-items:center;gap:10px;border:0;border-radius:999px;background:#0157AE;color:#fff;font:700 17px var(--sans);cursor:pointer}
+.nows{margin:0 24px 24px;padding:18px 20px;border-radius:14px;border:2px dashed #D9D3C5;background:#FAF8F3;color:#5A5F6E;display:flex;align-items:center;gap:12px;font-size:16px}
+.nows.hidden{display:none}
+.suform{border:2px solid #0157AE;background:#F4F6FB;padding:20px}.suform h3{font:400 22px 'Young Serif',Georgia,serif}
+.suform .sum{background:#FAF8F3}.suform .sum .tot{font-weight:800;font-size:17px;color:#1F2433}
+.suform .acts{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;align-items:center}
+.okbox{background:#EEF1F8;color:#0157AE}
 </style>
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
@@ -71,27 +150,30 @@
 <div class="head-actions"><a class="homelink" id="homelink" href="index.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a></div>
 </div></div></header>
 <main id="main">
-<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
-<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Programs &amp; Workshops</span>
-<h1 id="pg-title" style="margin:0">Programs &amp; Workshops</h1><p class="stat-line">Our monthly programs and workshops, with what to expect and when and where to be there.</p></div>
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in pbanner">
+<div class="pleft">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Learn &amp; make together</span>
+<h1 id="pg-title" style="margin:0">Programs &amp; Workshops</h1><p class="stat-line">Our monthly program at the Guild meeting, plus hands-on workshops.</p></div>
+<button type="button" class="qlbtn" id="ql-btn" aria-expanded="false" aria-controls="quick-look"><img src="assets/icons/btn-quicklook.svg" width="52" height="52" alt=""><span><b>Quick look</b><small>Programs and workshops by month</small></span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0157AE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path id="ql-chev" d="M6 9l6 6 6-6"></path></svg></button>
+</div>
+<aside class="wwaside" aria-labelledby="ww-h"><h2 id="ww-h">Where &amp; when</h2><div id="ww" style="display:flex;flex-direction:column;gap:16px"></div><p id="ww-note" class="wwnote hidden"></p></aside>
 </div></section>
-<div class="mwrap" style="max-width:1000px">
+<div class="qlwrap hidden" id="quick-look"><section class="qlpanel" aria-labelledby="ql-h">
+<div class="qlhead"><h2 id="ql-h">Quick look</h2>
+<div role="group" aria-label="Choose a year" class="yrs"><button type="button" class="cbtn" id="ql-prev" aria-label="Previous year"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button><span id="ql-year" aria-live="polite"></span><button type="button" class="cbtn" id="ql-next" aria-label="Next year"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button></div>
+<button type="button" class="nbtn" id="ql-close">Close</button></div>
+<ul class="ql" id="ql"></ul></section></div>
+<div class="mwrap" style="max-width:1200px;padding-top:32px">
 <a class="backlink" id="backlink" href="index.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to Home</a>
-<section class="card" aria-labelledby="ww-h"><h2 id="ww-h" style="margin:0 0 12px;font-size:20px">Where &amp; when</h2>
-<div class="wwcard" id="ww"></div><p id="ww-note" style="margin:12px 0 0"></p></section>
-
-<section class="card" aria-label="Choose a month">
-<div class="pstep"><button type="button" class="nbtn" id="prev">&larr; Earlier</button><h2 id="mon-h" aria-live="polite">&nbsp;</h2><button type="button" class="nbtn" id="next">Later &rarr;</button></div>
-<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:12px"><a class="nbtn hidden" id="edit" href="program-planning.html">Program Planning</a><a class="nbtn hidden" id="edit-m" href="program-planning.html">Edit this month</a></div>
-</section>
+<nav class="mnav" aria-label="Choose a month"><div class="mstep"><button type="button" class="cbtn" id="prev" aria-label="Previous month"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button><h2 id="mon-h" aria-live="polite">&nbsp;</h2><button type="button" class="cbtn" id="next" aria-label="Next month"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button></div>
+<div class="mact"><a class="obtn hidden" id="edit-m" href="program-planning.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16zM14 6l4 4"></path></svg>Edit this month</a><a class="obtn out hidden" id="edit" href="program-planning.html"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16v14H4zM4 10h16M8 3v5M16 3v5"></path></svg>Program Planning</a></div></nav>
 <p id="loading" role="status" style="margin:0">Loading&hellip;</p>
 <p class="hidden" id="none" style="margin:0;padding:14px 16px;border-radius:12px;background:#F0ECE3;color:#454A58"></p>
-<section class="card pc hidden" id="prog" aria-labelledby="pr-t"></section>
-<section class="card pc hidden" id="ws" aria-labelledby="wk-t"></section>
-
-<section class="card" aria-labelledby="ql-h"><h2 id="ql-h" style="margin:0 0 8px;font-size:20px">Quick look</h2>
-<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:8px"><label style="font-weight:600" for="qyear">Year</label><select class="field" id="qyear" style="min-height:46px;min-width:120px"></select></div>
-<ul class="ql" id="ql"></ul></section>
+<article class="art hidden" id="program-card">
+<section id="prog" class="hidden" aria-labelledby="pr-t"></section>
+<section id="ws" class="wssec hidden" aria-labelledby="wk-t"></section>
+<div class="nows hidden" id="nows"></div>
+</article>
 </div>
 <div class="lb hidden" id="lb" role="dialog" aria-modal="true" aria-label="Photo"><figure><button type="button" id="lb-x">Close</button><img id="lb-img" alt=""><figcaption id="lb-cap"></figcaption></figure></div>
 </main>
@@ -160,33 +242,44 @@
     });
   }).catch(function(){});
 
+  var I_CLOCK='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>';
+  var I_PIN='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg>';
+  var I_GLOBE='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"></path></svg>';
+  var I_DL='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0157AE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M7 11l5 5 5-5M5 20h14"></path></svg>';
+  var I_LOCK='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11V8a5 5 0 0 1 10 0v3M5 11h14v9H5z"></path></svg>';
+  var I_ARROW='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>';
+  function icon(svg){var s=el('span');s.style.display='flex';s.innerHTML=svg;return s.firstChild;}
   function drawWW(){
     var v=$('ww');v.textContent='';
     function blk(h,a,b,c2,d){
-      var x=el('div');x.appendChild(el('h3',null,h));var dl=el('dl'),any=false;
-      [['Day',a],['Time',b],['Place',c2],['Address',d]].forEach(function(p){if(!p[1])return;any=true;dl.appendChild(el('dt',null,p[0]));dl.appendChild(el('dd',null,p[1]));});
-      if(!any){x.appendChild(el('p',null,'To be announced.'));}else x.appendChild(dl);
-      v.appendChild(x);
+      var g=el('div','wwgrp');g.appendChild(el('h3',null,h));
+      var t=[a,b].filter(Boolean).join(', ');
+      if(!t&&!c2&&!d){g.appendChild(el('p',null,'To be announced.'));v.appendChild(g);return;}
+      if(t){var l=el('span','wwln');l.appendChild(icon(I_CLOCK));l.appendChild(document.createTextNode(t));g.appendChild(l);}
+      if(c2||d){var l2=el('span','wwln');l2.appendChild(icon(I_PIN));var pl=el('span','pl');if(c2)pl.appendChild(el('b',null,c2));if(d)pl.appendChild(el('span',null,d));l2.appendChild(pl);g.appendChild(l2);}
+      v.appendChild(g);
     }
     blk('Monthly program',set.prog_day,set.prog_time,set.prog_place,set.prog_address);
-    blk('Workshop',set.ws_day,set.ws_time,set.ws_place,set.ws_address);
+    v.appendChild(el('div','wwsep'));
+    blk('Workshops',set.ws_day,set.ws_time,set.ws_place,set.ws_address);
     $('ww-note').textContent=set.note||'';$('ww-note').classList.toggle('hidden',!set.note);
   }
-  function fact(box,label,val){if(!val)return;var s=el('span');s.appendChild(el('b',null,label+': '));s.appendChild(document.createTextNode(val));box.appendChild(s);}
-  function para(box,head,text){if(!text)return;box.appendChild(el('h3',null,head));box.appendChild(el('p',null,text));}
+  function section(box,head,text){if(!text)return;var s=el('section');s.appendChild(el('h4',null,head));s.appendChild(el('p',null,text));box.appendChild(s);}
+  function tile(d,cls){var t=el('div','dt'+(cls?' '+cls:''));t.appendChild(el('span',null,MON[+d.slice(5,7)-1].slice(0,3).toUpperCase()));t.appendChild(el('b',null,String(+d.slice(8,10))));return t;}
   function drawProgram(r){
-    var s=$('prog');s.textContent='';s.classList.toggle('hasph',!!(r.prog_photos&&r.prog_photos.length));
-    s.appendChild(el('span','ey','Monthly program'));
-    if(r.status!=='published')s.appendChild(el('span','dr','Draft: only planners can see this'));
-    var h=el('h2',null,r.prog_title||'Program to be announced');h.id='pr-t';s.appendChild(h);
-    if(r.prog_speaker)s.appendChild(el('span','by','with '+r.prog_speaker));
-    var f=el('div','facts');fact(f,'When',[longDate(r.prog_date),r.prog_time].filter(Boolean).join(', '));fact(f,'Where',r.prog_place);
-    if(f.childNodes.length)s.appendChild(f);
-    var body=el('div','body'),tx=el('div');tx.style.cssText='display:flex;flex-direction:column;gap:12px';
-    para(tx,'About the program',r.prog_about);para(tx,'About the speaker',r.prog_bio);
+    var s=$('prog');s.textContent='';
+    var hd=el('div','hd');if(r.prog_date)hd.appendChild(tile(r.prog_date));
+    var ht=el('div','ht');
+    if(r.status!=='published')ht.appendChild(el('span','dr','Draft: only planners can see this'));
+    if(r.prog_speaker)ht.appendChild(el('span','sp',r.prog_speaker));
+    var h=el('h3',null,r.prog_title||'Program to be announced');h.id='pr-t';ht.appendChild(h);
+    var meta=['Monthly Guild Meeting',r.prog_time,r.prog_place].filter(Boolean).join(' · ');ht.appendChild(el('span','meta',meta));
+    hd.appendChild(ht);s.appendChild(hd);
+    var ph=r.prog_photos&&r.prog_photos.length,body=el('div','bd'+(ph?' hasph':'')),tx=el('div','tx');
+    section(tx,'About the program',r.prog_about);section(tx,'About the speaker',r.prog_bio);
     var u=safeUrl(r.prog_site);
-    if(u){var a=el('a','web',"Visit the speaker’s website");a.href=u;a.target='_blank';a.rel='noopener noreferrer';a.setAttribute('aria-label',"Visit the speaker’s website (opens in a new tab)");tx.appendChild(a);}
-    if(r.prog_photos&&r.prog_photos.length)body.appendChild(gallery(r.prog_photos));
+    if(u){var a=el('a','web');a.href=u;a.target='_blank';a.rel='noopener noreferrer';a.appendChild(icon(I_GLOBE));var nmx=r.prog_speaker?r.prog_speaker+'’s':'the speaker’s';a.appendChild(document.createTextNode('Visit '+nmx+' website'));a.setAttribute('aria-label','Visit '+nmx+' website (opens in a new tab)');tx.appendChild(a);}
+    if(ph)body.appendChild(gallery(r.prog_photos));
     if(tx.childNodes.length)body.appendChild(tx);
     if(body.childNodes.length)s.appendChild(body);
     s.classList.remove('hidden');
@@ -219,14 +312,14 @@
       var p=el('p',null,'This workshop is open to Guild members. Please ');var l=el('a',null,'sign in');l.href='index.html';p.appendChild(l);p.appendChild(document.createTextNode(' to sign up.'));
       box.appendChild(p);return box;
     }
-    var btn=el('button','nbtn solid',full?'Join the waitlist':'Sign up for this workshop');btn.type='button';box.appendChild(btn);
+    var btn=el('button','suopen',full?'Join the waitlist':'Sign up for this workshop');btn.type='button';btn.appendChild(icon(I_ARROW));box.appendChild(btn);
     var form=el('form','suform hidden');form.noValidate=true;
     form.innerHTML='<h3></h3><p class="hint hidden" id="su-guest" style="margin:0"></p>'+
       '<div><label class="l" for="su-name">Name</label><input class="field" id="su-name" maxlength="120" autocomplete="name"></div>'+
       '<div><label class="l" for="su-email">Email</label><input class="field" id="su-email" maxlength="200" autocomplete="email" inputmode="email"></div>'+
       '<div id="su-phrow" class="hidden"><label class="l" for="su-phone">Phone number</label><input class="field" id="su-phone" maxlength="40" autocomplete="tel" inputmode="tel"></div>'+
       '<div class="sum" id="su-sum" aria-live="polite"></div><p class="err hidden" id="su-err" role="alert"></p>'+
-      '<div><button type="submit" class="btn-save" id="su-go"></button> <button type="button" class="btn-cancel" id="su-cancel">Cancel</button></div>';
+      '<div class="acts"><button type="button" class="btn-cancel" id="su-cancel">Cancel</button><button type="submit" class="btn-save" id="su-go"></button></div>';
     form.querySelector('h3').textContent='Sign up: '+(r.ws_title||'Workshop');
     box.appendChild(form);
     var q=function(i){return form.querySelector('#'+i);};
@@ -261,22 +354,23 @@
     return box;
   }
   function materialsSection(r,my,mats){
-    var open=who.manager||!!(my&&my.status==='accepted'),sec=el('div','mats');
-    sec.appendChild(el('h3',null,'Patterns & materials'));
-    if(!who.manager)sec.appendChild(el('p','hint',open?'Your registration is accepted, so these files are open to you.':
+    var open=who.manager||!!(my&&my.status==='accepted'),sec=el('section','mats');
+    sec.appendChild(el('h4',null,'Patterns & materials'));
+    if(!who.manager){var n=el('div','fnote'+(open&&my&&my.status==='accepted'?' open':''),open?'Your registration is accepted, so these files are open to you.':
       my?'You are signed up. These files unlock when the Workshop Manager accepts your registration.':
-      'Sign up for this workshop to get the patterns and materials. They unlock when the Workshop Manager accepts your registration.'+(r.ws_nonmember_ok?' Non-members get a private link in the email sent when the registration is accepted.':'')));
+      'Sign up for this workshop to get the patterns and materials. They unlock when the Workshop Manager accepts your registration.'+(r.ws_nonmember_ok?' Non-members get a private link in the email sent when the registration is accepted.':''));n.setAttribute('role','note');sec.appendChild(n);}
     var ul=el('ul','matl'),msg=el('p','hint hidden');msg.setAttribute('role','alert');
     mats.forEach(function(f){
-      var li=el('li',open?'':'lock'),nm=el('span',null,(open?'':'🔒 ')+f.name);li.appendChild(nm);
-      if(open){
-        var b=el('button','nbtn','Download');b.type='button';b.setAttribute('aria-label','Download '+f.name);
-        b.onclick=function(){sb.storage.from('workshop-materials').createSignedUrl(f.path,3600,{download:f.name}).then(function(x){
+      var li=el('li'),ext=((f.name.match(/\.([A-Za-z0-9]+)$/)||[])[1]||'FILE').toUpperCase();if(ext==='DOCX')ext='DOC';
+      var row=open?el('button','matrow'):el('div','matrow lock');if(open)row.type='button';
+      row.appendChild(el('span','ex'+(/DOC|JPG|PNG|JPEG/.test(ext)?' b':''),ext));
+      var nm=el('span','nm');nm.appendChild(el('b',null,f.name));var sz=bytesText(f.bytes);if(open){if(sz)nm.appendChild(el('small',null,sz));}else nm.appendChild(el('small',null,'Locked'+(sz?' · '+sz:'')));row.appendChild(nm);
+      row.appendChild(icon(open?I_DL:I_LOCK));
+      if(open){row.setAttribute('aria-label','Download '+f.name);
+        row.onclick=function(){sb.storage.from('workshop-materials').createSignedUrl(f.path,3600,{download:f.name}).then(function(x){
           if(x.error||!x.data){msg.textContent='That file could not be opened. Please try again.';msg.classList.remove('hidden');return;}
-          msg.classList.add('hidden');window.location.href=x.data.signedUrl;});};
-        li.appendChild(b);
-      }else li.appendChild(el('span','sz','Locked'+(f.bytes?' · '+bytesText(f.bytes):'')));
-      ul.appendChild(li);
+          msg.classList.add('hidden');window.location.href=x.data.signedUrl;});};}
+      li.appendChild(row);ul.appendChild(li);
     });
     sec.appendChild(ul);sec.appendChild(msg);return sec;
   }
@@ -289,47 +383,50 @@
       if(tok!==drawTok)return;
       var st=rs[0].data,my=(rs[1].data&&rs[1].data[0])||null,mats=rs[2].data||[],nm=+rs[3].data||0;
       var left=st&&st.spots_left!==null&&st.spots_left!==undefined?st.spots_left:(r.ws_spots!==null?r.ws_spots:null);
-      if(left!==null)pills.insertBefore(el('span','pill2 '+(left?'ok':'need'),left?left+(left===1?' spot left':' spots left'):'Workshop full'),pills.firstChild);
-      if(st&&st.more_needed!==null&&st.more_needed!==undefined)pills.appendChild(el('span','pill2 '+(st.more_needed?'need':'ok'),st.more_needed?st.more_needed+' more needed to run':'Enough signed up to run'));
+      if(left!==null)pills.insertBefore(el('span','spots',left?left+(left===1?' spot remaining':' spots remaining'):'Workshop full'),pills.firstChild);
+      if(st&&st.more_needed!==null&&st.more_needed!==undefined)pills.appendChild(el('span','needp'+(st.more_needed?'':' ok'),st.more_needed?st.more_needed+' more needed to run':'Enough signed up to run'));
       pills.classList.toggle('hidden',!pills.childNodes.length);
-      dyn.appendChild(signupSection(r,my,nm,left===0));
       if(mats.length)dyn.appendChild(materialsSection(r,my,mats));
+      var sa=el('div','suarea');sa.appendChild(signupSection(r,my,nm,left===0));dyn.appendChild(sa);
     });
   }
   function drawWorkshop(r){
     var s=$('ws');s.textContent='';
     if(!r.has_workshop){s.classList.add('hidden');return;}
-    s.classList.toggle('hasph',!!(r.ws_photos&&r.ws_photos.length));
-    s.appendChild(el('span','ey','Workshop'));
-    if(r.status!=='published')s.appendChild(el('span','dr','Draft: only planners can see this'));
-    var h=el('h2',null,r.ws_title||'Workshop to be announced');h.id='wk-t';s.appendChild(h);
+    var hd=el('div','hd');if(r.ws_date)hd.appendChild(tile(r.ws_date,'ws'));
+    var ht=el('div','ht');
+    if(r.status!=='published')ht.appendChild(el('span','dr','Draft: only planners can see this'));
+    ht.appendChild(el('span','eb','Workshop'));
+    var h=el('h3',null,r.ws_title||'Workshop to be announced');h.id='wk-t';ht.appendChild(h);
     var spk=r.ws_same===false?r.ws_speaker:r.prog_speaker;
-    if(spk)s.appendChild(el('span','by','with '+spk));
-    var pills=el('div','pills');
-    if(r.ws_level)pills.appendChild(el('span','pill2',r.ws_level));
-    pills.classList.toggle('hidden',!pills.childNodes.length);s.appendChild(pills);
-    var f=el('div','facts');
-    fact(f,'When',[longDate(r.ws_date),r.ws_time].filter(Boolean).join(', '));fact(f,'Where',r.ws_place||r.prog_place);
-    fact(f,'Fee',money(r.ws_fee));fact(f,'Register by',longDate(r.ws_last_date));
-    if(r.ws_kit_fee)fact(f,'Kit fee',money(r.ws_kit_fee)+(r.ws_kit_to?' ('+r.ws_kit_to+')':''));
-    if(f.childNodes.length)s.appendChild(f);
-    var body=el('div','body'),tx=el('div');tx.style.cssText='display:flex;flex-direction:column;gap:12px';
-    para(tx,'About the workshop',r.ws_desc);para(tx,'What the kit includes',r.ws_kit_desc);
-    if(r.ws_photos&&r.ws_photos.length)body.appendChild(gallery(r.ws_photos));
-    if(tx.childNodes.length)body.appendChild(tx);
-    if(body.childNodes.length)s.appendChild(body);
-    var dyn=el('div');dyn.style.cssText='display:flex;flex-direction:column;gap:18px';s.appendChild(dyn);loadWorkshopExtras(r,dyn,pills);
+    var meta=[spk?'With '+spk:'',r.ws_time,r.ws_place||r.prog_place].filter(Boolean).join(' · ');if(meta)ht.appendChild(el('span','meta',meta));
+    var pills=el('div','pills hidden');ht.appendChild(pills);hd.appendChild(ht);s.appendChild(hd);
+    var ph=r.ws_photos&&r.ws_photos.length,body=el('div','bd'+(ph?' hasph':'')),tx=el('div','tx');
+    section(tx,'About the workshop',r.ws_desc);section(tx,'What the kit includes',r.ws_kit_desc);
+    var fl=el('dl','facts');
+    function ft(l,v){if(!v)return;var d=el('div');d.appendChild(el('dt',null,l));d.appendChild(el('dd',null,v));fl.appendChild(d);}
+    ft('Time',r.ws_time);ft('Location',r.ws_place||r.prog_place);ft('Skill level',r.ws_level);ft('Last date to register',longDate(r.ws_last_date));ft('Fee',money(r.ws_fee));
+    if(r.ws_kit_fee)ft('Kit fee',money(r.ws_kit_fee)+(r.ws_kit_to?' ('+r.ws_kit_to+')':''));
+    if(fl.childNodes.length)tx.appendChild(fl);
+    var dyn=el('div');dyn.style.cssText='display:flex;flex-direction:column;gap:20px';tx.appendChild(dyn);
+    if(ph)body.appendChild(gallery(r.ws_photos));
+    body.appendChild(tx);s.appendChild(body);
+    loadWorkshopExtras(r,dyn,pills);
     s.classList.remove('hidden');
   }
   function drawMonth(){
     var p=split(cur);$('mon-h').textContent=MON[p[1]-1]+' '+p[0];
     var r=rows[cur+'-01'];
     $('edit-m').href='program-edit.html?m='+cur;
-    var none=$('none');
+    var none=$('none'),art=$('program-card'),nows=$('nows');
     if(!r){
-      $('prog').classList.add('hidden');$('ws').classList.add('hidden');
+      art.classList.add('hidden');
       none.textContent='No program is posted for '+MON[p[1]-1]+' '+p[0]+' yet. Use the arrows to look at other months.';none.classList.remove('hidden');
-    }else{none.classList.add('hidden');drawProgram(r);drawWorkshop(r);}
+    }else{
+      none.classList.add('hidden');art.classList.remove('hidden');drawProgram(r);drawWorkshop(r);
+      nows.textContent='';nows.classList.toggle('hidden',!!r.has_workshop);
+      if(!r.has_workshop){nows.innerHTML='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16v14H4zM4 10h16M8 3v5M16 3v5"></path></svg>';nows.appendChild(document.createTextNode('No workshop is scheduled for '+MON[p[1]-1]+'.'));}
+    }
     var keys=Object.keys(rows).map(function(k){return k.slice(0,7);}).sort();
     $('prev').disabled=!keys.length||keys[0]>=cur;$('next').disabled=!keys.length||keys[keys.length-1]<=cur;
     drawQuick();
@@ -339,34 +436,46 @@
     var keys=Object.keys(rows).map(function(k){return k.slice(0,7);}).sort(),t=null;
     if(dir<0){for(var i=keys.length-1;i>=0;i--)if(keys[i]<cur){t=keys[i];break;}}
     else{for(var j=0;j<keys.length;j++)if(keys[j]>cur){t=keys[j];break;}}
-    if(t){cur=t;qy=split(t)[0];$('qyear').value=qy;drawMonth();}
+    if(t){cur=t;qy=split(t)[0];drawMonth();}
   }
   $('prev').onclick=function(){jump(-1);};$('next').onclick=function(){jump(1);};
 
+  var qYears=[];
   function fillQuick(){
     var ys={};Object.keys(rows).forEach(function(k){ys[+k.slice(0,4)]=1;});ys[split(cur)[0]]=1;
-    var list=Object.keys(ys).map(Number).sort(function(a,b){return a-b;});
-    var sel=$('qyear');sel.textContent='';
-    list.forEach(function(y){var o=el('option',null,String(y));o.value=y;sel.appendChild(o);});
-    qy=split(cur)[0];sel.value=qy;
+    qYears=Object.keys(ys).map(Number).sort(function(a,b){return a-b;});qy=split(cur)[0];
+  }
+  function toggleQl(open){
+    var o=typeof open==='boolean'?open:$('quick-look').classList.contains('hidden');
+    $('quick-look').classList.toggle('hidden',!o);$('ql-btn').setAttribute('aria-expanded',o?'true':'false');
+    $('ql-chev').setAttribute('d',o?'M6 15l6-6 6 6':'M6 9l6 6 6-6');
+  }
+  function goTo(mm,target){
+    cur=mm;qy=split(mm)[0];drawMonth();toggleQl(false);
+    var t=target==='ws'?$('ws'):$('program-card');if(t&&!t.classList.contains('hidden'))t.scrollIntoView({behavior:'smooth',block:'start'});
   }
   function drawQuick(){
-    var ul=$('ql');ul.textContent='';var any=false;
+    var ul=$('ql');ul.textContent='';var any=false,ix=qYears.indexOf(qy);
+    $('ql-year').textContent=qy;$('ql-prev').disabled=ix<=0;$('ql-next').disabled=ix<0||ix>=qYears.length-1;
     for(var m=1;m<=12;m++){
-      var r=rows[mk(qy,m)+'-01'];if(!r)continue;any=true;
-      var li=el('li'),a=el('a');a.href='programs.html?m='+mk(qy,m);
-      if(mk(qy,m)===cur)a.setAttribute('aria-current','true');
-      a.appendChild(el('b',null,MON[m-1]));
-      var t=[r.prog_title||'Program to be announced',r.prog_speaker].filter(Boolean).join(' · ');
-      if(r.has_workshop)t+='  |  Workshop: '+(r.ws_title||'to be announced')+(r.ws_date?' ('+shortDate(r.ws_date)+')':'');
-      if(r.status!=='published')t+='  (draft)';
-      a.appendChild(el('span',null,t));
-      a.onclick=function(mm){return function(e){e.preventDefault();cur=mm;drawMonth();$('mon-h').scrollIntoView({behavior:'smooth',block:'nearest'});};}(mk(qy,m));
-      li.appendChild(a);ul.appendChild(li);
+      var key=mk(qy,m),r=rows[key+'-01'];if(!r)continue;any=true;
+      var li=el('li',key===cur?'cur':''),mo=el('span','qm',MON[m-1].slice(0,3)),box=el('span','qt');
+      var pa=el('a');pa.href='programs.html?m='+key;pa.appendChild(el('strong',null,'Program'));
+      pa.appendChild(document.createTextNode(' · '+(r.prog_date?shortDate(r.prog_date)+' · ':'')+(r.prog_title||'To be announced')+(r.status!=='published'?' (draft)':'')));
+      pa.onclick=function(k){return function(e){e.preventDefault();goTo(k,'prog');};}(key);box.appendChild(pa);
+      if(r.has_workshop){
+        var wa=el('a');wa.href='programs.html?m='+key;wa.appendChild(el('strong',null,'Workshop'));
+        wa.appendChild(document.createTextNode(' · '+(r.ws_date?shortDate(r.ws_date)+' · ':'')+(r.ws_title||'To be announced')));
+        wa.onclick=function(k){return function(e){e.preventDefault();goTo(k,'ws');};}(key);box.appendChild(wa);
+      }else{var wp=el('span','ql-p none');wp.appendChild(el('strong',null,'Workshop'));wp.appendChild(document.createTextNode(' · None this month'));box.appendChild(wp);}
+      li.appendChild(mo);li.appendChild(box);ul.appendChild(li);
     }
     if(!any)ul.appendChild(el('li',null,'Nothing is posted for '+qy+' yet.'));
   }
-  $('qyear').addEventListener('change',function(){qy=+this.value;drawQuick();});
+  $('ql-prev').onclick=function(){var i=qYears.indexOf(qy);if(i>0){qy=qYears[i-1];drawQuick();}};
+  $('ql-next').onclick=function(){var i=qYears.indexOf(qy);if(i>-1&&i<qYears.length-1){qy=qYears[i+1];drawQuick();}};
+  $('ql-btn').onclick=function(){toggleQl();};
+  $('ql-close').onclick=function(){toggleQl(false);$('ql-btn').focus();};
 
   var firstLoad=true;
   function load(){

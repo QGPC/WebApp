@@ -22,6 +22,16 @@ ul.wnlist li.unseen{border-left:6px solid #2F6B5A}
 ul.wnlist .d{font-size:13px;font-weight:700;color:#2F6B5A}ul.wnlist h3{margin:2px 0 4px;font-size:18px}ul.wnlist p{margin:0 0 6px}ul.wnlist .by{font-size:13px;color:#5A5F6E}
 ul.wnlist a.go{display:inline-block;margin-top:8px;padding:8px 16px;border-radius:999px;background:#0157AE;color:#fff;font-weight:600;font-size:14px;text-decoration:none}
 .wnact{display:flex;flex-wrap:wrap;gap:10px}
+.mypanel{background:#F4F6FB;border-top:4px solid #0157AE;border-bottom:1px solid #D5DCEC}.mypanel .myh{margin:0 0 6px;font:400 26px 'Young Serif',Georgia,serif}
+ul.mylist{list-style:none;margin:12px 0 14px;padding:0;display:flex;flex-direction:column;gap:10px}
+ul.mylist li{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:14px 16px;border:1px solid #E4E0D6;border-radius:14px;background:#FAF8F3}
+ul.mylist li.due{border-color:#F4BFAA;background:#FEF7F4}
+.mytile{flex:0 0 auto;width:56px;height:56px;border-radius:12px;background:#FCEEE9;color:#9A3412;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}.mytile span{font-size:12px;font-weight:700;letter-spacing:.1em}.mytile b{font:400 24px 'Young Serif',Georgia,serif}
+.mybody{flex:1 1 260px;min-width:0;display:flex;flex-direction:column;gap:3px}.mybody a{font-weight:700;font-size:18px;color:#1F2433;text-decoration:none}.mybody a:hover{text-decoration:underline}.mybody .m{font-size:15px;color:#5A5F6E}
+.mystat{flex:0 1 auto;display:flex;flex-direction:column;align-items:flex-end;gap:4px;text-align:right}.mychip{font-size:14px;font-weight:700;padding:6px 12px;border-radius:999px;background:#EEF1F8;color:#0157AE}.mychip.due{background:#FCEEE9;color:#9A3412}.mystat .n{font-size:14px;color:#5A5F6E}
+.mywarn{display:flex;gap:12px;padding:14px 16px;border-radius:12px;background:#FCEEE9;color:#9A3412;font-size:15px;line-height:1.5;margin:10px 0}.mywarn a{color:#9A3412;font-weight:700}
+.mynone{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:16px 18px;border-radius:12px;background:#fff;color:#454A58;font-size:16px;margin:12px 0 14px}
+
 .nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;text-decoration:none}
 .evstep{display:flex;align-items:center;gap:10px}.evb{width:44px;height:44px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:700 20px var(--sans);cursor:pointer}.evb:disabled{opacity:.35;cursor:default}
 .evlab{font:400 20px 'Young Serif',serif;min-width:92px;text-align:center}
@@ -65,12 +75,19 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
 </div>
 <div class="banner-btns" id="banner-btns">
 <a class="signin-btn hidden" id="btn-renew" href="renew.html"><img src="assets/icons/btn-renew.svg" width="42" height="42" alt=""><span class="lbl">Renew Membership</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E87446" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
-<span class="signin-btn" id="btn-events" aria-disabled="true"><img src="assets/icons/btn-myevents.svg" width="42" height="42" alt=""><span class="lbl">My Upcoming Events<small>Coming soon</small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0157AE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg></span>
+<button type="button" class="signin-btn" id="btn-events" aria-expanded="false" aria-controls="my-panel"><img src="assets/icons/btn-myevents.svg" width="42" height="42" alt=""><span class="lbl">My Upcoming Events<small id="my-sum">Workshops you signed up for</small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0157AE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path id="my-chev" d="M6 9l6 6 6-6"></path></svg></button>
 <button type="button" class="signin-btn" id="btn-new" aria-expanded="false" aria-controls="wn-panel"><img src="assets/icons/btn-whatsnew.svg" width="42" height="42" alt=""><span class="lbl">What&rsquo;s New<small id="new-sum">Recent changes to our site.</small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0157AE" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path id="wn-chev" d="M6 9l6 6 6-6"></path></svg></button>
 </div></div></div></section>
 <section class="wnpanel hidden" id="wn-panel" aria-label="What&rsquo;s New"><div class="wnin">
 <ul class="wnlist" id="wn-list"></ul>
 <div class="wnact"><button type="button" class="nbtn hidden" id="wn-more">Show earlier changes</button><button type="button" class="nbtn" id="wn-seen">Mark all as seen</button><button type="button" class="nbtn" id="wn-close">Close</button><a class="nbtn hidden" id="wn-post" href="whats-new-manage.html">Post a change</a></div>
+</div></section>
+<section class="mypanel hidden" id="my-panel" aria-label="My Upcoming Events"><div class="wnin">
+<h2 class="myh">My Upcoming Events</h2>
+<div class="mywarn hidden" id="my-warn" role="alert"></div>
+<ul class="mylist" id="my-list"></ul>
+<div class="mynone hidden" id="my-none"><span>You are not signed up for any workshops yet.</span> <a class="nbtn solid" href="programs.html">See Programs &amp; Workshops</a></div>
+<div class="wnact"><button type="button" class="nbtn" id="my-close">Close</button></div>
 </div></section>
 <div class="wrap"><div class="page">
 <p id="note" class="msg err hidden" role="alert"></p>
@@ -257,6 +274,47 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
             $('wn-panel').classList.toggle('hidden',!o);$('btn-new').setAttribute('aria-expanded',o?'true':'false');
             $('wn-chev').setAttribute('d',o?'M6 15l6-6 6 6':'M6 9l6 6 6-6');
           };
+          var myToggle=function(open){
+            var o=typeof open==='boolean'?open:$('my-panel').classList.contains('hidden');
+            $('my-panel').classList.toggle('hidden',!o);$('btn-events').setAttribute('aria-expanded',o?'true':'false');
+            $('my-chev').setAttribute('d',o?'M6 15l6-6 6 6':'M6 9l6 6 6-6');
+            if(o)wnToggle(false);
+          };
+          var wnToggleOrig=wnToggle;wnToggle=function(open){wnToggleOrig(open);var o=typeof open==='boolean'?open:!$('wn-panel').classList.contains('hidden');if(o)myToggle(false);};
+          $('btn-events').addEventListener('click',function(){myToggle();});
+          $('my-close').addEventListener('click',function(){myToggle(false);$('btn-events').focus();});
+          var myDraw=function(rows){
+            var ul=$('my-list');ul.textContent='';
+            $('my-none').classList.toggle('hidden',rows.length>0);
+            var due=rows.filter(function(r){return r.reg.status==='waitlist'&&!r.reg.paid;});
+            var w=$('my-warn');w.classList.toggle('hidden',!due.length);
+            if(due.length){w.textContent='';var sp=document.createElement('span');var st=document.createElement('strong');st.textContent=due.length===1?'One of your workshops is on the waitlist because it is not paid yet.':due.length+' of your workshops are on the waitlist because they are not paid yet.';sp.appendChild(st);sp.appendChild(document.createTextNode(' A spot is only held once you have paid. If the workshop fills up before you pay, you could lose your place. '));var a=document.createElement('a');a.href='programs.html?m='+due[0].mo.month_on.slice(0,7);a.textContent='Pay to hold your spot';sp.appendChild(a);sp.appendChild(document.createTextNode('.'));w.appendChild(sp);}
+            $('my-sum').textContent=!rows.length?'No workshops yet':(due.length?due.length+(due.length===1?' on the waitlist — payment due':' on the waitlist — payments due'):'All paid');
+            if(due.length)$('my-sum').style.color='#9A3412';
+            rows.forEach(function(r){
+              var g=r.reg,mo=r.mo,isDue=g.status==='waitlist'&&!g.paid,li=document.createElement('li');if(isDue)li.className='due';
+              var d=mo.ws_date?new Date(mo.ws_date+'T12:00:00'):null;
+              var t=document.createElement('span');t.className='mytile';var a1=document.createElement('span');a1.textContent=d?MON[d.getMonth()].toUpperCase():'';var b1=document.createElement('b');b1.textContent=d?String(d.getDate()):'';t.appendChild(a1);t.appendChild(b1);
+              var body=document.createElement('span');body.className='mybody';var l=document.createElement('a');l.href='programs.html?m='+mo.month_on.slice(0,7);l.textContent='Workshop: '+(mo.ws_title||'Workshop');
+              var meta=document.createElement('span');meta.className='m';meta.textContent=[mo.ws_time,mo.ws_place].filter(Boolean).join(' · ');body.appendChild(l);if(meta.textContent)body.appendChild(meta);
+              var stat=document.createElement('span');stat.className='mystat';var chip=document.createElement('span');chip.className='mychip'+(isDue?' due':'');var note=document.createElement('span');note.className='n';
+              var amt='$'+(Math.round((+g.total_due||0)*100)/100).toFixed(2);
+              if(g.status==='accepted'){chip.textContent='Registered · Accepted';note.textContent=amt+' paid · Patterns and materials are open';}
+              else if(g.status==='waiting'){chip.textContent='Registered · Paid';note.textContent=amt+' paid · Waiting for the Workshop Manager to accept';}
+              else if(g.paid){chip.textContent='On the waitlist · Paid';note.textContent=amt+' paid · You get a spot if one opens';}
+              else{chip.textContent='On the waitlist · Payment due';note.textContent=amt+' due · Your spot is not held until you pay';}
+              stat.appendChild(chip);stat.appendChild(note);li.appendChild(t);li.appendChild(body);li.appendChild(stat);ul.appendChild(li);
+            });
+          };
+          QGPC.sb.from('workshop_registrations').select('*').eq('member_id',m.id).neq('status','cancelled').then(function(rr){
+            var regs=(rr&&rr.data)||[];if(!regs.length){myDraw([]);return;}
+            QGPC.sb.from('program_months').select('id,month_on,ws_title,ws_date,ws_time,ws_place,status').in('id',regs.map(function(x){return x.month_id;})).eq('status','published').then(function(mr){
+              var mm={};((mr&&mr.data)||[]).forEach(function(x){mm[x.id]=x;});
+              var rows=regs.filter(function(x){var mo=mm[x.month_id];return mo&&(!mo.ws_date||mo.ws_date>=today);}).map(function(x){return {reg:x,mo:mm[x.month_id]};});
+              rows.sort(function(a,b){return (a.mo.ws_date||'9999')<(b.mo.ws_date||'9999')?-1:1;});
+              myDraw(rows);
+            });
+          });
           $('btn-new').addEventListener('click',function(){wnToggle();});
           $('wn-close').addEventListener('click',function(){wnToggle(false);$('btn-new').focus();});
           $('wn-more').addEventListener('click',function(){wnAll=true;wnDraw();});
