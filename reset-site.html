@@ -127,7 +127,7 @@ RESET.ROWS=[
   ['Comfort Quilt numbers entered',['comfort_log_in','comfort_log_out','comfort_year_start']],
   ['Member import records',['member_imports']]
 ];
-RESET.CONTENT=['program_months','program_month_costs','program_costs','nonmember_fees','workshop_materials','newsletters','charities','bees','guild_history_entries','comfort_patterns','events'];
+RESET.CONTENT=['program_months','program_month_costs','program_costs','nonmember_fees','workshop_materials','newsletters','charities','bees','guild_history_entries','comfort_patterns','news_items','retreats','events'];
 RESET.sum=function(counts,list){
   if(list==='members')return +counts.members||0;
   var n=0;list.forEach(function(t){n+=+counts[t]||0;});return n;
@@ -149,7 +149,7 @@ QGPCShell.start({need:function(c){return c.isSuper;}},function(ctx){
     ['settings','Site settings and appearance','The banner look, the Guild’s contact details and Facebook link.'],
     ['dues','Dues amounts and the renewal button setting',''],
     ['admins','The Administrator accounts','Kept together with their member records and sign-in accounts.'],
-    ['content','The pages and files the chairs prepared','Programs, workshops, newsletters, patterns, charities, Bees, Guild History and calendar events. Unticking this starts completely empty.']
+    ['content','The pages and files the chairs prepared','Programs, workshops, newsletters, patterns, charities, Bees, Guild History, In the News, retreats and calendar events. Unticking this starts completely empty.']
   ];
   function drawKeeps(){
     var b=$('keeps');b.innerHTML='';

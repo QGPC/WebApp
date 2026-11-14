@@ -67,7 +67,7 @@ begin
       'member_emails','sunshine_notes','comfort_kit_claims','quilts_needing_work','comfort_log_in','comfort_log_out',
       'comfort_year_start','member_imports',
       'program_months','program_month_costs','program_costs','nonmember_fees','workshop_materials','newsletters','charities',
-      'bees','guild_history_entries','comfort_patterns','events','guild_contact','site_appearance'] loop
+      'bees','guild_history_entries','comfort_patterns','news_items','retreats','events','guild_contact','site_appearance'] loop
     out := out || jsonb_build_object(t, public._count_rows(t));
   end loop;
   return jsonb_build_object('counts', out,
@@ -93,7 +93,7 @@ declare
   buckets    text[] := array['special-notices'];
   n          bigint;
   content_tables text[] := array['workshop_materials','program_month_costs','program_costs','program_months',
-      'nonmember_fees','newsletters','charities','bees','guild_history_entries','comfort_patterns','events'];
+      'nonmember_fees','newsletters','charities','bees','guild_history_entries','comfort_patterns','news_items','retreats','events'];
   existing   text[] := '{}';
 begin
   if not public.is_superuser() then

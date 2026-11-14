@@ -113,6 +113,7 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
 <script src="assets/js/supabase-js-2.119.0.js"></script>
 <script src="assets/js/config.js"></script>
 <script src="assets/js/auth.js"></script>
+<script src="assets/js/newbadge.js"></script>
 <script src="assets/js/special-notices.js"></script>
 <script>
 (function(){
@@ -132,7 +133,9 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
     {l:'Workshop Registrations',i:'workshop-registrations',href:'workshop-registrations.html',r:['workshop_chair'],adm:1},
     {l:'Program Planning',i:'program-planning',r:['program_chair'],adm:1,href:'program-planning.html'},
     {l:'Quilt Show Chair',i:'quilt-show-manager',r:['quilt_show_chair'],adm:1},
-    {l:'Manage Notices',i:'manage-notices',href:'notices-manage.html',r:['president','vice_president'],adm:1},
+    {l:'Manage Notices',i:'manage-notices',href:'notices-manage.html',r:['president','vice_president','publicity_chair'],adm:1},
+    {l:'Edit In the News',i:'about',href:'in-the-news-manage.html',r:['publicity_chair'],adm:1},
+    {l:'Edit Retreats',i:'programs',href:'retreats-manage.html',r:['retreats_chair'],adm:1},
     {l:'Reported Messages',i:'reported-messages',r:[],adm:1},
     {l:'Site Administration',i:'site-administration',href:'admin.html',r:[],adm:1},
     {l:'Workshop Settings',i:'site-administration',href:'workshop-settings.html',r:[],adm:1},
@@ -145,6 +148,7 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
     e.className='tile'+(t.href?'':' soon'); if(t.href)e.href=t.href; else e.tabIndex=0;
     var im=document.createElement('img');im.src=T(t.i);im.alt='';im.width=34;im.height=34;e.appendChild(im);
     var lab=document.createElement('span');lab.className='lab';lab.textContent=t.l;e.appendChild(lab);
+    if(t.isNew&&!t.badge){var nb=document.createElement('span');nb.className='badge';nb.textContent='New';nb.setAttribute('aria-label','New: something has changed on this page');e.appendChild(nb);}
     if(t.badge){var bd=document.createElement('span');bd.className='badge';bd.textContent=t.badge;bd.setAttribute('aria-label',t.badge+' '+(t.badgeLabel||(t.badge===1?'request waiting':'requests waiting')));e.appendChild(bd);}
     var tip=TIPS[t.l]||'';
     if(tip||!t.href){var tp=document.createElement('span');tp.className='tip';tp.setAttribute('role','tooltip');tp.appendChild(document.createTextNode(tip));
@@ -226,11 +230,13 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
         var pend2=cq?QGPC.sb.rpc('comfort_chair_counts').then(function(r){var d=r&&r.data;if(Array.isArray(d))d=d[0];var n=(!r.error&&d)?(d.new_quilts||0)+(d.new_kits||0):0;cq.badge=n;cq.badgeLabel='new claims';}):Promise.resolve();
         var sr=jobs.filter(function(j){return j.l==='Sunshine & Shadows Review';})[0];
         var pend3=sr?QGPC.sb.rpc('sunshine_pending_count').then(function(r){sr.badge=(!r.error&&r.data>0)?r.data:0;sr.badgeLabel='notes waiting';}):Promise.resolve();
-        return Promise.all([pending,pend2,pend3]).then(function(){
+        var NEWKEYS={'Programs & Workshops':['programs'],'Newsletters':['newsletters'],'Member Directory':['directory'],'Comfort Quilts':['comfort'],'Our Community':['sunshine','news','retreats'],'Bees':['bees'],'About our Guild':['about']};
+        var pend4=full?QGPCNew.me().then(QGPCNew.keys).then(function(nk){MEMBER.forEach(function(t){t.isNew=(NEWKEYS[t.l]||[]).some(function(k){return nk[k];});});}):Promise.resolve();
+        return Promise.all([pending,pend2,pend3,pend4]).then(function(){
         var all=jobs.concat(full?MEMBER:PUBLIC);
         fill('tilebar',all.slice(0,PER_BAR));
         if(all.length>PER_BAR){fill('more-areas',all.slice(PER_BAR));$('more-btn').classList.remove('hidden');}
-        var canPost=isAdm||has('president')||has('vice_president');
+        var canPost=isAdm||has('president')||has('vice_president')||has('publicity_chair');
         QGPCSpecial.show({members:full});
         if(canPost)$('post-notice').classList.remove('hidden');
         var today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());

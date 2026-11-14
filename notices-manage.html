@@ -80,7 +80,7 @@
 <script src="assets/js/auth.js"></script>
 <script src="assets/js/shell.js"></script>
 <script>
-QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president');}},function(c){
+QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president')||c.has('publicity_chair');}},function(c){
   var $=function(i){return document.getElementById(i)};
   var sb=QGPC.sb, rows=[], editId=null, confirmId=null;
   // Today in the Guild's time zone (YYYY-MM-DD)
