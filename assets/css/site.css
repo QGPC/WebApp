@@ -298,3 +298,20 @@ ul.special-list p{margin:0;white-space:pre-wrap}
 /* Notices and Events cards side by side (stack on narrow screens) */
 .hpair{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(440px,100%),1fr));gap:24px;align-items:start;margin:28px 0 16px}
 .hpair .hcard{margin:0;min-width:0}
+
+/* ---- Shared page rules (moved here from the individual pages, 2026-11-14) ---- */
+.nbtn.del{border-color:#9A3412;color:#9A3412}
+.cqc{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+.cqh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.cbadge{min-width:26px;height:26px;padding:0 8px;border-radius:999px;background:#E87446;color:#1F2433;font-weight:700;font-size:14px;display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box}
+.seg{display:flex;gap:8px;flex-wrap:wrap}
+.seg button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer}
+.seg button[aria-pressed=true]{background:#0157AE;color:#fff}
+.infobox{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8}
+.infobox h2{margin:0 0 4px;font-size:16px;font-weight:700;color:#0157AE}
+.blue-note{border:2px solid #0157AE;border-radius:14px;padding:16px 18px;background:#F4F6FB;display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+.toplinks{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.dl2{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-size:15px}
+.dl2 dt{font-weight:700;color:#5A5F6E}
+.dl2 dd{margin:0}
+.ctop{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
