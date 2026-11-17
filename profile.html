@@ -31,10 +31,17 @@
 <section class="pcard" aria-labelledby="photo-title"><div class="ph"><h2 id="photo-title">Directory photo</h2>
 <span class="sub">Shown beside your name in the Member Directory. Only signed-in members can see it.</span></div>
 <div class="photo-row"><span class="photo-empty" aria-hidden="true"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg></span>
-<span class="sub">Photo upload is coming soon, along with the Member Directory.</span></div></section>
+<span class="sub">Photo upload is coming soon.</span></div></section>
+
+<section class="pcard" aria-labelledby="dir-title"><div class="ph"><h2 id="dir-title">Member Directory</h2>
+<span class="sub">The Directory is a list of Guild members that only signed-in members can see. It shows the contact details you enter below.</span></div>
+<label class="chk"><input type="checkbox" id="pf-listed" aria-describedby="dir-help"> List me in the Member Directory</label>
+<span class="sub" id="dir-help">If you uncheck this, other members will not see you or any of your details in the Directory. Your choice is saved as soon as you change it. The Membership Chair and Administrators can still see your membership record. If you hold a Guild office, your name and office still appear on the About page, but your contact details do not.</span>
+<span class="sub" id="dir-saved" role="status" style="font-weight:700;color:#0157AE"></span>
+<span class="sub" id="dir-err" role="alert" style="font-weight:700;color:#9A3412"></span></section>
 
 <section class="pcard" aria-labelledby="contact-title"><div class="ph"><h2 id="contact-title">Contact details</h2>
-<span class="sub">Members see these in the directory. The Membership Chair uses them to reach you.</span></div>
+<span class="sub">If you are listed in the Member Directory, members can see these. The Membership Chair uses them to reach you.</span></div>
 <div class="grid2">
 <div class="f"><label for="pf-first">First name</label><input class="field" id="pf-first" maxlength="80" autocomplete="given-name" required></div>
 <div class="f"><label for="pf-last">Last name</label><input class="field" id="pf-last" maxlength="80" autocomplete="family-name" required></div>
@@ -150,6 +157,7 @@
         $('pf-cell').value=m.cell_phone||'';$('pf-street').value=m.street_address||'';$('pf-city').value=m.city||'';
         $('pf-state').value=m.state||'';$('pf-zip').value=m.zip||'';
         $('pf-bm').value=m.birthday_month||'';$('pf-bd').value=m.birthday_day||'';
+        $('pf-listed').checked=!m.directory_opt_out;
         var mine=m.interests||[];checks().forEach(function(c){c.checked=mine.indexOf(c.value)>-1;});
         $('pf-other').value=m.interests_other||'';
         $('m-type').textContent=m.membership_type||'—';$('m-since').textContent=m.member_since||'—';
@@ -167,6 +175,17 @@
       });
     });
   }
+  // Directory listing: saved at once (it is not part of the Save changes button)
+  $('pf-listed').addEventListener('change',function(){
+    var box=$('pf-listed'),want=box.checked;
+    say('dir-saved','');say('dir-err','');box.disabled=true;
+    QGPC.sb.from('members').update({directory_opt_out:!want}).eq('id',member.id).select('id').then(function(r){
+      box.disabled=false;
+      if(r.error||!r.data||!r.data.length){box.checked=!want;say('dir-err','We could not save that choice. Please try again, or contact the Membership Chair.');return;}
+      member.directory_opt_out=!want;
+      say('dir-saved',want?'Saved. You are listed in the Member Directory.':'Saved. You are no longer listed in the Member Directory.');
+    });
+  });
   $('out').addEventListener('click',function(){QGPC.signOut().then(function(){location.href='index.html';});});
   $('pf').addEventListener('submit',function(e){
     e.preventDefault();say('save-err','');$('saved').classList.add('hidden');
