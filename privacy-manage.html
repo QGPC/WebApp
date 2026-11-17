@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Privacy Notice (edit)</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css?v=20261117a">
+<style>
+.pn{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+.pn h2{margin:14px 0 0;font:400 24px/1.25 'Young Serif',Georgia,serif}
+.pn h2:first-child{margin-top:0}
+.pn p,.pn li{margin:0;font-size:17px;line-height:1.6;overflow-wrap:anywhere}
+.pn ul{margin:0;padding-left:24px;display:flex;flex-direction:column;gap:6px}
+.pn .upd{font-size:14px;color:#5A5F6E}
+</style>
+<style>
+.ed{border:1px solid #E4E0D6;border-radius:14px;padding:22px;background:#fff;display:flex;flex-direction:column;gap:16px}
+.ed label.l{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.ed .hint{margin:4px 0 0;font-size:14px;color:#5A5F6E}
+.ed .count{font-size:14px;color:#5A5F6E;text-align:right;margin:0}
+.ed pre{margin:0;padding:12px 14px;border-radius:10px;background:#F4F6FB;font:14px/1.5 ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap}
+.warn{padding:12px 14px;border-radius:10px;background:#FCEEE9;color:#7C2D12;font-weight:600;font-size:15px}
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;text-decoration:none}
+.confirm{background:#FCEEE9;border-radius:10px;padding:12px 14px}.confirm p{margin:0 0 10px;font-weight:600;color:#9A3412}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</div></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Site administration</span>
+<h1 id="pg-title" style="margin:0">Privacy Notice</h1><p class="stat-line">Edit the text of the public Privacy Notice page.</p></div>
+</div></section>
+<div class="mwrap" style="max-width:900px" id="content">
+<a class="backlink" href="admin.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to Site Administration</a>
+
+<p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
+<p id="loading" role="status" style="margin:0">Loading&hellip;</p>
+
+<form class="ed hidden" id="form" novalidate>
+<div><label class="l" for="f-body">Privacy Notice text</label>
+<textarea class="field" id="f-body" rows="22" maxlength="20000" style="min-height:420px;margin-bottom:4px"></textarea>
+<p class="count" id="count">0 of 20,000 characters</p>
+<p class="hint">Start a new heading with <b>## </b> at the front of its line, a list item with <b>- </b>, and leave a blank line between paragraphs. Everything else is a paragraph. The page&rsquo;s title and the &ldquo;Last updated&rdquo; date are added for you.</p></div>
+<div class="warn hidden" id="warn" role="status"></div>
+<div id="draftbox" class="hidden"><button type="button" class="nbtn" id="draft-btn">Fill in with the draft text</button>
+<p class="hint">A starting draft written for the Guild. It has [bracketed] notes where the Guild has to decide or confirm something. It is not saved until you press Save.</p></div>
+<div class="confirm hidden" id="draftconf"><p>Replace what is in the box with the draft text?</p><div class="saverow"><button type="button" class="btn-del solid" id="draft-yes">Yes, replace it</button><button type="button" class="btn-cancel" id="draft-no">Keep my text</button></div></div>
+<p id="f-err" class="msg err hidden" role="alert" style="margin:0"></p>
+<div class="saverow"><button type="submit" class="btn-save" id="f-save">Save Privacy Notice</button><a class="nbtn" href="privacy.html">See the page</a></div>
+<p class="hint" id="when" style="margin:0"></p>
+</form>
+
+<section class="pn hidden" id="prevbox" aria-labelledby="prev-h"><h2 id="prev-h" style="margin:0;font-size:16px;font-weight:700;font-family:var(--sans)">How it will read</h2>
+<div id="prev" style="display:flex;flex-direction:column;gap:14px"></div></section>
+
+<section style="display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8">
+<div><h2 style="margin:0 0 4px;font-size:16px;font-weight:700;color:#0157AE">Who can use this page</h2>
+<p style="margin:0;font-size:15px;line-height:1.5;color:#1F2433">Administrators and the Superuser. The text is public: anyone can read it, signed in or not, and a change shows as soon as you save. Have the Board approve the wording before the Guild goes live.</p></div>
+</section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js?v=20261117a"></script>
+<script src="assets/js/auth.js?v=20261117a"></script>
+<script src="assets/js/shell.js?v=20261117a"></script>
+<script src="assets/js/privacy.js?v=20261117a"></script>
+<script>
+QGPCShell.start({need:function(c){return c.isAdmin;}},function(c){
+  var $=function(i){return document.getElementById(i)};
+  var sb=QGPC.sb, STARTER="This notice explains what information this website keeps about you, who can see it, and what choices you have. We try to collect only what the Guild needs to run its membership, programs and workshops.\n\n## Who runs this site\nThe site is run by volunteers of the Quilter's Guild of Parker County. Questions about this notice go to [Guild contact email].\n\n## What visitors see\nAnyone can read the public pages. We do not ask visitors to sign in, and we do not use advertising or tracking cookies. [Confirm: no analytics tool is used. If one is added later, this notice will say so.]\n\n## What we keep about members\nWhen you join or are added to the membership list, the Guild keeps:\n- your name and email address;\n- your membership type, the year you joined, and the year you have paid through;\n- your cell phone number, mailing address and Facebook name, if you gave them;\n- your birthday month and day, if you gave them (never the year);\n- your choice about appearing in the member directory;\n- messages and sign-ups you make through the site (for example workshop registrations).\n\n## Why we keep it\nTo manage membership and renewals, to let members sign in, to run programs and workshops, to send Guild messages you need (such as approval, password and renewal emails), and to publish the member directory and birthday list to other members.\n\n## Who can see it\n- Visitors see only the public pages.\n- Members who are signed in and active can see the member directory, except for people who chose to opt out, and the member-only pages.\n- Administrators and the Membership Chair can see and change membership records.\n- The Superuser (the site's technical maintainers) can see all data, because they look after the database. [Name the Superuser roles, not people.]\n- We do not sell or share member information with outside companies for their own use.\n\n## Services that handle information for us\n- Supabase stores the site's database, sign-in accounts and files. [Confirm the hosting region and plan.]\n- GitHub hosts the public web pages. No member data is stored there.\n- Zeffy processes membership and workshop payments on its own pages. Card details are entered on Zeffy, not on this site, and this site never sees them. Zeffy has its own privacy policy.\n- Email is sent from a Guild email account. [Confirm.]\n\n## Passwords\nYou choose your own password. The site stores it in scrambled form and no Guild volunteer can read it. If you forget it, use \"Forgot password?\" on the sign-in card.\n\n## Private messages\nMembers can send private messages through the site. They are kept in the site's database and are not end-to-end encrypted, which means the Superuser could technically read them. They are used only to keep the site running, or if a message is reported. [Confirm this wording with the Board.]\n\n## Photos\nGuild photos may show members' faces. [Decide: photos are posted only of Guild events; anyone who does not want their photo posted can tell [contact], and we will remove it.]\n\n## How the member list was loaded\nThe first member list was loaded by a Superuser from the Guild's existing membership records. Later changes are made by the Membership Chair, an Administrator or the Superuser.\n\n## Backups\nThe Guild keeps backups of the site's data so it can be restored after a mistake or failure. Backups contain the same member information and can be opened only by the people the Guild has named. [Confirm where the backups are kept.]\n\n## How long we keep records\n[Decide. Suggested: membership records for as long as you are a member and [2] years after your membership ends, then deleted or made anonymous; workshop registrations for [1] year after the workshop.]\n\n## Your choices\nYou can see and update your own contact details when you are signed in. You can opt out of the member directory. You can ask the Membership Chair to correct or delete your record, or to end your membership, at [Guild contact email]. Deleting a record may remove your sign-in account.\n\n## Children\nJunior memberships are for [age range]. [Decide who gives consent for a minor: a parent or guardian.]\n\n## Changes\nIf this notice changes, we will update the date at the bottom of this page and tell members by email.\n";
+  function show(t,cls){var n=$('status');n.textContent=t;n.className='msg '+cls;n.style.margin='0';}
+  function ferr(t){var f=$('f-err');f.textContent=t;f.classList.remove('hidden');}
+  function draw(){
+    var v=$('f-body').value;
+    $('count').textContent=v.length.toLocaleString('en-US')+' of 20,000 characters';
+    var n=QGPCPrivacy.brackets(v),w=$('warn');
+    w.textContent=n?n+(n===1?' [bracketed] note is':' [bracketed] notes are')+' still in the text. Fill in or delete each one before the Guild goes live.':'';
+    w.classList.toggle('hidden',!n);
+    $('draftbox').classList.toggle('hidden',!!v.trim());
+    var has=!!v.trim();$('prevbox').classList.toggle('hidden',!has);
+    if(has)QGPCPrivacy.render(v,$('prev'));
+  }
+  function when(ts){
+    $('when').textContent=ts?'Last saved '+new Date(ts).toLocaleString('en-US',{timeZone:'America/Chicago',month:'long',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'})+'.':'Nothing has been saved yet, so the page says the notice is being prepared.';
+  }
+  $('f-body').addEventListener('input',function(){draw();$('f-err').classList.add('hidden');});
+  $('draft-btn').onclick=function(){if($('f-body').value.trim()){$('draftconf').classList.remove('hidden');}else{$('f-body').value=STARTER;draw();$('f-body').focus();}};
+  $('draft-yes').onclick=function(){$('f-body').value=STARTER;$('draftconf').classList.add('hidden');draw();};
+  $('draft-no').onclick=function(){$('draftconf').classList.add('hidden');};
+  sb.from('privacy_notice').select('body,updated_at').limit(1).then(function(r){
+    $('loading').classList.add('hidden');
+    if(r.error){show('Could not load the Privacy Notice. Please refresh and try again.','err');return;}
+    var row=(r.data&&r.data[0])||{body:'',updated_at:null};
+    $('f-body').value=row.body||'';
+    $('when').textContent='';when(row.body?row.updated_at:null);draw();$('form').classList.remove('hidden');
+  });
+  $('form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var v=$('f-body').value.replace(/\s+$/,'');
+    if(v.length>20000){ferr('Please keep it to 20,000 characters or fewer.');return;}
+    var btn=$('f-save');btn.disabled=true;$('f-err').classList.add('hidden');
+    sb.from('privacy_notice').upsert({id:true,body:v}).select('updated_at').then(function(r){
+      btn.disabled=false;
+      if(r.error){ferr('That did not save. Please try again.');return;}
+      $('f-body').value=v;draw();when(v?(r.data&&r.data[0]&&r.data[0].updated_at):null);
+      show(v?'Saved. The Privacy Notice page now shows this text.':'Saved. The Privacy Notice page now says the notice is being prepared.','ok');
+      $('status').scrollIntoView({behavior:'smooth',block:'nearest'});
+    });
+  });
+});
+</script>
+</body></html>

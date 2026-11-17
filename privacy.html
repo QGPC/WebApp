@@ -6,22 +6,31 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/site.css?v=20261117a">
+<style>
+.pn{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+.pn h2{margin:14px 0 0;font:400 24px/1.25 'Young Serif',Georgia,serif}
+.pn h2:first-child{margin-top:0}
+.pn p,.pn li{margin:0;font-size:17px;line-height:1.6;overflow-wrap:anywhere}
+.pn ul{margin:0;padding-left:24px;display:flex;flex-direction:column;gap:6px}
+.pn .upd{font-size:14px;color:#5A5F6E}
+</style>
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
 <header class="site-head"><div class="wrap">
 <div class="head-top">
 <a class="brand" href="index.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions"><a class="homelink" id="homelink" href="index.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a></div>
+</div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Your information</span>
+<h1 id="pg-title" style="margin:0">Privacy Notice</h1><p class="stat-line">What this website keeps about you, who can see it, and your choices.</p></div>
+</div></section>
+<div class="mwrap" style="max-width:860px;gap:22px" id="content">
+<article class="pn" id="pn" aria-live="polite"><p id="pn-wait">Loading&hellip;</p></article>
+<p class="upd hidden" id="pn-upd" style="margin:0;font-size:14px;color:#5A5F6E"></p>
 </div>
-<ul class="tiles" aria-label="Site sections">
-<li><span class="tile soon"><img src="assets/tiles/programs.svg" alt="">Programs &amp; Workshops <small>Coming soon</small></span></li>
-<li><span class="tile soon"><img src="assets/tiles/comfort-quilts.svg" alt="">Comfort Quilts <small>Coming soon</small></span></li>
-<li><span class="tile soon"><img src="assets/tiles/bees.svg" alt="">Bees <small>Coming soon</small></span></li>
-<li><span class="tile soon"><img src="assets/tiles/gallery.svg" alt="">Gallery <small>Coming soon</small></span></li>
-<li><span class="tile soon"><img src="assets/tiles/our-community.svg" alt="">Our Community <small>Coming soon</small></span></li>
-<li><span class="tile soon"><img src="assets/tiles/about.svg" alt="">About our Guild <small>Coming soon</small></span></li>
-</ul></div></header>
-<main id="main"><div class="wrap"><div class="page"><h1>Privacy Notice</h1>
-<p>[Privacy Notice text to be approved by the Guild.]</p></div></div></main>
+</main>
 <footer class="site-foot"><div class="wrap">
 <div><b>Quilter&rsquo;s Guild of Parker County</b>
 <span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
@@ -31,4 +40,21 @@
 <script src="assets/js/supabase-js-2.119.0.js"></script>
 <script src="assets/js/config.js?v=20261117a"></script>
 <script src="assets/js/auth.js?v=20261117a"></script>
+<script src="assets/js/privacy.js?v=20261117a"></script>
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  QGPC.sb.from('privacy_notice').select('body,updated_at').limit(1).then(function(r){
+    var row=r&&r.data&&r.data[0],body=row&&row.body&&row.body.trim();
+    if(body){
+      QGPCPrivacy.render(body,$('pn'));
+      if(row.updated_at){var u=$('pn-upd');u.textContent='Last updated '+new Date(row.updated_at).toLocaleDateString('en-US',{timeZone:'America/Chicago',month:'long',day:'numeric',year:'numeric'})+'.';u.classList.remove('hidden');}
+    }else{
+      $('pn').textContent='';var p=document.createElement('p');
+      p.textContent=r.error?'The Privacy Notice could not be loaded. Please refresh and try again.':'Our Privacy Notice is being prepared and will be posted here soon.';
+      $('pn').appendChild(p);
+    }
+  });
+})();
+</script>
 </body></html>
