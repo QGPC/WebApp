@@ -210,17 +210,24 @@
     QGPC.sb.from('members').update(patch).eq('id',member.id).select('id').then(function(r){
       $('save').disabled=false;
       if(r.error||!r.data||!r.data.length){say('save-err','We could not save your changes. Please try again, or contact the Membership Chair.');return;}
-      $('who-name').textContent=first+' '+last;$('avatar').textContent=(first.charAt(0)+last.charAt(0)).toUpperCase();
+      member.first_name=first;member.last_name=last;
+      $('who-name').textContent=first+' '+last;if(!phUrl)$('avatar').textContent=(first.charAt(0)+last.charAt(0)).toUpperCase();
       $('saved').classList.remove('hidden');
     });
   });
   // ---- Directory photo: shrunk to a 400 px square JPEG in the browser, kept in a private bucket ----
-  var PB='member-photos',phPath=null;
+  var PB='member-photos',phPath=null,phUrl=null;
+  function setAvatar(url){
+    var a=$('avatar');if(!a||!member)return;a.textContent='';phUrl=url||null;
+    if(url){var im=document.createElement('img');im.src=url;im.alt='';im.style.cssText='width:100%;height:100%;border-radius:50%;object-fit:cover';a.appendChild(im);}
+    else a.textContent=((member.first_name||'?').charAt(0)+(member.last_name||'').charAt(0)).toUpperCase();
+  }
   function phSay(t,bad){var m=$('ph-msg');m.textContent=t||'';m.classList.toggle('hidden',!t);m.style.color=bad?'#B42318':'';m.setAttribute('role',bad?'alert':'status');}
   function phShow(url){
     var box=$('ph-box');box.textContent='';
     if(url){var im=document.createElement('img');im.src=url;im.alt='Your directory photo';im.style.cssText='width:100%;height:100%;border-radius:50%;object-fit:cover';box.removeAttribute('aria-hidden');box.appendChild(im);}
     else{box.setAttribute('aria-hidden','true');box.innerHTML='<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>';}
+    setAvatar(url);
     $('ph-remove').classList.toggle('hidden',!url);$('ph-pick').textContent=url?'Choose a different photo':'Choose a photo';
   }
   function loadPhoto(m){

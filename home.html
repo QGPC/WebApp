@@ -193,6 +193,13 @@ ul.evl h3{margin:0;font-size:17px}ul.evl .sub{font-size:14px;color:#5A5F6E}
         var full=isAdm||st==='active'||st==='grace';   // Inactive members are treated like visitors
         $('hello').textContent=full?'Welcome back, '+m.first_name+'.':'Welcome, '+m.first_name+'.';
         $('avatar').textContent=((m.first_name||'?').charAt(0)+(m.last_name||'').charAt(0)).toUpperCase();
+        if(full)QGPC.sb.from('members').select('photo_path').eq('id',m.id).limit(1).then(function(r){
+          var p=r.data&&r.data[0]&&r.data[0].photo_path;if(!p)return;
+          QGPC.sb.storage.from('member-photos').createSignedUrl(p,3600).then(function(x){
+            if(!x.data||!x.data.signedUrl)return;
+            var av=$('avatar'),im=document.createElement('img');im.src=x.data.signedUrl;im.alt='';im.style.cssText='width:100%;height:100%;border-radius:50%;object-fit:cover';
+            av.textContent='';av.appendChild(im);});
+        });
         var stat=st==='active'?''
           :st==='grace'?'Your '+m.paid_through_year+' membership has ended. You have until March 31 to renew and keep full access.'
           :'Your membership is not current, so you are seeing the public parts of the site. Please contact the Membership Chair to renew.';

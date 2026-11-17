@@ -71,7 +71,23 @@ QGPCShell.start({need:function(c){return c.full;}},function(c){
   function addr(r){var l2=[r.city,[r.state,r.zip].filter(Boolean).join(' ')].filter(Boolean).join(', ');return [r.street_address,l2].filter(Boolean).join(', ');}
   function setLink(el,txt,href){el.textContent='';if(!txt){el.textContent='Not shared';return;}var a=document.createElement('a');a.textContent=txt;a.href=href;el.appendChild(a);}
   var BIGAV=document.querySelector('#detail .dtop .photo').innerHTML;
+  var canRm=c.isSuper||c.isAdmin||c.has('membership_chair'),rmRow=null,rmArmed=false;
+  var rm=document.createElement('button');rm.type='button';rm.className='nbtn del hidden';rm.id='d-rmphoto';rm.style.margin='6px 0 0';
+  $('d-msg').parentNode.insertBefore(rm,$('d-msg').nextSibling);
+  function rmReset(){rm.textContent='Remove this photo';rmArmed=false;}
+  rm.addEventListener('click',function(){
+    if(!rmRow)return;
+    if(!rmArmed){rmArmed=true;rm.textContent='Click again to remove '+rmRow.first_name+'\u2019s photo';return;}
+    var r=rmRow,pth=r.photo_path;rm.disabled=true;
+    QGPC.sb.from('members').update({photo_path:null}).eq('id',r.id).select('id').then(function(x){
+      rm.disabled=false;
+      if(x.error||!x.data||!x.data.length){rm.textContent='That did not work. Please try again.';rmArmed=false;return;}
+      QGPC.sb.storage.from('member-photos').remove([pth]);
+      r.photo_path=null;paint();
+    });
+  });
   function fillDetail(r){
+    rmRow=(canRm&&r.photo_path)?r:null;rm.classList.toggle('hidden',!rmRow);rmReset();
     $('d-name').textContent=r.first_name+' '+r.last_name;
     putPhoto(document.querySelector('#detail .dtop .photo'),r,BIGAV);
     setLink($('d-cell'),r.cell_phone,'tel:'+(r.cell_phone||'').replace(/[^0-9+]/g,''));
