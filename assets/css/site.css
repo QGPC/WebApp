@@ -37,7 +37,7 @@ a.tile:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(31,36,51,.10)
 .logo-card{flex:0 0 auto;width:230px;height:230px;display:flex;align-items:center;justify-content:center;background:rgba(1,52,78,.90);border-radius:18px}
 .logo-card img{display:block;width:210px;height:210px;object-fit:contain}
 .banner-mid{flex:1 1 560px;min-width:0;min-height:230px;display:flex;flex-direction:column;justify-content:space-between;gap:16px}
-.welcome-card{flex:1 1 auto;min-width:0;display:flex;align-items:center;background:rgba(1,52,78,.90);padding:14px 24px;height:156px;border-radius:18px}
+.welcome-card{flex:1 1 auto;min-width:0;display:flex;align-items:center;background:rgba(1,52,78,.90);padding:14px 24px;min-height:156px;box-sizing:border-box;border-radius:18px}
 .welcome-card h1{margin:0 0 6px;font-size:clamp(1.4rem,2.4vw,1.75rem);line-height:1.15;text-wrap:balance}
 .welcome-card p{margin:0;font-size:15px;line-height:1.45;color:#E6E9F2}
 .banner-btns{display:flex;flex-wrap:wrap;gap:12px;width:100%}
