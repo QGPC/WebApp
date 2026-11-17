@@ -316,3 +316,21 @@ ul.special-list p{margin:0;white-space:pre-wrap}
 .dl2 dt{font-weight:700;color:#5A5F6E}
 .dl2 dd{margin:0}
 .ctop{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* Phone: tiles behind a Menu button (assets/js/navmenu.js adds .navm), and no big logo card in the banner */
+.menubtn{display:none}
+@media(max-width:640px){
+ .logo-card{display:none}
+ .navm .menubtn{display:flex;flex:1 1 100%;width:100%;justify-content:center;gap:10px;min-height:48px;margin:4px 0 8px;background:#fff;border-color:var(--cobalt);color:var(--cobalt);font-weight:700;cursor:pointer;font-family:var(--sans)}
+ .navm:not(.nav-open) ul.tiles,.navm:not(.nav-open) .tilebar{display:none}
+ .navm .morebtn,.navm .vdiv{display:none!important}
+ .navm.nav-open #more-areas.hidden{display:flex!important}
+ .navm.nav-open #more-areas:empty{display:none!important}
+ .navm.nav-open ul.tiles,.navm.nav-open .tilebar{flex:1 1 100%;flex-direction:column;flex-wrap:nowrap;padding-bottom:8px}
+ .navm.nav-open ul.tiles li,.navm.nav-open .tilebar li{width:100%}
+ .navm.nav-open ul.tiles .tile,.navm.nav-open .tilebar .tile{width:100%;box-sizing:border-box}
+ .navm .navbar{padding-bottom:12px}
+ .navm .pstack{flex:1 1 100%;flex-direction:row;flex-wrap:wrap;align-self:stretch}
+ .navm .pstack .pill{flex:1 1 auto}
+ .navm .tip{display:none}
+}
