@@ -47,7 +47,7 @@
 <main id="main">
 <section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
 <div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Sew together</span>
-<h1 id="pg-title" style="margin:0">Bees</h1><p class="stat-line" id="lead">Small groups of members who meet regularly to sew, share and learn. Reach out to a bee&rsquo;s contact to visit or join.</p><div style="margin-top:8px"><a class="nbtn hidden" id="edit" href="bees-manage.html" style="background:#fff">Edit the bees</a></div></div>
+<h1 id="pg-title" style="margin:0">Bees</h1><p class="stat-line" id="lead">Small groups of members who meet regularly to sew, share and learn. To visit or join, contact the person named on a bee&rsquo;s card. Members can find their email and phone in the Member Directory.</p><div style="margin-top:8px"><a class="nbtn hidden" id="edit" href="bees-manage.html" style="background:#fff">Edit the bees</a></div></div>
 
 </div></section>
 <div class="mwrap" style="max-width:1200px;gap:22px" id="content">
@@ -94,12 +94,9 @@
       if(b.about)inn.appendChild(el('p',null,b.about));
       var mt=el('div','mt');if(b.meets_when)mt.appendChild(row(IC_CLOCK,b.meets_when));if(b.meets_where)mt.appendChild(row(IC_PIN,b.meets_where));
       if(mt.childNodes.length)inn.appendChild(mt);
-      if(b.contact_name||b.contact_email||b.contact_phone){
-        var ct=el('div','ct');ct.appendChild(el('small',null,'Contact'));if(b.contact_name)ct.appendChild(el('b',null,b.contact_name));
-        var ln=el('span','ln');
-        if(b.contact_email){var a=el('a',null,b.contact_email);a.href='mailto:'+b.contact_email;ln.appendChild(a);}
-        if(b.contact_phone){var p=el('a',null,b.contact_phone);p.href='tel:'+b.contact_phone.replace(/[^0-9+]/g,'');ln.appendChild(p);}
-        if(ln.childNodes.length)ct.appendChild(ln);inn.appendChild(ct);
+      if(b.contact_name){
+        var ct=el('div','ct');ct.appendChild(el('small',null,'Contact'));ct.appendChild(el('b',null,b.contact_name));
+        ct.appendChild(el('small',null,'Members: find their email and phone in the Member Directory.'));inn.appendChild(ct);
       }
       li.appendChild(inn);g.appendChild(li);
     });
