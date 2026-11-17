@@ -45,16 +45,16 @@
 </div></fieldset>
 <h3>About you <span class="opt">(required)</span></h3>
 <div class="grid2">
-<div class="f"><label for="j-first">First name</label><input class="field" id="j-first" autocomplete="given-name"></div>
-<div class="f"><label for="j-last">Last name</label><input class="field" id="j-last" autocomplete="family-name"></div>
-<div class="f"><label for="j-email">Email</label><input class="field" id="j-email" type="email" autocomplete="email" placeholder="you@example.com"></div>
-<div class="f"><label for="j-cell">Cell number</label><input class="field" id="j-cell" type="tel" autocomplete="tel" placeholder="(555) 555-5555"></div>
-<div class="f"><label for="j-fb">Facebook name <span class="opt">(if applicable)</span></label><input class="field" id="j-fb" autocomplete="off" placeholder="Name as it appears on Facebook"></div>
+<div class="f"><label for="j-first">First name</label><input class="field" id="j-first" maxlength="80" autocomplete="given-name"></div>
+<div class="f"><label for="j-last">Last name</label><input class="field" id="j-last" maxlength="80" autocomplete="family-name"></div>
+<div class="f"><label for="j-email">Email</label><input class="field" id="j-email" maxlength="200" type="email" autocomplete="email" placeholder="you@example.com"></div>
+<div class="f"><label for="j-cell">Cell number</label><input class="field" id="j-cell" maxlength="30" type="tel" autocomplete="tel" placeholder="(555) 555-5555"></div>
+<div class="f"><label for="j-fb">Facebook name <span class="opt">(if applicable)</span></label><input class="field" id="j-fb" maxlength="120" autocomplete="off" placeholder="Name as it appears on Facebook"></div>
 </div>
 <h3>Mailing address <span class="opt">(optional)</span></h3>
-<div class="f"><label for="j-street">Street address</label><input class="field" id="j-street" autocomplete="street-address"></div>
+<div class="f"><label for="j-street">Street address</label><input class="field" id="j-street" maxlength="120" autocomplete="street-address"></div>
 <div class="grid3">
-<div class="f"><label for="j-city">City</label><input class="field" id="j-city" autocomplete="address-level2"></div>
+<div class="f"><label for="j-city">City</label><input class="field" id="j-city" maxlength="80" autocomplete="address-level2"></div>
 <div class="f"><label for="j-state">State</label><input class="field" id="j-state" autocomplete="address-level1" placeholder="TX" maxlength="2"></div>
 <div class="f"><label for="j-zip">ZIP code</label><input class="field" id="j-zip" autocomplete="postal-code" inputmode="numeric" maxlength="10"></div>
 </div>
@@ -64,13 +64,13 @@
 <div class="f"><label for="j-bd">Day</label><select class="field" id="j-bd"><option value="">Select day</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select></div></div>
 <h3>Quilting Interests <span class="opt">(optional)</span></h3><span class="sub">Check all that apply.</span>
 <div class="chks" role="group" aria-label="Quilting Interests"><label class="chk"><input type="checkbox" name="jint" value="Piecing"> Piecing</label><label class="chk"><input type="checkbox" name="jint" value="Applique"> Applique</label><label class="chk"><input type="checkbox" name="jint" value="Paper Piecing"> Paper Piecing</label><label class="chk"><input type="checkbox" name="jint" value="English Paper Piecing"> English Paper Piecing</label><label class="chk"><input type="checkbox" name="jint" value="Modern Quilts"> Modern Quilts</label><label class="chk"><input type="checkbox" name="jint" value="Color Theory"> Color Theory</label><label class="chk"><input type="checkbox" name="jint" value="Hand Quilting"> Hand Quilting</label><label class="chk"><input type="checkbox" name="jint" value="Embroidery"> Embroidery</label></div>
-<div class="f" style="max-width:496px"><label for="j-other">Other</label><input class="field" id="j-other" placeholder="Tell us about other interests"></div>
+<div class="f" style="max-width:496px"><label for="j-other">Other</label><input class="field" id="j-other" maxlength="300" placeholder="Tell us about other interests"></div>
 <h3>Helping out <span class="opt">(optional)</span></h3>
 <fieldset class="types"><legend>Would you like to help on a committee?</legend>
 <div class="radios"><label class="chk"><input type="radio" name="jhelp" value="yes"> Yes</label><label class="chk"><input type="radio" name="jhelp" value="no"> Not right now</label></div></fieldset>
 <fieldset class="types hidden" id="help-box"><legend>If yes, where would you like to help?</legend><span class="sub">Check all that apply.</span>
 <div class="chks"><label class="chk"><input type="checkbox" name="jcom" value="Newsletter"> Newsletter</label><label class="chk"><input type="checkbox" name="jcom" value="Workshops"> Workshops</label><label class="chk"><input type="checkbox" name="jcom" value="Membership"> Membership</label><label class="chk"><input type="checkbox" name="jcom" value="Comfort Quilts"> Comfort Quilts</label><label class="chk"><input type="checkbox" name="jcom" value="Sunshine &amp; Shadows"> Sunshine &amp; Shadows</label><label class="chk"><input type="checkbox" name="jcom" value="Beekeeper"> Beekeeper</label><label class="chk"><input type="checkbox" name="jcom" value="Next Year’s Programs"> Next Year’s Programs</label><label class="chk"><input type="checkbox" name="jcom" value="Publicity"> Publicity</label><label class="chk"><input type="checkbox" name="jcom" value="Digital &amp; A/V"> Digital &amp; A/V</label><label class="chk"><input type="checkbox" name="jcom" value="Show &amp; Tell"> Show &amp; Tell</label><label class="chk"><input type="checkbox" name="jcom" value="Finance &amp; Assets"> Finance &amp; Assets</label><label class="chk"><input type="checkbox" name="jcom" value="Retreats"> Retreats</label><label class="chk"><input type="checkbox" name="jcom" value="Quilt Show"> Quilt Show</label><label class="chk"><input type="checkbox" name="jcom" value="Auction"> Auction</label><label class="chk"><input type="checkbox" name="jcom" value="Wherever I’m needed"> Wherever I’m needed</label></div>
-<div class="f" style="max-width:496px"><label for="j-helpother">Anything else? (optional)</label><input class="field" id="j-helpother"></div></fieldset>
+<div class="f" style="max-width:496px"><label for="j-helpother">Anything else? (optional)</label><input class="field" id="j-helpother" maxlength="300"></div></fieldset>
 <div class="hp" aria-hidden="true"><label>Leave this empty <input id="j-website" tabindex="-1" autocomplete="off"></label></div>
 <p id="j-err" class="msg err hidden" role="alert"></p>
 <div class="paybar"><span class="sub" id="payline" aria-live="polite"></span>
@@ -91,6 +91,7 @@
 <script src="assets/js/supabase-js-2.119.0.js"></script>
 <script src="assets/js/config.js?v=20261117b"></script>
 <script src="assets/js/auth.js?v=20261117b"></script>
+<script src="assets/js/format.js?v=20261117c"></script>
 <script>
 (function(){
   var $=function(i){return document.getElementById(i)};

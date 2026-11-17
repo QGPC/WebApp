@@ -36,15 +36,15 @@
 <section class="pcard" aria-labelledby="contact-title"><div class="ph"><h2 id="contact-title">Contact details</h2>
 <span class="sub">Members see these in the directory. The Membership Chair uses them to reach you.</span></div>
 <div class="grid2">
-<div class="f"><label for="pf-first">First name</label><input class="field" id="pf-first" autocomplete="given-name" required></div>
-<div class="f"><label for="pf-last">Last name</label><input class="field" id="pf-last" autocomplete="family-name" required></div>
+<div class="f"><label for="pf-first">First name</label><input class="field" id="pf-first" maxlength="80" autocomplete="given-name" required></div>
+<div class="f"><label for="pf-last">Last name</label><input class="field" id="pf-last" maxlength="80" autocomplete="family-name" required></div>
 <div class="f"><label for="pf-email">Email</label><input class="field" id="pf-email" type="email" disabled aria-describedby="email-help"><span class="sub" id="email-help">This is your sign-in address. To change it, contact the Membership Chair.</span></div>
-<div class="f"><label for="pf-cell">Cell number</label><input class="field" id="pf-cell" type="tel" autocomplete="tel"></div>
+<div class="f"><label for="pf-cell">Cell number</label><input class="field" id="pf-cell" maxlength="30" type="tel" autocomplete="tel"></div>
 </div>
 <h3>Mailing address</h3>
-<div class="f"><label for="pf-street">Street address</label><input class="field" id="pf-street" autocomplete="street-address"></div>
+<div class="f"><label for="pf-street">Street address</label><input class="field" id="pf-street" maxlength="120" autocomplete="street-address"></div>
 <div class="grid3">
-<div class="f"><label for="pf-city">City</label><input class="field" id="pf-city" autocomplete="address-level2"></div>
+<div class="f"><label for="pf-city">City</label><input class="field" id="pf-city" maxlength="80" autocomplete="address-level2"></div>
 <div class="f"><label for="pf-state">State</label><input class="field" id="pf-state" autocomplete="address-level1" maxlength="2" placeholder="TX"></div>
 <div class="f"><label for="pf-zip">ZIP code</label><input class="field" id="pf-zip" autocomplete="postal-code" inputmode="numeric" maxlength="10"></div>
 </div>
@@ -58,7 +58,7 @@
 
 <section class="pcard" aria-labelledby="int-title"><div class="ph"><h2 id="int-title">Quilting Interests</h2><span class="sub">Check all that apply.</span></div>
 <div class="chks"><label class="chk"><input type="checkbox" name="interest" value="Piecing"> Piecing</label><label class="chk"><input type="checkbox" name="interest" value="Applique"> Applique</label><label class="chk"><input type="checkbox" name="interest" value="Paper Piecing"> Paper Piecing</label><label class="chk"><input type="checkbox" name="interest" value="English Paper Piecing"> English Paper Piecing</label><label class="chk"><input type="checkbox" name="interest" value="Modern Quilts"> Modern Quilts</label><label class="chk"><input type="checkbox" name="interest" value="Color Theory"> Color Theory</label><label class="chk"><input type="checkbox" name="interest" value="Hand Quilting"> Hand Quilting</label><label class="chk"><input type="checkbox" name="interest" value="Embroidery"> Embroidery</label></div>
-<div class="f" style="max-width:496px"><label for="pf-other">Other</label><input class="field" id="pf-other" placeholder="Tell us about other interests"></div>
+<div class="f" style="max-width:496px"><label for="pf-other">Other</label><input class="field" id="pf-other" maxlength="300" placeholder="Tell us about other interests"></div>
 </section>
 
 <div class="saverow"><button type="submit" class="btn-save" id="save">Save changes</button><a href="home.html" class="cancel">Cancel</a>
@@ -92,6 +92,7 @@
 <script src="assets/js/supabase-js-2.119.0.js"></script>
 <script src="assets/js/config.js?v=20261117b"></script>
 <script src="assets/js/auth.js?v=20261117b"></script>
+<script src="assets/js/format.js?v=20261117c"></script>
 <script>
 (function(){
   var $=function(i){return document.getElementById(i)};

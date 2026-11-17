@@ -186,6 +186,7 @@ ul.matl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;ga
 <script src="assets/js/supabase-js-2.119.0.js"></script>
 <script src="assets/js/config.js?v=20261117b"></script>
 <script src="assets/js/auth.js?v=20261117b"></script>
+<script src="assets/js/format.js?v=20261117c"></script>
 <script src="assets/js/newbadge.js?v=20261117b" data-page="programs"></script>
 <script>
 
@@ -318,7 +319,7 @@ ul.matl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;ga
     form.innerHTML='<h3></h3><p class="hint hidden" id="su-guest" style="margin:0"></p>'+
       '<div><label class="l" for="su-name">Name</label><input class="field" id="su-name" maxlength="120" autocomplete="name"></div>'+
       '<div><label class="l" for="su-email">Email</label><input class="field" id="su-email" maxlength="200" autocomplete="email" inputmode="email"></div>'+
-      '<div id="su-phrow" class="hidden"><label class="l" for="su-phone">Phone number</label><input class="field" id="su-phone" maxlength="40" autocomplete="tel" inputmode="tel"></div>'+
+      '<div id="su-phrow" class="hidden"><label class="l" for="su-phone">Phone number</label><input class="field" id="su-phone" maxlength="30" autocomplete="tel" inputmode="tel"></div>'+
       '<div class="sum" id="su-sum" aria-live="polite"></div><p class="err hidden" id="su-err" role="alert"></p>'+
       '<div class="acts"><button type="button" class="btn-cancel" id="su-cancel">Cancel</button><button type="submit" class="btn-save" id="su-go"></button></div>';
     form.querySelector('h3').textContent='Sign up: '+(r.ws_title||'Workshop');
