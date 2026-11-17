@@ -242,7 +242,8 @@ a.acard:hover,a.acard:focus-visible{transform:translateY(-2px);box-shadow:0 8px 
 .dirhead>.greet-card{flex:1 1 320px}
 .dirsearch .grid2{gap:12px}
 .azbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:8px 0 18px;font-weight:600;color:#454A58}
-.azbar a,.azbar .off{display:inline-block;min-width:28px;padding:4px 6px;text-align:center;border-radius:8px;font-weight:700}
+#az{display:flex;flex-wrap:wrap;gap:6px}
+.azbar a,.azbar .off{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-width:44px;min-height:44px;padding:0 6px;text-align:center;border-radius:8px;font-weight:700;font-size:16px}
 .azbar a{color:var(--cobalt);text-decoration:none;background:#EEF1F8}
 .azbar .off{color:#B5B2A8}
 .dgroup{margin:0 0 26px}
