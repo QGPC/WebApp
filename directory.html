@@ -58,7 +58,9 @@
 <script>
 QGPCShell.start({need:function(c){return c.full;}},function(c){
   var $=function(i){return document.getElementById(i)};
-  var rows=[],sel=null,canMsg=null;
+  var rows=[],sel=null,canMsg=null,photoUrl={};
+  var AV='<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>';
+  function putPhoto(span,r,fallback){span.textContent='';var u=r&&r.photo_path&&photoUrl[r.photo_path];if(u){var im=document.createElement('img');im.src=u;im.alt='';im.style.cssText='width:100%;height:100%;border-radius:50%;object-fit:cover';span.appendChild(im);}else span.innerHTML=fallback;}
   var MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
   function note(t){var n=$('note');n.textContent=t||'';n.classList.toggle('hidden',!t);}
   var isChair=c.isSuper||c.has('membership_chair');
@@ -68,8 +70,10 @@ QGPCShell.start({need:function(c){return c.full;}},function(c){
   function match(r){var q=$('q').value.trim().toLowerCase();if(!q)return true;return (r.first_name+' '+r.last_name+' '+r.last_name+' '+r.first_name).toLowerCase().indexOf(q)>-1;}
   function addr(r){var l2=[r.city,[r.state,r.zip].filter(Boolean).join(' ')].filter(Boolean).join(', ');return [r.street_address,l2].filter(Boolean).join(', ');}
   function setLink(el,txt,href){el.textContent='';if(!txt){el.textContent='Not shared';return;}var a=document.createElement('a');a.textContent=txt;a.href=href;el.appendChild(a);}
+  var BIGAV=document.querySelector('#detail .dtop .photo').innerHTML;
   function fillDetail(r){
     $('d-name').textContent=r.first_name+' '+r.last_name;
+    putPhoto(document.querySelector('#detail .dtop .photo'),r,BIGAV);
     setLink($('d-cell'),r.cell_phone,'tel:'+(r.cell_phone||'').replace(/[^0-9+]/g,''));
     setLink($('d-email'),r.email,'mailto:'+r.email);
     $('d-addr').textContent=addr(r)||'Not shared';
@@ -105,7 +109,7 @@ QGPCShell.start({need:function(c){return c.full;}},function(c){
         var li=document.createElement('li'),b=document.createElement('button');b.type='button';b.className='dcard mcard'+(sel===r.id?' sel':'');
         b.setAttribute('aria-expanded',sel===r.id?'true':'false');b.setAttribute('data-id',r.id);
         var ph=document.createElement('span');ph.className='photo';ph.setAttribute('aria-hidden','true');
-        ph.innerHTML='<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>';
+        putPhoto(ph,r,AV);
         var n=document.createElement('b');n.textContent=r.first_name+' '+r.last_name;
         b.appendChild(ph);b.appendChild(n);
         b.addEventListener('click',function(){sel=(sel===r.id?null:r.id);paint();});
@@ -126,6 +130,12 @@ QGPCShell.start({need:function(c){return c.full;}},function(c){
   QGPC.sb.rpc('member_directory').then(function(x){
     if(x.error){note('We could not load the directory. Please try again later.');return;}
     rows=x.data||[];paint();
+    var paths=rows.map(function(r){return r.photo_path;}).filter(Boolean);
+    if(paths.length)QGPC.sb.storage.from('member-photos').createSignedUrls(paths,3600).then(function(y){
+      if(y.error||!y.data)return;
+      y.data.forEach(function(it){if(it.signedUrl&&it.path)photoUrl[it.path]=it.signedUrl;});
+      paint();
+    });
   });
 });
 </script>

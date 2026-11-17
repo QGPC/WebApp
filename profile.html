@@ -30,8 +30,11 @@
 <div class="prof-main">
 <section class="pcard" aria-labelledby="photo-title"><div class="ph"><h2 id="photo-title">Directory photo</h2>
 <span class="sub">Shown beside your name in the Member Directory. Only signed-in members can see it.</span></div>
-<div class="photo-row"><span class="photo-empty" aria-hidden="true"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg></span>
-<span class="sub">Photo upload is coming soon.</span></div></section>
+<div class="photo-row"><span class="photo-empty" id="ph-box" aria-hidden="true"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg></span>
+<div><div style="display:flex;flex-wrap:wrap;gap:12px"><button type="button" class="btn-save" id="ph-pick">Choose a photo</button><button type="button" class="btn-cancel hidden" id="ph-remove">Remove my photo</button></div>
+<input type="file" id="ph-file" accept="image/*" class="hidden" aria-label="Choose a photo from your device">
+<p class="sub" id="ph-help" style="margin:10px 0 0">A head-and-shoulders picture works best. The middle of your picture is used, as a circle. It is saved right away; you do not need to press Save changes.</p>
+<p class="sub hidden" id="ph-msg" role="status" style="margin:10px 0 0"></p></div></div></section>
 
 <section class="pcard" aria-labelledby="dir-title"><div class="ph"><h2 id="dir-title">Member Directory</h2>
 <span class="sub">The Directory is a list of Guild members that only signed-in members can see. It shows the contact details you enter below.</span></div>
@@ -165,6 +168,7 @@
         var st=m.status;$('m-status').textContent=st==='active'?'Active':st==='grace'?'Grace period':'Inactive';
         $('m-status').className='pill-s '+st;
         $('pf').classList.remove('hidden');
+        loadPhoto(m);
         if(m.status!=='inactive')loadMsg();
         return QGPC.sb.from('member_roles').select('role_key').eq('member_id',m.id).then(function(rr){
           var n=(rr.data||[]).length;$('who-role').textContent=n?'':'Member';
@@ -208,6 +212,64 @@
       if(r.error||!r.data||!r.data.length){say('save-err','We could not save your changes. Please try again, or contact the Membership Chair.');return;}
       $('who-name').textContent=first+' '+last;$('avatar').textContent=(first.charAt(0)+last.charAt(0)).toUpperCase();
       $('saved').classList.remove('hidden');
+    });
+  });
+  // ---- Directory photo: shrunk to a 400 px square JPEG in the browser, kept in a private bucket ----
+  var PB='member-photos',phPath=null;
+  function phSay(t,bad){var m=$('ph-msg');m.textContent=t||'';m.classList.toggle('hidden',!t);m.style.color=bad?'#B42318':'';m.setAttribute('role',bad?'alert':'status');}
+  function phShow(url){
+    var box=$('ph-box');box.textContent='';
+    if(url){var im=document.createElement('img');im.src=url;im.alt='Your directory photo';im.style.cssText='width:100%;height:100%;border-radius:50%;object-fit:cover';box.removeAttribute('aria-hidden');box.appendChild(im);}
+    else{box.setAttribute('aria-hidden','true');box.innerHTML='<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg>';}
+    $('ph-remove').classList.toggle('hidden',!url);$('ph-pick').textContent=url?'Choose a different photo':'Choose a photo';
+  }
+  function loadPhoto(m){
+    QGPC.sb.from('members').select('photo_path').eq('id',m.id).limit(1).then(function(r){
+      if(r.error||!r.data||!r.data.length||!r.data[0].photo_path){phPath=null;phShow(null);return;}
+      phPath=r.data[0].photo_path;
+      QGPC.sb.storage.from(PB).createSignedUrl(phPath,3600).then(function(x){phShow(x.data&&x.data.signedUrl?x.data.signedUrl:null);});
+    });
+  }
+  function squareJpeg(file){
+    return new Promise(function(res,rej){
+      var url=URL.createObjectURL(file),img=new Image();
+      img.onload=function(){
+        var w=img.naturalWidth,h=img.naturalHeight,side=Math.min(w,h),S=Math.min(400,side);
+        var cv=document.createElement('canvas');cv.width=cv.height=S;
+        var g=cv.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,S,S);
+        g.drawImage(img,(w-side)/2,(h-side)/2,side,side,0,0,S,S);
+        URL.revokeObjectURL(url);cv.toBlob(function(b){b?res(b):rej();},'image/jpeg',0.85);
+      };
+      img.onerror=function(){URL.revokeObjectURL(url);rej();};img.src=url;
+    });
+  }
+  function randName(){var a=new Uint8Array(12);crypto.getRandomValues(a);return Array.prototype.map.call(a,function(x){return ('0'+x.toString(16)).slice(-2);}).join('');}
+  function phBusy(on){$('ph-pick').disabled=on;$('ph-remove').disabled=on;}
+  $('ph-pick').addEventListener('click',function(){$('ph-file').click();});
+  $('ph-file').addEventListener('change',function(){
+    var f=this.files&&this.files[0];this.value='';if(!f||!member)return;
+    if(!/^image\//.test(f.type)){phSay('Please choose a picture file (JPG, PNG or similar).',true);return;}
+    phBusy(true);phSay('Saving your photo\u2026');
+    squareJpeg(f).then(function(blob){
+      if(blob.size>1048576)throw new Error('big');
+      var path=member.id+'/'+randName()+'.jpg',old=phPath;
+      return QGPC.sb.storage.from(PB).upload(path,blob,{contentType:'image/jpeg',upsert:false}).then(function(u){
+        if(u.error)throw new Error('up');
+        return QGPC.sb.from('members').update({photo_path:path}).eq('id',member.id).select('id').then(function(r){
+          if(r.error||!r.data||!r.data.length){QGPC.sb.storage.from(PB).remove([path]);throw new Error('save');}
+          phPath=path;phShow(URL.createObjectURL(blob));
+          if(old)QGPC.sb.storage.from(PB).remove([old]);
+          phSay('Your photo is saved. It now shows in the Member Directory.');
+        });
+      });
+    }).catch(function(){phSay('We could not save that photo. Please try a different picture, or try again later.',true);}).then(function(){phBusy(false);});
+  });
+  $('ph-remove').addEventListener('click',function(){
+    if(!phPath||!member)return;var old=phPath;phBusy(true);phSay('Removing your photo\u2026');
+    QGPC.sb.from('members').update({photo_path:null}).eq('id',member.id).select('id').then(function(r){
+      phBusy(false);
+      if(r.error||!r.data||!r.data.length){phSay('We could not remove your photo. Please try again.',true);return;}
+      QGPC.sb.storage.from(PB).remove([old]);phPath=null;phShow(null);phSay('Your photo was removed.');
     });
   });
   load();
