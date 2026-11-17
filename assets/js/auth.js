@@ -105,8 +105,27 @@
   });
   // ---- Guild contact details and Facebook link (set on the Site Appearance page) ----
   var GC_KEY = 'qgpc_guild_contact';
+  // Footer "Find us on Facebook" link on every page. Uses the address saved on Site Appearance when there is one, else this one.
+  var FB_DEFAULT = 'https://facebook.com/quiltersguildofparkercounty';
+  function fbFoot(url){
+    var run = function(){
+      var foots = document.querySelectorAll('.site-foot');
+      for (var i = 0; i < foots.length; i++) {
+        var f = foots[i], old = f.querySelector('[data-fb-foot]');
+        if (old) { if (old.getAttribute('href') === url) continue; old.parentNode.removeChild(old); }
+        var box = f.querySelector('.wrap > div'); if (!box) continue;
+        var a = document.createElement('a'); a.setAttribute('data-fb-foot', '1'); a.href = url; a.target = '_blank'; a.rel = 'noopener';
+        a.setAttribute('aria-label', 'Find us on Facebook (opens in a new tab)'); a.textContent = 'Find us on Facebook';
+        var priv = box.querySelector('a[href="privacy.html"]');
+        if (priv && priv.nextSibling) box.insertBefore(a, priv.nextSibling); else box.appendChild(a);
+        if (priv) a.style.marginLeft = '18px';
+      }
+    };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+  }
   function gcApply(g){
     if (!g) return;
+    fbFoot(g.facebook_url || FB_DEFAULT);
     var run = function(){
       // Footer address line
       var line = [g.street, [g.city, [g.state, g.zip].filter(Boolean).join(' ')].filter(Boolean).join(', ')].filter(Boolean).join(' · ');
@@ -147,6 +166,7 @@
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
   }
   window.QGPC.guildContact = { apply: gcApply, remember: function(g){ try { localStorage.setItem(GC_KEY, JSON.stringify(g)); } catch (e) {} } };
+  fbFoot(FB_DEFAULT);
   try { var gcc = JSON.parse(localStorage.getItem(GC_KEY) || 'null'); if (gcc) gcApply(gcc); } catch (e) {}
   sb.from('guild_contact').select('*').limit(1).then(function(r){
     var row = r && r.data && r.data[0]; if (!row) return;
