@@ -320,6 +320,7 @@ ul.matl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;ga
       '<div><label class="l" for="su-name">Name</label><input class="field" id="su-name" maxlength="120" autocomplete="name"></div>'+
       '<div><label class="l" for="su-email">Email</label><input class="field" id="su-email" maxlength="200" autocomplete="email" inputmode="email"></div>'+
       '<div id="su-phrow" class="hidden"><label class="l" for="su-phone">Phone number</label><input class="field" id="su-phone" maxlength="30" autocomplete="tel" inputmode="tel"></div>'+
+      '<div aria-hidden="true" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden"><label for="su-website">Leave this field empty</label><input id="su-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>'+
       '<div class="sum" id="su-sum" aria-live="polite"></div><p class="err hidden" id="su-err" role="alert"></p>'+
       '<div class="acts"><button type="button" class="btn-cancel" id="su-cancel">Cancel</button><button type="submit" class="btn-save" id="su-go"></button></div>';
     form.querySelector('h3').textContent='Sign up: '+(r.ws_title||'Workshop');
@@ -347,7 +348,7 @@ ul.matl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;ga
     form.addEventListener('submit',function(e){
       e.preventDefault();var er=q('su-err');er.classList.add('hidden');
       var go=q('su-go');go.disabled=true;
-      sb.rpc('workshop_signup',{p_month_id:r.id,p_name:nme.value,p_email:em.value,p_phone:member?null:q('su-phone').value}).then(function(x){
+      sb.rpc('workshop_signup',{p_month_id:r.id,p_name:nme.value,p_email:em.value,p_phone:member?null:q('su-phone').value,p_website:q('su-website').value}).then(function(x){
         go.disabled=false;
         if(x.error){er.textContent=x.error.message||'That did not work. Please try again.';er.classList.remove('hidden');return;}
         var d=x.data||{};box.textContent='';box.appendChild(regStatus(r,{status:'waitlist',total_due:d.total_due,is_member:!!d.is_member},true));
