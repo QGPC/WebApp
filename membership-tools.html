@@ -5,7 +5,7 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261114a">
+<link rel="stylesheet" href="assets/css/site.css?v=20261117a">
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
 <header class="site-head"><div class="wrap">
@@ -32,7 +32,7 @@
 <div class="tcard row"><div class="trow"><img src="assets/icons/i-renewswitch.svg" width="44" height="44" alt=""><span class="tc"><label for="renew-switch"><b>Show the Renew Membership button</b></label><span class="sub">When on, the renewal period is open and members see a Renew Membership button on their home page. Turn it off when renewals are finished.</span></span></div>
 <button id="renew-switch" type="button" role="switch" aria-checked="false" class="switch"><span class="track" aria-hidden="true"><span class="knob"></span></span><span class="sw-l" id="sw-l">Off</span></button></div>
 <div class="note-blue" role="note"><strong>Membership year:</strong> January 1 to December 31. Renewals are accepted until March 31 (the grace period). On April 1, members who have not renewed are marked Inactive, whether or not this button is on. You approve every renewal on Membership Requests.</div></section>
-<section aria-labelledby="renew-title" class="tsec"><h2 id="renew-title">Membership renewal dues</h2>
+<section aria-labelledby="dues-title" class="tsec"><h2 id="dues-title">Membership renewal dues</h2>
 <div class="tcard"><div class="trow"><img src="assets/icons/i-renewdues.svg" width="44" height="44" alt=""><span class="tc"><b>Membership renewal dues</b><span class="sub">Yearly amounts members see on the Renew Membership page.</span></span></div>
 <div class="dgrid"><div class="dfield"><label for="renew-regular">Regular</label><div class="money"><span aria-hidden="true">$</span><input id="renew-regular" class="field" type="text" inputmode="decimal"></div><span class="sub">Per year</span></div><div class="dfield"><label for="renew-junior">Junior</label><div class="money"><span aria-hidden="true">$</span><input id="renew-junior" class="field" type="text" inputmode="decimal"></div><span class="sub">Per year</span></div><div class="dfield"><label for="renew-exempt">Exempt (80+)</label><div class="money"><span aria-hidden="true">$</span><input id="renew-exempt" class="field" type="text" inputmode="decimal"></div><span class="sub">Per year</span></div></div>
 <div class="dsave"><span class="sub">Changes apply to renewals.</span><button type="button" class="btn-save" id="save-renew">Save renewal dues</button></div></div></section>
@@ -50,9 +50,9 @@
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261114a"></script>
-<script src="assets/js/auth.js?v=20261114a"></script>
-<script src="assets/js/shell.js?v=20261114a"></script>
+<script src="assets/js/config.js?v=20261117a"></script>
+<script src="assets/js/auth.js?v=20261117a"></script>
+<script src="assets/js/shell.js?v=20261117a"></script>
 <script>
 QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}},function(c){
   var $=function(i){return document.getElementById(i)};

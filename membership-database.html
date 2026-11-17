@@ -5,7 +5,7 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261114a">
+<link rel="stylesheet" href="assets/css/site.css?v=20261117a">
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
 <header class="site-head"><div class="wrap">
@@ -51,18 +51,18 @@
 <div class="dhead"><div><h2 id="m-title"></h2><span class="sub" id="m-sub"></span></div><span class="chip blue" id="m-status"></span></div>
 <h3>Contact details</h3>
 <div class="grid2">
-<div class="f"><label for="m-first">First name</label><input class="field" id="m-first"></div>
-<div class="f"><label for="m-last">Last name</label><input class="field" id="m-last"></div>
-<div class="f"><label for="m-email">Email</label><input class="field" id="m-email" type="email" aria-describedby="m-email-help"><span class="sub" id="m-email-help"></span></div>
-<div class="f"><label for="m-cell">Cell number</label><input class="field" id="m-cell" type="tel"></div>
+<div class="f"><label for="m-first">First name</label><input class="field" id="m-first" autocomplete="off"></div>
+<div class="f"><label for="m-last">Last name</label><input class="field" id="m-last" autocomplete="off"></div>
+<div class="f"><label for="m-email">Email</label><input class="field" id="m-email" autocomplete="off" type="email" aria-describedby="m-email-help"><span class="sub" id="m-email-help"></span></div>
+<div class="f"><label for="m-cell">Cell number</label><input class="field" id="m-cell" autocomplete="off" type="tel"></div>
 <div class="f"><label for="m-fb">Facebook name</label><input class="field" id="m-fb"></div>
 </div>
 <h3>Mailing address</h3>
 <div class="f"><label for="m-street">Street address</label><input class="field" id="m-street"></div>
 <div class="grid3">
-<div class="f"><label for="m-city">City</label><input class="field" id="m-city"></div>
+<div class="f"><label for="m-city">City</label><input class="field" id="m-city" autocomplete="off"></div>
 <div class="f"><label for="m-state">State</label><input class="field" id="m-state" maxlength="2"></div>
-<div class="f"><label for="m-zip">ZIP code</label><input class="field" id="m-zip" maxlength="10"></div>
+<div class="f"><label for="m-zip">ZIP code</label><input class="field" id="m-zip" autocomplete="off" maxlength="10"></div>
 </div>
 <label class="chk"><input type="checkbox" id="m-nodir"> Not listed in the Member Directory</label>
 <h3>Birthday</h3>
@@ -93,9 +93,9 @@
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261114a"></script>
-<script src="assets/js/auth.js?v=20261114a"></script>
-<script src="assets/js/shell.js?v=20261114a"></script>
+<script src="assets/js/config.js?v=20261117a"></script>
+<script src="assets/js/auth.js?v=20261117a"></script>
+<script src="assets/js/shell.js?v=20261117a"></script>
 <script>
 QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}},function(c){
   var $=function(i){return document.getElementById(i)};

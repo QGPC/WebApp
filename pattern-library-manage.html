@@ -5,7 +5,7 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261114a">
+<link rel="stylesheet" href="assets/css/site.css?v=20261117a">
 <style>
 .nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
 .nbtn:disabled{opacity:.45;cursor:default}
@@ -51,7 +51,7 @@
 <div class="mwrap" style="max-width:1000px;gap:22px" id="content">
 
 <div class="toplinks"><a class="nbtn" href="comfort-manager.html">Comfort Quilts Manager</a><a class="nbtn" href="comfort-patterns.html">See the Pattern Library &rarr;</a></div>
-<section class="blue-note hidden" id="newkits" aria-live="polite"><div><h3 id="nk-t"></h3><ul id="nk-list"></ul></div><button class="nbtn" id="nk-seen" type="button">Mark all as seen</button></section>
+<section class="blue-note hidden" id="newkits" aria-live="polite"><div><h2 id="nk-t" style="margin:0;font:400 17px/1.2 var(--serif)"></h2><ul id="nk-list"></ul></div><button class="nbtn" id="nk-seen" type="button">Mark all as seen</button></section>
 <p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
 <section class="cqc" aria-labelledby="pt"><div class="cqh"><div><h2 id="pt">Patterns</h2><p class="sub">Each pattern needs a PDF and a photo of the finished quilt. Press Save on a pattern after you change it.</p></div>
 <button class="btn-save" id="add" type="button">Add a pattern</button></div>
@@ -68,10 +68,10 @@
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261114a"></script>
-<script src="assets/js/auth.js?v=20261114a"></script>
-<script src="assets/js/shell.js?v=20261114a"></script>
-<script src="assets/js/comfort.js?v=20261114a"></script>
+<script src="assets/js/config.js?v=20261117a"></script>
+<script src="assets/js/auth.js?v=20261117a"></script>
+<script src="assets/js/shell.js?v=20261117a"></script>
+<script src="assets/js/comfort.js?v=20261117a"></script>
 <script>
 QGPCShell.start({need:function(c){return c.has('comfort_quilts_chair')||c.isAdmin;}},function(ctx){
   var $=function(i){return document.getElementById(i)};

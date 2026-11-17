@@ -40,7 +40,8 @@ a.tile:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(31,36,51,.10)
 .welcome-card{flex:1 1 auto;min-width:0;display:flex;align-items:center;background:rgba(1,52,78,.90);padding:14px 24px;height:156px;border-radius:18px}
 .welcome-card h1{margin:0 0 6px;font-size:clamp(1.4rem,2.4vw,1.75rem);line-height:1.15;text-wrap:balance}
 .welcome-card p{margin:0;font-size:15px;line-height:1.45;color:#E6E9F2}
-.banner-btns{display:flex;gap:12px;width:100%}
+.banner-btns{display:flex;flex-wrap:wrap;gap:12px;width:100%}
+.banner-btns .signin-btn{flex:1 1 240px}
 .signin-btn{display:flex;align-items:center;flex:1 1 0;min-width:0;gap:10px;min-height:58px;padding:8px 12px 8px 8px;white-space:nowrap;background:#fff;border-radius:18px;color:var(--ink);box-shadow:0 10px 28px rgba(15,20,40,.30);border:0;text-align:left;font:inherit;text-decoration:none;transition:transform .15s ease,box-shadow .15s ease}
 .signin-btn img{flex:0 0 auto;border-radius:11px;display:block}
 .signin-btn .lbl{flex:1 1 auto;font-weight:700;font-size:16px}
@@ -64,7 +65,7 @@ button.signin-btn:hover,button.signin-btn:focus-visible{transform:translateY(-2p
 /* Cards and forms */
 .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px}
 .signin{max-width:420px;margin:24px auto;color:var(--ink)}
-.signin h2{margin:0 0 12px;font-size:24px}
+.signin h1,.signin h2{margin:0 0 12px;font-size:24px}
 .field{display:block;width:100%;min-height:48px;padding:10px 12px;border:1.5px solid #8A8F9C;border-radius:8px;font:17px var(--sans);margin:4px 0 14px;background:#fff;color:var(--ink)}
 .field:focus{border-color:var(--cobalt)}
 label{font-weight:600}
@@ -101,7 +102,7 @@ table.kv th,table.kv td{text-align:left;padding:8px 10px;border-bottom:1px solid
 .tile.prof{height:48px;gap:10px;padding:0 16px 0 5px;background:#EEF1F8;border:1px solid var(--cobalt);justify-content:flex-start;color:var(--ink)}
 .tile.msg{background:#fff;border:1px solid var(--cobalt);color:var(--cobalt)}
 .avatar{flex:0 0 auto;width:36px;height:36px;border-radius:999px;background:var(--cobalt);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;letter-spacing:.02em}
-button.pill.out{height:40px;padding:0 16px;border:1px solid var(--ink);background:#fff;color:var(--ink);font-weight:600;cursor:pointer}
+button.pill.out{height:44px;padding:0 16px;border:1px solid var(--ink);background:#fff;color:var(--ink);font-weight:600;cursor:pointer}
 .logo-card.stretch{align-self:stretch;height:auto;min-height:230px;border-radius:16px}
 .greet-card{position:relative;z-index:30;align-self:flex-start;display:inline-flex;align-items:center;gap:12px 18px;background:rgba(1,52,78,.90);padding:18px 24px;min-height:156px;border-radius:16px;box-sizing:border-box}
 .greet-card h1{margin:0 0 8px;font-size:clamp(1.75rem,3vw,2.4rem);line-height:1.15}

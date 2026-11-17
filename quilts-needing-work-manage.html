@@ -5,7 +5,7 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261114a">
+<link rel="stylesheet" href="assets/css/site.css?v=20261117a">
 <style>
 .nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
 .nbtn:disabled{opacity:.45;cursor:default}
@@ -44,7 +44,7 @@
 <div class="mwrap" style="max-width:1000px;gap:22px" id="content">
 
 <div class="toplinks"><a class="nbtn" href="comfort-manager.html">Comfort Quilts Manager</a><a class="nbtn" href="quilts-needing-work.html">See the Quilts Needing Work page &rarr;</a></div>
-<section class="blue-note hidden" id="newbox" aria-live="polite"><div><h3 id="nw-t"></h3><ul id="nw-list"></ul></div><button class="nbtn" id="nw-seen" type="button">Mark all as seen</button></section>
+<section class="blue-note hidden" id="newbox" aria-live="polite"><div><h2 id="nw-t" style="margin:0;font:400 17px/1.2 var(--serif)"></h2><ul id="nw-list"></ul></div><button class="nbtn" id="nw-seen" type="button">Mark all as seen</button></section>
 <section class="cqc" aria-labelledby="ah"><div><h2 id="ah" style="margin:0;font:400 24px 'Young Serif',Georgia,serif">Add a quilt to the list</h2><p class="sub">Members will see it right away and can claim it.</p></div>
 <form id="add" novalidate style="display:grid;gap:14px">
 <div class="row2"><div><label class="lbl" for="a-name">Quilt name or number</label><input class="field" id="a-name" maxlength="120" placeholder="e.g., Blue pinwheels"></div>
@@ -68,10 +68,10 @@
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261114a"></script>
-<script src="assets/js/auth.js?v=20261114a"></script>
-<script src="assets/js/shell.js?v=20261114a"></script>
-<script src="assets/js/comfort.js?v=20261114a"></script>
+<script src="assets/js/config.js?v=20261117a"></script>
+<script src="assets/js/auth.js?v=20261117a"></script>
+<script src="assets/js/shell.js?v=20261117a"></script>
+<script src="assets/js/comfort.js?v=20261117a"></script>
 <script>
 QGPCShell.start({need:function(c){return c.has('comfort_quilts_chair')||c.isAdmin;}},function(ctx){
   var $=function(i){return document.getElementById(i)};

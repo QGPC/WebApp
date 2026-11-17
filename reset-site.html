@@ -5,7 +5,7 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261114a">
+<link rel="stylesheet" href="assets/css/site.css?v=20261117a">
 <style>
 .nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
 .nbtn:disabled{opacity:.45;cursor:default}
@@ -84,7 +84,7 @@
 <p style="margin:0 0 10px;line-height:1.5">Going live switches the reset tool off for good. The site cannot be put back into testing mode from the website itself (it takes a deliberate change in the Supabase dashboard). Before you go live, make sure you have made a backup, loaded the real member list and checked the pages.</p>
 <button class="nbtn del" id="lvopen" type="button">Go live&hellip;</button>
 <div class="confirm hidden" id="lvconf" style="margin-top:12px"><p>Type GO LIVE in capital letters. This cannot be undone from the website.</p>
-<input class="field" id="lvphrase" autocomplete="off" autocapitalize="characters" spellcheck="false" style="max-width:260px;margin-bottom:10px">
+<input class="field" id="lvphrase" aria-label="Type GO LIVE to confirm" autocomplete="off" autocapitalize="characters" spellcheck="false" style="max-width:260px;margin-bottom:10px">
 <p class="msg err hidden" id="lverr" role="alert" style="margin:0 0 10px"></p>
 <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="nbtn del" id="lvgo" type="button" disabled>Go live now</button><button class="nbtn" id="lvno" type="button">Not yet</button></div></div></div>
 <p id="lvlive" class="hidden" style="margin:0;line-height:1.5"></p></section>
@@ -97,10 +97,10 @@
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261114a"></script>
-<script src="assets/js/auth.js?v=20261114a"></script>
-<script src="assets/js/shell.js?v=20261114a"></script>
-<script src="assets/js/comfort.js?v=20261114a"></script>
+<script src="assets/js/config.js?v=20261117a"></script>
+<script src="assets/js/auth.js?v=20261117a"></script>
+<script src="assets/js/shell.js?v=20261117a"></script>
+<script src="assets/js/comfort.js?v=20261117a"></script>
 <script>
 /*PURE-START*/
 var RESET={};

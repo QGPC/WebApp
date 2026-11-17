@@ -5,7 +5,7 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261114a">
+<link rel="stylesheet" href="assets/css/site.css?v=20261117a">
 <style>
 .nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
 .nbtn:disabled{opacity:.45;cursor:default}
@@ -79,8 +79,8 @@
 <span style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn-cancel" id="reset" type="button">Reset to Guild default</button><button class="btn-save" id="save" type="button">Save appearance</button></span></div></section>
 <section class="cqc" aria-labelledby="gc-t"><div class="cqh"><div><h2 id="gc-t">Guild contact details and Facebook link</h2><p class="sub">Shown in the footer of every page, and the Facebook link in the header. Leave a box empty to show nothing for it.</p></div><span class="pl" style="background:#FCEEE9;color:#9A3412">Superuser only</span></div>
 <div><label class="lbl" for="gc-street">Mailing address (street or P.O. box)</label><input class="field" id="gc-street" maxlength="120"></div>
-<div class="row2"><div><label class="lbl" for="gc-city">City</label><input class="field" id="gc-city" maxlength="60"></div><div><label class="lbl" for="gc-state">State</label><input class="field" id="gc-state" maxlength="2" style="max-width:100px"></div><div><label class="lbl" for="gc-zip">ZIP</label><input class="field" id="gc-zip" maxlength="10" inputmode="numeric" style="max-width:160px"></div></div>
-<div class="row2"><div><label class="lbl" for="gc-email">Guild email address</label><input class="field" id="gc-email" type="email" maxlength="120"></div><div><label class="lbl" for="gc-phone">Guild phone number</label><input class="field" id="gc-phone" type="tel" maxlength="30"></div></div>
+<div class="row2"><div><label class="lbl" for="gc-city">City</label><input class="field" id="gc-city" autocomplete="off" maxlength="60"></div><div><label class="lbl" for="gc-state">State</label><input class="field" id="gc-state" maxlength="2" style="max-width:100px"></div><div><label class="lbl" for="gc-zip">ZIP</label><input class="field" id="gc-zip" autocomplete="off" maxlength="10" inputmode="numeric" style="max-width:160px"></div></div>
+<div class="row2"><div><label class="lbl" for="gc-email">Guild email address</label><input class="field" id="gc-email" autocomplete="off" type="email" maxlength="120"></div><div><label class="lbl" for="gc-phone">Guild phone number</label><input class="field" id="gc-phone" autocomplete="off" type="tel" maxlength="30"></div></div>
 <div><label class="lbl" for="gc-fb">Facebook page address</label><input class="field" id="gc-fb" type="url" maxlength="300" placeholder="https://www.facebook.com/..."><p class="sub" style="font-size:14px">Copy the address from your browser when you are on the Guild&rsquo;s Facebook page. It must start with https://.</p></div>
 <p class="msg err hidden" id="gc-err" role="alert" style="margin:0"></p>
 <div><button class="btn-save" id="gc-save" type="button">Save contact details</button></div></section>
@@ -94,10 +94,10 @@
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261114a"></script>
-<script src="assets/js/auth.js?v=20261114a"></script>
-<script src="assets/js/shell.js?v=20261114a"></script>
-<script src="assets/js/comfort.js?v=20261114a"></script>
+<script src="assets/js/config.js?v=20261117a"></script>
+<script src="assets/js/auth.js?v=20261117a"></script>
+<script src="assets/js/shell.js?v=20261117a"></script>
+<script src="assets/js/comfort.js?v=20261117a"></script>
 <script>
 QGPCShell.start({need:function(c){return c.isSuper;}},function(ctx){
   var $=function(i){return document.getElementById(i)};
