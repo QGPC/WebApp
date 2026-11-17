@@ -42,7 +42,7 @@ ul.notices .pinned{display:inline-block;margin:0 0 6px;font-size:12px;font-weigh
 <div class="logo-card"><img src="assets/icons/icon-512-transparent.png" alt="Quilter&rsquo;s Guild of Parker County" width="210" height="210"></div>
 <div class="banner-mid">
 <div class="welcome-card"><div><h1 id="welcome-title">Piecing Parker County together, one stitch at a time.</h1>
-<p>[Short welcome message from the Guild &mdash; who we are, when we meet, and that quilters of every skill level are welcome.]</p></div></div>
+<p id="welcome-msg" data-default="Welcome to the Quilter&rsquo;s Guild of Parker County. Quilters of every skill level are welcome.">Welcome to the Quilter&rsquo;s Guild of Parker County. Quilters of every skill level are welcome.</p><script>try{var m=localStorage.getItem("qgpc_welcome_msg");if(m)document.getElementById("welcome-msg").textContent=m;}catch(e){}</script></div></div>
 <div class="banner-btns">
 <a class="signin-btn" href="join.html"><img src="assets/icons/btn-join.svg" width="42" height="42" alt=""><span class="lbl">Join the Guild</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E87446" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
 <button type="button" class="signin-btn" id="open-signin" aria-expanded="false" aria-controls="signin-card"><img src="assets/icons/btn-signin.svg" width="42" height="42" alt=""><span class="lbl" id="signin-lbl">Member sign in</span>
@@ -131,6 +131,12 @@ ul.notices .pinned{display:inline-block;margin:0 0 6px;font-size:12px;font-weigh
 </script>
 <script>
 QGPCSpecial.show({members:false});
+QGPC.sb.from('welcome_message').select('message').limit(1).then(function(r){
+  var p=document.getElementById('welcome-msg'),m=r&&r.data&&r.data[0]&&r.data[0].message;
+  if(r.error||!p)return;
+  p.textContent=m||(new DOMParser().parseFromString(p.getAttribute('data-default'),'text/html').body.textContent);
+  try{if(m)localStorage.setItem('qgpc_welcome_msg',m);else localStorage.removeItem('qgpc_welcome_msg');}catch(e){}
+});
 // Public notices card: notices for Everyone that have not expired (even if someone is signed in).
 (function(){
   var $=function(i){return document.getElementById(i)};

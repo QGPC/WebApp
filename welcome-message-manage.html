@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Welcome Message</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css?v=20261117a">
+<style>
+.wm{border:1px solid #E4E0D6;border-radius:14px;padding:22px;background:#fff;display:flex;flex-direction:column;gap:16px}
+.wm label.l{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.wm .hint{margin:4px 0 0;font-size:14px;color:#5A5F6E}
+.wm .count{font-size:14px;color:#5A5F6E;text-align:right;margin:0}
+.prev{border:1px solid #E4E0D6;border-radius:14px;padding:18px 20px;background:#FAF8F3}
+.prev b{display:block;font-size:15px;margin:0 0 8px}
+.prev p{margin:0;font-size:17px;line-height:1.55;overflow-wrap:anywhere}
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;text-decoration:none}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<div class="head-actions">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</div></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Executive Board</span>
+<h1 id="pg-title" style="margin:0">Welcome Message</h1><p class="stat-line">Edit the short welcome paragraph in the banner on the public Welcome page.</p></div>
+</div></section>
+<div class="mwrap" style="max-width:900px" id="content">
+<a class="backlink" href="presidents-page.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to the President&rsquo;s Page</a>
+
+<p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
+<p id="loading" role="status" style="margin:0">Loading&hellip;</p>
+
+<form class="wm hidden" id="form" novalidate>
+<div><label class="l" for="f-msg">Welcome message</label>
+<textarea class="field" id="f-msg" rows="5" maxlength="600" style="min-height:140px;margin-bottom:4px" placeholder="e.g., We meet on the first Tuesday of each month. Quilters of every skill level are welcome."></textarea>
+<p class="count" id="count">0 of 600 characters</p>
+<p class="hint">One short paragraph, shown under the headline in the Welcome page banner. Tell visitors who we are, when we meet, and that quilters of every skill level are welcome. Leave it blank to use the built-in sentence.</p></div>
+<div class="prev"><b>How it will read</b><p id="prev"></p></div>
+<p id="f-err" class="msg err hidden" role="alert" style="margin:0"></p>
+<div class="saverow"><button type="submit" class="btn-save" id="f-save">Save welcome message</button><a class="nbtn" href="index.html">See the Welcome page</a></div>
+<p class="hint" id="when" style="margin:0"></p>
+</form>
+
+<section style="display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8">
+<div><h2 style="margin:0 0 4px;font-size:16px;font-weight:700;color:#0157AE">Who can use this page</h2>
+<p style="margin:0;font-size:15px;line-height:1.5;color:#1F2433">The President, Vice President, Administrators and the Superuser. The message shows to everyone who visits the Welcome page, including people who are not signed in, so do not put anything private in it. A change shows as soon as you save; a visitor who has been to the site before may see the old wording for one visit.</p></div>
+</section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js?v=20261117a"></script>
+<script src="assets/js/auth.js?v=20261117a"></script>
+<script src="assets/js/shell.js?v=20261117a"></script>
+<script>
+QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president');}},function(c){
+  var $=function(i){return document.getElementById(i)};
+  var sb=QGPC.sb, KEY='qgpc_welcome_msg';
+  function show(t,cls){var n=$('status');n.textContent=t;n.className='msg '+cls;n.style.margin='0';}
+  function ferr(t){var f=$('f-err');f.textContent=t;f.classList.remove('hidden');}
+  function oneLine(v){return String(v||'').replace(/\s+/g,' ').trim();}
+  function draw(){
+    var v=$('f-msg').value;
+    $('count').textContent=v.length+' of 600 characters';
+    $('prev').textContent=oneLine(v)||'(Blank: the Welcome page shows its built-in sentence.)';
+  }
+  function when(ts){
+    $('when').textContent=ts?'Last saved '+new Date(ts).toLocaleString('en-US',{timeZone:'America/Chicago',month:'long',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'})+'.':'';
+  }
+  $('f-msg').addEventListener('input',function(){draw();$('f-err').classList.add('hidden');});
+  sb.from('welcome_message').select('message,updated_at').limit(1).then(function(r){
+    $('loading').classList.add('hidden');
+    if(r.error){show('Could not load the welcome message. Please refresh and try again.','err');return;}
+    var row=(r.data&&r.data[0])||{message:'',updated_at:null};
+    $('f-msg').value=row.message||'';when(row.updated_at);draw();$('form').classList.remove('hidden');
+  });
+  $('form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var v=oneLine($('f-msg').value);
+    if(v.length>600){ferr('Please keep it to 600 characters or fewer.');return;}
+    var btn=$('f-save');btn.disabled=true;$('f-err').classList.add('hidden');
+    sb.from('welcome_message').upsert({id:true,message:v}).select('updated_at').then(function(r){
+      btn.disabled=false;
+      if(r.error){ferr('That did not save. Please try again.');return;}
+      $('f-msg').value=v;draw();
+      try{if(v)localStorage.setItem(KEY,v);else localStorage.removeItem(KEY);}catch(x){}
+      when(r.data&&r.data[0]&&r.data[0].updated_at);
+      show(v?'Saved. The Welcome page now shows this message.':'Saved. The Welcome page now shows its built-in sentence.','ok');
+      $('status').scrollIntoView({behavior:'smooth',block:'nearest'});
+    });
+  });
+});
+</script>
+</body></html>
