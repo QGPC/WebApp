@@ -26,7 +26,7 @@
 (function(){
   var sb=window.supabase.createClient(window.QGPC_CONFIG.SUPABASE_URL,window.QGPC_CONFIG.SUPABASE_KEY);
   function poll(){
-    sb.from('site_config').select('maintenance').limit(1).then(function(r){
+    sb.from('public_site_info').select('maintenance').limit(1).then(function(r){
       var s=r&&r.data&&r.data[0];
       if(s&&s.maintenance===false){location.replace('home.html');}
     });

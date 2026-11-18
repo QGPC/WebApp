@@ -135,7 +135,7 @@
     $('payline').textContent=(t==='Exempt'||due===0)?'No payment is due for members age 80 and over.':'Dues: '+(due===null?'':('$'+Number(due).toFixed(2)))+' for '+t+' membership. The Membership Chair will confirm your payment.';
     $('j-go').textContent='Submit my registration';
   }
-  QGPC.sb.from('site_config').select('join_dues_regular,join_dues_junior,join_dues_exempt').limit(1).then(function(r){
+  QGPC.sb.from('public_site_info').select('join_dues_regular,join_dues_junior,join_dues_exempt').limit(1).then(function(r){
     var c=r.data&&r.data[0]; if(c){dues.Regular=+c.join_dues_regular;dues.Junior=+c.join_dues_junior;dues.Exempt=+c.join_dues_exempt;
       $('amt-Regular').textContent=money(dues.Regular);$('amt-Junior').textContent=money(dues.Junior);}
     refresh();
