@@ -5,16 +5,13 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261118c">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118d">
 <style>
-.ptools{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:16px}
-.pcard{display:flex;align-items:center;gap:16px;width:100%;box-sizing:border-box;min-height:72px;padding:16px 20px;background:#fff;border:2px solid #0157AE;border-radius:18px;text-decoration:none;color:#1F2433}
-.pcard img{flex:0 0 auto;width:48px;height:48px;border-radius:12px}
-.pcard .t{flex:1 1 auto;display:flex;flex-direction:column;gap:2px}
-.pcard .t b{font:400 var(--fs-xl) 'Young Serif',Georgia,serif}
-.pcard .t span{font-size:var(--fs-sm);color:#5A5F6E}
-.pcard.soon{border-color:#C9C4B8;color:#5A5F6E;cursor:default}
-.pcard.soon .t b{color:#5A5F6E}
+.ptools{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:12px}
+.acard{position:relative;display:flex;align-items:flex-start;gap:14px;min-height:96px;padding:18px;box-sizing:border-box;background:#fff;border:1px solid #E4E0D6;border-radius:14px;text-decoration:none;color:#1F2433}
+a.acard:hover,a.acard:focus-visible{border-color:#0157AE}
+.acard img{flex:0 0 auto;width:44px;height:44px;border-radius:12px;display:block}
+.acard .tx{display:flex;flex-direction:column;gap:4px}.acard .tx b{font-size:var(--fs-lg);font-weight:600}.acard .tx span{font-size:var(--fs-sm);color:#5A5F6E;line-height:1.45}
 .sn-sec{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:24px}
 .sn-sec h2{margin:0;font:400 var(--fs-2xl) 'Young Serif',Georgia,serif}
 .sn-sec>p{margin:0;color:#5A5F6E;font-size:var(--fs-md);line-height:1.5}
@@ -27,8 +24,8 @@
 .nitem .tt{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.nitem .tt b{font-size:var(--fs-lg)}
 .nitem .sub{font-size:var(--fs-sm);color:#5A5F6E}
 .nact{display:flex;flex-wrap:wrap;gap:10px}
-.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 var(--fs-sm) var(--sans);cursor:pointer}
-.confirm{background:#FCEEE9;border-radius:10px;padding:12px 14px}.confirm p{margin:0 0 10px;font-weight:600;color:#9A3412}
+
+
 .nform{display:flex;flex-direction:column;gap:18px}
 .nform h3{margin:0;font:400 var(--fs-xl) 'Young Serif',Georgia,serif}
 .nform label.l{display:block;font-weight:600;font-size:var(--fs-md);margin:0 0 6px}
@@ -69,10 +66,10 @@
 
 <section aria-labelledby="tools-h" style="display:flex;flex-direction:column;gap:14px"><h2 id="tools-h" style="margin:0;font:400 var(--fs-xl) 'Young Serif',Georgia,serif">Guild business</h2>
 <div class="ptools">
-<a class="pcard" href="calendar-manage.html?cal=board"><img src="assets/tiles/manage-events.svg" alt=""><span class="t"><b>President&rsquo;s Calendar</b><span>Board meetings and important events for the Board throughout the year</span></span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0157AE" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></a>
-<a class="pcard" href="email-members.html"><img src="assets/tiles/messages.svg" alt=""><span class="t"><b>Email Members</b><span>Write one email and send it to every current member</span></span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0157AE" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></a>
-<a class="pcard" href="charities-manage.html"><img src="assets/tiles/our-community.svg" alt=""><span class="t"><b>Charities We Support</b><span>Add, change and reorder the list of charities</span></span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0157AE" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></a>
-<a class="pcard" href="welcome-message-manage.html"><img src="assets/tiles/about.svg" alt=""><span class="t"><b>Welcome Message</b><span>Edit the welcome paragraph visitors read on the Welcome page</span></span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0157AE" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></a>
+<a class="acard" href="calendar-manage.html?cal=board"><img width="44" height="44" src="assets/tiles/manage-events.svg" alt=""><span class="tx"><b>President&rsquo;s Calendar</b><span>Board meetings and important events for the Board throughout the year</span></span></a>
+<a class="acard" href="email-members.html"><img width="44" height="44" src="assets/tiles/messages.svg" alt=""><span class="tx"><b>Email Members</b><span>Write one email and send it to every current member</span></span></a>
+<a class="acard" href="charities-manage.html"><img width="44" height="44" src="assets/tiles/our-community.svg" alt=""><span class="tx"><b>Charities We Support</b><span>Add, change and reorder the list of charities</span></span></a>
+<a class="acard" href="welcome-message-manage.html"><img width="44" height="44" src="assets/tiles/about.svg" alt=""><span class="tx"><b>Welcome Message</b><span>Edit the welcome paragraph visitors read on the Welcome page</span></span></a>
 </div></section>
 
 <section class="sn-sec" aria-labelledby="sn-title">
@@ -123,10 +120,10 @@
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261118c"></script>
-<script src="assets/js/auth.js?v=20261118c"></script>
-<script src="assets/js/shell.js?v=20261118c"></script>
-<script src="assets/js/special-notices.js?v=20261118c"></script>
+<script src="assets/js/config.js?v=20261118d"></script>
+<script src="assets/js/auth.js?v=20261118d"></script>
+<script src="assets/js/shell.js?v=20261118d"></script>
+<script src="assets/js/special-notices.js?v=20261118d"></script>
 <script>
 QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president');}},function(c){
   var $=function(i){return document.getElementById(i)};

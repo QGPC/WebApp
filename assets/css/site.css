@@ -259,8 +259,8 @@ a.acard:hover,a.acard:focus-visible{transform:translateY(-2px);box-shadow:0 8px 
 .dcard.sel{background:#F4F6FB;border-color:var(--cobalt)}
 .dgroup>.reqdetail{margin-top:12px;background:#F4F6FB;border:1px solid #D8DEEC}
 .delzone{margin-top:28px;padding-top:18px;border-top:1px solid #D8DEEC}
-.btn-del{min-height:46px;padding:0 22px;border-radius:999px;border:2px solid #B42318;background:#fff;color:#B42318;font:700 var(--fs-md) var(--sans);cursor:pointer}
-.btn-del.solid{background:#B42318;color:#fff}
+.btn-del{min-height:46px;padding:0 22px;border-radius:999px;border:2px solid #9A3412;background:#fff;color:#9A3412;font:700 var(--fs-md) var(--sans);cursor:pointer}
+.btn-del.solid{background:#9A3412;color:#fff}
 .btn-del:disabled{opacity:.6;cursor:wait}
 .btn-cancel{min-height:46px;padding:0 22px;border-radius:999px;border:2px solid #8A8F9E;background:#fff;color:#1F2433;font:700 var(--fs-md) var(--sans);cursor:pointer}
 .delconfirm{margin-top:14px;padding:14px 16px;background:#FDECEA;border:1px solid #F3B8B2;border-radius:12px}
@@ -340,3 +340,11 @@ ul.special-list p{margin:0;white-space:pre-wrap}
  .navm .pstack .pill{flex:1 1 auto}
  .navm .tip{display:none}
 }
+/* Shared small buttons, confirm box and role line (one version for every page) */
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 var(--fs-sm) var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.nbtn.solid{background:#0157AE;color:#fff}
+.nbtn:disabled{opacity:.45;cursor:default}
+.nbtn.del{border-color:#9A3412;color:#9A3412}
+.confirm{background:#FCEEE9;border:1px solid #F0C4B3;border-radius:10px;padding:12px 14px}
+.confirm p{margin:0 0 10px;font-weight:600;color:#9A3412}
+.eyebrow.who{text-transform:none;letter-spacing:0;font-size:var(--fs-md);font-weight:600}

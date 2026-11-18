@@ -5,7 +5,7 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261118c">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118d">
 <style>
 .ybar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:0 0 20px}
 .yb{width:48px;height:48px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:700 var(--fs-xl) var(--sans);cursor:pointer}
@@ -20,17 +20,18 @@
 .dtile b{display:block;font-size:var(--fs-xl)}.dtile span{font-size:var(--fs-sm);font-weight:700;letter-spacing:.04em}
 .ev h3{margin:0;font-size:var(--fs-lg)}.ev .sub{font-size:var(--fs-sm);color:#5A5F6E}
 .ev .acts{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
-.nbtn{min-height:40px;padding:0 16px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 var(--fs-sm) var(--sans);cursor:pointer}
-.nbtn.del{border-color:#B42318;color:#B42318}
+
+
 .none{color:#5A5F6E;margin:0}
 .nform{background:#fff;border:1px solid #E4E0D6;border-radius:14px;padding:22px 22px 18px;margin:0 0 24px}
 .nform h2{margin:0 0 12px;font-size:var(--fs-xl)}.nform label{display:block;margin:12px 0 4px}
 .nform .hint{margin:2px 0 0;font-size:var(--fs-sm);color:#5A5F6E;font-weight:400}
 .nform .row2{display:flex;gap:24px;flex-wrap:wrap}
-.confirm{background:#FDECEA;border:1px solid #F3B8B2;border-radius:12px;padding:12px 14px;margin-top:8px}
-.confirm p{margin:0 0 10px;font-weight:600}
+
+
 .note2{margin:24px 0 0;color:#5A5F6E;font-size:var(--fs-md)}
 @media (max-width:820px){.months{grid-template-columns:1fr}}
+.confirm{margin-top:8px}
 </style>
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
@@ -83,9 +84,9 @@
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261118c"></script>
-<script src="assets/js/auth.js?v=20261118c"></script>
-<script src="assets/js/shell.js?v=20261118c"></script>
+<script src="assets/js/config.js?v=20261118d"></script>
+<script src="assets/js/auth.js?v=20261118d"></script>
+<script src="assets/js/shell.js?v=20261118d"></script>
 <script>
 // One page for the two typed-in calendars: calendar-manage.html?cal=guild  or  ?cal=board
 QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president')||c.roles.length>0;}},function(c){
