@@ -5,34 +5,34 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261118d">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118e">
 <style>
 
 
-.ctop h2{margin:0;font-size:var(--fs-xl)}.ctop p{margin:2px 0 0;color:#5A5F6E}
-.bcard{display:flex;align-items:center;justify-content:space-between;gap:16px;border:1px solid #E4E0D6;border-radius:14px;padding:18px 22px;background:#fff;text-decoration:none;color:#1F2433;max-width:520px}
-.bcard b{font:400 var(--fs-xl) 'Young Serif',Georgia,serif}.bcard small{display:block;color:#5A5F6E;font-size:var(--fs-md);margin-top:2px}
-.badge{min-width:36px;height:36px;border-radius:999px;background:#9A3412;color:#fff;font-weight:700;display:inline-flex;align-items:center;justify-content:center;padding:0 10px}
+.ctop h2{margin:0;font-size:var(--fs-xl)}.ctop p{margin:2px 0 0;color:var(--muted)}
+.bcard{display:flex;align-items:center;justify-content:space-between;gap:16px;border:1px solid var(--edge);border-radius:14px;padding:18px 22px;background:#fff;text-decoration:none;color:var(--ink);max-width:520px}
+.bcard b{font:400 var(--fs-xl) 'Young Serif',Georgia,serif}.bcard small{display:block;color:var(--muted);font-size:var(--fs-md);margin-top:2px}
+.badge{min-width:36px;height:36px;border-radius:999px;background:var(--persimmon-dark);color:#fff;font-weight:700;display:inline-flex;align-items:center;justify-content:center;padding:0 10px}
 .badge.zero{background:#DDEFE3;color:#1E5A33}
 .ml{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
-.ml a{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;border:1px solid #E4E0D6;border-radius:12px;padding:14px 18px;background:#fff;text-decoration:none;color:#1F2433;min-height:56px}
-.ml a:hover{background:#F4F6FB}.ml .mn{font:400 var(--fs-lg) 'Young Serif',Georgia,serif}.ml .md{color:#5A5F6E;font-size:var(--fs-md);margin-left:10px}
-.chip{display:inline-block;font-size:var(--fs-sm);font-weight:700;border-radius:999px;padding:3px 12px;background:#EDEAE2;color:#454A58}
+.ml a{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;border:1px solid var(--edge);border-radius:12px;padding:14px 18px;background:#fff;text-decoration:none;color:var(--ink);min-height:56px}
+.ml a:hover{background:var(--mist-lt)}.ml .mn{font:400 var(--fs-lg) 'Young Serif',Georgia,serif}.ml .md{color:var(--muted);font-size:var(--fs-md);margin-left:10px}
+.chip{display:inline-block;font-size:var(--fs-sm);font-weight:700;border-radius:999px;padding:3px 12px;background:var(--sand-dk);color:var(--muted-dark)}
 .chip.ok{background:#DDEFE3;color:#1E5A33}.chip.warn{background:#FFF1D6;color:#7A4B00}
-.rc{border:1px solid #E4E0D6;border-radius:14px;padding:16px 18px;background:#fff;display:flex;flex-direction:column;gap:8px}
-.rc .nm{font-weight:700;font-size:var(--fs-lg)}.rc .mt{font-size:var(--fs-md);color:#454A58}
+.rc{border:1px solid var(--edge);border-radius:14px;padding:16px 18px;background:#fff;display:flex;flex-direction:column;gap:8px}
+.rc .nm{font-weight:700;font-size:var(--fs-lg)}.rc .mt{font-size:var(--fs-md);color:var(--muted-dark)}
 .rc .act{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
 
-.sec{border:1px solid #E4E0D6;border-radius:14px;padding:20px 22px;background:#FAF8F3;display:flex;flex-direction:column;gap:14px}
+.sec{border:1px solid var(--edge);border-radius:14px;padding:20px 22px;background:var(--cream);display:flex;flex-direction:column;gap:14px}
 .sec h2{margin:0;font:400 var(--fs-xl) 'Young Serif',Georgia,serif}.sec h3{margin:0;font-size:var(--fs-lg)}
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
-.tile3{border:1px solid #E4E0D6;border-radius:12px;background:#fff;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
-.tile3 span{font-size:var(--fs-sm);font-weight:600;color:#5A5F6E}.tile3 b{font-size:var(--fs-xl);color:#0157AE}
+.tile3{border:1px solid var(--edge);border-radius:12px;background:#fff;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+.tile3 span{font-size:var(--fs-sm);font-weight:600;color:var(--muted)}.tile3 b{font-size:var(--fs-xl);color:var(--cobalt)}
 .res{border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:4px}
-.res.g{background:#E8F4EC;color:#1E5A33}.res.r{background:#FCEEE9;color:#9A3412}
+.res.g{background:#E8F4EC;color:#1E5A33}.res.r{background:var(--peach);color:var(--persimmon-dark)}
 .res b{font-size:var(--fs-xl)}.res span{font-size:var(--fs-sm)}.res .t{font-weight:700;font-size:var(--fs-md)}
 .resgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
-.hint{font-size:var(--fs-sm);color:#5A5F6E;margin:0}
+.hint{font-size:var(--fs-sm);color:var(--muted);margin:0}
 </style>
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
@@ -68,9 +68,9 @@
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261118d"></script>
-<script src="assets/js/auth.js?v=20261118d"></script>
-<script src="assets/js/shell.js?v=20261118d"></script>
+<script src="assets/js/config.js?v=20261118e"></script>
+<script src="assets/js/auth.js?v=20261118e"></script>
+<script src="assets/js/shell.js?v=20261118e"></script>
 <script>
 
 QGPCShell.start({need:function(c){return c.isAdmin||c.has('workshop_chair')||c.has('program_chair');}},function(c){

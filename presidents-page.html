@@ -5,47 +5,47 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261118d">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118e">
 <style>
 .ptools{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:12px}
-.acard{position:relative;display:flex;align-items:flex-start;gap:14px;min-height:96px;padding:18px;box-sizing:border-box;background:#fff;border:1px solid #E4E0D6;border-radius:14px;text-decoration:none;color:#1F2433}
-a.acard:hover,a.acard:focus-visible{border-color:#0157AE}
+.acard{position:relative;display:flex;align-items:flex-start;gap:14px;min-height:96px;padding:18px;box-sizing:border-box;background:#fff;border:1px solid var(--edge);border-radius:14px;text-decoration:none;color:var(--ink)}
+a.acard:hover,a.acard:focus-visible{border-color:var(--cobalt)}
 .acard img{flex:0 0 auto;width:44px;height:44px;border-radius:12px;display:block}
-.acard .tx{display:flex;flex-direction:column;gap:4px}.acard .tx b{font-size:var(--fs-lg);font-weight:600}.acard .tx span{font-size:var(--fs-sm);color:#5A5F6E;line-height:1.45}
-.sn-sec{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:24px}
+.acard .tx{display:flex;flex-direction:column;gap:4px}.acard .tx b{font-size:var(--fs-lg);font-weight:600}.acard .tx span{font-size:var(--fs-sm);color:var(--muted);line-height:1.45}
+.sn-sec{background:#fff;border:1px solid var(--edge);border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:24px}
 .sn-sec h2{margin:0;font:400 var(--fs-2xl) 'Young Serif',Georgia,serif}
-.sn-sec>p{margin:0;color:#5A5F6E;font-size:var(--fs-md);line-height:1.5}
+.sn-sec>p{margin:0;color:var(--muted);font-size:var(--fs-md);line-height:1.5}
 .sn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(460px,100%),1fr));gap:32px;align-items:start}
 .nlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
-.nitem{border:1px solid #E4E0D6;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;background:#fff}
-.nitem.exp{background:#F7F5F0}.nitem.on{border-color:#0157AE;background:#F4F6FB}
+.nitem{border:1px solid var(--edge);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px;background:#fff}
+.nitem.exp{background:#F7F5F0}.nitem.on{border-color:var(--cobalt);background:var(--mist-lt)}
 .nitem .top{display:flex;gap:14px;align-items:flex-start}
-.nitem img{flex:0 0 auto;width:88px;aspect-ratio:4/3;object-fit:cover;border-radius:8px;border:1px solid #E4E0D6}
+.nitem img{flex:0 0 auto;width:88px;aspect-ratio:4/3;object-fit:cover;border-radius:8px;border:1px solid var(--edge)}
 .nitem .tt{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.nitem .tt b{font-size:var(--fs-lg)}
-.nitem .sub{font-size:var(--fs-sm);color:#5A5F6E}
+.nitem .sub{font-size:var(--fs-sm);color:var(--muted)}
 .nact{display:flex;flex-wrap:wrap;gap:10px}
 
 
 .nform{display:flex;flex-direction:column;gap:18px}
 .nform h3{margin:0;font:400 var(--fs-xl) 'Young Serif',Georgia,serif}
 .nform label.l{display:block;font-weight:600;font-size:var(--fs-md);margin:0 0 6px}
-.nform .hint{margin:4px 0 0;font-size:var(--fs-sm);color:#5A5F6E}
+.nform .hint{margin:4px 0 0;font-size:var(--fs-sm);color:var(--muted)}
 .nform fieldset{margin:0;padding:0;border:0;display:flex;flex-direction:column;gap:8px}
 .nform legend{padding:0;margin:0 0 8px;font-weight:600;font-size:var(--fs-md)}
-.nform .opt{display:flex;align-items:flex-start;gap:12px;min-height:44px;padding:12px 14px;border:1px solid #E4E0D6;border-radius:10px;background:#FAF8F3;cursor:pointer}
-.nform .opt input{width:20px;height:20px;margin:1px 0 0;accent-color:#0157AE;flex:0 0 auto}
-.nform .opt span{display:flex;flex-direction:column;gap:2px;font-weight:600;font-size:var(--fs-md)}.nform .opt small{font-weight:400;font-size:var(--fs-sm);color:#5A5F6E}
-.drop{position:relative;display:flex;align-items:center;gap:14px;min-height:72px;padding:14px 16px;border:2px dashed #C9C4B8;border-radius:12px;background:#FAF8F3;cursor:pointer}
+.nform .opt{display:flex;align-items:flex-start;gap:12px;min-height:44px;padding:12px 14px;border:1px solid var(--edge);border-radius:10px;background:var(--cream);cursor:pointer}
+.nform .opt input{width:20px;height:20px;margin:1px 0 0;accent-color:var(--cobalt);flex:0 0 auto}
+.nform .opt span{display:flex;flex-direction:column;gap:2px;font-weight:600;font-size:var(--fs-md)}.nform .opt small{font-weight:400;font-size:var(--fs-sm);color:var(--muted)}
+.drop{position:relative;display:flex;align-items:center;gap:14px;min-height:72px;padding:14px 16px;border:2px dashed var(--stone);border-radius:12px;background:var(--cream);cursor:pointer}
 .drop input{position:absolute;width:1px;height:1px;opacity:0}
 .drop:focus-within{outline:3px solid rgba(1,87,174,.35)}
-.drop b{color:#0157AE;font-size:var(--fs-md)}.drop small{display:block;font-size:var(--fs-sm);color:#5A5F6E}
-.phbox{display:flex;align-items:center;gap:14px;padding:12px;border:1px solid #E4E0D6;border-radius:12px;background:#FAF8F3}
-.phbox img{width:104px;aspect-ratio:4/3;object-fit:cover;border-radius:8px;border:1px solid #E4E0D6;flex:0 0 auto}
-.phbox .nm{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:2px}.phbox .nm b{font-size:var(--fs-md)}.phbox .nm span{font-size:var(--fs-sm);color:#5A5F6E}
-.linkbtn{min-height:44px;padding:0 8px;border:0;background:none;color:#0157AE;font:600 var(--fs-sm) var(--sans);text-decoration:underline;cursor:pointer}
-.linkbtn.del{color:#9A3412}
-.access{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8;color:#0157AE}
-.access h2{margin:0 0 4px;font-size:var(--fs-md);font-weight:700}.access p{margin:0;font-size:var(--fs-md);line-height:1.5;color:#1F2433}
+.drop b{color:var(--cobalt);font-size:var(--fs-md)}.drop small{display:block;font-size:var(--fs-sm);color:var(--muted)}
+.phbox{display:flex;align-items:center;gap:14px;padding:12px;border:1px solid var(--edge);border-radius:12px;background:var(--cream)}
+.phbox img{width:104px;aspect-ratio:4/3;object-fit:cover;border-radius:8px;border:1px solid var(--edge);flex:0 0 auto}
+.phbox .nm{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:2px}.phbox .nm b{font-size:var(--fs-md)}.phbox .nm span{font-size:var(--fs-sm);color:var(--muted)}
+.linkbtn{min-height:44px;padding:0 8px;border:0;background:none;color:var(--cobalt);font:600 var(--fs-sm) var(--sans);text-decoration:underline;cursor:pointer}
+.linkbtn.del{color:var(--persimmon-dark)}
+.access{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:var(--mist);color:var(--cobalt)}
+.access h2{margin:0 0 4px;font-size:var(--fs-md);font-weight:700}.access p{margin:0;font-size:var(--fs-md);line-height:1.5;color:var(--ink)}
 </style>
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
@@ -82,7 +82,7 @@ a.acard:hover,a.acard:focus-visible{border-color:#0157AE}
 <h3 style="margin:0;font-size:var(--fs-md);font-weight:600">Special notices</h3>
 <p id="loading" role="status" style="margin:0">Loading&hellip;</p>
 <ul class="nlist" id="list"></ul>
-<p class="hidden" id="empty" style="margin:0;padding:14px 16px;border-radius:12px;background:#F0ECE3;color:#454A58;font-size:var(--fs-md)">No special notices yet. The card stays hidden on both pages until you post one.</p>
+<p class="hidden" id="empty" style="margin:0;padding:14px 16px;border-radius:12px;background:var(--sand);color:var(--muted-dark);font-size:var(--fs-md)">No special notices yet. The card stays hidden on both pages until you post one.</p>
 </div>
 
 <form class="nform" id="form" novalidate>
@@ -91,7 +91,7 @@ a.acard:hover,a.acard:focus-visible{border-color:#0157AE}
 <input class="field" id="f-head" maxlength="120" autocomplete="off" placeholder="e.g., Tonight&rsquo;s meeting is cancelled"></div>
 <div><label class="l" for="f-msg">Message</label>
 <textarea class="field" id="f-msg" rows="4" maxlength="800" placeholder="A sentence or two with the details." style="min-height:110px"></textarea></div>
-<div><span class="l" style="display:block;font-weight:600;font-size:var(--fs-md);margin:0 0 8px">Photo <span style="font-weight:400;color:#5A5F6E">(optional)</span></span>
+<div><span class="l" style="display:block;font-weight:600;font-size:var(--fs-md);margin:0 0 8px">Photo <span style="font-weight:400;color:var(--muted)">(optional)</span></span>
 <label class="drop" id="drop"><input type="file" id="f-file" accept="image/jpeg,image/png"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0157AE" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:0 0 auto"><path d="M12 16V4M7 9l5-5 5 5M4 16v4h16v-4"></path></svg><span><b>Add a photo</b><small>JPG or PNG. Shown beside the message.</small></span></label>
 <div class="phbox hidden" id="phbox"><img id="ph-img" alt=""><span class="nm"><b id="ph-name">Current photo</b><span id="ph-sub"></span></span>
 <span style="display:flex;flex-direction:column;align-items:flex-end"><label class="linkbtn" style="display:flex;align-items:center;position:relative;cursor:pointer"><input type="file" id="f-file2" accept="image/jpeg,image/png" style="position:absolute;width:1px;height:1px;opacity:0">Replace</label><button type="button" class="linkbtn del" id="ph-rm">Remove</button></span></div>
@@ -120,10 +120,10 @@ a.acard:hover,a.acard:focus-visible{border-color:#0157AE}
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261118d"></script>
-<script src="assets/js/auth.js?v=20261118d"></script>
-<script src="assets/js/shell.js?v=20261118d"></script>
-<script src="assets/js/special-notices.js?v=20261118d"></script>
+<script src="assets/js/config.js?v=20261118e"></script>
+<script src="assets/js/auth.js?v=20261118e"></script>
+<script src="assets/js/shell.js?v=20261118e"></script>
+<script src="assets/js/special-notices.js?v=20261118e"></script>
 <script>
 QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president');}},function(c){
   var $=function(i){return document.getElementById(i)};

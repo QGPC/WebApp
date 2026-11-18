@@ -5,17 +5,17 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261118d">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118e">
 <style>
 .chead{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.chead h2{margin:0;font-size:var(--fs-xl)}.chead p{margin:2px 0 0;color:#5A5F6E}
+.chead h2{margin:0;font-size:var(--fs-xl)}.chead p{margin:2px 0 0;color:var(--muted)}
 .ctools{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap}
 .ctools label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:var(--fs-md)}
 .ctools select{min-height:46px;min-width:120px}
 .cl{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr));gap:16px}
-.cl li{border:1px solid #E4E0D6;border-radius:14px;padding:18px 20px;background:#fff;display:flex;flex-direction:column;gap:6px}
+.cl li{border:1px solid var(--edge);border-radius:14px;padding:18px 20px;background:#fff;display:flex;flex-direction:column;gap:6px}
 .cl .nm{font:400 var(--fs-xl) 'Young Serif',Georgia,serif}
-.cl .ct{font-size:var(--fs-sm);font-weight:600;color:#5A5F6E}
+.cl .ct{font-size:var(--fs-sm);font-weight:600;color:var(--muted)}
 .cl .wh{white-space:pre-wrap;line-height:1.5}
 .cl a.web{align-self:flex-start;margin-top:4px;min-height:44px;display:inline-flex;align-items:center;font-weight:600}
 </style>
@@ -38,7 +38,7 @@
 <div><h2 id="ch-h">Our charities</h2><p id="count" aria-live="polite">&nbsp;</p></div>
 <div class="ctools"><label>Year<select class="field" id="year"></select></label><a class="nbtn hidden" id="edit" href="charities-manage.html">Edit the list</a></div>
 </div>
-<p class="muted hidden" id="empty" style="margin:16px 0 0;color:#5A5F6E"></p>
+<p class="muted hidden" id="empty" style="margin:16px 0 0;color:var(--muted)"></p>
 <ul class="cl" id="list" style="margin-top:18px"></ul>
 </section>
 </div>
@@ -50,8 +50,8 @@
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261118d"></script>
-<script src="assets/js/auth.js?v=20261118d"></script>
+<script src="assets/js/config.js?v=20261118e"></script>
+<script src="assets/js/auth.js?v=20261118e"></script>
 <script>
 (function(){
   var $=function(i){return document.getElementById(i)};

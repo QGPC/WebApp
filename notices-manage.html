@@ -5,21 +5,21 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261118d">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118e">
 <style>
 .nlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
-.nitem{background:#fff;border:1px solid #E4E0D6;border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:8px}
+.nitem{background:#fff;border:1px solid var(--edge);border-radius:14px;padding:18px 20px;display:flex;flex-direction:column;gap:8px}
 .nitem.exp{background:#F7F5F0}
 .nitem h3{margin:0;font-size:var(--fs-lg)}
 .nitem p{margin:0;color:#2B3040;white-space:pre-wrap}
-.nmeta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:var(--fs-sm);color:#5A5F6E}
+.nmeta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:var(--fs-sm);color:var(--muted)}
 .nact{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
 
 
-.nform{background:#fff;border:1px solid #E4E0D6;border-radius:14px;padding:22px 22px 18px;margin:0 0 24px}
+.nform{background:#fff;border:1px solid var(--edge);border-radius:14px;padding:22px 22px 18px;margin:0 0 24px}
 .nform h2{margin:0 0 12px;font-size:var(--fs-xl)}
 .nform label{display:block;margin:12px 0 4px}
-.nform .hint{margin:2px 0 0;font-size:var(--fs-sm);color:#5A5F6E;font-weight:400}
+.nform .hint{margin:2px 0 0;font-size:var(--fs-sm);color:var(--muted);font-weight:400}
 .nform .row2{display:flex;gap:24px;flex-wrap:wrap;margin-top:12px}
 .nform .chk{display:flex;align-items:center;gap:10px;font-weight:600;margin:8px 0}
 .nform .chk input{width:22px;height:22px}
@@ -77,9 +77,9 @@
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261118d"></script>
-<script src="assets/js/auth.js?v=20261118d"></script>
-<script src="assets/js/shell.js?v=20261118d"></script>
+<script src="assets/js/config.js?v=20261118e"></script>
+<script src="assets/js/auth.js?v=20261118e"></script>
+<script src="assets/js/shell.js?v=20261118e"></script>
 <script>
 QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president')||c.has('publicity_chair');}},function(c){
   var $=function(i){return document.getElementById(i)};

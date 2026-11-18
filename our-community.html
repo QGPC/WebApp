@@ -5,20 +5,20 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261118d">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118e">
 <style>
 .ctools{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr));gap:16px}
-.pcard{display:flex;align-items:center;gap:16px;width:100%;box-sizing:border-box;min-height:84px;padding:16px 20px;background:#fff;border:2px solid #0157AE;border-radius:18px;text-decoration:none;color:#1F2433}
+.pcard{display:flex;align-items:center;gap:16px;width:100%;box-sizing:border-box;min-height:84px;padding:16px 20px;background:#fff;border:2px solid var(--cobalt);border-radius:18px;text-decoration:none;color:var(--ink)}
 .pcard img{flex:0 0 auto;width:52px;height:52px;border-radius:12px}
 .pcard .t{flex:1 1 auto;display:flex;flex-direction:column;gap:2px}
 .pcard .t b{font:400 var(--fs-xl) 'Young Serif',Georgia,serif}
-.pcard .t span{font-size:var(--fs-sm);color:#5A5F6E}
-.pcard.soon{border-color:#C9C4B8;color:#5A5F6E;cursor:default}.pcard.soon .t b{color:#5A5F6E}
+.pcard .t span{font-size:var(--fs-sm);color:var(--muted)}
+.pcard.soon{border-color:var(--stone);color:var(--muted);cursor:default}.pcard.soon .t b{color:var(--muted)}
 .bd{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));gap:12px}
-.bd a{display:flex;align-items:center;gap:12px;min-height:64px;padding:10px 14px;border:1px solid #E4E0D6;border-radius:12px;background:#FAF8F3;color:#1F2433;text-decoration:none}
+.bd a{display:flex;align-items:center;gap:12px;min-height:64px;padding:10px 14px;border:1px solid var(--edge);border-radius:12px;background:var(--cream);color:var(--ink);text-decoration:none}
 .bd a.today{background:#FEF7F4;border-color:#F4BFAA}
-.bd .day{flex:0 0 auto;width:40px;height:40px;border-radius:10px;background:#0157AE;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:var(--fs-lg)}
-.bd .nm{display:flex;flex-direction:column;font-weight:600}.bd .nm small{font-weight:700;font-size:var(--fs-sm);color:#9A3412}
+.bd .day{flex:0 0 auto;width:40px;height:40px;border-radius:10px;background:var(--cobalt);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:var(--fs-lg)}
+.bd .nm{display:flex;flex-direction:column;font-weight:600}.bd .nm small{font-weight:700;font-size:var(--fs-sm);color:var(--persimmon-dark)}
 </style>
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
@@ -42,9 +42,9 @@
 
 <section class="card hidden" id="bd-card" aria-labelledby="bd-h">
 <h2 id="bd-h" style="margin:0 0 4px;font-size:var(--fs-xl)">Birthdays</h2>
-<p id="bd-sub" style="margin:0 0 16px;color:#5A5F6E"></p>
+<p id="bd-sub" style="margin:0 0 16px;color:var(--muted)"></p>
 <ul class="bd" id="bd-list"></ul>
-<p class="muted hidden" id="bd-none" style="margin:0;color:#5A5F6E">No birthdays this month.</p>
+<p class="muted hidden" id="bd-none" style="margin:0;color:var(--muted)">No birthdays this month.</p>
 </section>
 </div>
 </main>
@@ -55,8 +55,8 @@
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261118d"></script>
-<script src="assets/js/auth.js?v=20261118d"></script>
+<script src="assets/js/config.js?v=20261118e"></script>
+<script src="assets/js/auth.js?v=20261118e"></script>
 <script>
 (function(){
   var $=function(i){return document.getElementById(i)};

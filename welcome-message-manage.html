@@ -5,13 +5,13 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261118d">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118e">
 <style>
-.wm{border:1px solid #E4E0D6;border-radius:14px;padding:22px;background:#fff;display:flex;flex-direction:column;gap:16px}
+.wm{border:1px solid var(--edge);border-radius:14px;padding:22px;background:#fff;display:flex;flex-direction:column;gap:16px}
 .wm label.l{display:block;font-weight:600;font-size:var(--fs-md);margin:0 0 6px}
-.wm .hint{margin:4px 0 0;font-size:var(--fs-sm);color:#5A5F6E}
-.wm .count{font-size:var(--fs-sm);color:#5A5F6E;text-align:right;margin:0}
-.prev{border:1px solid #E4E0D6;border-radius:14px;padding:18px 20px;background:#FAF8F3}
+.wm .hint{margin:4px 0 0;font-size:var(--fs-sm);color:var(--muted)}
+.wm .count{font-size:var(--fs-sm);color:var(--muted);text-align:right;margin:0}
+.prev{border:1px solid var(--edge);border-radius:14px;padding:18px 20px;background:var(--cream)}
 .prev b{display:block;font-size:var(--fs-md);margin:0 0 8px}
 .prev p{margin:0;font-size:var(--fs-lg);line-height:1.55;overflow-wrap:anywhere}
 </style>
@@ -47,9 +47,9 @@
 <p class="hint" id="when" style="margin:0"></p>
 </form>
 
-<section style="display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8">
-<div><h2 style="margin:0 0 4px;font-size:var(--fs-md);font-weight:700;color:#0157AE">Who can use this page</h2>
-<p style="margin:0;font-size:var(--fs-md);line-height:1.5;color:#1F2433">The President, Vice President, Administrators and the Superuser. The message shows to everyone who visits the Welcome page, including people who are not signed in, so do not put anything private in it. A change shows as soon as you save; a visitor who has been to the site before may see the old wording for one visit.</p></div>
+<section style="display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:var(--mist)">
+<div><h2 style="margin:0 0 4px;font-size:var(--fs-md);font-weight:700;color:var(--cobalt)">Who can use this page</h2>
+<p style="margin:0;font-size:var(--fs-md);line-height:1.5;color:var(--ink)">The President, Vice President, Administrators and the Superuser. The message shows to everyone who visits the Welcome page, including people who are not signed in, so do not put anything private in it. A change shows as soon as you save; a visitor who has been to the site before may see the old wording for one visit.</p></div>
 </section>
 </div>
 </main>
@@ -60,9 +60,9 @@
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261118d"></script>
-<script src="assets/js/auth.js?v=20261118d"></script>
-<script src="assets/js/shell.js?v=20261118d"></script>
+<script src="assets/js/config.js?v=20261118e"></script>
+<script src="assets/js/auth.js?v=20261118e"></script>
+<script src="assets/js/shell.js?v=20261118e"></script>
 <script>
 QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president');}},function(c){
   var $=function(i){return document.getElementById(i)};

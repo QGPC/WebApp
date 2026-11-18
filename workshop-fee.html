@@ -5,37 +5,37 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261118d">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118e">
 <style>
-.card2{border:1px solid #E4E0D6;border-radius:14px;padding:20px 22px;background:#FAF8F3;display:flex;flex-direction:column;gap:16px}
+.card2{border:1px solid var(--edge);border-radius:14px;padding:20px 22px;background:var(--cream);display:flex;flex-direction:column;gap:16px}
 .card2 h2{margin:0;font:400 var(--fs-xl) 'Young Serif',Georgia,serif}
-.card2 .hint{margin:4px 0 0;font-size:var(--fs-sm);color:#5A5F6E}
+.card2 .hint{margin:4px 0 0;font-size:var(--fs-sm);color:var(--muted)}
 .card2 label.l{display:block;font-weight:600;font-size:var(--fs-md);margin:0 0 6px}
 
 
 
 .clist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
-.crow{display:grid;grid-template-columns:minmax(140px,2fr) minmax(90px,1fr) minmax(80px,1fr) minmax(90px,1fr) auto;gap:10px;align-items:end;border:1px solid #E4E0D6;border-radius:12px;padding:12px;background:#fff}
+.crow{display:grid;grid-template-columns:minmax(140px,2fr) minmax(90px,1fr) minmax(80px,1fr) minmax(90px,1fr) auto;gap:10px;align-items:end;border:1px solid var(--edge);border-radius:12px;padding:12px;background:#fff}
 .crow.ro{background:#F4F1EA}
-.crow label{display:block;font-size:var(--fs-sm);font-weight:600;color:#5A5F6E;margin-bottom:4px}
+.crow label{display:block;font-size:var(--fs-sm);font-weight:600;color:var(--muted);margin-bottom:4px}
 .crow .calc{min-height:46px;display:flex;align-items:center;font-weight:700}
-.crow .calc.ro{font-weight:600;color:#454A58}
+.crow .calc.ro{font-weight:600;color:var(--muted-dark)}
 @media (max-width:720px){.crow{grid-template-columns:1fr 1fr}.crow .x{grid-column:1/-1}}
-.panel{border:1px solid #E4E0D6;border-radius:12px;padding:16px 18px;background:#fff;display:flex;flex-direction:column;gap:8px}
+.panel{border:1px solid var(--edge);border-radius:12px;padding:16px 18px;background:#fff;display:flex;flex-direction:column;gap:8px}
 .panel .tr{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:baseline}
-.panel .tr.big{font-size:var(--fs-xl);font-weight:700;border-top:1px solid #E4E0D6;padding-top:10px;color:#0157AE}
-.panel .tr.hl{background:#EEF1F8;border-radius:8px;padding:8px 10px;font-weight:700}
-.panel .note{margin:0;font-size:var(--fs-sm);color:#5A5F6E}
+.panel .tr.big{font-size:var(--fs-xl);font-weight:700;border-top:1px solid var(--edge);padding-top:10px;color:var(--cobalt)}
+.panel .tr.hl{background:var(--mist);border-radius:8px;padding:8px 10px;font-weight:700}
+.panel .note{margin:0;font-size:var(--fs-sm);color:var(--muted)}
 .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:16px}
 .tbl{width:100%;border-collapse:collapse;min-width:480px}
-.tbl th,.tbl td{text-align:right;padding:8px 10px;border-bottom:1px solid #E4E0D6}
+.tbl th,.tbl td{text-align:right;padding:8px 10px;border-bottom:1px solid var(--edge)}
 .tbl th:first-child,.tbl td:first-child{text-align:left}
-.tbl td.rust{color:#9A3412;font-weight:700}
-.tbl th small{display:block;font-weight:600;color:#5A5F6E}
+.tbl td.rust{color:var(--persimmon-dark);font-weight:700}
+.tbl th small{display:block;font-weight:600;color:var(--muted)}
 .scroll{overflow-x:auto}
-.big-n{font:700 var(--fs-2xl) var(--sans);color:#0157AE}
+.big-n{font:700 var(--fs-2xl) var(--sans);color:var(--cobalt)}
 .stack{display:flex;flex-direction:column;align-items:flex-end;gap:10px;text-align:right}
-.stack small{display:block;font-size:var(--fs-sm);font-weight:600;color:#5A5F6E}
+.stack small{display:block;font-size:var(--fs-sm);font-weight:600;color:var(--muted)}
 .dirty{font-weight:600;color:#7A4B00}
 </style>
 </head><body>
@@ -62,8 +62,8 @@
 <div><h2 id="fa-h">Fee Analysis</h2><p class="hint">Use this to help choose the workshop fee. It starts from the total cost of the workshop and shows the fee that would cover it at the average attendance. Not shown to members.</p></div>
 
 <div class="panel">
-<div class="tr"><span>Total cost of the workshop <small style="color:#5A5F6E">(from the <a id="clink" href="workshop-costs.html">Workshop Cost Analysis</a>)</small></span><b id="a-total">$0.00</b></div>
-<div class="tr"><span>Maximum Workshop Subsidy <small style="color:#5A5F6E" id="a-setby"></small></span><b id="a-pct">0%</b></div>
+<div class="tr"><span>Total cost of the workshop <small style="color:var(--muted)">(from the <a id="clink" href="workshop-costs.html">Workshop Cost Analysis</a>)</small></span><b id="a-total">$0.00</b></div>
+<div class="tr"><span>Maximum Workshop Subsidy <small style="color:var(--muted)" id="a-setby"></small></span><b id="a-pct">0%</b></div>
 <div class="tr hl"><span>Maximum subsidy</span><span id="a-max">$0.00</span></div>
 <p class="note">Maximum subsidy = total cost of the workshop &times; the Maximum Workshop Subsidy percent: the most the Guild will put toward this workshop.</p></div>
 
@@ -93,9 +93,9 @@
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261118d"></script>
-<script src="assets/js/auth.js?v=20261118d"></script>
-<script src="assets/js/shell.js?v=20261118d"></script>
+<script src="assets/js/config.js?v=20261118e"></script>
+<script src="assets/js/auth.js?v=20261118e"></script>
+<script src="assets/js/shell.js?v=20261118e"></script>
 <script>
 
 QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president')||c.has('program_chair');}},function(c){

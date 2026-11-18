@@ -5,22 +5,22 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261118d">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118e">
 <style>
-.pn{background:#fff;border:1px solid #E4E0D6;border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
+.pn{background:#fff;border:1px solid var(--edge);border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
 .pn h2{margin:14px 0 0;font:400 var(--fs-xl)/1.25 'Young Serif',Georgia,serif}
 .pn h2:first-child{margin-top:0}
 .pn p,.pn li{margin:0;font-size:var(--fs-lg);line-height:1.6;overflow-wrap:anywhere}
 .pn ul{margin:0;padding-left:24px;display:flex;flex-direction:column;gap:6px}
-.pn .upd{font-size:var(--fs-sm);color:#5A5F6E}
+.pn .upd{font-size:var(--fs-sm);color:var(--muted)}
 </style>
 <style>
-.ed{border:1px solid #E4E0D6;border-radius:14px;padding:22px;background:#fff;display:flex;flex-direction:column;gap:16px}
+.ed{border:1px solid var(--edge);border-radius:14px;padding:22px;background:#fff;display:flex;flex-direction:column;gap:16px}
 .ed label.l{display:block;font-weight:600;font-size:var(--fs-md);margin:0 0 6px}
-.ed .hint{margin:4px 0 0;font-size:var(--fs-sm);color:#5A5F6E}
-.ed .count{font-size:var(--fs-sm);color:#5A5F6E;text-align:right;margin:0}
-.ed pre{margin:0;padding:12px 14px;border-radius:10px;background:#F4F6FB;font:var(--fs-sm)/1.5 ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap}
-.warn{padding:12px 14px;border-radius:10px;background:#FCEEE9;color:#7C2D12;font-weight:600;font-size:var(--fs-md)}
+.ed .hint{margin:4px 0 0;font-size:var(--fs-sm);color:var(--muted)}
+.ed .count{font-size:var(--fs-sm);color:var(--muted);text-align:right;margin:0}
+.ed pre{margin:0;padding:12px 14px;border-radius:10px;background:var(--mist-lt);font:var(--fs-sm)/1.5 ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap}
+.warn{padding:12px 14px;border-radius:10px;background:var(--peach);color:#7C2D12;font-weight:600;font-size:var(--fs-md)}
 </style>
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
@@ -60,9 +60,9 @@
 <section class="pn hidden" id="prevbox" aria-labelledby="prev-h"><h2 id="prev-h" style="margin:0;font-size:var(--fs-md);font-weight:700;font-family:var(--sans)">How it will read</h2>
 <div id="prev" style="display:flex;flex-direction:column;gap:14px"></div></section>
 
-<section style="display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8">
-<div><h2 style="margin:0 0 4px;font-size:var(--fs-md);font-weight:700;color:#0157AE">Who can use this page</h2>
-<p style="margin:0;font-size:var(--fs-md);line-height:1.5;color:#1F2433">Administrators and the Superuser. The text is public: anyone can read it, signed in or not, and a change shows as soon as you save. Have the Board approve the wording before the Guild goes live.</p></div>
+<section style="display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:var(--mist)">
+<div><h2 style="margin:0 0 4px;font-size:var(--fs-md);font-weight:700;color:var(--cobalt)">Who can use this page</h2>
+<p style="margin:0;font-size:var(--fs-md);line-height:1.5;color:var(--ink)">Administrators and the Superuser. The text is public: anyone can read it, signed in or not, and a change shows as soon as you save. Have the Board approve the wording before the Guild goes live.</p></div>
 </section>
 </div>
 </main>
@@ -73,10 +73,10 @@
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261118d"></script>
-<script src="assets/js/auth.js?v=20261118d"></script>
-<script src="assets/js/shell.js?v=20261118d"></script>
-<script src="assets/js/privacy.js?v=20261118d"></script>
+<script src="assets/js/config.js?v=20261118e"></script>
+<script src="assets/js/auth.js?v=20261118e"></script>
+<script src="assets/js/shell.js?v=20261118e"></script>
+<script src="assets/js/privacy.js?v=20261118e"></script>
 <script>
 QGPCShell.start({need:function(c){return c.isAdmin;}},function(c){
   var $=function(i){return document.getElementById(i)};
