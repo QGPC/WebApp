@@ -43,11 +43,11 @@
 <header class="site-head"><div class="wrap">
 <div class="head-top">
 <a class="brand" href="home.html"><img src="assets/icons/icon-192.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
-<div class="head-actions">
+<nav class="head-actions" aria-label="Home and account">
 <a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
 <span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
 <button type="button" class="pill out" id="out">Sign out</button>
-</div></div></div></header>
+</nav></div></div></header>
 <main id="main">
 <section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
 <div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Program Chair</span>
@@ -69,10 +69,10 @@
 
 <div class="panel">
 <div style="display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap">
-<div style="flex:1 1 240px;max-width:340px"><label class="l" for="att">Average workshop attendance</label>
+<form id="att-form" novalidate style="flex:1 1 240px;max-width:340px"><label class="l" for="att">Average workshop attendance</label>
 <input class="field" id="att" inputmode="numeric" maxlength="4" autocomplete="off">
 <p class="hint">How many people usually attend one of our workshops. Saved for all workshops.</p>
-<div style="margin-top:8px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button type="button" class="nbtn" id="att-save">Save attendance</button><span id="att-msg" role="status" style="font-weight:600"></span></div></div>
+<div style="margin-top:8px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button type="button" class="nbtn" id="att-save">Save attendance</button><span id="att-msg" role="status" style="font-weight:600"></span></div></form>
 <div class="stack"><div><small>Fee to break even at this attendance</small><span class="big-n" id="f-be">&mdash;</span></div>
 <div><small>Fee to break even if the Guild pays the maximum subsidy</small><span class="big-n" id="f-bes">&mdash;</span></div></div>
 </div></div>
@@ -139,6 +139,7 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
     });
   }
   $('att').addEventListener('input',draw);
+  $('att-form').addEventListener('submit',function(e){e.preventDefault();$('att-save').click();});
   $('att-save').onclick=function(){
     var v=att(),m=$('att-msg');
     if(!v){m.textContent='Please type a whole number above zero.';return;}
