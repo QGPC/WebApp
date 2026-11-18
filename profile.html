@@ -5,7 +5,7 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261118b">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118c">
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
 <header class="site-head"><div class="wrap">
@@ -51,14 +51,14 @@
 <div class="f"><label for="pf-email">Email</label><input class="field" id="pf-email" type="email" disabled aria-describedby="email-help"><span class="sub" id="email-help">This is your sign-in address. To change it, contact the Membership Chair.</span></div>
 <div class="f"><label for="pf-cell">Cell number</label><input class="field" id="pf-cell" maxlength="30" type="tel" autocomplete="tel"></div>
 </div>
-<h3>Mailing address</h3>
+<h3 id="pf-street-h">Mailing address</h3>
 <div class="f"><label for="pf-street">Street address</label><input class="field" id="pf-street" maxlength="120" autocomplete="street-address"></div>
 <div class="grid3">
 <div class="f"><label for="pf-city">City</label><input class="field" id="pf-city" maxlength="80" autocomplete="address-level2"></div>
 <div class="f"><label for="pf-state">State</label><input class="field" id="pf-state" autocomplete="address-level1" maxlength="2" placeholder="TX"></div>
 <div class="f"><label for="pf-zip">ZIP code</label><input class="field" id="pf-zip" autocomplete="postal-code" inputmode="numeric" maxlength="10"></div>
 </div>
-<h3>Birthday</h3>
+<h3 id="pf-bday-h">Birthday</h3>
 <div class="grid2">
 <div class="f"><label for="pf-bm">Month</label><select class="field" id="pf-bm"><option value="">Not shared</option><option value="1">January</option><option value="2">February</option><option value="3">March</option><option value="4">April</option><option value="5">May</option><option value="6">June</option><option value="7">July</option><option value="8">August</option><option value="9">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select></div>
 <div class="f"><label for="pf-bd">Day</label><select class="field" id="pf-bd"><option value="">Not shared</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select></div>
@@ -76,6 +76,7 @@
 </section>
 
 <div class="saverow"><button type="submit" class="btn-save" id="save">Save changes</button><a href="home.html" class="cancel">Cancel</a>
+<span id="dirty" class="dirty hidden" role="status">You have changes that are not saved yet.</span>
 <span id="saved" class="saved hidden" role="status"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Saved. Your directory listing is up to date.</span>
 <span id="save-err" class="msg err hidden" role="alert"></span></div>
 </div>
@@ -104,13 +105,33 @@
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261118b"></script>
-<script src="assets/js/auth.js?v=20261118b"></script>
-<script src="assets/js/format.js?v=20261118b"></script>
+<script src="assets/js/config.js?v=20261118c"></script>
+<script src="assets/js/auth.js?v=20261118c"></script>
+<script src="assets/js/format.js?v=20261118c"></script>
 <script>
 (function(){
   var $=function(i){return document.getElementById(i)};
   var member=null;
+  // "Visible to members" tags: these fields appear in the Member Directory. They change to "Not shown" when the member unticks the listing.
+  var TAGGED=['label[for=pf-first]','label[for=pf-last]','label[for=pf-email]','label[for=pf-cell]','#pf-street-h','#pf-bday-h','#int-title'];
+  function tagsPaint(){
+    var listed=$('pf-listed').checked;
+    TAGGED.forEach(function(q,i){
+      var host=document.querySelector(q);if(!host)return;
+      var t=host.querySelector('.vtag');
+      if(!t){t=document.createElement('span');t.className='vtag';host.appendChild(t);}
+      t.textContent=listed?'Visible to members':'Not shown';t.classList.toggle('off',!listed);
+    });
+  }
+  // Unsaved-changes warning: only for the fields the Save changes button saves (the listing, photo and message choices save at once).
+  var dirty=false;
+  function setDirty(d){dirty=d;$('dirty').classList.toggle('hidden',!d);if(d)$('saved').classList.add('hidden');}
+  window.addEventListener('beforeunload',function(e){if(dirty){e.preventDefault();e.returnValue='';}});
+  ['input','change'].forEach(function(ev){$('pf').addEventListener(ev,function(e){
+    var id=e.target&&e.target.id;
+    if(id==='pf-listed'||id==='ph-file'||id==='ma-yes'||id==='ma-no')return;
+    setDirty(true);
+  });});
   function say(id,t){var e=$(id);e.textContent=t||'';e.classList.toggle('hidden',!t);}
   function checks(){return Array.prototype.slice.call(document.querySelectorAll('input[name=interest]'));}
   // Private messages: choice is saved at once (it is not part of the Save changes button)
@@ -164,7 +185,7 @@
         $('pf-cell').value=m.cell_phone||'';$('pf-street').value=m.street_address||'';$('pf-city').value=m.city||'';
         $('pf-state').value=m.state||'';$('pf-zip').value=m.zip||'';
         $('pf-bm').value=m.birthday_month||'';$('pf-bd').value=m.birthday_day||'';
-        $('pf-listed').checked=!m.directory_opt_out;
+        $('pf-listed').checked=!m.directory_opt_out;tagsPaint();
         var mine=m.interests||[];checks().forEach(function(c){c.checked=mine.indexOf(c.value)>-1;});
         $('pf-other').value=m.interests_other||'';
         $('m-type').textContent=m.membership_type||'—';$('m-since').textContent=m.member_since||'—';
@@ -190,7 +211,7 @@
     QGPC.sb.from('members').update({directory_opt_out:!want}).eq('id',member.id).select('id').then(function(r){
       box.disabled=false;
       if(r.error||!r.data||!r.data.length){box.checked=!want;say('dir-err','We could not save that choice. Please try again, or contact the Membership Chair.');return;}
-      member.directory_opt_out=!want;
+      member.directory_opt_out=!want;tagsPaint();
       say('dir-saved',want?'Saved. You are listed in the Member Directory.':'Saved. You are no longer listed in the Member Directory.');
     });
   });
@@ -216,7 +237,7 @@
       if(r.error||!r.data||!r.data.length){say('save-err','We could not save your changes. Please try again, or contact the Membership Chair.');return;}
       member.first_name=first;member.last_name=last;
       $('who-name').textContent=first+' '+last;if(!phUrl)$('avatar').textContent=(first.charAt(0)+last.charAt(0)).toUpperCase();
-      $('saved').classList.remove('hidden');
+      setDirty(false);$('saved').classList.remove('hidden');
     });
   });
   // ---- Directory photo: shrunk to a 400 px square JPEG in the browser, kept in a private bucket ----

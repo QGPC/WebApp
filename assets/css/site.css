@@ -136,6 +136,9 @@ button.pill.out{height:44px;padding:0 16px;border:1px solid var(--ink);backgroun
 @media(max-width:560px){.grid3{grid-template-columns:1fr}}
 .chks{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:4px 16px}
 .chk{display:flex;align-items:center;gap:10px;min-height:44px;font-weight:500}
+.vtag{display:inline-block;margin-left:8px;padding:1px 9px;border-radius:999px;border:1px solid #0157AE;background:#EAF2FB;color:#0157AE;font-size:var(--fs-sm);font-weight:600;line-height:1.5;vertical-align:middle;white-space:nowrap}
+.vtag.off{border-color:#8A8F9C;background:#F3F2EE;color:#454A58}
+.dirty{font-weight:700;color:#9A3412}
 .chk input{width:20px;height:20px;margin:0;accent-color:var(--cobalt)}
 .photo-row{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
 .photo-empty{flex:0 0 auto;width:140px;height:140px;border-radius:999px;background:#EEF1F8;color:var(--cobalt);display:flex;align-items:center;justify-content:center}
