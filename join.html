@@ -19,16 +19,21 @@
 <div class="joinwrap">
 <form id="sf" class="pcard joinform" novalidate>
 <h2 style="margin:0">Let&rsquo;s start with your email</h2>
-<span class="sub">If you have been a member before, we will find your record and fill in your details once you sign in.</span>
+<span class="sub">Whether you are new or have been a member before, the next step shows you what to do.</span>
 <div class="f" style="max-width:496px"><label for="s-email">Email</label><input class="field" id="s-email" type="email" autocomplete="email" placeholder="you@example.com"></div>
 <p id="s-err" class="msg err hidden" role="alert"></p>
 <div class="paybar"><span></span><button type="submit" class="btn-save" id="s-go">Continue</button></div>
 </form>
-<div id="back" class="pcard hidden" role="status" aria-labelledby="back-title">
-<h2 id="back-title">Welcome back.</h2>
-<p id="back-text"></p>
-<p id="back-err" class="msg err hidden" role="alert"></p>
-<span class="doneact"><button type="button" class="btn-save" id="b-link">Email me a sign-in link</button><a class="pwlink" href="index.html">Sign in with my password</a><button type="button" class="pwlink" id="b-other" style="background:none;cursor:pointer">Use a different email</button></span></div>
+<div id="back" class="pcard hidden" aria-labelledby="back-title">
+<h2 id="back-title" tabindex="-1">How would you like to continue?</h2>
+<p>Email address: <b id="back-email"></b></p>
+<h3>I am a member, or I used to be</h3>
+<p>We will email a sign-in link to that address if it is in the Guild&rsquo;s records. Even if your membership has lapsed, you can renew, and we will fill in your details for you.</p>
+<p id="b-note" class="msg ok hidden" role="status"></p>
+<span class="doneact"><button type="button" class="btn-save" id="b-link">Email me a sign-in link</button><a class="pwlink" href="index.html">Sign in with my password</a></span>
+<h3>I am new to the Guild</h3>
+<p>Fill in a short application. The Membership Chair will review it.</p>
+<span class="doneact"><button type="button" class="btn-save" id="b-new">Start my application</button><button type="button" class="pwlink" id="b-other" style="background:none;cursor:pointer">Use a different email</button></span></div>
 <form id="jf" class="pcard joinform hidden" novalidate>
 <fieldset class="types"><legend>Type of Membership</legend><span class="sub">Choose one.</span>
 <div class="typegrid">
@@ -90,39 +95,35 @@
   var $=function(i){return document.getElementById(i)};
   var stepEmail='';
   function sErr(t){var e=$('s-err');e.textContent=t||'';e.classList.toggle('hidden',!t);}
-  function bErr(t){var e=$('back-err');e.textContent=t||'';e.classList.toggle('hidden',!t);}
   $('sf').addEventListener('submit',function(e){
     e.preventDefault();sErr('');
     var em=$('s-email').value.trim();
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){sErr('Please enter a valid email address.');return;}
-    $('s-go').disabled=true;
-    QGPC.sb.rpc('join_email_status',{p_email:em}).then(function(r){
-      $('s-go').disabled=false;
-      if(r.error){sErr(r.error.message&&r.error.message.length<220?r.error.message:'We could not check that email. Please try again.');return;}
-      stepEmail=em;
-      if(r.data==='new'){$('j-email').value=em;$('sf').classList.add('hidden');$('jf').classList.remove('hidden');$('j-first').focus();}
-      else if(r.data==='pending'){sErr('We already have an application for that email address. The Membership Chair is reviewing it, so you do not need to apply again.');}
-      else{
-        $('back-text').textContent='We already have '+em+' in the Guild\u2019s records. Sign in to renew or update your membership. Even if your membership has lapsed, you can renew here, and we will fill in your details for you.';
-        bErr('');$('back-title').textContent='Welcome back.';$('b-link').textContent='Email me a sign-in link';$('b-link').disabled=false;
-        $('sf').classList.add('hidden');$('back').classList.remove('hidden');
-      }
-    });
+    // The same choices are shown for every address: nothing here says whether the address is already known.
+    stepEmail=em;$('back-email').textContent=em;
+    $('b-note').textContent='';$('b-note').classList.add('hidden');
+    $('sf').classList.add('hidden');$('back').classList.remove('hidden');$('back-title').focus();
   });
   $('b-other').addEventListener('click',function(){$('back').classList.add('hidden');$('sf').classList.remove('hidden');$('s-email').focus();});
+  $('b-new').addEventListener('click',function(){
+    $('j-email').value=stepEmail;$('back').classList.add('hidden');$('jf').classList.remove('hidden');$('j-first').focus();
+  });
+  var cool=null;
   $('b-link').addEventListener('click',function(){
-    bErr('');$('b-link').disabled=true;
+    if($('b-link').disabled)return;
+    $('b-link').disabled=true;
     var root=location.href.replace(/[^\/]*([?#].*)?$/,'');
-    QGPC.sb.auth.signInWithOtp({email:stepEmail,options:{shouldCreateUser:false,emailRedirectTo:root+'renew.html'}}).then(function(r){
-      if(r.error){
-        $('b-link').disabled=false;
-        bErr(/rate|seconds|too many/i.test(r.error.message||'')?'A link was just sent. Please wait a minute before asking for another.':'We could not send a sign-in link for that address. Try \u201cSign in with my password\u201d (use Forgot password if you need to), or contact the Membership Chair.');
-        return;
-      }
-      $('back-title').textContent='Check your email.';
-      $('back-text').textContent='We sent a sign-in link to '+stepEmail+'. Click it and you will go straight to your renewal form. The link works once. If it does not arrive in a few minutes, check your spam folder.';
-      $('b-link').textContent='Send it again';$('b-link').disabled=false;
-    });
+    function after(){
+      // Same message whatever happened, so it cannot be used to find out who is a member.
+      var n=$('b-note');n.textContent='If '+stepEmail+' is in the Guild\u2019s records, we sent a sign-in link to it. Click the link and you will go straight to your renewal form. The link works once. If it does not arrive in a few minutes, check your spam folder or contact the Membership Chair.';
+      n.classList.remove('hidden');
+      var left=60;$('b-link').textContent='Send it again in '+left+' seconds';
+      if(cool)clearInterval(cool);
+      cool=setInterval(function(){left--;
+        if(left<=0){clearInterval(cool);cool=null;$('b-link').textContent='Send it again';$('b-link').disabled=false;}
+        else $('b-link').textContent='Send it again in '+left+' seconds';},1000);
+    }
+    QGPC.sb.auth.signInWithOtp({email:stepEmail,options:{shouldCreateUser:false,emailRedirectTo:root+'renew.html'}}).then(after,after);
   });
   var PAYMENT_URL=(window.QGPC_CONFIG&&window.QGPC_CONFIG.ZEFFY_JOIN_URL)||'';
   var dues={Regular:null,Junior:null,Exempt:0};
@@ -162,9 +163,9 @@
       $('j-go').disabled=false;
       if(r.error){err(r.error.message&&r.error.message.length<220?r.error.message:'We could not send your application. Please try again.');return;}
       var ex=type()==='Exempt'||dues[type()]===0;
-      $('done-title').textContent='Thank you. Your application has been sent.';
-      $('done-text').textContent=ex?'The Membership Chair will review it and approve your Exempt membership. No payment is due. You do not need to do anything else for now.'
-        :'The Membership Chair will confirm your payment and approve your '+type()+' membership.';
+      $('done-title').textContent='Thank you.';
+      $('done-text').textContent=(ex?'If we do not already have a record for '+email+', the Membership Chair will review your application and approve your Exempt membership. No payment is due.'
+        :'If we do not already have a record for '+email+', the Membership Chair will confirm your payment and approve your '+type()+' membership.')+' If you are already a member, you do not need to apply: go back to the Join page and choose \u201cEmail me a sign-in link\u201d.';
       if(!ex){var p=$('pay-extra');p.classList.remove('hidden');p.textContent='';
         if(PAYMENT_URL){var a=document.createElement('a');a.className='btn-save';a.href=PAYMENT_URL;a.textContent='Continue to payment';a.style.textDecoration='none';a.style.display='inline-flex';a.style.alignItems='center';p.appendChild(a);}
         else p.textContent='Dues are paid separately. The Membership Chair will tell you how to pay.';}
