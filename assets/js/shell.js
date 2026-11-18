@@ -29,7 +29,7 @@
               full:has('superuser')||has('administrator')||m.status==='active'||m.status==='grace'};
             if($('who-name'))$('who-name').textContent=m.first_name+' '+m.last_name;
             if($('avatar'))$('avatar').textContent=((m.first_name||'?').charAt(0)+(m.last_name||'').charAt(0)).toUpperCase();
-            if($('who-role'))$('who-role').textContent=pick?'Acting as '+(pick==='member'?'Member':(lab[pick]||pick)):(roles.length?roles.map(function(k){return lab[k]||k;}).join(', '):'Member');
+            if($('who-role'))$('who-role').textContent=pick?'Showing the site as '+(pick==='member'?'Member':(lab[pick]||pick)):(roles.length?roles.map(function(k){return lab[k]||k;}).join(', '):'Member');
             if(opts&&opts.need&&!opts.need(ctx)){location.href='home.html';return;}
             return QGPC.maintenanceGate(held).then(function(blocked){if(!blocked)ready(ctx);});
           });

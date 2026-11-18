@@ -5,7 +5,7 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261118a">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118b">
 <style>
 .hcard{margin:28px 0 16px}.hcard-h{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 0 12px}.hcard-h h2{margin:0;font-size:var(--fs-xl)}
 .btn-save.small{min-height:44px;padding:0 20px;font-size:var(--fs-md);display:inline-flex;align-items:center;text-decoration:none}
@@ -64,7 +64,7 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
 </nav>
 <ul class="tilebar morelist hidden" id="more-areas"></ul>
 </div></header>
-<script src="assets/js/navmenu.js?v=20261118a"></script>
+<script src="assets/js/navmenu.js?v=20261118b"></script>
 
 <main id="main">
 <section id="top" class="banner hst" aria-labelledby="hello"><div class="banner-in">
@@ -72,7 +72,7 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
 <div class="banner-mid">
 <div class="greet-card">
 <div><h1 id="hello">Loading&hellip;</h1>
-<p class="role-line hidden" id="role-line"><label for="act-sel" id="act-lab">Acting as:</label> <select class="act-sel hidden" id="act-sel"></select><strong id="role-label"></strong></p>
+<p class="role-line hidden" id="role-line"><label for="act-sel" id="act-lab">Show me the site as:</label> <select class="act-sel hidden" id="act-sel"></select><strong id="role-label"></strong></p>
 <div class="act-conf hidden" id="act-conf" role="alert"><span id="act-q"></span> <button type="button" class="nbtn" id="act-yes">Switch</button> <button type="button" class="nbtn" id="act-no">Cancel</button></div>
 <p class="stat-line" id="stat-line"></p></div>
 </div>
@@ -114,10 +114,10 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261118a"></script>
-<script src="assets/js/auth.js?v=20261118a"></script>
-<script src="assets/js/newbadge.js?v=20261118a"></script>
-<script src="assets/js/special-notices.js?v=20261118a"></script>
+<script src="assets/js/config.js?v=20261118b"></script>
+<script src="assets/js/auth.js?v=20261118b"></script>
+<script src="assets/js/newbadge.js?v=20261118b"></script>
+<script src="assets/js/special-notices.js?v=20261118b"></script>
 <script>
 (function(){
   var $=function(i){return document.getElementById(i)};
@@ -204,9 +204,9 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
           :'Your membership is not current, so you are seeing the public parts of the site. Please contact the Membership Chair to renew.';
         $('stat-line').textContent=stat;$('stat-line').classList.toggle('hidden',!stat);
         if(full){
-          $('role-line').classList.remove('hidden');
-          if(!held.length){$('act-lab').textContent='Signed in as:';$('role-label').textContent='Member';}
-          else{
+          // Plain members have nothing to choose, so the line stays hidden for them.
+          if(held.length){
+            $('role-line').classList.remove('hidden');
             var sel=$('act-sel');sel.textContent='';sel.classList.remove('hidden');
             var opt=function(v,t){var o=document.createElement('option');o.value=v;o.textContent=t;sel.appendChild(o);};
             if(held.length>1)opt('all','All my roles');
@@ -294,7 +294,7 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
             });
             $('wn-more').classList.toggle('hidden',wnAll||wnRows.length<=4);
             var n=wnRows.filter(function(w){return !wnSeen||new Date(w.posted_at)>wnSeen;}).length;
-            $('new-sum').textContent=n?(n+(n===1?' change':' changes')+' since your last visit'):'Recent changes to our site.';
+            $('new-sum').textContent=n?(n+(n===1?' new thing':' new things')+' since you were last here'):'Recent changes to our site.';
           };
           Promise.all([
             QGPC.sb.from('whats_new').select('*').gte('expires_on',today).order('posted_at',{ascending:false}),
