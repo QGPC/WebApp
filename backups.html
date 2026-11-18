@@ -5,29 +5,29 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261117g">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118a">
 <style>
-.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 var(--fs-sm) var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
 .nbtn:disabled{opacity:.45;cursor:default}
 .nbtn.solid{background:#0157AE;color:#fff}
-.cqc>h2,.cqh h2{margin:0;font:400 24px 'Young Serif',Georgia,serif}
-.sub{margin:2px 0 0;color:#5A5F6E;font-size:15px}
-.pl{font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;white-space:nowrap}
+.cqc>h2,.cqh h2{margin:0;font:400 var(--fs-xl) 'Young Serif',Georgia,serif}
+.sub{margin:2px 0 0;color:#5A5F6E;font-size:var(--fs-md)}
+.pl{font-size:var(--fs-sm);font-weight:700;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;white-space:nowrap}
 .pl.gray{background:#F0ECE3;color:#454A58}
-.infobox p{margin:0;font-size:15px;line-height:1.5;color:#1F2433}
+.infobox p{margin:0;font-size:var(--fs-md);line-height:1.5;color:#1F2433}
 .warnbox{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#FCEEE9;border:2px solid #E87446}
-.warnbox h2{margin:0 0 4px;font-size:17px;font-weight:700;color:#9A3412}.warnbox p{margin:0;font-size:15px;line-height:1.5;color:#1F2433}
-.lbl{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.warnbox h2{margin:0 0 4px;font-size:var(--fs-lg);font-weight:700;color:#9A3412}.warnbox p{margin:0;font-size:var(--fs-md);line-height:1.5;color:#1F2433}
+.lbl{display:block;font-weight:600;font-size:var(--fs-md);margin:0 0 6px}
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
 .tile3{border:1px solid #E4E0D6;border-radius:14px;padding:16px 18px;background:#FAF8F3}
-.tile3 small{display:block;font-weight:700;color:#5A5F6E;font-size:13px;text-transform:uppercase;letter-spacing:.04em}
-.tile3 b{display:block;font-size:20px;margin:4px 0 2px}.tile3 span{font-size:14px;color:#5A5F6E}
+.tile3 small{display:block;font-weight:700;color:#5A5F6E;font-size:var(--fs-sm);text-transform:uppercase;letter-spacing:.04em}
+.tile3 b{display:block;font-size:var(--fs-xl);margin:4px 0 2px}.tile3 span{font-size:var(--fs-sm);color:#5A5F6E}
 .tile3.due{border-color:#E87446;background:#FCEEE9}
-.dest{display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.45;cursor:pointer;padding:12px 14px;border:2px solid #E4E0D6;border-radius:10px;background:#FAF8F3}
+.dest{display:flex;gap:10px;align-items:flex-start;font-size:var(--fs-md);line-height:1.45;cursor:pointer;padding:12px 14px;border:2px solid #E4E0D6;border-radius:10px;background:#FAF8F3}
 .dest input{width:20px;height:20px;margin-top:2px;accent-color:#0157AE;flex:none}
-.dest small{display:block;color:#5A5F6E;font-size:14px}
+.dest small{display:block;color:#5A5F6E;font-size:var(--fs-sm)}
 .dest.off{opacity:.6;cursor:default}
-.ct{width:100%;border-collapse:collapse;font-size:14px}
+.ct{width:100%;border-collapse:collapse;font-size:var(--fs-sm)}
 .ct th{text-align:left;padding:8px 10px;background:#F0ECE3;color:#454A58;font-weight:700;white-space:nowrap}
 .ct td{padding:8px 10px;border-top:1px solid #EDEAE2;vertical-align:top}
 .row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
@@ -67,7 +67,7 @@
 <div class="row2" id="pwrow"><div><label class="lbl" for="pw1">Password (at least 12 characters)</label><input class="field" id="pw1" type="password" autocomplete="new-password"></div>
 <div><label class="lbl" for="pw2">Type it again</label><input class="field" id="pw2" type="password" autocomplete="new-password"></div></div>
 <p class="msg err hidden" id="mkerr" role="alert" style="margin:0"></p>
-<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><button class="nbtn solid" id="mk" type="button" disabled>Make the backup</button><span class="sub" id="mkprog" style="font-size:15px" aria-live="polite"></span></div>
+<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><button class="nbtn solid" id="mk" type="button" disabled>Make the backup</button><span class="sub" id="mkprog" style="font-size:var(--fs-md)" aria-live="polite"></span></div>
 <div class="infobox hidden" id="mkdone" role="status"><div><h2 id="mkdone-h">Backup saved</h2><p id="mkdone-p"></p></div></div>
 </section>
 
@@ -75,12 +75,12 @@
 <div style="max-width:340px"><label class="lbl" for="freq">Remind the Superuser and Administrators to back up</label>
 <select class="field" id="freq" style="margin-bottom:10px"><option value="7">Every week</option><option value="14">Every 2 weeks</option><option value="30">Every month</option><option value="90">Every 3 months</option></select>
 <button class="nbtn" id="freqsave" type="button" disabled>Save reminder setting</button></div>
-<p class="sub" id="remlast" style="font-size:14px"></p></section>
+<p class="sub" id="remlast" style="font-size:var(--fs-sm)"></p></section>
 
 <section class="cqc" aria-labelledby="rc-t"><h2 id="rc-t">Recent backups</h2>
 <div style="overflow-x:auto"><table class="ct" id="rctab"><thead><tr><th>Date</th><th>Made by</th><th>Kind</th><th>Saved to</th><th>Password</th><th>Size</th></tr></thead><tbody></tbody></table></div>
-<p class="sub" style="font-size:14px" id="rcnone"></p>
-<p class="sub" style="font-size:14px">Keep the 12 most recent backups, plus the last one before the Guild went live and the first one after it. Only a Superuser deletes old backup files, and never the newest two. The site keeps this list, not the files themselves.</p></section>
+<p class="sub" style="font-size:var(--fs-sm)" id="rcnone"></p>
+<p class="sub" style="font-size:var(--fs-sm)">Keep the 12 most recent backups, plus the last one before the Guild went live and the first one after it. Only a Superuser deletes old backup files, and never the newest two. The site keeps this list, not the files themselves.</p></section>
 
 <section class="cqc" aria-labelledby="rs-t"><h2 id="rs-t">Restore the site from a backup</h2>
 <p style="margin:0;line-height:1.5" id="rs-txt">Putting a backup back replaces what is on the site now, so only a Superuser can do it.</p>
@@ -96,12 +96,12 @@
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261117g"></script>
-<script src="assets/js/auth.js?v=20261117g"></script>
-<script src="assets/js/shell.js?v=20261117g"></script>
-<script src="assets/js/comfort.js?v=20261117g"></script>
+<script src="assets/js/config.js?v=20261118a"></script>
+<script src="assets/js/auth.js?v=20261118a"></script>
+<script src="assets/js/shell.js?v=20261118a"></script>
+<script src="assets/js/comfort.js?v=20261118a"></script>
 <script src="assets/js/zip-2.25.0.min.js"></script>
-<script src="assets/js/backup.js?v=20261117g"></script>
+<script src="assets/js/backup.js?v=20261118a"></script>
 <script>
 QGPCShell.start({need:function(c){return c.isAdmin;}},function(ctx){
   var $=function(i){return document.getElementById(i)};

@@ -5,33 +5,33 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261117g">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118a">
 <style>
-.ctop h2{margin:0;font-size:24px}.ctop p{margin:2px 0 0;color:#5A5F6E}
+.ctop h2{margin:0;font-size:var(--fs-xl)}.ctop p{margin:2px 0 0;color:#5A5F6E}
 .ctools{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap}
-.ctools label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:15px}
+.ctools label{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:var(--fs-md)}
 .ctools select{min-height:46px;min-width:120px}
-.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;text-decoration:none}
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 var(--fs-sm) var(--sans);cursor:pointer;display:inline-flex;align-items:center;text-decoration:none}
 .nbtn.solid{background:#0157AE;color:#fff}
 .mlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
 .mi{border:1px solid #E4E0D6;border-radius:14px;padding:16px 18px;background:#fff;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-.mi .mn{font:400 19px 'Young Serif',Georgia,serif;display:block}
-.mi .ln{display:block;font-size:15px;color:#1F2433;margin-top:2px}
+.mi .mn{font:400 var(--fs-lg) 'Young Serif',Georgia,serif;display:block}
+.mi .ln{display:block;font-size:var(--fs-md);color:#1F2433;margin-top:2px}
 .mi .ln b{font-weight:700}
 .mi .none{color:#5A5F6E}
-.chip{display:inline-block;font-size:13px;font-weight:700;border-radius:999px;padding:2px 12px;margin-left:8px;vertical-align:middle;background:#EDEAE2;color:#454A58}
+.chip{display:inline-block;font-size:var(--fs-sm);font-weight:700;border-radius:999px;padding:2px 12px;margin-left:8px;vertical-align:middle;background:#EDEAE2;color:#454A58}
 .chip.pub{background:#DDEFE3;color:#1E5A33}.chip.dr{background:#FFF1D6;color:#7A4B00}
 .wbox{border:1px solid #E4E0D6;border-radius:14px;padding:20px 22px;background:#fff}
-.wbox h2{margin:0 0 4px;font-size:20px}
+.wbox h2{margin:0 0 4px;font-size:var(--fs-xl)}
 .wgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:18px;margin:14px 0}
-.wgrid h3{margin:0 0 6px;font-size:16px}
-.wgrid dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:15px}
+.wgrid h3{margin:0 0 6px;font-size:var(--fs-md)}
+.wgrid dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:var(--fs-md)}
 .wgrid dt{font-weight:600;color:#5A5F6E}.wgrid dd{margin:0}
 .wform{display:flex;flex-direction:column;gap:14px;margin-top:14px}
 .wform .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:16px}
 .wform fieldset{border:1px solid #E4E0D6;border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:12px;margin:0}
 .wform legend{font-weight:700;padding:0 6px}
-.wform label.l{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.wform label.l{display:block;font-weight:600;font-size:var(--fs-md);margin:0 0 6px}
 </style>
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
@@ -88,8 +88,8 @@
 <ul class="mlist" id="list"></ul>
 
 <section style="display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#EEF1F8">
-<div><h2 style="margin:0 0 4px;font-size:16px;font-weight:700;color:#0157AE">How months work</h2>
-<p style="margin:0;font-size:15px;line-height:1.5;color:#1F2433">A month starts as a <b>draft</b>, which only the Program Chair, President, Vice President and Administrators can see. When you choose <b>Published</b>, it appears on the Programs &amp; Workshops page and on the Events calendar. Unpublish it again at any time.</p></div>
+<div><h2 style="margin:0 0 4px;font-size:var(--fs-md);font-weight:700;color:#0157AE">How months work</h2>
+<p style="margin:0;font-size:var(--fs-md);line-height:1.5;color:#1F2433">A month starts as a <b>draft</b>, which only the Program Chair, President, Vice President and Administrators can see. When you choose <b>Published</b>, it appears on the Programs &amp; Workshops page and on the Events calendar. Unpublish it again at any time.</p></div>
 </section>
 </div>
 </main>
@@ -100,9 +100,9 @@
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261117g"></script>
-<script src="assets/js/auth.js?v=20261117g"></script>
-<script src="assets/js/shell.js?v=20261117g"></script>
+<script src="assets/js/config.js?v=20261118a"></script>
+<script src="assets/js/auth.js?v=20261118a"></script>
+<script src="assets/js/shell.js?v=20261118a"></script>
 <script>
 
 QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president')||c.has('program_chair');}},function(c){

@@ -5,14 +5,14 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261117g">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118a">
 <style>
 .nform{border:1px solid #E4E0D6;border-radius:14px;padding:22px;background:#fff;display:flex;flex-direction:column;gap:16px}
-.nform h2{margin:0;font:400 22px 'Young Serif',Georgia,serif}
-.nform label.l{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
-.nform .hint{margin:4px 0 0;font-size:14px;color:#5A5F6E}
+.nform h2{margin:0;font:400 var(--fs-xl) 'Young Serif',Georgia,serif}
+.nform label.l{display:block;font-weight:600;font-size:var(--fs-md);margin:0 0 6px}
+.nform .hint{margin:4px 0 0;font-size:var(--fs-sm);color:#5A5F6E}
 .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:16px}
-.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;text-decoration:none}
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 var(--fs-sm) var(--sans);cursor:pointer;display:inline-flex;align-items:center;text-decoration:none}
 .confirm{background:#FCEEE9;border-radius:10px;padding:12px 14px}.confirm p{margin:0 0 10px;font-weight:600;color:#9A3412}
 .radios{display:flex;gap:22px;flex-wrap:wrap}.radios label{display:flex;gap:8px;align-items:center;font-weight:600;min-height:44px}
 .radios input,.chk input{width:22px;height:22px}
@@ -21,12 +21,12 @@
 .pi{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;border:1px solid #E4E0D6;border-radius:12px;padding:12px;background:#FBFAF6}
 .pi img{width:140px;max-height:140px;object-fit:contain;background:#F0ECE3;border-radius:8px}
 .pi .side{flex:1 1 240px;display:flex;flex-direction:column;gap:8px;min-width:0}
-.pi .main{font-size:13px;font-weight:700;color:#1E5A33}
+.pi .main{font-size:var(--fs-sm);font-weight:700;color:#1E5A33}
 .drop{border:2px dashed #9AA6C4;border-radius:12px;padding:10px 18px;font-weight:600;color:#0157AE;cursor:pointer;display:inline-flex;min-height:44px;align-items:center;background:#F4F6FB}
 .costrow{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
 .tile2{border:1px solid #E4E0D6;border-radius:12px;background:#EEF1F8;padding:10px 16px;display:flex;flex-direction:column;gap:2px}
-.tile2 span{font-size:14px;font-weight:600;color:#454A58}.tile2 b{font-size:24px;color:#0157AE}.tile2 small{font-size:13px;color:#5A5F6E}
-.stat{border-radius:12px;background:#EEF1F8;padding:12px 16px;font-size:15px}
+.tile2 span{font-size:var(--fs-sm);font-weight:600;color:#454A58}.tile2 b{font-size:var(--fs-xl);color:#0157AE}.tile2 small{font-size:var(--fs-sm);color:#5A5F6E}
+.stat{border-radius:12px;background:#EEF1F8;padding:12px 16px;font-size:var(--fs-md)}
 </style>
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
@@ -64,7 +64,7 @@
 <div><label class="l" for="p-about">About the program</label><textarea class="field" id="p-about" rows="5" maxlength="3000" style="min-height:120px"></textarea>
 <p class="hint">Type it or paste it in from a Word document.</p></div>
 <div><label class="l" for="p-bio">About the speaker</label><textarea class="field" id="p-bio" rows="4" maxlength="3000" style="min-height:100px"></textarea></div>
-<div><span class="l" style="display:block;font-weight:600;font-size:15px;margin-bottom:6px">Speaker photos (optional)</span>
+<div><span class="l" style="display:block;font-weight:600;font-size:var(--fs-md);margin-bottom:6px">Speaker photos (optional)</span>
 <div class="pl" id="pp-list"></div>
 <label class="drop" id="pp-drop" for="pp-file">Add photos</label>
 <input type="file" id="pp-file" accept="image/jpeg,image/png" multiple class="hidden">
@@ -101,12 +101,12 @@
 <div><label class="l" for="ws-pay">Payment link (optional)</label><input class="field" id="ws-pay" maxlength="400" inputmode="url" placeholder="https://">
 <p class="hint">The Zeffy link people use to pay. Add it when the payment form is ready.</p></div>
 <div><label class="l" for="ws-desc">About the workshop</label><textarea class="field" id="ws-desc" rows="5" maxlength="3000" style="min-height:120px"></textarea></div>
-<div><span class="l" style="display:block;font-weight:600;font-size:15px;margin-bottom:6px">Workshop photos (optional)</span>
+<div><span class="l" style="display:block;font-weight:600;font-size:var(--fs-md);margin-bottom:6px">Workshop photos (optional)</span>
 <div class="pl" id="wp-list"></div>
 <label class="drop" id="wp-drop" for="wp-file">Add photos</label>
 <input type="file" id="wp-file" accept="image/jpeg,image/png" multiple class="hidden">
 <p class="hint">JPG or PNG, up to 6. The first photo is the main one; use &ldquo;Make main&rdquo; to change it.</p></div>
-<div id="mat-box"><span class="l" style="display:block;font-weight:600;font-size:15px;margin-bottom:6px">Patterns &amp; materials</span>
+<div id="mat-box"><span class="l" style="display:block;font-weight:600;font-size:var(--fs-md);margin-bottom:6px">Patterns &amp; materials</span>
 <p class="hint hidden" id="mat-hint">Save this month first, then you can add files.</p>
 <div id="mat-body" class="hidden"><p class="hint" style="margin:0 0 8px">These stay locked until the Workshop Manager accepts a person&rsquo;s registration. PDF, JPG, PNG or Word files, up to 20 MB each. Files are added or removed right away; you do not need to press Save.</p>
 <ul class="pl" id="mat-list" style="list-style:none;padding:0;margin:0 0 10px"></ul>
@@ -115,7 +115,7 @@
 </div>
 
 <hr style="border:0;border-top:1px solid #E4E0D6;width:100%;margin:6px 0">
-<fieldset style="border:0;padding:0;margin:0"><legend style="font-weight:700;font-size:16px;margin-bottom:6px">Who can see this month</legend>
+<fieldset style="border:0;padding:0;margin:0"><legend style="font-weight:700;font-size:var(--fs-md);margin-bottom:6px">Who can see this month</legend>
 <div class="radios" role="radiogroup">
 <label><input type="radio" name="stat" id="st-draft" value="draft" checked> Draft (planners only)</label>
 <label><input type="radio" name="stat" id="st-pub" value="published"> Published (everyone)</label></div></fieldset>
@@ -135,9 +135,9 @@
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261117g"></script>
-<script src="assets/js/auth.js?v=20261117g"></script>
-<script src="assets/js/shell.js?v=20261117g"></script>
+<script src="assets/js/config.js?v=20261118a"></script>
+<script src="assets/js/auth.js?v=20261118a"></script>
+<script src="assets/js/shell.js?v=20261118a"></script>
 <script>
 
 QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president')||c.has('program_chair');}},function(c){
@@ -174,7 +174,7 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
       var d=el('div','pi'),im=el('img');im.src=it.blob?it.url:pubUrl(it.path);im.alt='';d.appendChild(im);
       var sd=el('div','side');
       if(i===0)sd.appendChild(el('span','main','Main photo'));
-      var lb=el('label','l','Describe photo '+(i+1)+' for people who cannot see it *');lb.style.cssText='margin:0;font-weight:600;font-size:15px';
+      var lb=el('label','l','Describe photo '+(i+1)+' for people who cannot see it *');lb.style.cssText='margin:0;font-weight:600;font-size:var(--fs-md)';
       var id=p+'-alt'+i;lb.setAttribute('for',id);sd.appendChild(lb);
       var inp=el('input','field');inp.id=id;inp.maxLength=150;inp.value=it.alt||'';inp.placeholder='e.g., Jane Smith holding a log cabin quilt';
       inp.addEventListener('input',function(){it.alt=inp.value;});sd.appendChild(inp);

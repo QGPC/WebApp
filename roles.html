@@ -5,26 +5,26 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261117g">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118a">
 <style>
 .rgroup{background:#fff;border:1px solid #E4E0D6;border-radius:18px;overflow:hidden}
 .rgroup>.gh{padding:20px 18px 14px;display:flex;flex-direction:column;gap:4px}
-.rgroup>.gh h2{margin:0;font-size:24px}
+.rgroup>.gh h2{margin:0;font-size:var(--fs-xl)}
 .rgroup ul{list-style:none;margin:0;padding:0}
 .rrow{display:grid;grid-template-columns:minmax(170px,1.1fr) minmax(200px,1.5fr) minmax(170px,1.4fr) auto;gap:10px 20px;align-items:center;padding:14px 18px;border-top:1px solid #EDEAE2}
-.rrow .rn{display:flex;flex-direction:column;gap:2px}.rrow .rn b{font-size:16px}.rrow .rn small{font-size:13px;color:#5A5F6E}
+.rrow .rn{display:flex;flex-direction:column;gap:2px}.rrow .rn b{font-size:var(--fs-md)}.rrow .rn small{font-size:var(--fs-sm);color:#5A5F6E}
 .holders{display:flex;flex-direction:column;gap:6px}
 .holder{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.hav{flex:0 0 auto;width:32px;height:32px;border-radius:999px;background:#EEF1F8;color:#0157AE;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.hav{flex:0 0 auto;width:32px;height:32px;border-radius:999px;background:#EEF1F8;color:#0157AE;display:flex;align-items:center;justify-content:center;font-size:var(--fs-sm);font-weight:700}
 .hav.vac{background:#F0ECE3;color:#8A8F9C}
-.hname{font-size:15px}.hname.vac{color:#5A5F6E;font-style:italic}
-.hmini{min-height:32px;padding:0 12px;border-radius:999px;border:1.5px solid #B42318;background:#fff;color:#B42318;font:600 13px var(--sans);cursor:pointer}
+.hname{font-size:var(--fs-md)}.hname.vac{color:#5A5F6E;font-style:italic}
+.hmini{min-height:32px;padding:0 12px;border-radius:999px;border:1.5px solid #B42318;background:#fff;color:#B42318;font:600 var(--fs-sm) var(--sans);cursor:pointer}
 .areas{display:flex;flex-wrap:wrap;gap:6px}
-.area{font-size:13px;font-weight:600;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE}
+.area{font-size:var(--fs-sm);font-weight:600;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE}
 .area.r{background:#FCEEE9;color:#9A3412}
 .ract{display:flex;justify-content:flex-end}
-.abtn{min-height:44px;padding:8px 16px;display:flex;align-items:center;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer}
-.lockd{min-height:44px;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#5A5F6E}
+.abtn{min-height:44px;padding:8px 16px;display:flex;align-items:center;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 var(--fs-sm) var(--sans);cursor:pointer}
+.lockd{min-height:44px;display:flex;align-items:center;gap:6px;font-size:var(--fs-sm);font-weight:600;color:#5A5F6E}
 .rpanel{grid-column:1/-1;padding:16px;background:#F7F5F0;border:1px solid #E4E0D6;border-radius:12px}
 .rpanel p{margin:0 0 10px;font-weight:600}
 .rpanel .field{margin:6px 0 10px;max-width:520px}
@@ -61,9 +61,9 @@
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261117g"></script>
-<script src="assets/js/auth.js?v=20261117g"></script>
-<script src="assets/js/shell.js?v=20261117g"></script>
+<script src="assets/js/config.js?v=20261118a"></script>
+<script src="assets/js/auth.js?v=20261118a"></script>
+<script src="assets/js/shell.js?v=20261118a"></script>
 <script>
 QGPCShell.start({need:function(c){return c.isAdmin;}},function(c){
   var $=function(i){return document.getElementById(i)};

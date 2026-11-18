@@ -52,7 +52,7 @@
       h.className = 'fmt-hint';
       h.setAttribute('data-for', el.id || '');
       h.setAttribute('role', 'status');
-      h.style.cssText = 'font-size:15px;line-height:1.4;margin-top:6px;color:#9A3412';
+      h.style.cssText = 'font-size:var(--fs-md);line-height:1.4;margin-top:6px;color:#9A3412';
       el.parentNode.insertBefore(h, el.nextSibling);
     }
     h.textContent = text;

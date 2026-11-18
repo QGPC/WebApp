@@ -5,48 +5,48 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261117g">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118a">
 <style>
-.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 var(--fs-sm) var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
 .nbtn:disabled{opacity:.45;cursor:default}
 .nbtn.solid{background:#0157AE;color:#fff}
-.cqc>h2,.cqh h2{margin:0;font:400 24px 'Young Serif',Georgia,serif}
-.sub{margin:2px 0 0;color:#5A5F6E;font-size:15px}
-.pl{font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;white-space:nowrap}
+.cqc>h2,.cqh h2{margin:0;font:400 var(--fs-xl) 'Young Serif',Georgia,serif}
+.sub{margin:2px 0 0;color:#5A5F6E;font-size:var(--fs-md)}
+.pl{font-size:var(--fs-sm);font-weight:700;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;white-space:nowrap}
 .pl.gray{background:#F0ECE3;color:#454A58}
 .pl.new{background:#E87446;color:#1F2433}
 .confirm{background:#FCEEE9;border-radius:10px;padding:12px 14px}.confirm p{margin:0 0 10px;font-weight:600;color:#9A3412}
-.infobox p{margin:0;font-size:15px;line-height:1.5;color:#1F2433}
-.blue-note h3{margin:0;font-size:17px}.blue-note ul{margin:8px 0 0;padding-left:20px;line-height:1.5}
+.infobox p{margin:0;font-size:var(--fs-md);line-height:1.5;color:#1F2433}
+.blue-note h3{margin:0;font-size:var(--fs-lg)}.blue-note ul{margin:8px 0 0;padding-left:20px;line-height:1.5}
 .empty{margin:0;padding:14px 16px;border-radius:12px;background:#F0ECE3;color:#454A58}
-.lbl{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.lbl{display:block;font-weight:600;font-size:var(--fs-md);margin:0 0 6px}
 .row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
 
 .pv{border-radius:12px;overflow:hidden;border:1px solid #E4E0D6}
 .pv .in{padding:28px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .pv .wc{display:inline-flex;flex-direction:column;gap:6px;background:rgba(1,52,78,.90);color:#fff;padding:18px 22px;border-radius:14px}
-.pv .wc b{font:400 26px/1.15 'Young Serif',Georgia,serif}.pv .wc span{font-size:15px;color:#E6E9F2}
-.pv .jb{display:flex;align-items:center;gap:12px;min-height:60px;padding:10px 20px;box-sizing:border-box;background:#fff;border-radius:14px;font-weight:700;font-size:18px;color:#1F2433;box-shadow:0 10px 28px rgba(15,20,40,.30)}
-.cap{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5A5F6E}
+.pv .wc b{font:400 var(--fs-2xl)/1.15 'Young Serif',Georgia,serif}.pv .wc span{font-size:var(--fs-md);color:#E6E9F2}
+.pv .jb{display:flex;align-items:center;gap:12px;min-height:60px;padding:10px 20px;box-sizing:border-box;background:#fff;border-radius:14px;font-weight:700;font-size:var(--fs-lg);color:#1F2433;box-shadow:0 10px 28px rgba(15,20,40,.30)}
+.cap{font-size:var(--fs-sm);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5A5F6E}
 .apg{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:20px 28px}
 .apg fieldset{margin:0;padding:0;border:0;display:flex;flex-direction:column;gap:10px;min-width:0}
-.apg legend{padding:0;margin-bottom:8px;font-weight:600;font-size:15px}
+.apg legend{padding:0;margin-bottom:8px;font-weight:600;font-size:var(--fs-md)}
 .sws{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .sw{width:44px;height:44px;border-radius:12px;border:3px solid transparent;box-shadow:inset 0 0 0 2px #fff;cursor:pointer}
 .sw[aria-pressed=true]{border-color:#1F2433}
-.cust{display:flex;align-items:center;gap:8px;min-height:44px;padding:0 12px 0 6px;border:1px solid #C9C4B8;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer}
+.cust{display:flex;align-items:center;gap:8px;min-height:44px;padding:0 12px 0 6px;border:1px solid #C9C4B8;border-radius:10px;font-size:var(--fs-sm);font-weight:600;cursor:pointer}
 .cust input{width:32px;height:32px;padding:0;border:0;background:none;cursor:pointer}
 .tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(130px,100%),1fr));gap:8px}
-.tgrid label{display:flex;align-items:center;gap:8px;min-height:44px;padding:6px 10px;box-sizing:border-box;border:2px solid #E4E0D6;border-radius:10px;background:#FAF8F3;font-size:14px;font-weight:600;cursor:pointer}
+.tgrid label{display:flex;align-items:center;gap:8px;min-height:44px;padding:6px 10px;box-sizing:border-box;border:2px solid #E4E0D6;border-radius:10px;background:#FAF8F3;font-size:var(--fs-sm);font-weight:600;cursor:pointer}
 .tgrid label.on{border-color:#0157AE;background:#F4F6FB}.tgrid input{width:18px;height:18px;margin:0;accent-color:#0157AE}
 .pcs{display:flex;gap:8px;flex-wrap:wrap}
-.pcb{display:flex;align-items:center;gap:8px;min-height:44px;padding:6px 12px 6px 6px;border:2px solid #E4E0D6;border-radius:10px;background:#fff;font:600 14px var(--sans);color:#1F2433;cursor:pointer}
+.pcb{display:flex;align-items:center;gap:8px;min-height:44px;padding:6px 12px 6px 6px;border:2px solid #E4E0D6;border-radius:10px;background:#fff;font:600 var(--fs-sm) var(--sans);color:#1F2433;cursor:pointer}
 .pcb[aria-pressed=true]{border-color:#0157AE}.pcb i{width:28px;height:28px;border-radius:8px;border:1px solid #C9C4B8;display:block}
-.fab{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:8px 14px;border:2px dashed #C9C4B8;border-radius:10px;font-size:14px;font-weight:600;color:#0157AE;cursor:pointer}
+.fab{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:8px 14px;border:2px dashed #C9C4B8;border-radius:10px;font-size:var(--fs-sm);font-weight:600;color:#0157AE;cursor:pointer}
 .fab input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
 .rng{width:100%;min-height:44px;accent-color:#0157AE}
-.rl{display:flex;justify-content:space-between;font-size:13px;color:#5A5F6E}
-.warn{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;background:#FCEEE9;color:#9A3412;font-size:14px}
+.rl{display:flex;justify-content:space-between;font-size:var(--fs-sm);color:#5A5F6E}
+.warn{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;background:#FCEEE9;color:#9A3412;font-size:var(--fs-sm)}
 </style>
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
@@ -69,19 +69,19 @@
 <div class="pv" id="pv"><div class="in"><div class="wc"><b>Welcome back, [Name].</b><span>Here&rsquo;s what&rsquo;s new since your last visit.</span></div><span class="jb">Join the Guild</span></div></div>
 <div class="warn hidden" id="light" role="note">This color is quite light, so white buttons and tiles on the banner may be hard to see. A deeper color is recommended.</div></div>
 <div class="apg">
-<fieldset><legend>Banner color</legend><div class="sws" id="sws"></div><span class="sub" id="cname" style="font-size:14px"></span></fieldset>
+<fieldset><legend>Banner color</legend><div class="sws" id="sws"></div><span class="sub" id="cname" style="font-size:var(--fs-sm)"></span></fieldset>
 <fieldset><legend>Texture</legend><div class="tgrid" id="tex"></div>
-<div id="fabbox" class="hidden" style="display:flex;flex-direction:column;gap:8px"><label class="fab"><span>Upload a fabric photo</span><input type="file" id="fabfile" accept="image/jpeg,image/png"></label><span class="sub" id="fabnote" style="font-size:13px"></span></div></fieldset>
+<div id="fabbox" class="hidden" style="display:flex;flex-direction:column;gap:8px"><label class="fab"><span>Upload a fabric photo</span><input type="file" id="fabfile" accept="image/jpeg,image/png"></label><span class="sub" id="fabnote" style="font-size:var(--fs-sm)"></span></div></fieldset>
 <fieldset><legend>Pattern color</legend><div class="pcs" id="pcs"></div></fieldset>
-<div style="display:flex;flex-direction:column;gap:10px"><label for="str" style="font-weight:600;font-size:15px">Pattern strength</label><input class="rng" id="str" type="range" min="1" max="10" step="1"><span class="rl"><span>Subtle</span><span id="strl"></span><span>Bold</span></span></div>
+<div style="display:flex;flex-direction:column;gap:10px"><label for="str" style="font-weight:600;font-size:var(--fs-md)">Pattern strength</label><input class="rng" id="str" type="range" min="1" max="10" step="1"><span class="rl"><span>Subtle</span><span id="strl"></span><span>Bold</span></span></div>
 </div>
-<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:14px;border-top:1px solid #EDEAE2"><span class="sub" style="font-size:14px" id="hint">Changes apply to the banner on every page after you save.</span>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:14px;border-top:1px solid #EDEAE2"><span class="sub" style="font-size:var(--fs-sm)" id="hint">Changes apply to the banner on every page after you save.</span>
 <span style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn-cancel" id="reset" type="button">Reset to Guild default</button><button class="btn-save" id="save" type="button">Save appearance</button></span></div></section>
 <section class="cqc" aria-labelledby="gc-t"><div class="cqh"><div><h2 id="gc-t">Guild contact details and Facebook link</h2><p class="sub">Shown in the footer of every page, and the Facebook link in the header. Leave a box empty to show nothing for it.</p></div><span class="pl" style="background:#FCEEE9;color:#9A3412">Superuser only</span></div>
 <div><label class="lbl" for="gc-street">Mailing address (street or P.O. box)</label><input class="field" id="gc-street" maxlength="120"></div>
 <div class="row2"><div><label class="lbl" for="gc-city">City</label><input class="field" id="gc-city" autocomplete="off" maxlength="60"></div><div><label class="lbl" for="gc-state">State</label><input class="field" id="gc-state" maxlength="2" style="max-width:100px"></div><div><label class="lbl" for="gc-zip">ZIP</label><input class="field" id="gc-zip" autocomplete="off" maxlength="10" inputmode="numeric" style="max-width:160px"></div></div>
 <div class="row2"><div><label class="lbl" for="gc-email">Guild email address</label><input class="field" id="gc-email" autocomplete="off" type="email" maxlength="120"></div><div><label class="lbl" for="gc-phone">Guild phone number</label><input class="field" id="gc-phone" autocomplete="off" type="tel" maxlength="30"></div></div>
-<div><label class="lbl" for="gc-fb">Facebook page address</label><input class="field" id="gc-fb" type="url" maxlength="300" placeholder="https://www.facebook.com/..."><p class="sub" style="font-size:14px">Copy the address from your browser when you are on the Guild&rsquo;s Facebook page. It must start with https://.</p></div>
+<div><label class="lbl" for="gc-fb">Facebook page address</label><input class="field" id="gc-fb" type="url" maxlength="300" placeholder="https://www.facebook.com/..."><p class="sub" style="font-size:var(--fs-sm)">Copy the address from your browser when you are on the Guild&rsquo;s Facebook page. It must start with https://.</p></div>
 <p class="msg err hidden" id="gc-err" role="alert" style="margin:0"></p>
 <div><button class="btn-save" id="gc-save" type="button">Save contact details</button></div></section>
 <section class="infobox"><div><h2>Who can use this page</h2><p>Only the Superuser. The saved banner shows on every page, signed in or not. Fabric photos are shrunk to a small tile when you upload them (JPG or PNG).</p></div></section>
@@ -94,10 +94,10 @@
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261117g"></script>
-<script src="assets/js/auth.js?v=20261117g"></script>
-<script src="assets/js/shell.js?v=20261117g"></script>
-<script src="assets/js/comfort.js?v=20261117g"></script>
+<script src="assets/js/config.js?v=20261118a"></script>
+<script src="assets/js/auth.js?v=20261118a"></script>
+<script src="assets/js/shell.js?v=20261118a"></script>
+<script src="assets/js/comfort.js?v=20261118a"></script>
 <script>
 QGPCShell.start({need:function(c){return c.isSuper;}},function(ctx){
   var $=function(i){return document.getElementById(i)};

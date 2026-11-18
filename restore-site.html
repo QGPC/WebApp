@@ -5,25 +5,25 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261117g">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118a">
 <style>
-.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 var(--fs-sm) var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
 .nbtn:disabled{opacity:.45;cursor:default}
 .nbtn.solid{background:#0157AE;color:#fff}
 .nbtn.delsolid{background:#9A3412;border-color:#9A3412;color:#fff}
-.cqc>h2,.cqh h2{margin:0;font:400 24px 'Young Serif',Georgia,serif}
-.sub{margin:2px 0 0;color:#5A5F6E;font-size:15px}
-.pl{font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;white-space:nowrap}
+.cqc>h2,.cqh h2{margin:0;font:400 var(--fs-xl) 'Young Serif',Georgia,serif}
+.sub{margin:2px 0 0;color:#5A5F6E;font-size:var(--fs-md)}
+.pl{font-size:var(--fs-sm);font-weight:700;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;white-space:nowrap}
 .confirm{background:#FCEEE9;border-radius:10px;padding:12px 14px}.confirm p{margin:0 0 10px;font-weight:600;color:#9A3412}
-.infobox p,.infobox ol{margin:0;font-size:15px;line-height:1.5;color:#1F2433}
+.infobox p,.infobox ol{margin:0;font-size:var(--fs-md);line-height:1.5;color:#1F2433}
 .warnbox{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:#FCEEE9;border:2px solid #E87446}
-.warnbox h2{margin:0 0 4px;font-size:17px;font-weight:700;color:#9A3412}.warnbox p{margin:0;font-size:15px;line-height:1.5;color:#1F2433}
-.lbl{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
-.ct{width:100%;border-collapse:collapse;font-size:14px}
+.warnbox h2{margin:0 0 4px;font-size:var(--fs-lg);font-weight:700;color:#9A3412}.warnbox p{margin:0;font-size:var(--fs-md);line-height:1.5;color:#1F2433}
+.lbl{display:block;font-weight:600;font-size:var(--fs-md);margin:0 0 6px}
+.ct{width:100%;border-collapse:collapse;font-size:var(--fs-sm)}
 .ct th{text-align:left;padding:8px 10px;background:#F0ECE3;color:#454A58;font-weight:700;white-space:nowrap}
 .ct td{padding:8px 10px;border-top:1px solid #EDEAE2;vertical-align:top}
 .ct td.num,.ct th.num{text-align:right;white-space:nowrap}.ct td.num{font-weight:700}
-.kp{display:flex;gap:10px;align-items:flex-start;font-size:15px;line-height:1.45;cursor:pointer;padding:10px 12px;border:2px solid #E4E0D6;border-radius:10px;background:#FAF8F3}
+.kp{display:flex;gap:10px;align-items:flex-start;font-size:var(--fs-md);line-height:1.45;cursor:pointer;padding:10px 12px;border:2px solid #E4E0D6;border-radius:10px;background:#FAF8F3}
 .kp input{width:20px;height:20px;margin-top:2px;accent-color:#0157AE;flex:none}
 .row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.row2 .field{margin:0}
 </style>
@@ -60,7 +60,7 @@
 <section class="cqc" aria-labelledby="s2-t"><h2 id="s2-t">2. What this restore would do</h2>
 <dl class="dl2"><dt>Backup made</dt><dd id="b-when"></dd><dt>Made by</dt><dd id="b-by"></dd><dt>Contents</dt><dd id="b-what"></dd></dl>
 <div style="overflow-x:auto"><table class="ct" id="cmp"><thead><tr><th>Information</th><th class="num">In the backup</th><th class="num">On the site now</th><th class="num">Change</th></tr></thead><tbody></tbody></table></div>
-<p class="sub" style="font-size:14px">&ldquo;Change&rdquo; is what restoring would do to the count. Anything marked with a minus sign is information on the site now that the backup does not have, so it would be lost. Private messages are not part of a backup and are not touched, except that a conversation loses anyone whose member record the restore removes. The Superuser accounts, the roles list, the site log and the list of backups are never replaced. The live/testing mode stays as it is.</p>
+<p class="sub" style="font-size:var(--fs-sm)">&ldquo;Change&rdquo; is what restoring would do to the count. Anything marked with a minus sign is information on the site now that the backup does not have, so it would be lost. Private messages are not part of a backup and are not touched, except that a conversation loses anyone whose member record the restore removes. The Superuser accounts, the roles list, the site log and the list of backups are never replaced. The live/testing mode stays as it is.</p>
 <div class="infobox hidden" id="skipwarn"><div><h2>Heads up about this backup</h2><p id="skiptxt"></p></div></div></section>
 
 <section class="cqc" aria-labelledby="s3-t"><h2 id="s3-t">3. Confirm and restore</h2>
@@ -69,7 +69,7 @@
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;max-width:640px"><div><label class="lbl" for="phrase">Type RESTORE</label><input class="field" id="phrase" autocomplete="off" autocapitalize="characters" spellcheck="false" style="margin:0"></div>
 <div><label class="lbl" for="pw">Your Superuser password</label><input class="field" id="pw" type="password" autocomplete="current-password" style="margin:0"></div></div>
 <p class="msg err hidden" id="rerr" role="alert" style="margin:0"></p>
-<p class="sub" id="need" style="font-size:14px"></p>
+<p class="sub" id="need" style="font-size:var(--fs-sm)"></p>
 <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><button class="nbtn delsolid" id="go" type="button" disabled>Restore the site</button><span class="sub" id="goprog" aria-live="polite"></span></div></section>
 </div>
 
@@ -86,12 +86,12 @@
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261117g"></script>
-<script src="assets/js/auth.js?v=20261117g"></script>
-<script src="assets/js/shell.js?v=20261117g"></script>
-<script src="assets/js/comfort.js?v=20261117g"></script>
+<script src="assets/js/config.js?v=20261118a"></script>
+<script src="assets/js/auth.js?v=20261118a"></script>
+<script src="assets/js/shell.js?v=20261118a"></script>
+<script src="assets/js/comfort.js?v=20261118a"></script>
 <script src="assets/js/zip-2.25.0.min.js"></script>
-<script src="assets/js/backup.js?v=20261117g"></script>
+<script src="assets/js/backup.js?v=20261118a"></script>
 <script>
 QGPCShell.start({need:function(c){return c.isSuper;}},function(ctx){
   var $=function(i){return document.getElementById(i)};

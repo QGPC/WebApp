@@ -5,27 +5,27 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261117g">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118a">
 <style>
 .card2{border:1px solid #E4E0D6;border-radius:14px;padding:20px 22px;background:#FAF8F3;display:flex;flex-direction:column;gap:16px}
-.card2 h2{margin:0;font:400 22px 'Young Serif',Georgia,serif}
-.card2 .hint{margin:4px 0 0;font-size:14px;color:#5A5F6E}
-.card2 label.l{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
-.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;text-decoration:none}
+.card2 h2{margin:0;font:400 var(--fs-xl) 'Young Serif',Georgia,serif}
+.card2 .hint{margin:4px 0 0;font-size:var(--fs-sm);color:#5A5F6E}
+.card2 label.l{display:block;font-weight:600;font-size:var(--fs-md);margin:0 0 6px}
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 var(--fs-sm) var(--sans);cursor:pointer;display:inline-flex;align-items:center;text-decoration:none}
 .nbtn.solid{background:#0157AE;color:#fff}
 .nbtn.del{border-color:#9A3412;color:#9A3412}
 .clist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
 .crow{display:grid;grid-template-columns:minmax(140px,2fr) minmax(90px,1fr) minmax(80px,1fr) minmax(90px,1fr) auto;gap:10px;align-items:end;border:1px solid #E4E0D6;border-radius:12px;padding:12px;background:#fff}
 .crow.ro{background:#F4F1EA}
-.crow label{display:block;font-size:13px;font-weight:600;color:#5A5F6E;margin-bottom:4px}
+.crow label{display:block;font-size:var(--fs-sm);font-weight:600;color:#5A5F6E;margin-bottom:4px}
 .crow .calc{min-height:46px;display:flex;align-items:center;font-weight:700}
 .crow .calc.ro{font-weight:600;color:#454A58}
 @media (max-width:720px){.crow{grid-template-columns:1fr 1fr}.crow .x{grid-column:1/-1}}
 .panel{border:1px solid #E4E0D6;border-radius:12px;padding:16px 18px;background:#fff;display:flex;flex-direction:column;gap:8px}
 .panel .tr{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:baseline}
-.panel .tr.big{font-size:20px;font-weight:700;border-top:1px solid #E4E0D6;padding-top:10px;color:#0157AE}
+.panel .tr.big{font-size:var(--fs-xl);font-weight:700;border-top:1px solid #E4E0D6;padding-top:10px;color:#0157AE}
 .panel .tr.hl{background:#EEF1F8;border-radius:8px;padding:8px 10px;font-weight:700}
-.panel .note{margin:0;font-size:14px;color:#5A5F6E}
+.panel .note{margin:0;font-size:var(--fs-sm);color:#5A5F6E}
 .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:16px}
 .tbl{width:100%;border-collapse:collapse;min-width:480px}
 .tbl th,.tbl td{text-align:right;padding:8px 10px;border-bottom:1px solid #E4E0D6}
@@ -33,9 +33,9 @@
 .tbl td.rust{color:#9A3412;font-weight:700}
 .tbl th small{display:block;font-weight:600;color:#5A5F6E}
 .scroll{overflow-x:auto}
-.big-n{font:700 26px var(--sans);color:#0157AE}
+.big-n{font:700 var(--fs-2xl) var(--sans);color:#0157AE}
 .stack{display:flex;flex-direction:column;align-items:flex-end;gap:10px;text-align:right}
-.stack small{display:block;font-size:14px;font-weight:600;color:#5A5F6E}
+.stack small{display:block;font-size:var(--fs-sm);font-weight:600;color:#5A5F6E}
 .dirty{font-weight:600;color:#7A4B00}
 </style>
 </head><body>
@@ -62,7 +62,7 @@
 <div><h2>Program costs</h2><p class="hint">Fill in the speaker&rsquo;s fee and any other costs. A cost the workshop shares (like travel) is split by percent; the workshop gets whatever the program does not.</p></div>
 <div style="max-width:280px"><label class="l" for="fee">Program Fee ($)</label><input class="field" id="fee" inputmode="decimal" maxlength="12" autocomplete="off">
 <p class="hint">The speaker&rsquo;s fee for the meeting program.</p></div>
-<div><h3 style="margin:0 0 8px;font-size:17px">Miscellaneous costs</h3>
+<div><h3 style="margin:0 0 8px;font-size:var(--fs-lg)">Miscellaneous costs</h3>
 <ul class="clist" id="list"></ul>
 <p class="hint hidden" id="empty">No miscellaneous costs listed.</p>
 <div style="margin-top:10px"><button type="button" class="nbtn" id="add">Add a cost</button></div></div>
@@ -83,9 +83,9 @@
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261117g"></script>
-<script src="assets/js/auth.js?v=20261117g"></script>
-<script src="assets/js/shell.js?v=20261117g"></script>
+<script src="assets/js/config.js?v=20261118a"></script>
+<script src="assets/js/auth.js?v=20261118a"></script>
+<script src="assets/js/shell.js?v=20261118a"></script>
 <script>
 
 QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president')||c.has('program_chair');}},function(c){

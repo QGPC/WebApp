@@ -5,44 +5,44 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261117g">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118a">
 <style>
-.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 14px var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.nbtn{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid #0157AE;background:#fff;color:#0157AE;font:600 var(--fs-sm) var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
 .nbtn:disabled{opacity:.45;cursor:default}
 .nbtn.solid{background:#0157AE;color:#fff}
-.cqc>h2,.cqh h2{margin:0;font:400 24px 'Young Serif',Georgia,serif}
-.sub{margin:2px 0 0;color:#5A5F6E;font-size:15px}
-.pl{font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;white-space:nowrap}
+.cqc>h2,.cqh h2{margin:0;font:400 var(--fs-xl) 'Young Serif',Georgia,serif}
+.sub{margin:2px 0 0;color:#5A5F6E;font-size:var(--fs-md)}
+.pl{font-size:var(--fs-sm);font-weight:700;padding:4px 10px;border-radius:999px;background:#EEF1F8;color:#0157AE;white-space:nowrap}
 .pl.gray{background:#F0ECE3;color:#454A58}
 .pl.new{background:#E87446;color:#1F2433}
 .confirm{background:#FCEEE9;border-radius:10px;padding:12px 14px}.confirm p{margin:0 0 10px;font-weight:600;color:#9A3412}
-.infobox p{margin:0;font-size:15px;line-height:1.5;color:#1F2433}
-.blue-note h3{margin:0;font-size:17px}.blue-note ul{margin:8px 0 0;padding-left:20px;line-height:1.5}
+.infobox p{margin:0;font-size:var(--fs-md);line-height:1.5;color:#1F2433}
+.blue-note h3{margin:0;font-size:var(--fs-lg)}.blue-note ul{margin:8px 0 0;padding-left:20px;line-height:1.5}
 .empty{margin:0;padding:14px 16px;border-radius:12px;background:#F0ECE3;color:#454A58}
-.lbl{display:block;font-weight:600;font-size:15px;margin:0 0 6px}
+.lbl{display:block;font-weight:600;font-size:var(--fs-md);margin:0 0 6px}
 .row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
 
 .bigbtn{display:flex;align-items:center;gap:16px;width:100%;min-height:88px;padding:12px 24px 12px 12px;box-sizing:border-box;background:#fff;border:1px solid #E4E0D6;border-radius:16px;color:#1F2433;text-align:left;text-decoration:none;font:inherit;cursor:pointer}
 .bigbtn:hover,.bigbtn:focus-visible{border-color:#0157AE}
 .bigbtn .ic{flex:0 0 auto;width:64px;height:64px;border-radius:12px;background:#EEF1F8;color:#0157AE;display:flex;align-items:center;justify-content:center}
 .bigbtn .ic.hot{background:#FCEEE9;color:#9A3412}
-.bigbtn .tx{flex:1 1 auto;display:flex;flex-direction:column;gap:4px}.bigbtn .tx b{font-size:24px}.bigbtn .tx span{font-size:16px;color:#5A5F6E;line-height:1.45}
+.bigbtn .tx{flex:1 1 auto;display:flex;flex-direction:column;gap:4px}.bigbtn .tx b{font-size:var(--fs-xl)}.bigbtn .tx span{font-size:var(--fs-md);color:#5A5F6E;line-height:1.45}
 .bigbtn .chev{flex:0 0 auto;transition:transform .15s}.bigbtn[aria-expanded=true] .chev{transform:rotate(180deg)}
 .people{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:12px}
 .pcl{flex:1 1 auto;min-height:88px;display:flex;align-items:center;gap:14px;padding:12px 16px 12px 12px;box-sizing:border-box;border:1px solid #E4E0D6;border-radius:14px;background:#FAF8F3;font:inherit;color:#1F2433;text-align:left;width:100%}
 button.pcl{border:2px solid #E4E0D6;cursor:pointer}button.pcl[aria-expanded=true]{border-color:#0157AE;background:#F4F6FB}button.pcl:hover{border-color:#0157AE}
 .people li{display:flex}
-.av{flex:0 0 auto;width:64px;height:64px;border-radius:999px;background:#EEF1F8;color:#0157AE;border:2px solid #fff;box-shadow:0 0 0 1px #C9C4B8;display:flex;align-items:center;justify-content:center;font:400 22px 'Young Serif',Georgia,serif}
+.av{flex:0 0 auto;width:64px;height:64px;border-radius:999px;background:#EEF1F8;color:#0157AE;border:2px solid #fff;box-shadow:0 0 0 1px #C9C4B8;display:flex;align-items:center;justify-content:center;font:400 var(--fs-xl) 'Young Serif',Georgia,serif}
 .pcl .nm{display:flex;flex-direction:column;gap:2px;line-height:1.25;min-width:0}
-.pcl .nm small{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#9A3412}.pcl .nm b{font-size:18px;font-weight:600}
+.pcl .nm small{font-size:var(--fs-sm);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#9A3412}.pcl .nm b{font-size:var(--fs-lg);font-weight:600}
 .det{padding:20px;background:#F4F6FB;border:1px solid #D8DEEC;border-radius:14px;display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap}
-.det .av{width:110px;height:110px;border-radius:16px;font-size:36px}
+.det .av{width:110px;height:110px;border-radius:16px;font-size:2.25rem}
 .det .rt{flex:1 1 360px;min-width:0;display:flex;flex-direction:column;gap:14px}
-.det h3{margin:0;font:400 24px 'Young Serif',Georgia,serif}.det small{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#9A3412}
+.det h3{margin:0;font:400 var(--fs-xl) 'Young Serif',Georgia,serif}.det small{font-size:var(--fs-sm);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#9A3412}
 .det dl{margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:12px 24px}
-.det dt{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5A5F6E}.det dd{margin:0;font-size:16px;word-break:break-word}
-.det .tg{display:flex;gap:6px;flex-wrap:wrap}.det .tg span{font-size:13px;font-weight:600;color:#0157AE;background:#fff;border:1px solid #D8DEEC;padding:4px 10px;border-radius:999px}
-.det .x{align-self:flex-start;width:44px;height:44px;border:0;border-radius:999px;background:#fff;color:#1F2433;cursor:pointer;font-size:20px}
+.det dt{font-size:var(--fs-sm);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5A5F6E}.det dd{margin:0;font-size:var(--fs-md);word-break:break-word}
+.det .tg{display:flex;gap:6px;flex-wrap:wrap}.det .tg span{font-size:var(--fs-sm);font-weight:600;color:#0157AE;background:#fff;border:1px solid #D8DEEC;padding:4px 10px;border-radius:999px}
+.det .x{align-self:flex-start;width:44px;height:44px;border:0;border-radius:999px;background:#fff;color:#1F2433;cursor:pointer;font-size:var(--fs-xl)}
 </style>
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
@@ -71,10 +71,10 @@ button.pcl{border:2px solid #E4E0D6;cursor:pointer}button.pcl[aria-expanded=true
 <span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
 </div></footer>
 <script src="assets/js/supabase-js-2.119.0.js"></script>
-<script src="assets/js/config.js?v=20261117g"></script>
-<script src="assets/js/auth.js?v=20261117g"></script>
-<script src="assets/js/newbadge.js?v=20261117g" data-page="about"></script>
-<script src="assets/js/comfort.js?v=20261117g"></script>
+<script src="assets/js/config.js?v=20261118a"></script>
+<script src="assets/js/auth.js?v=20261118a"></script>
+<script src="assets/js/newbadge.js?v=20261118a" data-page="about"></script>
+<script src="assets/js/comfort.js?v=20261118a"></script>
 <script>
 (function(){
   var $=function(i){return document.getElementById(i)};
@@ -99,7 +99,7 @@ button.pcl{border:2px solid #E4E0D6;cursor:pointer}button.pcl[aria-expanded=true
       if(r.address)addDt(dl,'Mailing address',r.address);
       if(r.birthday_month&&r.birthday_day)addDt(dl,'Birthday',MON[r.birthday_month-1]+' '+r.birthday_day);
       rt.appendChild(dl);
-      if(r.interests&&r.interests.length){var w=el('div');w.appendChild(el('dt',null,'Quilting Interests'));w.firstChild.style.cssText='font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5A5F6E;margin-bottom:6px';var tg=el('div','tg');r.interests.forEach(function(i){tg.appendChild(el('span',null,i));});w.appendChild(tg);rt.appendChild(w);}
+      if(r.interests&&r.interests.length){var w=el('div');w.appendChild(el('dt',null,'Quilting Interests'));w.firstChild.style.cssText='font-size:var(--fs-sm);font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5A5F6E;margin-bottom:6px';var tg=el('div','tg');r.interests.forEach(function(i){tg.appendChild(el('span',null,i));});w.appendChild(tg);rt.appendChild(w);}
     }
     d.appendChild(rt);return d;
   }
