@@ -52,7 +52,7 @@
 <div class="mwrap" style="max-width:1100px;gap:22px" id="content">
 
 <section class="cqc" aria-labelledby="issue-title">
-<div class="issue-h"><div class="l"><h2 id="issue-title">&nbsp;</h2><span class="pl" id="eyebrow"></span><span class="pl new hidden" id="newpill">New</span></div>
+<div class="issue-h"><div class="l"><h2 id="issue-title">Loading&hellip;</h2><span class="pl" id="eyebrow"></span><span class="pl new hidden" id="newpill">New</span></div>
 <button class="nbtn hidden" id="back-cur" type="button">Back to the current issue</button></div>
 <div class="tb" role="toolbar" aria-label="Newsletter tools">
 <button class="nbtn" id="t-dl" type="button">Download PDF</button>
@@ -66,6 +66,7 @@
 <section class="cqc" aria-labelledby="past-title">
 <div class="cqh"><h2 id="past-title">Past issues</h2><div class="seg" id="years" role="group" aria-label="Year"></div></div>
 <ul class="ihl" id="issues"></ul>
+<p class="hint" id="issues-load">Loading&hellip;</p>
 <p class="empty hidden" id="none">No newsletters have been posted yet.</p>
 </section>
 </div>
@@ -92,9 +93,19 @@ QGPCShell.start({need:function(c){return c.full||c.isAdmin;}},function(ctx){
   function fname(n){return 'Newsletter-'+MONTHS[n.month-1]+'-'+n.year+'.pdf';}
   function say(t,bad){var n=$('status');n.textContent=t;n.className='msg '+(bad?'err':'ok');n.style.margin='0';}
   function isCurrent(n){return all.length&&n.id===all[0].id;}
+  function retryBtn(fn){var b=el('button','nbtn','Try again');b.type='button';b.style.marginTop='12px';b.onclick=fn;return b;}
+  function loadFail(){
+    $('issue-title').textContent='Newsletters';$('eyebrow').textContent='';
+    ['t-dl','t-open','t-full','t-print'].forEach(function(i){$(i).disabled=true;});
+    var box=$('vwrap');box.textContent='';box.classList.remove('hidden');
+    box.appendChild(el('p','vmsg','We couldn\u2019t load the newsletters. Please try again.'));
+    box.appendChild(retryBtn(function(){$('issue-title').textContent='Loading\u2026';$('issues-load').classList.remove('hidden');box.textContent='';box.appendChild(el('p','vmsg','Loading\u2026')).id='loading';load();}));
+  }
   function load(){
     return sb.from('newsletters').select('*').eq('status','published').order('year',{ascending:false}).order('month',{ascending:false}).then(function(r){
-      if(r.error){$('loading').textContent='Could not load the newsletters. Please refresh and try again.';return;}
+      $('issues-load').classList.add('hidden');
+      if(r.error){loadFail();return;}
+      ['t-dl','t-open','t-full','t-print'].forEach(function(i){$(i).disabled=false;});
       all=r.data||[];
       if(!all.length){$('none').classList.remove('hidden');$('issue-title').textContent='No newsletters yet';$('vwrap').classList.add('hidden');['t-dl','t-open','t-full','t-print'].forEach(function(i){$(i).disabled=true;});return;}
       var q=null;try{q=new URLSearchParams(location.search).get('issue');}catch(e){}
@@ -138,7 +149,7 @@ QGPCShell.start({need:function(c){return c.full||c.isAdmin;}},function(ctx){
       return fetch(u).then(function(res){if(!res.ok)throw new Error('fetch');return res.blob();}).then(function(b){
         if(blobUrl)URL.revokeObjectURL(blobUrl);blobUrl=URL.createObjectURL(new Blob([b],{type:'application/pdf'}));blobFor=n.id;put(blobUrl);
       }).catch(function(){blobUrl=null;blobFor=null;put(u);});
-    }).catch(function(){if(sel!==n)return;box.textContent='';box.appendChild(el('p','vmsg','Could not load this newsletter. Please refresh and try again.'));});
+    }).catch(function(){if(sel!==n)return;box.textContent='';box.appendChild(el('p','vmsg','We couldn\u2019t load this newsletter. Please try again.'));box.appendChild(retryBtn(show));});
   }
   $('back-cur').onclick=function(){sel=all[0];year=sel.year;draw();show();};
   $('t-dl').onclick=function(){download(sel);};

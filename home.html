@@ -100,10 +100,10 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
 <ul class="special-list" id="special-list"></ul></section>
 <div class="hpair">
 <section class="card hcard" id="notices-card" aria-labelledby="notices-h"><div class="hcard-h"><h2 id="notices-h">Notices</h2><a class="btn-save small hidden" id="post-notice" href="notices-manage.html">Post notice</a></div>
-<ul class="notices" id="notices-list"></ul><p class="muted hidden" id="notices-none">No notices right now.</p></section>
+<ul class="notices" id="notices-list"></ul><p class="muted" id="notices-none">Loading&hellip;</p></section>
 <section class="card hcard" id="events-card" aria-labelledby="ev-h"><div class="hcard-h"><h2 id="ev-h">Events</h2>
 <div class="evstep"><button type="button" class="evb" id="ev-prev" aria-label="Previous month">&lsaquo;</button><span class="evlab" id="ev-lab" aria-live="polite"></span><button type="button" class="evb" id="ev-next" aria-label="Next month">&rsaquo;</button></div></div>
-<ul class="evl" id="ev-list"></ul><p class="muted hidden" id="ev-none">No events this month.</p>
+<ul class="evl" id="ev-list"></ul><p class="muted" id="ev-none">Loading&hellip;</p>
 </section>
 </div>
 </div></div></main>
@@ -263,7 +263,9 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
         if(!full)nq=nq.eq('members_only',false);
         nq.then(function(nr){
           var ul=$('notices-list');ul.textContent='';var list=(nr&&nr.data)||[];
-          if(!list.length){$('notices-none').classList.remove('hidden');ul.classList.add('hidden');return;}
+          if(!nr||nr.error){$('notices-none').textContent='We couldn\u2019t load this. Please try again.';$('notices-none').classList.remove('hidden');ul.classList.add('hidden');return;}
+          if(!list.length){$('notices-none').textContent='No notices right now.';$('notices-none').classList.remove('hidden');ul.classList.add('hidden');return;}
+          $('notices-none').classList.add('hidden');
           list.forEach(function(n){
             var li=document.createElement('li');if(n.pinned)li.className='pin';
             if(n.pinned){var pn=document.createElement('span');pn.className='pinned';pn.textContent='Pinned';li.appendChild(pn);}
@@ -273,11 +275,11 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
           });
         });
         if(full){
-          var wnRows=[],wnSeen=null,wnAll=false;
+          var wnRows=[],wnSeen=null,wnAll=false,wnState='loading';
           var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
           var wnDraw=function(){
             var ul=$('wn-list');ul.textContent='';
-            if(!wnRows.length){var e=document.createElement('li');e.textContent='Nothing new right now.';ul.appendChild(e);}
+            if(!wnRows.length){var e=document.createElement('li');e.textContent=wnState==='loading'?'Loading\u2026':(wnState==='error'?'We couldn\u2019t load this. Please try again.':'Nothing new right now.');ul.appendChild(e);}
             var show=wnAll?wnRows:wnRows.slice(0,4);
             show.forEach(function(w){
               var li=document.createElement('li');
@@ -298,6 +300,7 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
             QGPC.sb.from('whats_new').select('*').gte('expires_on',today).order('posted_at',{ascending:false}),
             QGPC.sb.from('last_seen').select('seen_at').eq('member_id',m.id).eq('page_key','whats_new').limit(1)
           ]).then(function(wr){
+            wnState=(!wr[0]||wr[0].error)?'error':'ok';
             wnRows=(wr[0]&&wr[0].data)||[];
             var ls=wr[1]&&wr[1].data&&wr[1].data[0];wnSeen=ls?new Date(ls.seen_at):null;wnDraw();
           });
@@ -315,8 +318,10 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
           var wnToggleOrig=wnToggle;wnToggle=function(open){wnToggleOrig(open);var o=typeof open==='boolean'?open:!$('wn-panel').classList.contains('hidden');if(o)myToggle(false);};
           $('btn-events').addEventListener('click',function(){myToggle();});
           $('my-close').addEventListener('click',function(){myToggle(false);$('btn-events').focus();});
+          var myFail=false;
           var myDraw=function(rows){
             var ul=$('my-list');ul.textContent='';
+            var mn=$('my-none').firstElementChild;if(mn)mn.textContent=myFail?'We couldn\u2019t load this. Please try again.':'You are not signed up for any workshops yet.';
             $('my-none').classList.toggle('hidden',rows.length>0);
             var due=rows.filter(function(r){return r.reg.status==='waitlist'&&!r.reg.paid;});
             var w=$('my-warn');w.classList.toggle('hidden',!due.length);
@@ -339,6 +344,7 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
             });
           };
           QGPC.sb.from('workshop_registrations').select('*').eq('member_id',m.id).neq('status','cancelled').then(function(rr){
+            if(!rr||rr.error){myFail=true;$('my-sum').textContent='Could not load';myDraw([]);return;}
             var regs=(rr&&rr.data)||[];if(!regs.length){myDraw([]);return;}
             QGPC.sb.from('program_months').select('id,month_on,ws_title,ws_date,ws_time,ws_place,status').in('id',regs.map(function(x){return x.month_id;})).eq('status','published').then(function(mr){
               var mm={};((mr&&mr.data)||[]).forEach(function(x){mm[x.id]=x;});
@@ -360,14 +366,14 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
         }
         (function(){
           var MONL=['January','February','March','April','May','June','July','August','September','October','November','December'],DW=['SUN','MON','TUE','WED','THU','FRI','SAT'],DWL=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-          var cur=today.slice(0,7),months=[],idx=0,evs=[],cals={};
+          var cur=today.slice(0,7),months=[],idx=0,evs=[],cals={},evFail=false;
           var draw=function(){
             var key=months[idx],y=+key.slice(0,4),mo=+key.slice(5,7);
             $('ev-h').textContent=MONL[mo-1]+' events';$('ev-lab').textContent=MONL[mo-1].slice(0,3)+' '+y;
             $('ev-prev').disabled=idx<=0;$('ev-next').disabled=idx>=months.length-1;
             var ul=$('ev-list');ul.textContent='';
             var list=evs.filter(function(e){return e.starts_on.slice(0,7)===key;});
-            $('ev-none').classList.toggle('hidden',list.length>0);ul.classList.toggle('hidden',!list.length);
+            $('ev-none').textContent=evFail?'We couldn\u2019t load this. Please try again.':'No events this month.';$('ev-none').classList.toggle('hidden',list.length>0);ul.classList.toggle('hidden',!list.length);
             list.forEach(function(e){
               var cl=cals[e.calendar_id]||{name:'Event',color:'#0157AE'};
               var li=document.createElement('li');if(e.starts_on<today)li.className='past';
@@ -385,6 +391,7 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
           $('ev-prev').addEventListener('click',function(){if(idx>0){idx--;draw();}});
           $('ev-next').addEventListener('click',function(){if(idx<months.length-1){idx++;draw();}});
           Promise.all([QGPC.sb.from('calendars').select('*'),QGPC.sb.from('events').select('*').order('starts_on').order('time_text')]).then(function(r){
+            evFail=!!(r[0].error||r[1].error);
             (r[0].data||[]).forEach(function(c){cals[c.id]=c;});
             evs=(r[1].data||[]);
             var set={};set[cur]=1;evs.forEach(function(e){set[e.starts_on.slice(0,7)]=1;});

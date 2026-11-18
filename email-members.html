@@ -60,8 +60,9 @@
 <h2 id="new-h">New email</h2>
 <form class="ef" id="form" novalidate>
 <div><span class="l">To</span><div class="ro" id="to-line">Loading&hellip;</div></div>
-<div><span class="l">From</span><div class="ro" id="from-line">&nbsp;</div>
+<div><span class="l">From</span><div class="ro" id="from-line">Loading&hellip;</div>
 <p class="hint">Each member gets their own copy, so no one sees anyone else&rsquo;s address. Your name and role are added at the end.</p></div>
+<div><button type="button" class="btn-cancel hidden" id="retry-load">Try again</button></div>
 <div><label class="l" for="f-sub">Subject <span aria-hidden="true">*</span></label>
 <input class="field" id="f-sub" maxlength="150" autocomplete="off"></div>
 <div><label class="l" for="f-msg">Message <span aria-hidden="true">*</span></label>
@@ -86,6 +87,7 @@
 </section>
 
 <section aria-labelledby="hist-h"><h2 id="hist-h" style="margin:0 0 12px;font-size:var(--fs-xl)">Emails sent to members</h2>
+<p id="hist-load" class="muted" style="color:#5A5F6E;margin:0">Loading&hellip;</p>
 <p id="hist-none" class="muted hidden" style="color:#5A5F6E;margin:0">Nothing has been sent yet.</p>
 <ul class="hist" id="hist"></ul></section>
 </div>
@@ -141,7 +143,8 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
   }
   function loadStatus(){
     return call({action:'status'}).then(function(r){
-      if(r.error){$('to-line').textContent='Could not load the member count.';bad(r.error);return;}
+      if(r.error){$('to-line').textContent='We couldn\u2019t load the member count. Please try again.';$('from-line').textContent='';$('retry-load').classList.remove('hidden');bad(r.error);return;}
+      $('retry-load').classList.add('hidden');
       st=r;paintStatus();
     });
   }
@@ -215,8 +218,9 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
 
   function loadHistory(){
     return sb.from('member_emails').select('*').or('is_test.eq.false,sent_by.eq.'+c.member.id).order('created_at',{ascending:false}).limit(40).then(function(r){
-      var ul=$('hist');ul.textContent='';
-      if(r.error){$('hist-none').textContent='Could not load the list.';$('hist-none').classList.remove('hidden');return;}
+      var ul=$('hist');ul.textContent='';$('hist-load').classList.add('hidden');
+      if(r.error){$('hist-none').textContent='We couldn\u2019t load the list. Please try again.';$('hist-none').classList.remove('hidden');$('retry-load').classList.remove('hidden');return;}
+      $('hist-none').textContent='Nothing has been sent yet.';
       var rows=r.data||[];$('hist-none').classList.toggle('hidden',rows.length>0);
       var open=null;
       rows.forEach(function(e){
@@ -235,6 +239,10 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
       }else box.style.display='none';
     });
   }
+  $('retry-load').addEventListener('click',function(){
+    $('retry-load').classList.add('hidden');$('to-line').textContent='Loading\u2026';$('from-line').textContent='Loading\u2026';$('hist-load').classList.remove('hidden');$('hist-none').classList.add('hidden');
+    loadStatus().then(loadHistory);
+  });
   loadStatus().then(loadHistory);
 });
 </script>
