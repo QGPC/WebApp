@@ -27,13 +27,14 @@
 <div id="back" class="pcard hidden" aria-labelledby="back-title">
 <h2 id="back-title" tabindex="-1">How would you like to continue?</h2>
 <p>Email address: <b id="back-email"></b></p>
+<h3>I am new to the Guild</h3>
+<p>Fill in a short registration form. The Membership Chair will review it.</p>
+<span class="doneact"><button type="button" class="btn-save" id="b-new">Start my registration</button></span>
 <h3>I am a member, or I used to be</h3>
 <p>We will email a sign-in link to that address if it is in the Guild&rsquo;s records. Even if your membership has lapsed, you can renew, and we will fill in your details for you.</p>
 <p id="b-note" class="msg ok hidden" role="status"></p>
 <span class="doneact"><button type="button" class="btn-save" id="b-link">Email me a sign-in link</button><a class="pwlink" href="index.html">Sign in with my password</a></span>
-<h3>I am new to the Guild</h3>
-<p>Fill in a short application. The Membership Chair will review it.</p>
-<span class="doneact"><button type="button" class="btn-save" id="b-new">Start my application</button><button type="button" class="pwlink" id="b-other" style="background:none;cursor:pointer">Use a different email</button></span></div>
+<span class="doneact"><button type="button" class="pwlink" id="b-other" style="background:none;cursor:pointer">Use a different email</button></span></div>
 <form id="jf" class="pcard joinform hidden" novalidate>
 <fieldset class="types"><legend>Type of Membership</legend><span class="sub">Choose one.</span>
 <div class="typegrid">
@@ -72,11 +73,11 @@
 <div class="hp" aria-hidden="true"><label>Leave this empty <input id="j-website" tabindex="-1" autocomplete="off"></label></div>
 <p id="j-err" class="msg err hidden" role="alert"></p>
 <div class="paybar"><span class="sub" id="payline" aria-live="polite"></span>
-<button type="submit" class="btn-save" id="j-go">Submit my application</button></div>
+<button type="submit" class="btn-save" id="j-go">Submit my registration</button></div>
 </form>
 <div id="done" class="pcard hidden" role="status" aria-labelledby="done-title">
 <h2 id="done-title"></h2><p id="done-text"></p>
-<p>When your membership is approved, we will email you at the address on your application. The email has a link to set up your password so you can sign in.</p>
+<p>When your membership is approved, we will email you at the address on your registration. The email has a link to set up your password so you can sign in.</p>
 <p id="pay-extra" class="hidden"></p>
 <span class="doneact"><a class="pwlink" href="index.html">Back to the Welcome page</a></span></div>
 </div></main>
@@ -132,7 +133,7 @@
   function refresh(){
     var t=type(),due=dues[t];
     $('payline').textContent=(t==='Exempt'||due===0)?'No payment is due for Exempt membership.':'Dues: '+(due===null?'':('$'+Number(due).toFixed(2)))+' for '+t+' membership. The Membership Chair will confirm your payment.';
-    $('j-go').textContent='Submit my application';
+    $('j-go').textContent='Submit my registration';
   }
   QGPC.sb.from('site_config').select('join_dues_regular,join_dues_junior,join_dues_exempt').limit(1).then(function(r){
     var c=r.data&&r.data[0]; if(c){dues.Regular=+c.join_dues_regular;dues.Junior=+c.join_dues_junior;dues.Exempt=+c.join_dues_exempt;
@@ -161,11 +162,11 @@
     $('j-go').disabled=true;
     QGPC.sb.rpc('submit_membership_request',{p:payload}).then(function(r){
       $('j-go').disabled=false;
-      if(r.error){err(r.error.message&&r.error.message.length<220?r.error.message:'We could not send your application. Please try again.');return;}
+      if(r.error){err(r.error.message&&r.error.message.length<220?r.error.message:'We could not send your registration. Please try again.');return;}
       var ex=type()==='Exempt'||dues[type()]===0;
       $('done-title').textContent='Thank you.';
-      $('done-text').textContent=(ex?'If we do not already have a record for '+email+', the Membership Chair will review your application and approve your Exempt membership. No payment is due.'
-        :'If we do not already have a record for '+email+', the Membership Chair will confirm your payment and approve your '+type()+' membership.')+' If you are already a member, you do not need to apply: go back to the Join page and choose \u201cEmail me a sign-in link\u201d.';
+      $('done-text').textContent=(ex?'If we do not already have a record for '+email+', the Membership Chair will review your registration and approve your Exempt membership. No payment is due.'
+        :'If we do not already have a record for '+email+', the Membership Chair will confirm your payment and approve your '+type()+' membership.')+' If you are already a member, you do not need to register: go back to the Join page and choose \u201cEmail me a sign-in link\u201d.';
       if(!ex){var p=$('pay-extra');p.classList.remove('hidden');p.textContent='';
         if(PAYMENT_URL){var a=document.createElement('a');a.className='btn-save';a.href=PAYMENT_URL;a.textContent='Continue to payment';a.style.textDecoration='none';a.style.display='inline-flex';a.style.alignItems='center';p.appendChild(a);}
         else p.textContent='Dues are paid separately. The Membership Chair will tell you how to pay.';}

@@ -129,7 +129,7 @@ QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}}
     var bd=document.createElement('button');bd.type='button';bd.className='btn-del';bd.textContent='Decline this request\u2026';st.appendChild(bd);
     var dc=document.createElement('div');dc.className='delconfirm hidden';dc.setAttribute('role','alertdialog');
     var q=document.createElement('p');q.id='dec-q';dc.setAttribute('aria-labelledby','dec-q');
-    q.textContent='Decline '+r.first_name+' '+r.last_name+'\u2019s '+(r.kind==='renewal'?'renewal':'application')+'? '+(r.kind==='renewal'?'Their membership stays as it is.':'They will not be added to the member list.')+' The request leaves this list, and they can apply again.'+(r.payment_status==='received'?' Their payment was marked received. The email tells them it will be refunded, so remember to refund it yourself.':'');
+    q.textContent='Decline '+r.first_name+' '+r.last_name+'\u2019s '+(r.kind==='renewal'?'renewal':'registration')+'? '+(r.kind==='renewal'?'Their membership stays as it is.':'They will not be added to the member list.')+' The request leaves this list, and they can apply again.'+(r.payment_status==='received'?' Their payment was marked received. The email tells them it will be refunded, so remember to refund it yourself.':'');
     dc.appendChild(q);
     var nl=document.createElement('label');nl.setAttribute('for','dec-note');nl.textContent='Reason (optional)';nl.style.display='block';nl.style.fontWeight='600';dc.appendChild(nl);
     var nh=document.createElement('span');nh.className='sub';nh.textContent='If you add one, it is included in the email to '+r.first_name+'.';nh.style.display='block';dc.appendChild(nh);
