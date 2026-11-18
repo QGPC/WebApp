@@ -103,6 +103,7 @@ QGPCShell.start({need:function(c){return c.has('beekeeper')||c.isAdmin;}},functi
     var rp=null;
     if(b.photo_path){rp=el('button','nbtn del','Remove the photo');rp.type='button';rp.onclick=function(){st.removePhoto=true;st.photo=null;showPhoto(null);pfn.textContent='The photo will be removed when you save';rp.classList.add('hidden');};pick.appendChild(rp);}
     left.appendChild(pick);
+    var ph2=el('p','hint','The Bees page shows every photo in this same wide frame, using the middle of the picture. Choose a photo with the people in the middle and no blank border, so every bee looks alike.');ph2.style.cssText='margin:6px 0 0;font-size:var(--fs-sm);color:var(--muted)';left.appendChild(ph2);
     pi.onchange=function(){var f=pi.files[0];if(!f)return;st.photo=f;st.removePhoto=false;pfn.textContent=f.name+' (not saved yet)';showPhoto(URL.createObjectURL(f));};
     w.appendChild(left);
     var right=el('div','fl');
