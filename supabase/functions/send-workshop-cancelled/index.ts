@@ -10,7 +10,7 @@ import nodemailer from "npm:nodemailer@6.9.16";
 const SITE = Deno.env.get("SITE_URL") ?? "https://qgpc.github.io/WebApp/";
 const GUILD = "Quilter's Guild of Parker County";
 const cors = {
-  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Origin": "https://qgpc.github.io",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 const reply = (body: unknown, status = 200) =>
