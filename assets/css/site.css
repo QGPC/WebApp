@@ -161,7 +161,7 @@ button.pill.out{height:44px;padding:0 16px;border:1px solid var(--ink);backgroun
 .stats3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .stats3>div{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px}
 .sl{font-size:var(--fs-sm);font-weight:600;color:var(--muted)}.sv{font-family:var(--serif);font-size:2.375rem;line-height:1.1;color:var(--cobalt)}
-.mwrap{max-width:1040px;width:100%;margin:0 auto;padding:40px 24px 72px;display:flex;flex-direction:column;gap:24px}
+.mwrap{max-width:1200px;width:100%;margin:0 auto;padding:40px 24px 72px;display:flex;flex-direction:column;gap:24px}
 .mwrap.tools{max-width:1200px;gap:36px;padding-top:32px}
 .bigcard{position:relative;display:flex;align-items:center;gap:16px;min-height:100px;padding:12px 24px 12px 12px;background:#fff;border:1px solid var(--edge);border-radius:16px;text-decoration:none;color:var(--ink);transition:transform .15s ease,box-shadow .15s ease}
 a.bigcard:hover,a.bigcard:focus-visible{transform:translateY(-2px);box-shadow:0 14px 32px rgba(15,20,40,.15)}
@@ -291,7 +291,11 @@ a.acard:hover,a.acard:focus-visible{transform:translateY(-2px);box-shadow:0 8px 
 .dirnote{display:flex;gap:10px;align-items:flex-start;margin-top:22px;padding:14px 16px;background:#fff;border:1px solid var(--edge);border-radius:12px;color:var(--muted-dark)}
 .dirnote svg{flex:0 0 auto;margin-top:3px}
 @media print{.site-head,.site-foot,.banner .dirsearch,.azbar,.dirtop,.dclose,#note{display:none!important}
+ .printonly{display:block!important;position:fixed;bottom:0;left:0;right:0;text-align:center;font-size:12px;font-weight:700;padding:4px 0;border-top:1px solid #999}
  .dcard{border:0;min-height:0;padding:2px 0;break-inside:avoid}.dgrid{display:block;column-count:3}.dgroup{break-inside:avoid}.hst{background:none!important}.banner .greet-card{box-shadow:none}}
+
+/* Line shown only on a printed page (Directory: members only) */
+.printonly{display:none}
 
 /* Special Notices card (Welcome page and member home page) */
 .special{border:2px solid var(--persimmon);background:#FFF6F1}
@@ -305,7 +309,8 @@ ul.special-list h3{margin:0 0 6px;font-size:var(--fs-xl)}
 ul.special-list p{margin:0;white-space:pre-wrap}
 
 /* Notices and Events cards side by side (stack on narrow screens) */
-.hpair{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(440px,100%),1fr));gap:24px;align-items:start;margin:28px 0 16px}
+.hpair{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(440px,100%),1fr));gap:24px;align-items:stretch;margin:28px 0 16px}
+.hpair ul.notices h3,.hpair ul.evl h3{overflow-wrap:anywhere}
 .hpair .hcard{margin:0;min-width:0}
 
 /* ---- Shared page rules (moved here from the individual pages, 2026-11-14) ---- */

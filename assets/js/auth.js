@@ -123,9 +123,28 @@
     };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
   }
+  // Header "Find us on Facebook" link on every page, including Welcome, Join and Home (which have no account links).
+  function fbHead(url){
+    var run = function(){
+      var fb = document.getElementById('qgpc-fb');
+      if (fb) { if (fb.getAttribute('href') !== url) fb.setAttribute('href', url); return; }
+      var h = document.querySelector('.head-actions');
+      if (!h) {
+        var top = document.querySelector('.site-head .head-top'); if (!top) return;
+        h = document.createElement('nav'); h.className = 'head-actions'; h.setAttribute('aria-label', 'Guild on Facebook'); top.appendChild(h);
+      }
+      fb = document.createElement('a'); fb.id = 'qgpc-fb'; fb.href = url; fb.target = '_blank'; fb.rel = 'noopener';
+      fb.setAttribute('aria-label', 'Find us on Facebook (opens in a new tab)');
+      fb.style.cssText = 'min-height:44px;padding:0 8px;display:inline-flex;align-items:center;gap:6px;font-weight:600;text-decoration:none;color:var(--cobalt)';
+      fb.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.5H16l.5-3h-3V8.6c0-.9.3-1.5 1.6-1.5h1.5V4.4c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.4H8v3h2.7V21z"/></svg><span>Find us on Facebook</span>';
+      h.insertBefore(fb, h.firstChild);
+    };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
+  }
   function gcApply(g){
     if (!g) return;
     fbFoot(g.facebook_url || FB_DEFAULT);
+    fbHead(g.facebook_url || FB_DEFAULT);
     var run = function(){
       // Footer address line
       var line = [g.street, [g.city, [g.state, g.zip].filter(Boolean).join(' ')].filter(Boolean).join(', ')].filter(Boolean).join(' · ');
@@ -149,24 +168,12 @@
           var nx = row.nextSibling; if (nx && nx.nodeName === 'BR') nx.parentNode.removeChild(nx);
         }
       }
-      // Header Facebook link
-      var oldfb = document.getElementById('qgpc-fb'); if (oldfb && oldfb.getAttribute('href') !== g.facebook_url) { oldfb.parentNode.removeChild(oldfb); oldfb = null; }
-      if (!g.facebook_url && oldfb) oldfb.parentNode.removeChild(oldfb);
-      if (g.facebook_url && !oldfb) {
-        var h = document.querySelector('.head-actions');
-        if (h) {
-          var fb = document.createElement('a'); fb.id = 'qgpc-fb'; fb.href = g.facebook_url; fb.target = '_blank'; fb.rel = 'noopener';
-          fb.setAttribute('aria-label', 'Find us on Facebook (opens in a new tab)');
-          fb.style.cssText = 'min-height:44px;padding:0 8px;display:inline-flex;align-items:center;gap:6px;font-weight:600;text-decoration:none;color:#0157AE';
-          fb.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.5H16l.5-3h-3V8.6c0-.9.3-1.5 1.6-1.5h1.5V4.4c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.4H8v3h2.7V21z"/></svg><span>Find us on Facebook</span>';
-          h.insertBefore(fb, h.firstChild);
-        }
-      }
     };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
   }
   window.QGPC.guildContact = { apply: gcApply, remember: function(g){ try { localStorage.setItem(GC_KEY, JSON.stringify(g)); } catch (e) {} } };
   fbFoot(FB_DEFAULT);
+  fbHead(FB_DEFAULT);
   try { var gcc = JSON.parse(localStorage.getItem(GC_KEY) || 'null'); if (gcc) gcApply(gcc); } catch (e) {}
   sb.from('guild_contact').select('*').limit(1).then(function(r){
     var row = r && r.data && r.data[0]; if (!row) return;
