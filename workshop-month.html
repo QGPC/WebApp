@@ -35,7 +35,7 @@
 .hint{font-size:var(--fs-sm);color:var(--muted);margin:0}
 #rm-form{margin-top:10px;display:flex;flex-direction:column;gap:10px}#rm-form.hidden{display:none}
 .panel2{border:1px solid var(--edge);border-radius:12px;padding:14px 16px;background:#fff}
-.chk2{display:flex;gap:10px;align-items:center;min-height:44px;font-size:var(--fs-md)}.chk2 input{width:22px;height:22px}
+.chk2{display:flex;gap:10px;align-items:center;min-height:44px;font-size:var(--fs-md)}.chk2 input{width:22px;height:22px;flex:none}
 </style>
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
@@ -68,6 +68,26 @@
 <div class="act" style="display:flex;flex-wrap:wrap;gap:10px"><button type="submit" class="nbtn solid" id="rm-send">Send reminder</button><button type="button" class="nbtn" id="rm-cancel">Cancel</button></div></form></div>
 <div class="panel2"><label class="chk2"><input type="checkbox" id="nm-ok"> <b>Non-member sign-up allowed</b></label>
 <p class="hint" id="nm-note" style="margin:4px 0 0"></p></div>
+<div class="panel2" id="add-panel"><button type="button" class="nbtn solid" id="ad-open">Add a registration</button>
+<p class="hint" style="margin:8px 0 0">For someone who signed up at a meeting, by phone or by mail. You can add a non-member even when non-member sign-up is off, and after the last date to register.</p>
+<form id="ad-form" class="hidden" novalidate style="margin-top:12px;display:flex;flex-direction:column;gap:12px">
+<fieldset style="border:0;margin:0;padding:0"><legend class="l">Who is registering?</legend>
+<label class="chk2"><input type="radio" name="ad-who" id="ad-mem" value="member" checked> Guild member</label>
+<label class="chk2"><input type="radio" name="ad-who" id="ad-non" value="non"> Non-member</label></fieldset>
+<div id="ad-mem-row"><label class="l" for="ad-member">Member</label><select class="field" id="ad-member" style="max-width:360px"><option value="">Loading&hellip;</option></select></div>
+<div id="ad-non-row" class="hidden" style="display:flex;flex-direction:column;gap:10px">
+<div><label class="l" for="ad-name">Name</label><input class="field" id="ad-name" maxlength="120" autocomplete="off" style="max-width:360px"></div>
+<div><label class="l" for="ad-email">Email</label><input class="field" id="ad-email" type="email" maxlength="200" autocomplete="off" style="max-width:360px"></div>
+<div><label class="l" for="ad-phone">Phone (optional)</label><input class="field" id="ad-phone" type="tel" maxlength="30" autocomplete="off" style="max-width:260px"></div>
+<p class="hint" style="margin:0">The non-member fee is added to the workshop fee.</p></div>
+<label class="chk2"><input type="checkbox" id="ad-paid"> <b>They have paid</b></label>
+<div id="ad-pay-row" class="hidden"><label class="l" for="ad-method">How was it paid?</label><select class="field" id="ad-method" style="max-width:260px"><option value="">Choose&hellip;</option><option value="cash">Cash</option><option value="check">Check</option><option value="online">Online</option></select>
+<div id="ad-chk-row" class="hidden" style="margin-top:8px"><label class="l" for="ad-ref">Check number</label><input class="field" id="ad-ref" maxlength="40" inputmode="numeric" style="max-width:260px"></div></div>
+<label class="chk2 hidden" id="ad-acc-row"><input type="checkbox" id="ad-acc" checked> Accept them now and email their materials</label>
+<p class="hint" style="margin:0">If they have not paid, they go on the waitlist until you mark them paid. If they have paid and the workshop is full, they go on the waitlist, paid.</p>
+<p class="err hidden" id="ad-err" role="alert"></p>
+<div class="act" style="display:flex;flex-wrap:wrap;gap:10px"><button type="submit" class="nbtn solid" id="ad-go">Add registration</button><button type="button" class="nbtn" id="ad-cancel">Cancel</button></div>
+</form></div>
 <h3>Registrations</h3>
 <p class="hint hidden" id="reg-none">No registrations yet.</p>
 <div id="regs" style="display:flex;flex-direction:column;gap:12px"></div>
@@ -334,6 +354,63 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('workshop_chair')||c.h
       box.disabled=false;
       if(x.error){box.checked=!on;say('That did not save. Please try again.','err');return;}
       m.ws_nonmember_ok=on;nmNote();say(on?'Non-members can now sign up for this workshop.':'Only members can sign up for this workshop now.');
+    });
+  });
+  var addMembers=null;
+  function addErr(t){var e=$('ad-err');e.textContent=t;e.classList.remove('hidden');}
+  function addToggle(){
+    var non=$('ad-non').checked,paid=$('ad-paid').checked;
+    $('ad-mem-row').classList.toggle('hidden',non);
+    $('ad-non-row').classList.toggle('hidden',!non);
+    $('ad-pay-row').classList.toggle('hidden',!paid);
+    $('ad-acc-row').classList.toggle('hidden',!paid);
+    $('ad-chk-row').classList.toggle('hidden',$('ad-method').value!=='check');
+  }
+  function addReset(){
+    $('ad-form').reset();$('ad-err').classList.add('hidden');addToggle();
+  }
+  function addLoadMembers(){
+    if(addMembers)return;
+    sb.rpc('workshop_member_choices').then(function(x){
+      var sel=$('ad-member');sel.textContent='';
+      if(x.error){var o0=el('option',null,'The member list could not be loaded');o0.value='';sel.appendChild(o0);addErr('The member list could not be loaded. Please refresh and try again.');return;}
+      addMembers=x.data||[];
+      var o=el('option',null,'Choose a member…');o.value='';sel.appendChild(o);
+      addMembers.forEach(function(r){var op=el('option',null,r.name);op.value=r.id;sel.appendChild(op);});
+    });
+  }
+  ['ad-mem','ad-non','ad-paid','ad-method'].forEach(function(i){$(i).addEventListener('change',addToggle);});
+  $('ad-open').onclick=function(){addReset();$('ad-form').classList.remove('hidden');addLoadMembers();$('ad-open').classList.add('hidden');$('ad-member').focus();};
+  $('ad-cancel').onclick=function(){$('ad-form').classList.add('hidden');$('ad-open').classList.remove('hidden');$('ad-open').focus();};
+  $('ad-form').addEventListener('submit',function(e){
+    e.preventDefault();$('ad-err').classList.add('hidden');
+    var non=$('ad-non').checked,paid=$('ad-paid').checked,mem=$('ad-member').value,nm=$('ad-name').value.trim(),em=$('ad-email').value.trim(),
+        ph=$('ad-phone').value.trim(),meth=$('ad-method').value,ref=$('ad-ref').value.trim();
+    if(!non&&!mem){addErr('Please choose a member.');$('ad-member').focus();return;}
+    if(non&&!nm){addErr('Please type the person’s name.');$('ad-name').focus();return;}
+    if(non&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){addErr('Please type a valid email address.');$('ad-email').focus();return;}
+    if(paid&&!meth){addErr('Please choose how it was paid.');$('ad-method').focus();return;}
+    var acc=paid&&$('ad-acc').checked;
+    var go=$('ad-go');go.disabled=true;go.textContent='Adding…';
+    sb.rpc('workshop_chair_add',{p_month_id:m.id,p_member_id:non?null:mem,p_name:non?nm:null,p_email:non?em:null,p_phone:non?ph:null,
+      p_paid:paid,p_method:paid?meth:null,p_ref:(paid&&meth==='check')?ref:null}).then(function(x){
+      go.disabled=false;go.textContent='Add registration';
+      if(x.error){var msg=x.error.message||'';addErr(/not allowed/i.test(msg)||!msg?'That did not work. Please refresh and try again.':msg);return;}
+      var d=x.data||{},who=d.name||'They';
+      $('ad-form').classList.add('hidden');$('ad-open').classList.remove('hidden');addReset();
+      var due=d.total_due!=null?' Total due '+money(d.total_due)+'.':'';
+      if(!d.paid){say(who+' was added to the waitlist, not paid.'+due+' Choose Mark paid and register when the payment comes in.');return load();}
+      if(d.status!=='waiting'){say(who+' was added to the waitlist, paid. The workshop is full, so they will be registered when a spot opens.');return load();}
+      if(!acc){say(who+' was added and is registered, waiting for acceptance.'+due);return load();}
+      return sb.rpc('workshop_accept',{p_id:d.id}).then(function(y){
+        if(y.error){say(who+' was added and is registered, but could not be accepted. Accept them on Registrations to work.','err');return load();}
+        say(who+' was added and accepted. Sending the email…');
+        return load().then(function(){return sb.functions.invoke('send-workshop-accepted',{body:{registration_id:d.id}});}).then(function(res){
+          if(res.error){say(who+' was added and accepted, but the email was not sent. Choose Resend email.','err');}
+          else say(who+' was added and accepted, and was emailed their materials.');
+          return load();
+        });
+      });
     });
   });
   function load(){
