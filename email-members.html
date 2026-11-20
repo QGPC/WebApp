@@ -108,7 +108,7 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
   var sb=QGPC.sb, st=null, sending=false;
   // only people who can open the President's Page get the link back (the Program Chair cannot)
   var bk=$('back');bk.classList.remove('hidden');
-  if(!(c.isAdmin||c.has('president')||c.has('vice_president'))){bk.href='home.html';bk.lastChild.nodeValue='Back to Home';}
+  if(!(c.isAdmin||c.has('president')||c.has('vice_president'))){bk.href='program-chair.html';bk.lastChild.nodeValue='Back to Program Chair';}
   var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
   // Messages appear right under the buttons, where the person is looking.
