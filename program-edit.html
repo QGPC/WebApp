@@ -107,8 +107,8 @@
 <input type="file" id="wp-file" accept="image/jpeg,image/png" multiple class="hidden">
 <p class="hint">JPG or PNG, up to 6. The first photo is the main one; use &ldquo;Make main&rdquo; to change it.</p></div>
 <div id="mat-box"><span class="l" style="display:block;font-weight:600;font-size:var(--fs-md);margin-bottom:6px">Patterns &amp; materials</span>
-<p class="hint hidden" id="mat-hint">Save this month first, then you can add files.</p>
-<div id="mat-body" class="hidden"><p class="hint" style="margin:0 0 8px">These stay locked until the Workshop Manager accepts a person&rsquo;s registration. PDF, JPG, PNG or Word files, up to 20 MB each. Files are added or removed right away; you do not need to press Save.</p>
+<p class="hint hidden" id="mat-hint">The first time you add a file, this month is saved as a draft. Nothing shows to members until you publish it.</p>
+<div id="mat-body" class="hidden"><p class="hint" style="margin:0 0 8px">A file stays locked until the Workshop Manager accepts a person&rsquo;s registration, unless you untick &ldquo;Hide file until registered&rdquo; for it. PDF, JPG, PNG or Word files, up to 20 MB each. Files are added or removed right away; you do not need to press Save.</p>
 <ul class="pl" id="mat-list" style="list-style:none;padding:0;margin:0 0 10px"></ul>
 <label class="drop" for="mat-file">Add files</label><input type="file" id="mat-file" class="hidden" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,application/pdf,image/jpeg,image/png,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
 <p class="msg hidden" id="mat-msg" role="status" style="margin:8px 0 0"></p></div></div>
@@ -209,6 +209,17 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
       (r.data||[]).forEach(function(f){
         var li=el('li','pi');li.style.alignItems='center';li.appendChild(el('span',null,f.name+(f.bytes?' ('+sizeText(f.bytes)+')':'')));
         li.firstChild.style.flex='1 1 200px';
+        var lk=el('label','chk');lk.style.cssText='min-height:0;font-weight:600;font-size:var(--fs-md)';
+        var cb=el('input');cb.type='checkbox';cb.checked=f.locked!==false;
+        cb.addEventListener('change',function(){
+          cb.disabled=true;
+          sb.from('workshop_materials').update({locked:cb.checked}).eq('id',f.id).select().then(function(x){
+            cb.disabled=false;
+            if(x.error||!x.data||!x.data.length){cb.checked=!cb.checked;matMsg('That change did not save. Please try again.',true);return;}
+            f.locked=cb.checked;matMsg(f.name+(cb.checked?' is hidden until a person is registered.':' is open to everyone who can see this workshop.'));
+          });
+        });
+        lk.appendChild(cb);lk.appendChild(document.createTextNode('Hide file until registered'));li.appendChild(lk);
         var b=el('button','nbtn del','Remove');b.type='button';b.setAttribute('aria-label','Remove '+f.name);
         b.onclick=function(){b.disabled=true;sb.storage.from(MB).remove([f.path]).then(function(){return sb.from('workshop_materials').delete().eq('id',f.id);}).then(function(x){
           if(x&&x.error){matMsg('That file could not be removed. Please try again.',true);b.disabled=false;return;}matMsg('Removed '+f.name+'.');loadMats();});};
@@ -217,8 +228,25 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
       if(!(r.data||[]).length)ul.appendChild(el('li','hint','No files yet.'));
     });
   }
+  // A new month has no record yet, so the first time files are added it is saved as a draft in the background.
+  function ensureRow(){
+    if(row)return Promise.resolve(true);
+    matMsg('Saving this month as a draft first…');
+    var has=$('has-ws').checked;
+    return sb.from('program_months').upsert({month_on:mkey,status:'draft',has_workshop:has},{onConflict:'month_on'}).select().then(function(r){
+      if(r.error||!r.data||!r.data.length){matMsg('This month could not be saved as a draft, so the files were not added. Please try again.',true);return false;}
+      row=r.data[0];
+      $('f-del').classList.remove('hidden');
+      $('mat-hint').classList.add('hidden');
+      $('st-draft').checked=true;$('st-pub').checked=false;
+      return true;
+    });
+  }
   $('mat-file').addEventListener('change',function(e){
-    var files=Array.prototype.slice.call(e.target.files||[]);e.target.value='';if(!files.length||!row)return;
+    var files=Array.prototype.slice.call(e.target.files||[]);e.target.value='';if(!files.length)return;
+    ensureRow().then(function(ok){if(ok)addFiles(files);});
+  });
+  function addFiles(files){
     var n=0,skipped=[];
     var chain=Promise.resolve();
     files.forEach(function(f){
@@ -230,14 +258,14 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
         var ct=f.type||(/\.pdf$/i.test(f.name)?'application/pdf':/\.docx$/i.test(f.name)?'application/vnd.openxmlformats-officedocument.wordprocessingml.document':/\.doc$/i.test(f.name)?'application/msword':/\.png$/i.test(f.name)?'image/png':'image/jpeg');
         return sb.storage.from(MB).upload(path,f,{contentType:ct,upsert:false}).then(function(u){
           if(u.error){skipped.push(f.name);return;}
-          return sb.from('workshop_materials').insert({month_id:row.id,name:f.name,path:path,bytes:f.size,sort_order:Date.now()%100000000}).then(function(x){
+          return sb.from('workshop_materials').insert({month_id:row.id,name:f.name,path:path,bytes:f.size,locked:true,sort_order:Date.now()%100000000}).then(function(x){
             if(x.error){sb.storage.from(MB).remove([path]);skipped.push(f.name);return;}n++;});
         });
       });
     });
     matMsg('Uploading…');
     chain.then(function(){loadMats();matMsg((n?'Added '+n+(n===1?' file. ':' files. '):'')+(skipped.length?'Not added: '+skipped.join(', ')+' (PDF, JPG, PNG or Word, up to 20 MB).':''),skipped.length&&!n);});
-  });
+  }
 
   // ---- fill the form ----
   function setv(id,v){$(id).value=(v===null||v===undefined)?'':v;}
@@ -255,7 +283,7 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
     $('st-pub').checked=d.status==='published';$('st-draft').checked=d.status!=='published';
     toggles();
     $('f-del').classList.toggle('hidden',!r);
-    $('mat-hint').classList.toggle('hidden',!!r);$('mat-body').classList.toggle('hidden',!r);if(r)loadMats();
+    $('mat-hint').classList.toggle('hidden',!!r);$('mat-body').classList.remove('hidden');if(r)loadMats();else $('mat-list').appendChild(el('li','hint','No files yet.'));
     $('pc-row').classList.toggle('hidden',!r);$('pc-hint').classList.toggle('hidden',!!r);$('wc-row').classList.toggle('hidden',!r);
     if(r){
       var mq=mkey.slice(0,7);$('pc-btn').href='program-costs.html?m='+mq;$('wc-btn').href='workshop-costs.html?m='+mq;$('wf-btn').href='workshop-fee.html?m='+mq;

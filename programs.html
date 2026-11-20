@@ -357,13 +357,15 @@ ul.matl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;ga
     return box;
   }
   function materialsSection(r,my,mats){
-    var open=who.manager||!!(my&&my.status==='accepted'),sec=el('section','mats');
+    var reg=who.manager||!!(my&&my.status==='accepted'),sec=el('section','mats');
+    var anyLocked=mats.some(function(f){return f.locked!==false;});
     sec.appendChild(el('h4',null,'Patterns & materials'));
-    if(!who.manager){var n=el('div','fnote'+(open&&my&&my.status==='accepted'?' open':''),open?'Your registration is accepted, so these files are open to you.':
-      my?'You are signed up. These files unlock when the Workshop Manager accepts your registration.':
-      'Sign up for this workshop to get the patterns and materials. They unlock when the Workshop Manager accepts your registration.'+(r.ws_nonmember_ok?' Non-members get a private link in the email sent when the registration is accepted.':''));n.setAttribute('role','note');sec.appendChild(n);}
+    if(!who.manager&&anyLocked){var open=reg;var n=el('div','fnote'+(open&&my&&my.status==='accepted'?' open':''),open?'Your registration is accepted, so all of these files are open to you.':
+      my?'You are signed up. Locked files open when the Workshop Manager accepts your registration.':
+      'Sign up for this workshop to get the patterns and materials. Locked files open when the Workshop Manager accepts your registration.'+(r.ws_nonmember_ok?' Non-members get a private link in the email sent when the registration is accepted.':''));n.setAttribute('role','note');sec.appendChild(n);}
     var ul=el('ul','matl'),msg=el('p','hint hidden');msg.setAttribute('role','alert');
     mats.forEach(function(f){
+      var open=reg||f.locked===false;
       var li=el('li'),ext=((f.name.match(/\.([A-Za-z0-9]+)$/)||[])[1]||'FILE').toUpperCase();if(ext==='DOCX')ext='DOC';
       var row=open?el('button','matrow'):el('div','matrow lock');if(open)row.type='button';
       row.appendChild(el('span','ex'+(/DOC|JPG|PNG|JPEG/.test(ext)?' b':''),ext));
