@@ -3,6 +3,8 @@
 // A page opts in with: <script src="assets/js/tilebar.js"></script> after auth.js. It adds the tile bar under the
 // header, then loads navmenu.js so phones get the Menu button. The tile lists below are a copy of home.html's:
 // when a tile is added or renamed on Home, change it here too.
+// For a signed-in person it also puts My Profile, Messages and Sign out to the right of the tiles, as on Home
+// (the old name and Sign out in the top row are removed; the Home link and Facebook link stay there).
 (function(){
   var head=document.querySelector('.site-head');if(!head)return;
   var wrap=head.querySelector('.wrap'),top=head.querySelector('.head-top');if(!wrap||!top||document.getElementById('tilebar'))return;
@@ -66,6 +68,32 @@
     return new Promise(function(res){var s=document.createElement('script');s.src='assets/js/newbadge.js?v=20261118f';s.onload=function(){res(typeof QGPCNew!=='undefined'?QGPCNew:null);};s.onerror=function(){res(null);};document.body.appendChild(s);});
   }
   var sb=QGPC.sb,safe=function(p){return Promise.resolve(p).catch(function(){});};
+  function addAccount(m,full){
+    var nav=head.querySelector('nav.navbar');if(!nav||$('tb-out'))return;
+    var ha=head.querySelector('.head-actions');
+    if(ha)['.whoami','.pill.out'].forEach(function(q){var x=ha.querySelector(q);if(x)x.parentNode.removeChild(x);});
+    var d=document.createElement('div');
+    d.innerHTML='<span class="vdiv" aria-hidden="true"></span><span class="pstack">'
+      +'<a class="tile pill prof" href="profile.html"><span class="avatar" id="tb-avatar" aria-hidden="true"></span><span class="lab">My Profile</span><span class="tip" role="tooltip">Update your photo, contact details and quilting interests.</span></a>'
+      +'<a class="tile pill msg hidden" id="tb-msg" href="messages.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"></path></svg><span class="lab">Messages</span><span class="badge hidden" id="tb-msgbadge"></span><span class="tip" role="tooltip">Send and read private messages with other members.</span></a>'
+      +'<button type="button" class="pill out" id="tb-out">Sign out</button></span>';
+    while(d.firstChild)nav.appendChild(d.firstChild);
+    $('tb-out').addEventListener('click',function(){QGPC.signOut().then(function(){location.href='index.html';});});
+    $('tb-avatar').textContent=((m.first_name||'?').charAt(0)+(m.last_name||'').charAt(0)).toUpperCase();
+    if(!full)return;
+    $('tb-msg').classList.remove('hidden');
+    safe(QGPC.sb.from('members').select('photo_path').eq('id',m.id).limit(1).then(function(r){
+      var ph=r.data&&r.data[0]&&r.data[0].photo_path;if(!ph)return;
+      return QGPC.sb.storage.from('member-photos').createSignedUrl(ph,3600).then(function(x){
+        if(!x.data||!x.data.signedUrl)return;
+        var av=$('tb-avatar'),im=document.createElement('img');im.src=x.data.signedUrl;im.alt='';im.style.cssText='width:100%;height:100%;border-radius:50%;object-fit:cover';
+        av.textContent='';av.appendChild(im);});
+    }));
+    safe(QGPC.sb.rpc('unread_message_count').then(function(r){
+      var n=(!r.error&&r.data>0)?r.data:0,b=$('tb-msgbadge');b.textContent=n;b.classList.toggle('hidden',!n);
+      b.setAttribute('aria-label',n+' unread '+(n===1?'message':'messages'));
+    }));
+  }
   QGPC.session().then(function(s){
     if(!s){show(PUBLIC);return;}
     return sb.from('members_with_status').select('*').eq('auth_user_id',s.user.id).limit(1).then(function(r){
@@ -81,6 +109,7 @@
         var has=function(k){return roles.indexOf(k)>-1;};
         var isAdm=has('superuser')||has('administrator');
         var full=isAdm||m.status==='active'||m.status==='grace';   // Inactive members are treated like visitors
+        addAccount(m,full);
         var jobs=!full?[]:JOBS.filter(function(j){
           if(j.only)return has('superuser');
           if(isAdm&&(j.adm||(j.r.indexOf('superuser')>-1&&has('superuser'))))return true;
