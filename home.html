@@ -51,6 +51,7 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
 <header class="site-head"><div class="wrap">
 <div class="head-top">
 <a class="brand" href="index.html"><img src="assets/icons/icon-104.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<nav class="head-actions" aria-label="Account"><button type="button" class="pill out" id="out">Sign out</button></nav>
 </div>
 <nav class="navbar" aria-label="Guild areas">
 <ul class="tilebar" id="tilebar"></ul>
@@ -59,7 +60,6 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
 <span class="pstack">
 <a class="tile pill prof" href="profile.html"><span class="avatar" id="avatar" aria-hidden="true"></span><span class="lab">My Profile</span><span class="tip" role="tooltip">Update your photo, contact details and quilting interests.</span></a>
 <a class="tile pill msg hidden" id="msg-pill" href="messages.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"></path></svg><span class="lab">Messages</span><span class="badge hidden" id="msg-badge"></span><span class="tip" role="tooltip">Send and read private messages with other members.</span></a>
-<button type="button" class="pill out" id="out">Sign out</button>
 </span>
 </nav>
 <ul class="tilebar morelist hidden" id="more-areas"></ul>
@@ -135,12 +135,10 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
     {l:'Bees Chair',i:'bees-manager',href:'bees-manage.html',r:['beekeeper'],adm:1},
     {l:'Workshop Registrations',i:'workshop-registrations',href:'workshop-registrations.html',r:['workshop_chair'],adm:1},
     {l:'Program Chair',i:'program-planning',r:['program_chair'],adm:1,href:'program-chair.html'},
-    {l:'Manage Notices',i:'manage-notices',href:'notices-manage.html',r:['president','vice_president','publicity_chair'],adm:1},
     {l:'Edit In the News',i:'about',href:'in-the-news-manage.html',r:['publicity_chair'],adm:1},
     {l:'Retreat Chair',i:'retreats',href:'retreats-manage.html',r:['retreats_chair'],adm:1},
     {l:'Reported Messages',i:'reported-messages',href:'reported-messages.html',r:[],adm:1},
-    {l:'Site Administration',i:'site-administration',href:'admin.html',r:[],adm:1},
-    {l:'Roles & Permissions',i:'roles-and-permissions',href:'roles.html',r:['superuser'],adm:1}];
+    {l:'Site Administration',i:'site-administration',href:'admin.html',r:[],adm:1}];
   var PER_BAR=14;
   function tile(t){
     var li=document.createElement('li'),e=document.createElement(t.href?'a':'span');

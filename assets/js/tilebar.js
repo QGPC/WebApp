@@ -3,8 +3,8 @@
 // A page opts in with: <script src="assets/js/tilebar.js"></script> after auth.js. It adds the tile bar under the
 // header, then loads navmenu.js so phones get the Menu button. The tile lists below are a copy of home.html's:
 // when a tile is added or renamed on Home, change it here too.
-// For a signed-in person it also puts My Profile, Messages and Sign out to the right of the tiles, as on Home
-// (the old name and Sign out in the top row are removed; the Home link and Facebook link stay there).
+// For a signed-in person it also puts My Profile and Messages to the right of the tiles, as on Home. Sign out stays in the
+// top row at the far right (after the Facebook and Home links); the old name block there is removed.
 (function(){
   var head=document.querySelector('.site-head');if(!head)return;
   var wrap=head.querySelector('.wrap'),top=head.querySelector('.head-top');if(!wrap||!top||document.getElementById('tilebar'))return;
@@ -23,12 +23,10 @@
     {l:'Bees Chair',i:'bees-manager',href:'bees-manage.html',r:['beekeeper'],adm:1},
     {l:'Workshop Registrations',i:'workshop-registrations',href:'workshop-registrations.html',r:['workshop_chair'],adm:1},
     {l:'Program Chair',i:'program-planning',r:['program_chair'],adm:1,href:'program-chair.html'},
-    {l:'Manage Notices',i:'manage-notices',href:'notices-manage.html',r:['president','vice_president','publicity_chair'],adm:1},
     {l:'Edit In the News',i:'about',href:'in-the-news-manage.html',r:['publicity_chair'],adm:1},
     {l:'Retreat Chair',i:'retreats',href:'retreats-manage.html',r:['retreats_chair'],adm:1},
     {l:'Reported Messages',i:'reported-messages',href:'reported-messages.html',r:[],adm:1},
-    {l:'Site Administration',i:'site-administration',href:'admin.html',r:[],adm:1},
-    {l:'Roles & Permissions',i:'roles-and-permissions',href:'roles.html',r:['superuser'],adm:1}];
+    {l:'Site Administration',i:'site-administration',href:'admin.html',r:[],adm:1}];
   var PER_BAR=14;
   var st=document.createElement('style');
   st.textContent='.tilebar .tile[aria-current="page"]{border-color:var(--cobalt);box-shadow:inset 0 0 0 2px var(--cobalt)}';
@@ -69,16 +67,22 @@
   }
   var sb=QGPC.sb,safe=function(p){return Promise.resolve(p).catch(function(){});};
   function addAccount(m,full){
-    var nav=head.querySelector('nav.navbar');if(!nav||$('tb-out'))return;
+    var nav=head.querySelector('nav.navbar');if(!nav||$('tb-avatar'))return;
     var ha=head.querySelector('.head-actions');
-    if(ha)['.whoami','.pill.out'].forEach(function(q){var x=ha.querySelector(q);if(x)x.parentNode.removeChild(x);});
+    if(ha){var wh=ha.querySelector('.whoami');if(wh)wh.parentNode.removeChild(wh);}
+    // Sign out lives in the top row, at the far right (after the Facebook and Home links), as on Home.
+    if(!document.getElementById('out')){
+      var top2=head.querySelector('.head-top');
+      if(!ha&&top2){ha=document.createElement('nav');ha.className='head-actions';ha.setAttribute('aria-label','Account');top2.appendChild(ha);}
+      if(ha){var ob=document.createElement('button');ob.type='button';ob.className='pill out';ob.id='tb-out';ob.textContent='Sign out';
+        ob.addEventListener('click',function(){QGPC.signOut().then(function(){location.href='index.html';});});ha.appendChild(ob);}
+    }
     var d=document.createElement('div');
     d.innerHTML='<span class="vdiv" aria-hidden="true"></span><span class="pstack">'
       +'<a class="tile pill prof" href="profile.html"><span class="avatar" id="tb-avatar" aria-hidden="true"></span><span class="lab">My Profile</span><span class="tip" role="tooltip">Update your photo, contact details and quilting interests.</span></a>'
       +'<a class="tile pill msg hidden" id="tb-msg" href="messages.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"></path></svg><span class="lab">Messages</span><span class="badge hidden" id="tb-msgbadge"></span><span class="tip" role="tooltip">Send and read private messages with other members.</span></a>'
-      +'<button type="button" class="pill out" id="tb-out">Sign out</button></span>';
+      +'</span>';
     while(d.firstChild)nav.appendChild(d.firstChild);
-    $('tb-out').addEventListener('click',function(){QGPC.signOut().then(function(){location.href='index.html';});});
     $('tb-avatar').textContent=((m.first_name||'?').charAt(0)+(m.last_name||'').charAt(0)).toUpperCase();
     if(!full)return;
     $('tb-msg').classList.remove('hidden');
