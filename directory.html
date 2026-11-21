@@ -24,14 +24,15 @@
 <h1 id="pg-title" style="margin:0">Member Directory</h1><p class="stat-line" id="count">Loading the directory&hellip;</p></div>
 <div class="greet-card dirsearch" style="flex-direction:column;align-items:stretch;gap:10px;padding:20px 24px;min-height:0" role="search">
 <div class="f"><label for="q">Find a member</label><input class="field" id="q" type="search" autocomplete="off" placeholder="Type a first or last name"></div>
+<div class="pdfbar" style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px"><button type="button" class="nbtn hidden" id="pdf">Download PDF of the directory</button><span id="pdf-msg" class="hidden" role="status" aria-live="polite" style="color:#fff;font-weight:600"></span></div>
 <a class="chairlink hidden" id="chairlink" href="membership-database.html">Edit in Membership Database</a>
 </div></div></div></section>
 <div class="mwrap tools" id="content">
 <p id="note" class="msg err hidden" role="alert"></p>
 <button type="button" class="nbtn hidden" id="retry" style="align-self:flex-start">Try again</button>
 <div class="dirtop"><p class="sub dark">Select a member to see their contact details.</p>
-<span class="dirtools" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap"><button type="button" class="nbtn hidden" id="pdf">Download PDF of the directory</button><button type="button" class="link-btn hidden" id="print">Print / save as PDF</button></span></div>
-<p class="sub hidden" id="pdf-msg" role="status" aria-live="polite"></p>
+<button type="button" class="link-btn hidden" id="print">Print / save as PDF</button></div>
+<p class="sub hidden" id="more-hint" role="status" aria-live="polite"></p>
 <nav class="azbar hidden" aria-label="Jump to last name letter"><span>Last name begins with</span><span id="az"></span></nav>
 <div id="groups"></div>
 <p class="sub hidden" id="none">No members match.</p>
@@ -39,11 +40,11 @@
 <span>This directory is for Guild members only. Please don&rsquo;t share members&rsquo; contact details outside the Guild. To update your own listing, use <a href="profile.html">My Profile</a> or contact the Membership Chair.</span></div>
 <section class="ddetail hidden" id="detail" aria-label="Member details">
 <div class="dtop"><span class="photo big" aria-hidden="true"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg></span>
-<div class="dinfo"><h2 id="d-name" style="margin:0 0 10px;font:400 var(--fs-xl)/1.2 var(--serif)"></h2>
-<dl><div><dt>Cell</dt><dd id="d-cell"></dd></div><div><dt>Email</dt><dd id="d-email"></dd></div><div><dt>Mailing address</dt><dd id="d-addr"></dd></div><div><dt>Birthday</dt><dd id="d-bday"></dd></div></dl>
-<div id="d-msg" class="hidden" style="margin:10px 0"></div>
-<div id="d-int-wrap"><span class="dt2">Quilting Interests</span><div class="ints" id="d-int"></div></div></div>
-<button type="button" class="dclose" id="dclose" aria-label="Close details"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
+<div class="dinfo"><h2 id="d-name" data-k="name" style="margin:0 0 10px;font:400 var(--fs-xl)/1.2 var(--serif)"></h2>
+<dl><div><dt>Cell</dt><dd id="d-cell" data-k="cell"></dd></div><div><dt>Email</dt><dd id="d-email" data-k="email"></dd></div><div><dt>Mailing address</dt><dd id="d-addr" data-k="addr"></dd></div><div><dt>Birthday</dt><dd id="d-bday" data-k="bday"></dd></div></dl>
+<div id="d-msg" data-k="msg" class="hidden" style="margin:10px 0"></div>
+<div id="d-int-wrap" data-k="intwrap"><span class="dt2">Quilting Interests</span><div class="ints" id="d-int" data-k="ints"></div></div></div>
+<button type="button" class="dclose" id="dclose" data-k="close" aria-label="Close details"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button></div>
 </section>
 </div></main>
 <footer class="site-foot"><div class="wrap">
@@ -73,7 +74,7 @@ QGPCShell.start({need:function(c){return c.full;}},function(c){
   function loadScript(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;s.onload=res;s.onerror=function(){rej(new Error('load'));};document.head.appendChild(s);});}
   $('pdf').addEventListener('click',function(){
     var b=$('pdf'),m=$('pdf-msg');
-    function say(t,bad){m.textContent=t;m.classList.toggle('hidden',!t);m.style.color=bad?'#9A3412':'';}
+    function say(t,bad){m.textContent=t;m.classList.toggle('hidden',!t);m.style.color=bad?'#FFD9C7':'#fff';}
     if(!rows.length)return;
     b.disabled=true;say('Making the PDF\u2026');
     var need=[];
@@ -87,42 +88,62 @@ QGPCShell.start({need:function(c){return c.full;}},function(c){
     }).catch(function(){say('The PDF could not be made. Please refresh the page and try again.',true);}).then(function(){b.disabled=false;});
   });
   function letterOf(r){var ch=(r.last_name||'#').charAt(0).toUpperCase();return /[A-Z]/.test(ch)?ch:'#';}
-  function match(r){var q=$('q').value.trim().toLowerCase();if(!q)return true;return (r.first_name+' '+r.last_name+' '+r.last_name+' '+r.first_name).toLowerCase().indexOf(q)>-1;}
+  function tokens(){return $('q').value.trim().toLowerCase().split(/[\s,]+/).filter(Boolean);}
+  function match(r){var t=tokens();if(!t.length)return true;var nm=((r.first_name||'')+' '+(r.last_name||'')).toLowerCase();return t.every(function(x){return nm.indexOf(x)>-1;});}
+  var CARD_MAX=10;
   function addr(r){var l2=[r.city,[r.state,r.zip].filter(Boolean).join(' ')].filter(Boolean).join(', ');return [r.street_address,l2].filter(Boolean).join(', ');}
   function setLink(el,txt,href){el.textContent='';if(!txt){el.textContent='Not shared';return;}var a=document.createElement('a');a.textContent=txt;a.href=href;el.appendChild(a);}
   var BIGAV=document.querySelector('#detail .dtop .photo').innerHTML;
-  var canRm=c.isSuper||c.isAdmin||c.has('membership_chair'),rmRow=null,rmArmed=false;
-  var rm=document.createElement('button');rm.type='button';rm.className='nbtn del hidden';rm.id='d-rmphoto';rm.style.margin='6px 0 0';
-  $('d-msg').parentNode.insertBefore(rm,$('d-msg').nextSibling);
-  function rmReset(){rm.textContent='Remove this photo';rmArmed=false;}
-  rm.addEventListener('click',function(){
-    if(!rmRow)return;
-    if(!rmArmed){rmArmed=true;rm.textContent='Click again to remove '+rmRow.first_name+'\u2019s photo';return;}
-    var r=rmRow,pth=r.photo_path;rm.disabled=true;
-    QGPC.sb.from('members').update({photo_path:null}).eq('id',r.id).select('id').then(function(x){
-      rm.disabled=false;
-      if(x.error||!x.data||!x.data.length){rm.textContent='That did not work. Please try again.';rmArmed=false;return;}
-      QGPC.sb.storage.from('member-photos').remove([pth]);
-      r.photo_path=null;paint();
+  var canRm=c.isSuper||c.isAdmin||c.has('membership_chair');
+  var TPL=$('detail').cloneNode(true);   // clean copy: one card per match while searching
+  function K(root,k){return root.querySelector('[data-k="'+k+'"]');}
+  function mkRm(root){
+    var row=null,armed=false,b=document.createElement('button');b.type='button';b.className='nbtn del hidden';b.style.margin='6px 0 0';
+    var m=K(root,'msg');m.parentNode.insertBefore(b,m.nextSibling);
+    function reset(){b.textContent='Remove this photo';armed=false;}
+    b.addEventListener('click',function(){
+      if(!row)return;
+      if(!armed){armed=true;b.textContent='Click again to remove '+row.first_name+'\u2019s photo';return;}
+      var r=row,pth=r.photo_path;b.disabled=true;
+      QGPC.sb.from('members').update({photo_path:null}).eq('id',r.id).select('id').then(function(x){
+        b.disabled=false;
+        if(x.error||!x.data||!x.data.length){b.textContent='That did not work. Please try again.';armed=false;return;}
+        QGPC.sb.storage.from('member-photos').remove([pth]);
+        r.photo_path=null;paint();
+      });
     });
-  });
-  function fillDetail(r){
-    rmRow=(canRm&&r.photo_path)?r:null;rm.classList.toggle('hidden',!rmRow);rmReset();
-    $('d-name').textContent=r.first_name+' '+r.last_name;
-    putPhoto(document.querySelector('#detail .dtop .photo'),r,BIGAV);
-    setLink($('d-cell'),r.cell_phone,'tel:'+(r.cell_phone||'').replace(/[^0-9+]/g,''));
-    setLink($('d-email'),r.email,'mailto:'+r.email);
-    $('d-addr').textContent=addr(r)||'Not shared';
-    $('d-bday').textContent=(r.birthday_month&&r.birthday_day)?MN[r.birthday_month-1]+' '+r.birthday_day:'Not shared';
+    return {set:function(r){row=(canRm&&r.photo_path)?r:null;b.classList.toggle('hidden',!row);reset();}};
+  }
+  var sharedRm=mkRm($('detail'));
+  function fillDetail(r,root,rmo){
+    rmo.set(r);
+    K(root,'name').textContent=r.first_name+' '+r.last_name;
+    putPhoto(root.querySelector('.dtop .photo'),r,BIGAV);
+    setLink(K(root,'cell'),r.cell_phone,'tel:'+(r.cell_phone||'').replace(/[^0-9+]/g,''));
+    setLink(K(root,'email'),r.email,'mailto:'+r.email);
+    K(root,'addr').textContent=addr(r)||'Not shared';
+    K(root,'bday').textContent=(r.birthday_month&&r.birthday_day)?MN[r.birthday_month-1]+' '+r.birthday_day:'Not shared';
     var ints=(r.interests||[]).slice();if(r.interests_other)ints.push(r.interests_other);
-    var box=$('d-int');box.textContent='';ints.forEach(function(x){var s=document.createElement('span');s.className='chip blue';s.textContent=x;box.appendChild(s);});
-    $('d-int-wrap').classList.toggle('hidden',!ints.length);
-    var dm=$('d-msg');dm.textContent='';
+    var box=K(root,'ints');box.textContent='';ints.forEach(function(x){var s=document.createElement('span');s.className='chip blue';s.textContent=x;box.appendChild(s);});
+    K(root,'intwrap').classList.toggle('hidden',!ints.length);
+    var dm=K(root,'msg');dm.textContent='';
     if(canMsg&&c.member&&r.id!==c.member.id){
       dm.classList.remove('hidden');
       if(canMsg[r.id]){var a=document.createElement('a');a.className='nbtn';a.href='messages.html#new='+r.id;a.textContent='Send a private message';dm.appendChild(a);}
       else{var t=document.createElement('span');t.className='sub';t.textContent='This member has turned off private messages.';dm.appendChild(t);}
     }else dm.classList.add('hidden');
+  }
+  // While a name is typed in the search box, show only the matching members, each as a full card (up to CARD_MAX).
+  function renderCards(list,g){
+    list.forEach(function(r){
+      var card=TPL.cloneNode(true);
+      card.classList.remove('hidden');card.style.marginTop='0';
+      card.setAttribute('aria-label','Details for '+r.first_name+' '+r.last_name);
+      [].forEach.call(card.querySelectorAll('[id]'),function(e){e.removeAttribute('id');});card.removeAttribute('id');
+      var cl=K(card,'close');if(cl)cl.parentNode.removeChild(cl);
+      fillDetail(r,card,mkRm(card));
+      g.appendChild(card);
+    });
   }
   function paint(){
     var det=$('detail');$('content').appendChild(det);det.classList.add('hidden');
@@ -131,11 +152,15 @@ QGPCShell.start({need:function(c){return c.full;}},function(c){
     shown.forEach(function(r){(by[letterOf(r)]=by[letterOf(r)]||[]).push(r);});
     $('count').textContent=(shown.length===rows.length?rows.length:shown.length+' of '+rows.length)+' members listed';
     $('none').classList.toggle('hidden',shown.length>0);
-    var all='ABCDEFGHIJKLMNOPQRSTUVWXYZ#'.split(''),az=$('az');az.textContent='';az.parentNode.classList.remove('hidden');
+    var searching=tokens().length>0;
+    var all='ABCDEFGHIJKLMNOPQRSTUVWXYZ#'.split(''),az=$('az');az.textContent='';az.parentNode.classList.toggle('hidden',searching);
     all.forEach(function(L){
       if(by[L]){var a=document.createElement('a');a.href='#grp-'+L;a.textContent=L;az.appendChild(a);}
       else{var d=document.createElement('span');d.className='off';d.textContent=L;az.appendChild(d);}
     });
+    var mh=$('more-hint');mh.classList.add('hidden');
+    if(searching&&shown.length&&shown.length<=CARD_MAX){renderCards(shown,g);return;}
+    if(searching&&shown.length>CARD_MAX){mh.textContent=shown.length+' members match. Type more of the name to see their full details.';mh.classList.remove('hidden');}
     all.forEach(function(L){
       if(!by[L])return;
       var sec=document.createElement('section');sec.className='dgroup';sec.id='grp-'+L;
@@ -153,7 +178,7 @@ QGPCShell.start({need:function(c){return c.full;}},function(c){
       });
       sec.appendChild(ul);
       var open=sel&&by[L].filter(function(r){return r.id===sel;})[0];
-      if(open){fillDetail(open);det.classList.remove('hidden');sec.appendChild(det);}
+      if(open){fillDetail(open,det,sharedRm);det.classList.remove('hidden');sec.appendChild(det);}
       g.appendChild(sec);
     });
   }
