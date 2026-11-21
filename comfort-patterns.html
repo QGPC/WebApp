@@ -44,13 +44,13 @@
 <main id="main">
 <section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
 <div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Comfort Quilts</span>
-<h1 id="pg-title" style="margin:0">Pattern Library</h1><p class="stat-line" id="lead">Free, easy patterns sized for comfort quilts. Download a PDF and start sewing.</p></div>
+<h1 id="pg-title" style="margin:0">Pattern Library</h1><p class="stat-line" id="lead">Free, easy patterns sized for comfort quilts. View or download a PDF and start sewing.</p></div>
 
 </div></section>
 <div class="mwrap" style="max-width:1200px;gap:22px" id="content">
 <a class="backlink" href="comfort-quilts.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to Comfort Quilts</a>
 <section class="cqc" aria-labelledby="pat-h">
-<div class="cqh"><div><h2 id="pat-h">Pattern library</h2><p class="sub">Free, easy patterns sized for comfort quilts. Download the PDF and start sewing.</p></div>
+<div class="cqh"><div><h2 id="pat-h">Pattern library</h2><p class="sub">Free, easy patterns sized for comfort quilts. View or download the PDF and start sewing.</p></div>
 <div class="seg" id="filters" role="group" aria-label="Filter by size"></div></div>
 <p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
 <div id="kit-slot"></div>
@@ -75,14 +75,18 @@
 QGPCShell.start({need:function(c){return c.full||c.isAdmin;}},function(ctx){
   var $=function(i){return document.getElementById(i)};
   var C=QGPCComfort,sb=QGPC.sb,el=C.el;
-  var rows=[],urls={},sizes=[],filter='All',openId=null;
+  var rows=[],urls={},dlurls={},sizes=[],filter='All',openId=null;
   function say(t,bad){var n=$('status');n.textContent=t;n.className='msg '+(bad?'err':'ok');n.style.margin='0';}
   function load(){
     return Promise.all([sb.rpc('comfort_patterns_list'),sb.from('comfort_sizes').select('name').order('sort_order')]).then(function(r){
       $('loading').classList.add('hidden');
       if(r[0].error){say('Could not load the patterns. Please refresh and try again.',true);return;}
       rows=r[0].data||[];sizes=(r[1].data||[]).map(function(x){return x.name;});
-      return C.signed(rows.map(function(p){return p.photo_path;}).concat(rows.map(function(p){return p.pdf_path;}))).then(function(m){urls=m;draw();});
+      return C.signed(rows.map(function(p){return p.photo_path;}).concat(rows.map(function(p){return p.pdf_path;}))).then(function(m){urls=m;
+        var pp=rows.map(function(p){return p.pdf_path;}).filter(Boolean);
+        if(!pp.length)return;
+        return sb.storage.from(C.BUCKET).createSignedUrls(pp,3600,{download:true}).then(function(r){(r.data||[]).forEach(function(x){if(x&&x.signedUrl&&x.path)dlurls[x.path]=x.signedUrl;});}).catch(function(){});
+      }).then(function(){draw();});
     });
   }
   function kitCard(p){
@@ -129,7 +133,7 @@ QGPCShell.start({need:function(c){return c.full||c.isAdmin;}},function(ctx){
       var inn=el('div','in'),t=el('div','t');t.appendChild(el('span',null,p.name));if(p.is_new)t.appendChild(el('span','pl new','New'));inn.appendChild(t);
       inn.appendChild(el('div','m',(p.size_name||'')+(p.size_name?' · ':'')+p.level));
       var a=el('div','act');
-      if(urls[p.pdf_path]){var d=el('a','nbtn','Download PDF');d.href=urls[p.pdf_path];d.target='_blank';d.rel='noopener';a.appendChild(d);}
+      if(urls[p.pdf_path]){var v=el('a','nbtn solid','View pattern');v.href=urls[p.pdf_path];v.target='_blank';v.rel='noopener';v.setAttribute('aria-label','View the '+p.name+' pattern (opens in a new tab)');a.appendChild(v);var d=el('a','nbtn','Download PDF');d.href=dlurls[p.pdf_path]||urls[p.pdf_path];d.rel='noopener';d.setAttribute('aria-label','Download the '+p.name+' pattern as a PDF');a.appendChild(d);}
       if(p.mine||p.kits_left>0){
         var k=el('button','nbtn'+(openId===p.id?' solid':''),p.received?'Kit received':(p.mine?'Kit claimed':'Kits available'));k.type='button';k.setAttribute('aria-controls','kit-card');
         k.appendChild(el('span','pl',p.mine?'1':String(p.kits_left)));
