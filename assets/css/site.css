@@ -21,6 +21,8 @@ a{color:var(--cobalt)}
 .head-top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:12px 0}
 .head-actions{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:4px 16px;margin-left:auto}
 .head-actions .homelink{order:1}.head-actions #qgpc-fb{order:2}.head-actions .pill.out{order:3}
+/* On wide screens the links sit in the very top-right corner of the window, not at the edge of the centred content. */
+@media (min-width:900px){.site-head .head-actions{position:absolute;top:16px;right:20px;margin:0;flex-wrap:nowrap;z-index:5}}
 .brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink)}
 .brand img{width:52px;height:52px}
 .brand b{display:block;font-family:var(--serif);font-weight:400;font-size:var(--fs-xl);line-height:1.1}
