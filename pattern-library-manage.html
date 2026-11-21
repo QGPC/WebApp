@@ -172,6 +172,7 @@ QGPCShell.start({need:function(c){return c.has('comfort_quilts_chair')||c.isAdmi
         say('Saved. “'+name+'” is in the Pattern Library.');load();
       }).catch(function(e){sv.disabled=false;fail('That did not save. '+(e&&e.message?e.message+' ':'')+'Please try again.');});
     };
+    w.appendChild(right);
     showPhoto(p.photo_path?urls[p.photo_path]:null);
     return w;
   }
