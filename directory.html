@@ -30,7 +30,8 @@
 <p id="note" class="msg err hidden" role="alert"></p>
 <button type="button" class="nbtn hidden" id="retry" style="align-self:flex-start">Try again</button>
 <div class="dirtop"><p class="sub dark">Select a member to see their contact details.</p>
-<button type="button" class="link-btn hidden" id="print">Print / save as PDF</button></div>
+<span class="dirtools" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap"><button type="button" class="nbtn hidden" id="pdf">Download PDF of the directory</button><button type="button" class="link-btn hidden" id="print">Print / save as PDF</button></span></div>
+<p class="sub hidden" id="pdf-msg" role="status" aria-live="polite"></p>
 <nav class="azbar hidden" aria-label="Jump to last name letter"><span>Last name begins with</span><span id="az"></span></nav>
 <div id="groups"></div>
 <p class="sub hidden" id="none">No members match.</p>
@@ -68,6 +69,23 @@ QGPCShell.start({need:function(c){return c.full;}},function(c){
   var isChair=c.isSuper||c.has('membership_chair');
   $('chairlink').classList.toggle('hidden',!isChair);$('print').classList.toggle('hidden',!isChair);
   $('print').addEventListener('click',function(){sel=null;paint();window.print();});
+  // Download PDF: made in the browser from the list already on the page (listed members only), name, address, phone, email.
+  function loadScript(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;s.onload=res;s.onerror=function(){rej(new Error('load'));};document.head.appendChild(s);});}
+  $('pdf').addEventListener('click',function(){
+    var b=$('pdf'),m=$('pdf-msg');
+    function say(t,bad){m.textContent=t;m.classList.toggle('hidden',!t);m.style.color=bad?'#9A3412':'';}
+    if(!rows.length)return;
+    b.disabled=true;say('Making the PDF\u2026');
+    var need=[];
+    if(!window.jspdf)need.push(loadScript('assets/js/jspdf.umd.min.js?v=4.2.1'));
+    Promise.all(need).then(function(){return window.QGPCDirPdf?0:loadScript('assets/js/directory-pdf.js?v=20261121');}).then(function(){
+      var d=new Date(),txt=new Intl.DateTimeFormat('en-US',{timeZone:'America/Chicago',year:'numeric',month:'long',day:'numeric'}).format(d);
+      var iso=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(d);
+      var doc=window.QGPCDirPdf.build(window.jspdf.jsPDF,rows,txt);
+      doc.save('QGPC-Member-Directory-'+iso+'.pdf');
+      say('The directory PDF was saved to your downloads. Please don\u2019t share it outside the Guild.');
+    }).catch(function(){say('The PDF could not be made. Please refresh the page and try again.',true);}).then(function(){b.disabled=false;});
+  });
   function letterOf(r){var ch=(r.last_name||'#').charAt(0).toUpperCase();return /[A-Z]/.test(ch)?ch:'#';}
   function match(r){var q=$('q').value.trim().toLowerCase();if(!q)return true;return (r.first_name+' '+r.last_name+' '+r.last_name+' '+r.first_name).toLowerCase().indexOf(q)>-1;}
   function addr(r){var l2=[r.city,[r.state,r.zip].filter(Boolean).join(' ')].filter(Boolean).join(', ');return [r.street_address,l2].filter(Boolean).join(', ');}
@@ -154,7 +172,7 @@ QGPCShell.start({need:function(c){return c.full;}},function(c){
     note('');$('retry').classList.add('hidden');$('count').textContent='Loading the directory\u2026';
     QGPC.sb.rpc('member_directory').then(function(x){
       if(x.error){dirFail();return;}
-      rows=x.data||[];paint();
+      rows=x.data||[];paint();$('pdf').classList.toggle('hidden',!rows.length);
       var paths=rows.map(function(r){return r.photo_path;}).filter(Boolean);
       if(paths.length)QGPC.sb.storage.from('member-photos').createSignedUrls(paths,3600).then(function(y){
         if(y.error||!y.data)return;
