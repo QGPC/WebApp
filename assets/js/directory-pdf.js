@@ -23,8 +23,7 @@
     var W=612,H=792,M=44,GAP=24,CW=(W-2*M-GAP)/2,LH=11.5,BOTTOM=H-M-6;
     var TITLE='Quilter’s Guild of Parker County';
     doc.setProperties({title:'Member Directory - '+clean(TITLE),subject:'Member Directory',author:clean(TITLE)});
-    var col=0,y=0,first=true;
-    function colX(){return M+col*(CW+GAP);}
+    var y=0,first=true;
     function pageTop(){
       if(first){
         doc.setFont('helvetica','bold');doc.setFontSize(18);doc.setTextColor(1,67,95);doc.text(clean(TITLE),M,M+10);
@@ -34,16 +33,9 @@
         doc.setDrawColor(1,125,176);doc.setLineWidth(1.2);doc.line(M,M+50,W-M,M+50);
         y=M+68;first=false;
       }else{y=M+8;}
-      col=0;
     }
-    function nextColumn(){
-      if(col===0){col=1;y=(doc.getNumberOfPages()===1)?M+68:M+8;}
-      else{doc.addPage();pageTop();}
-    }
-    function fit(h){if(y+h>BOTTOM)nextColumn();}
     pageTop();
-    var lastLetter='';
-    rows.forEach(function(r){
+    var ents=rows.map(function(r){
       var name=clean((r.last_name||'')+(r.first_name?', '+r.first_name:''))||'(no name)';
       var letter=name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').charAt(0).toUpperCase();if(!/[A-Z]/.test(letter))letter='#';
       doc.setFont('helvetica','normal');doc.setFontSize(9);
@@ -51,21 +43,37 @@
       var a=clean(addr(r));if(a)doc.splitTextToSize(a,CW-6).forEach(function(l){lines.push(l);});
       if(r.cell_phone)lines.push(clean(r.cell_phone));
       if(r.email)doc.splitTextToSize(clean(r.email),CW-6).forEach(function(l){lines.push(l);});
-      var h=LH+lines.length*LH+8;
-      var needHead=(letter!==lastLetter);
-      fit((needHead?24:0)+h);
-      if(needHead){
-        doc.setFont('helvetica','bold');doc.setFontSize(12);doc.setTextColor(1,87,174);
-        doc.text(letter,colX(),y+10);
-        doc.setDrawColor(190,190,190);doc.setLineWidth(0.5);doc.line(colX()+16,y+7,colX()+CW,y+7);
-        y+=24;lastLetter=letter;
-      }
+      return {name:name,letter:letter,lines:lines,h:LH+lines.length*LH+8};
+    });
+    function drawEntry(e,x,yy){
       doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(20,20,20);
-      doc.text(name,colX(),y+9);
+      doc.text(e.name,x,yy+9);
       doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(50,50,50);
-      var yy=y+9+LH;
-      lines.forEach(function(l){doc.text(l,colX()+6,yy);yy+=LH;});
-      y+=h;
+      var t=yy+9+LH;e.lines.forEach(function(l){doc.text(l,x+6,t);t+=LH;});
+    }
+    function band(letter,cont){
+      doc.setFillColor(232,240,248);doc.rect(M,y,W-2*M,20,'F');
+      doc.setFont('helvetica','bold');doc.setFontSize(13);doc.setTextColor(1,87,174);
+      doc.text(letter+(cont?'  (continued)':''),M+8,y+14.5);
+      y+=26;
+    }
+    var letters=[];ents.forEach(function(e){if(letters.indexOf(e.letter)<0)letters.push(e.letter);});
+    letters.forEach(function(L){
+      var list=ents.filter(function(e){return e.letter===L;}),cont=false;
+      while(list.length){
+        if(y+26+list[0].h>BOTTOM){doc.addPage();pageTop();}
+        var space=BOTTOM-(y+26);
+        var T=list.reduce(function(s,e){return s+e.h;},0),maxH=Math.max.apply(null,list.map(function(e){return e.h;}));
+        var lim=Math.min(space,T/2+maxH/2);
+        var c1=[],h1=0;
+        while(list.length&&(h1+list[0].h<=lim||!c1.length)){h1+=list[0].h;c1.push(list.shift());}
+        var c2=[],h2=0;
+        while(list.length&&h2+list[0].h<=space){h2+=list[0].h;c2.push(list.shift());}
+        band(L,cont);
+        var yy=y;c1.forEach(function(e){drawEntry(e,M,yy);yy+=e.h;});
+        yy=y;c2.forEach(function(e){drawEntry(e,M+CW+GAP,yy);yy+=e.h;});
+        y+=Math.max(h1,h2)+6;cont=true;
+      }
     });
     var n=doc.getNumberOfPages();
     for(var p=1;p<=n;p++){

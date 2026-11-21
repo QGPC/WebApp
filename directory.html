@@ -23,7 +23,7 @@
 <div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Members only</span>
 <h1 id="pg-title" style="margin:0">Member Directory</h1><p class="stat-line" id="count">Loading the directory&hellip;</p></div>
 <div class="dirright" style="flex:1 1 320px;display:flex;flex-direction:column;gap:12px">
-<div class="greet-card dirsearch" style="flex-direction:column;align-items:stretch;gap:10px;padding:20px 24px;min-height:0;flex:1 1 auto" role="search">
+<div class="greet-card dirsearch" style="flex-direction:column;align-items:stretch;gap:10px;padding:20px 24px;min-height:0;flex:1 1 auto;align-self:stretch;width:100%" role="search">
 <div class="f"><label for="q">Find a member</label><input class="field" id="q" type="search" autocomplete="off" placeholder="Type a first or last name"></div>
 <a class="chairlink hidden" id="chairlink" href="membership-database.html">Edit in Membership Database</a>
 </div>
@@ -81,7 +81,7 @@ QGPCShell.start({need:function(c){return c.full;}},function(c){
     b.disabled=true;say('Making the PDF\u2026');
     var need=[];
     if(!window.jspdf)need.push(loadScript('assets/js/jspdf.umd.min.js?v=4.2.1'));
-    Promise.all(need).then(function(){return window.QGPCDirPdf?0:loadScript('assets/js/directory-pdf.js?v=20261121');}).then(function(){
+    Promise.all(need).then(function(){return window.QGPCDirPdf?0:loadScript('assets/js/directory-pdf.js?v=20261121b');}).then(function(){
       var d=new Date(),txt=new Intl.DateTimeFormat('en-US',{timeZone:'America/Chicago',year:'numeric',month:'long',day:'numeric'}).format(d);
       var iso=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(d);
       var doc=window.QGPCDirPdf.build(window.jspdf.jsPDF,rows,txt);
