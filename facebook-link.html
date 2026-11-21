@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Facebook Link</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118f">
+<style>
+.cqc>h2,.cqh h2{margin:0;font:400 var(--fs-xl) 'Young Serif',Georgia,serif}
+.sub{margin:2px 0 0;color:var(--muted);font-size:var(--fs-md)}
+.infobox p{margin:0;font-size:var(--fs-md);line-height:1.5;color:var(--ink)}
+.lbl{display:block;font-weight:600;font-size:var(--fs-md);margin:0 0 6px}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-104.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<nav class="head-actions" aria-label="Home and account"><a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a><span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span><button type="button" class="pill out" id="out">Sign out</button></nav>
+</div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Site administration</span>
+<h1 id="pg-title" style="margin:0">Facebook Link</h1><p class="stat-line" id="lead">Set the address of the Guild&rsquo;s Facebook page. It is the &ldquo;Find us on Facebook&rdquo; link at the top and bottom of every page.</p></div>
+
+</div></section>
+<div class="mwrap" style="max-width:760px;gap:22px" id="content">
+
+<div class="toplinks"><a class="nbtn" href="admin.html">&larr; Site Administration</a></div>
+<p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
+<section class="cqc" aria-labelledby="fb-t"><div class="cqh"><div><h2 id="fb-t">Facebook page address</h2><p class="sub">Copy the address from your browser when you are on the Guild&rsquo;s Facebook page and paste it here. It must start with https://. Leave the box empty to go back to the Guild&rsquo;s standard link.</p></div></div>
+<p id="loading" role="status" style="margin:0">Loading&hellip;</p>
+<div id="form" class="hidden" style="display:flex;flex-direction:column;gap:14px">
+<div><label class="lbl" for="fb-url">Facebook page address</label><input class="field" id="fb-url" type="url" maxlength="300" autocomplete="off" placeholder="https://www.facebook.com/..."></div>
+<p class="sub" style="margin:0">Link now showing on every page: <a id="fb-now" href="#" target="_blank" rel="noopener" aria-label="Find us on Facebook (opens in a new tab)">Find us on Facebook</a></p>
+<p class="msg err hidden" id="fb-err" role="alert" style="margin:0"></p>
+<div><button class="btn-save" id="fb-save" type="button">Save Facebook link</button></div></div></section>
+<section class="infobox"><div><h2>Who can use this page</h2><p>Administrators and the Superuser. Only the Facebook link can be changed here. The Guild&rsquo;s mailing address, email and phone are changed by the Superuser on the Site Appearance page.</p></div></section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js?v=20261118f"></script>
+<script src="assets/js/auth.js?v=20261118f"></script>
+<script src="assets/js/shell.js?v=20261118f"></script>
+<script>
+QGPCShell.start({need:function(c){return c.isAdmin;}},function(ctx){
+  var $=function(i){return document.getElementById(i)};
+  var sb=QGPC.sb,DEFAULT='https://facebook.com/quiltersguildofparkercounty',row={state:'TX'};
+  function say(t,bad){var n=$('status');n.textContent=t;n.className='msg '+(bad?'err':'ok');n.style.margin='0';n.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  function now(url){$('fb-now').href=url||DEFAULT;}
+  sb.from('guild_contact').select('*').limit(1).then(function(r){
+    $('loading').classList.add('hidden');$('form').classList.remove('hidden');
+    if(r.error){say('Could not load the saved link. Please refresh and try again.',true);return;}
+    row=(r.data&&r.data[0])||row;$('fb-url').value=row.facebook_url||'';now(row.facebook_url);
+  });
+  $('fb-save').onclick=function(){
+    var er=$('fb-err');er.classList.add('hidden');
+    var url=$('fb-url').value.trim();
+    if(url&&!/^https:\/\/\S+$/i.test(url)){er.textContent='The Facebook address must start with https:// and have no spaces.';er.classList.remove('hidden');return;}
+    $('fb-save').disabled=true;
+    sb.rpc('set_facebook_url',{p_url:url}).then(function(r){
+      $('fb-save').disabled=false;
+      if(r.error){er.textContent='That did not save. '+(r.error.message?r.error.message+' ':'')+'Please try again.';er.classList.remove('hidden');return;}
+      row.facebook_url=url;now(url);
+      if(QGPC.guildContact){QGPC.guildContact.remember(row);QGPC.guildContact.apply(row);}
+      say(url?'Saved. The Facebook link is updated on every page.':'Saved. Every page now uses the Guild\u2019s standard Facebook link.');
+    });
+  };
+});
+</script>
+</body></html>
