@@ -128,7 +128,7 @@
         if(sr)p.push(safe(sb.rpc('sunshine_pending_count').then(function(r){sr.badge=(!r.error&&r.data>0)?r.data:0;sr.badgeLabel='notes waiting';})));
         if(rmj)p.push(safe(sb.rpc('reported_messages_waiting').then(function(r){var n=(!r.error&&r.data>0)?r.data:0;rmj.badge=n;rmj.badgeLabel=n===1?'report waiting':'reports waiting';})));
         if(isAdm&&sa)p.push(safe(sb.rpc('backup_status').then(function(r){var d=r&&r.data;if(r.error||!d||!d.due)return;sa.badge='!';sa.badgeLabel='a backup is due';})));
-        var NEWKEYS={'Programs & Workshops':['programs'],'Newsletters':['newsletters'],'Member Directory':['directory'],'Comfort Quilts':['comfort'],'Our Community':['sunshine','news'],'Retreats':['retreats'],'Bees':['bees'],'About our Guild':['about']};
+        var NEWKEYS={'Programs & Workshops':['programs'],'Block of the Month':['bom'],'Newsletters':['newsletters'],'Member Directory':['directory'],'Comfort Quilts':['comfort'],'Our Community':['sunshine','news'],'Retreats':['retreats'],'Bees':['bees'],'About our Guild':['about']};
         if(full)p.push(safe(newKeys().then(function(N){if(!N)return;return N.me().then(N.keys).then(function(nk){MEMBER.forEach(function(t){t.isNew=(NEWKEYS[t.l]||[]).some(function(k){return nk[k];});});});})));
         return Promise.all(p).then(function(){show(jobs.concat(full?MEMBER:PUBLIC));});
       });

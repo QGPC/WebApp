@@ -248,7 +248,7 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
         }):Promise.resolve();
         var pend6=full?QGPC.sb.rpc('unread_message_count').then(function(r){var n=(!r.error&&r.data>0)?r.data:0;var b=$('msg-badge');b.textContent=n;b.classList.toggle('hidden',!n);b.setAttribute('aria-label',n+' unread '+(n===1?'message':'messages'));}):Promise.resolve();
         if(full)$('msg-pill').classList.remove('hidden');
-        var NEWKEYS={'Programs & Workshops':['programs'],'Newsletters':['newsletters'],'Member Directory':['directory'],'Comfort Quilts':['comfort'],'Our Community':['sunshine','news'],'Retreats':['retreats'],'Bees':['bees'],'About our Guild':['about']};
+        var NEWKEYS={'Programs & Workshops':['programs'],'Block of the Month':['bom'],'Newsletters':['newsletters'],'Member Directory':['directory'],'Comfort Quilts':['comfort'],'Our Community':['sunshine','news'],'Retreats':['retreats'],'Bees':['bees'],'About our Guild':['about']};
         var pend4=full?QGPCNew.me().then(QGPCNew.keys).then(function(nk){MEMBER.forEach(function(t){t.isNew=(NEWKEYS[t.l]||[]).some(function(k){return nk[k];});});}):Promise.resolve();
         return Promise.all([pending,pend2,pend3,pend4,pend5,pend6,pend7]).then(function(){
         var all=jobs.concat(full?MEMBER:PUBLIC);
