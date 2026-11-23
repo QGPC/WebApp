@@ -44,6 +44,13 @@
 .qf .pick{display:flex;flex-direction:column;gap:6px;margin-top:8px}.qf .fn{font-size:var(--fs-sm);color:var(--muted);overflow-wrap:anywhere}
 textarea.field{min-height:140px;resize:vertical;font:inherit}
 .addrow{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.thumb{width:72px;height:54px;border-radius:8px;object-fit:cover;background:#E9E4D8;flex:none}
+.mrow .lead{display:flex;gap:12px;align-items:center;min-width:0}
+.ysel{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+.xrow{border:1px solid var(--edge);border-radius:12px;background:#fff;padding:14px;display:grid;grid-template-columns:120px 1fr;gap:14px}
+@media(max-width:560px){.xrow{grid-template-columns:1fr}}
+.xrow .thumb{width:120px;height:90px}
+.xrow .fl{display:flex;flex-direction:column;gap:10px;min-width:0}
 </style>
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
@@ -55,19 +62,26 @@ textarea.field{min-height:140px;resize:vertical;font:inherit}
 <main id="main">
 <section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
 <div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">BOM Chair</span>
-<h1 id="pg-title" style="margin:0">Block of the Month</h1><p class="stat-line" id="lead">Set the quilt&rsquo;s photo, name and description, and add a PDF for each month.</p></div>
+<h1 id="pg-title" style="margin:0">Block of the Month</h1><p class="stat-line" id="lead">Each year has its own quilt, a PDF and optional photo for each month, and extra files.</p></div>
 </div></section>
 <div class="mwrap" style="max-width:900px;gap:22px" id="content">
 <div class="toplinks"><a class="nbtn" href="block-of-the-month.html">See the page members see &rarr;</a></div>
 <p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
 <p id="loading" role="status" style="margin:0">Loading&hellip;</p>
-<section class="cqc" aria-labelledby="qt"><div class="cqh"><div><h2 id="qt">The quilt</h2><p class="sub">Members see this at the top of the Block of the Month page.</p></div></div>
+<section class="cqc" aria-labelledby="yt"><div class="cqh"><div><h2 id="yt">Year</h2><p class="sub">Everything below belongs to the year you choose. Members pick a year on their page. A year shows to members once one of its months is open.</p></div></div>
+<div class="ysel" id="ysel"></div></section>
+<section class="cqc" aria-labelledby="qt"><div class="cqh"><div><h2 id="qt">The quilt</h2><p class="sub" id="qsub">Members see this at the top of the page for this year.</p></div></div>
 <div class="qf" id="qform"></div></section>
-<section class="cqc" aria-labelledby="mt"><div class="cqh"><div><h2 id="mt">Monthly patterns</h2><p class="sub">Add one PDF for each month. Members see a month&rsquo;s button starting 7 days before that month begins.</p></div></div>
+<section class="cqc" aria-labelledby="mt"><div class="cqh"><div><h2 id="mt">Monthly patterns</h2><p class="sub">Add a PDF for each month, and a photo if you like. Members see a month&rsquo;s button starting 7 days before that month begins.</p></div></div>
 <div class="addrow" id="addrow"></div>
 <p id="adderr" class="msg err hidden" role="alert" style="margin:0"></p>
-<p class="empty hidden" id="none">No months added yet.</p>
+<p class="empty hidden" id="none">No months added for this year yet.</p>
 <div id="list" style="display:flex;flex-direction:column;gap:10px"></div></section>
+<section class="cqc" aria-labelledby="ft"><div class="cqh"><div><h2 id="ft">More files</h2><p class="sub">Extra files for this year&rsquo;s quilt. Each has a short description, a PDF and, if you like, a photo.</p></div></div>
+<div class="addrow" id="xadd"></div>
+<p id="xerr" class="msg err hidden" role="alert" style="margin:0"></p>
+<p class="empty hidden" id="xnone">No extra files for this year yet.</p>
+<div id="xlist" style="display:flex;flex-direction:column;gap:10px"></div></section>
 <section class="infobox"><div><h2>Who can use this page</h2><p>The Block of the Month Chair, Administrators and the Superuser. PDFs can be up to 20 MB. Choosing a month that already has a PDF replaces it. Photos are shrunk to a web size when you upload them. Keep the original files in the Guild&rsquo;s Drive folder.</p></div></section>
 </div>
 </main>
@@ -87,126 +101,209 @@ QGPCShell.start({need:function(c){return c.has('bom_chair')||c.isAdmin;}},functi
   var $=function(i){return document.getElementById(i)};
   var C=QGPCComfort,sb=QGPC.sb,el=C.el,B='block-of-the-month';
   var MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
-  var cfg={},months=[],photoUrl=null,confirmId=null;
+  var thisYear=+C.today().slice(0,4),yr=thisYear;
+  var yinfo={},months=[],files=[],urls={},confirmId=null;
   function say(t,bad){var n=$('status');n.textContent=t;n.className='msg '+(bad?'err':'ok');n.style.margin='0';n.scrollIntoView({behavior:'smooth',block:'nearest'});}
   function parts(d){var p=String(d).slice(0,10).split('-');return {y:+p[0],m:+p[1]};}
   function label(d){var p=parts(d);return MONTHS[p.m-1]+' '+p.y;}
   function pad(n){return (n<10?'0':'')+n;}
   function keyOf(y,m){return y+'-'+pad(m)+'-01';}
-  // The day members first see a month: 7 days before it begins.
   function opens(d){var p=parts(d),t=new Date(Date.UTC(p.y,p.m-1,1-7));return t.getUTCFullYear()+'-'+pad(t.getUTCMonth()+1)+'-'+pad(t.getUTCDate());}
-  function field(label,node,id){var d=el('div'),l=el('label','lbl',label);node.id=id;l.htmlFor=id;d.appendChild(l);d.appendChild(node);return d;}
+  function field(lab,node,id){var d=el('div'),l=el('label','lbl',lab);node.id=id;l.htmlFor=id;d.appendChild(l);d.appendChild(node);return d;}
+  function errMsg(e){return 'That did not save. '+(e&&e.message?e.message+' ':'')+'Please try again.';}
   function pdfOk(f,fail){
     if(f.type!=='application/pdf'&&!/\.pdf$/i.test(f.name)){fail('That file is not a PDF.');return false;}
     if(f.size>20*1024*1024){fail('That PDF is larger than 20 MB. Please make it smaller and try again.');return false;}
     return true;
   }
+  function photoOk(f,fail){
+    if(f.type!=='image/jpeg'&&f.type!=='image/png'){fail('Please choose a JPEG or PNG photo.');return false;}
+    return true;
+  }
+  function upPdf(f){var p='pdfs/'+C.uuid()+'-'+C.safeName(f.name);return sb.storage.from(B).upload(p,f,{contentType:'application/pdf'}).then(function(r){if(r.error)throw r.error;return p;});}
+  function upPhoto(f){return C.shrink(f,1600).then(function(b){var p='photos/'+C.uuid()+'.jpg';return sb.storage.from(B).upload(p,b,{contentType:'image/jpeg'}).then(function(r){if(r.error)throw r.error;return p;});});}
+  function rmFiles(a){a=a.filter(Boolean);if(a.length)sb.storage.from(B).remove(a);}
+  function thumb(path){var i=el('img','thumb');i.alt='';if(path&&urls[path])i.src=urls[path];else i.style.visibility='hidden';return i;}
+  function picker(text,accept,onpick){
+    var l=el('label','nbtn filebtn',text),i=el('input');i.type='file';i.accept=accept;l.appendChild(i);
+    i.onchange=function(){var f=i.files[0];if(f)onpick(f,i);};return l;
+  }
   function load(){
-    return Promise.all([sb.from('bom_settings').select('*').limit(1),sb.from('bom_months').select('*').order('month_start')]).then(function(r){
+    return Promise.all([sb.from('bom_years').select('*'),sb.from('bom_months').select('*').order('month_start'),sb.from('bom_files').select('*').order('created_at')]).then(function(r){
       $('loading').classList.add('hidden');
-      if(r[0].error||r[1].error){say('Could not load this page. Please refresh and try again.',true);return;}
-      cfg=(r[0].data&&r[0].data[0])||{};months=r[1].data||[];photoUrl=null;
-      if(!cfg.photo_path)return;
-      return sb.storage.from(B).createSignedUrl(cfg.photo_path,3600).then(function(x){photoUrl=x&&x.data?x.data.signedUrl:null;});
-    }).then(function(){drawQuilt();drawMonths();});
+      if(r[0].error||r[1].error||r[2].error){say('Could not load this page. Please refresh and try again.',true);return;}
+      yinfo={};(r[0].data||[]).forEach(function(y){yinfo[y.year]=y;});months=r[1].data||[];files=r[2].data||[];
+      var all=[];Object.keys(yinfo).forEach(function(y){all.push(yinfo[y].photo_path);});
+      months.forEach(function(m){all.push(m.photo_path);});files.forEach(function(f){all.push(f.photo_path);});
+      all=all.filter(Boolean);
+      if(!all.length){urls={};return;}
+      return sb.storage.from(B).createSignedUrls(all,3600).then(function(x){urls={};(x.data||[]).forEach(function(d){if(d&&d.signedUrl&&d.path)urls[d.path]=d.signedUrl;});});
+    }).then(function(){drawAll();});
+  }
+  function drawAll(){drawYear();drawQuilt();drawMonths();drawFiles();}
+  function drawYear(){
+    var b=$('ysel');b.textContent='';
+    var set={};set[yr]=1;set[thisYear]=1;for(var y=thisYear-1;y<=thisYear+3;y++)set[y]=1;
+    Object.keys(yinfo).forEach(function(y){set[y]=1;});months.forEach(function(m){set[parts(m.month_start).y]=1;});files.forEach(function(f){set[f.year]=1;});
+    var sel=el('select','field');Object.keys(set).map(Number).sort().forEach(function(y){var o=el('option',null,String(y));o.value=String(y);sel.appendChild(o);});
+    sel.value=String(yr);
+    sel.onchange=function(){yr=+sel.value;confirmId=null;drawAll();};
+    b.appendChild(field('Year',sel,'y-sel'));
   }
   function drawQuilt(){
+    var cfg=yinfo[yr]||{},photoUrl=cfg.photo_path?urls[cfg.photo_path]:null;
     var box=$('qform');box.textContent='';var st={photo:null};
     var left=el('div'),ph=el('div','ph');
     function show(src){ph.textContent='';if(src){var im=el('img');im.src=src;im.alt='Photo of the quilt';ph.appendChild(im);}else ph.textContent='No photo yet';}
     left.appendChild(ph);
-    var pick=el('div','pick'),pl=el('label','nbtn filebtn',cfg.photo_path?'Replace the photo':'Choose a photo'),pi=el('input');pi.type='file';pi.accept='image/jpeg,image/png';pl.appendChild(pi);pick.appendChild(pl);
-    var fn=el('span','fn',cfg.photo_path?'A photo is saved':'No photo chosen');pick.appendChild(fn);left.appendChild(pick);
-    pi.onchange=function(){var f=pi.files[0];if(!f)return;st.photo=f;fn.textContent=f.name+' (not saved yet)';show(URL.createObjectURL(f));};
-    show(photoUrl);box.appendChild(left);
+    var pick=el('div','pick'),fn=el('span','fn',cfg.photo_path?'A photo is saved':'No photo chosen');
+    var pl=picker(cfg.photo_path?'Replace the photo':'Choose a photo','image/jpeg,image/png',function(f,i){if(!photoOk(f,function(t){say(t,true);})){i.value='';return;}st.photo=f;fn.textContent=f.name+' (not saved yet)';show(URL.createObjectURL(f));});
+    pick.appendChild(pl);pick.appendChild(fn);left.appendChild(pick);show(photoUrl);box.appendChild(left);
     var right=el('div','fl');
     var nm=el('input','field');nm.maxLength=120;nm.value=cfg.quilt_name||'';nm.placeholder='e.g., Garden Party Sampler';
     right.appendChild(field('Quilt name',nm,'q-name'));
     var ds=el('textarea','field');ds.maxLength=3000;ds.value=cfg.description||'';ds.placeholder='Tell members about the quilt: finished size, fabrics, skill level.';
     right.appendChild(field('Description',ds,'q-desc'));
     var cnt=el('div','cl3');cnt.style.margin='-6px 0 0';function upd(){cnt.textContent=ds.value.length+' of 3000 characters';}ds.addEventListener('input',upd);upd();right.appendChild(cnt);
-    var btns=el('div','btns'),sv=el('button','btn-save','Save the quilt');sv.type='button';btns.appendChild(sv);right.appendChild(btns);
+    var btns=el('div','btns'),sv=el('button','btn-save','Save the quilt for '+yr);sv.type='button';btns.appendChild(sv);right.appendChild(btns);
     var er=el('p','msg err hidden');er.setAttribute('role','alert');er.style.margin='0';right.appendChild(er);
     function fail(t){er.textContent=t;er.classList.remove('hidden');}
     sv.onclick=function(){
       er.classList.add('hidden');
       var name=nm.value.trim();if(!name)return fail('Please type the quilt name.');
       sv.disabled=true;
-      var rec={quilt_name:name,description:ds.value.trim()},old=null,up=Promise.resolve();
-      if(st.photo)up=C.shrink(st.photo,1600).then(function(b){var path='photos/'+C.uuid()+'.jpg';return sb.storage.from(B).upload(path,b,{contentType:'image/jpeg'}).then(function(r){if(r.error)throw r.error;old=cfg.photo_path;rec.photo_path=path;});});
-      up.then(function(){return sb.from('bom_settings').update(rec).eq('id',true);}).then(function(r){
+      var rec={year:yr,quilt_name:name,description:ds.value.trim()},old=null,up=Promise.resolve();
+      if(st.photo)up=upPhoto(st.photo).then(function(p){old=cfg.photo_path;rec.photo_path=p;});
+      up.then(function(){return sb.from('bom_years').upsert(rec,{onConflict:'year'});}).then(function(r){
         if(r.error)throw r.error;
-        if(old)sb.storage.from(B).remove([old]);
-        say('Saved. The quilt is updated on the Block of the Month page.');load();
-      }).catch(function(e){sv.disabled=false;fail('That did not save. '+(e&&e.message?e.message+' ':'')+'Please try again.');});
+        rmFiles([old]);
+        say('Saved. The '+yr+' quilt is updated.');load();
+      }).catch(function(e){sv.disabled=false;fail(errMsg(e));});
     };
     box.appendChild(right);
   }
-  function drawAdd(){
+  function drawMonths(){
     var row=$('addrow');row.textContent='';
-    var now=new Date(),y0=now.getFullYear();
     var ms=el('select','field');MONTHS.forEach(function(n,i){var o=el('option',null,n);o.value=String(i+1);ms.appendChild(o);});
-    var nm=now.getMonth()+1+1;if(nm>12)nm=1;ms.value=String(nm);
-    var ys=el('select','field');for(var y=y0-1;y<=y0+3;y++){var o=el('option',null,String(y));o.value=String(y);ys.appendChild(o);}
-    ys.value=String(nm===1?y0+1:y0);
-    row.appendChild(field('Month',ms,'a-m'));row.appendChild(field('Year',ys,'a-y'));
-    var d=el('div'),pl=el('label','nbtn filebtn','Choose the PDF'),pi=el('input');pi.type='file';pi.accept='application/pdf';pl.appendChild(pi);
-    var fn=el('div','cl3','No PDF chosen');fn.style.marginTop='6px';d.appendChild(pl);d.appendChild(fn);row.appendChild(d);
-    var f=null;
-    function fail(t){var e=$('adderr');e.textContent=t;e.classList.remove('hidden');}
-    pi.onchange=function(){$('adderr').classList.add('hidden');var x=pi.files[0];if(!x)return;if(!pdfOk(x,fail)){pi.value='';f=null;fn.textContent='No PDF chosen';return;}f=x;fn.textContent=x.name;};
+    var used=months.map(function(m){return String(m.month_start).slice(0,10);});
+    var first=1;for(var k=1;k<=12;k++){if(used.indexOf(keyOf(yr,k))<0){first=k;break;}}ms.value=String(first);
+    row.appendChild(field('Month',ms,'a-m'));
+    var fail=function(t){var e=$('adderr');e.textContent=t;e.classList.remove('hidden');};
+    var pdf=null,pho=null;
+    var d1=el('div'),n1=el('div','cl3','No PDF chosen');n1.style.marginTop='6px';
+    d1.appendChild(picker('Choose the PDF','application/pdf',function(f,i){$('adderr').classList.add('hidden');if(!pdfOk(f,fail)){i.value='';pdf=null;n1.textContent='No PDF chosen';return;}pdf=f;n1.textContent=f.name;}));d1.appendChild(n1);row.appendChild(d1);
+    var d2=el('div'),n2=el('div','cl3','No photo (optional)');n2.style.marginTop='6px';
+    d2.appendChild(picker('Choose a photo','image/jpeg,image/png',function(f,i){$('adderr').classList.add('hidden');if(!photoOk(f,fail)){i.value='';pho=null;n2.textContent='No photo (optional)';return;}pho=f;n2.textContent=f.name;}));d2.appendChild(n2);row.appendChild(d2);
     var sv=el('button','btn-save','Save month');sv.type='button';row.appendChild(sv);
     sv.onclick=function(){
       $('adderr').classList.add('hidden');
-      if(!f)return fail('Please choose the PDF for this month.');
-      var key=keyOf(+ys.value,+ms.value),ex=months.filter(function(m){return String(m.month_start).slice(0,10)===key;})[0];
+      var key=keyOf(yr,+ms.value),ex=months.filter(function(m){return String(m.month_start).slice(0,10)===key;})[0];
+      if(!pdf&&!ex)return fail('Please choose the PDF for this month.');
+      if(!pdf&&!pho)return fail('Choose a PDF or a photo to save.');
       sv.disabled=true;
-      savePdf(f,key,ex).then(function(){say((ex?'Replaced the PDF for ':'Added ')+label(key)+'. Members see it from '+C.nice(opens(key))+'.');load().then(drawAdd);})
-        .catch(function(e){sv.disabled=false;fail('That did not save. '+(e&&e.message?e.message+' ':'')+'Please try again.');});
+      saveMonth(key,pdf,pho,ex).then(function(){say((ex?'Updated ':'Added ')+label(key)+'. Members see it from '+C.nice(opens(key))+'.');load();})
+        .catch(function(e){sv.disabled=false;fail(errMsg(e));});
     };
+    drawMonthList();
   }
-  function savePdf(file,key,ex){
-    var path='pdfs/'+C.uuid()+'-'+C.safeName(file.name);
-    return sb.storage.from(B).upload(path,file,{contentType:'application/pdf'}).then(function(r){
-      if(r.error)throw r.error;
-      var q=ex?sb.from('bom_months').update({pdf_path:path}).eq('id',ex.id):sb.from('bom_months').insert({month_start:key,pdf_path:path});
-      return q.then(function(x){
-        if(x.error){sb.storage.from(B).remove([path]);throw x.error;}
-        if(ex&&ex.pdf_path)sb.storage.from(B).remove([ex.pdf_path]);
-      });
+  function saveMonth(key,pdf,pho,ex){
+    var rec={},old=[],up=Promise.resolve();
+    if(pdf)up=up.then(function(){return upPdf(pdf);}).then(function(p){rec.pdf_path=p;if(ex)old.push(ex.pdf_path);});
+    if(pho)up=up.then(function(){return upPhoto(pho);}).then(function(p){rec.photo_path=p;if(ex)old.push(ex.photo_path);});
+    return up.then(function(){
+      var q=ex?sb.from('bom_months').update(rec).eq('id',ex.id):sb.from('bom_months').insert(Object.assign({month_start:key},rec));
+      return q.then(function(x){if(x.error){rmFiles([rec.pdf_path,rec.photo_path]);throw x.error;}rmFiles(old);});
     });
   }
-  function drawMonths(){
+  function drawMonthList(){
     var box=$('list');box.textContent='';
-    $('none').classList.toggle('hidden',months.length>0);
+    var ms=months.filter(function(m){return parts(m.month_start).y===yr;});
+    $('none').classList.toggle('hidden',ms.length>0);
     var today=C.today();
-    months.forEach(function(m){
-      var key=String(m.month_start).slice(0,10),row=el('div','mrow'),nmd=el('div','nm');
-      nmd.appendChild(el('b',null,label(key)));
-      var o=opens(key),live=o<=today;
-      nmd.appendChild(el('span','cl3',(live?'Members can see it now.':'Members see it from '+C.nice(o)+'.')+' File: '+C.shownName(m.pdf_path)));
-      row.appendChild(nmd);
+    ms.forEach(function(m){
+      var key=String(m.month_start).slice(0,10),row=el('div','mrow'),lead=el('div','lead');
+      lead.appendChild(thumb(m.photo_path));
+      var nmd=el('div','nm');nmd.appendChild(el('b',null,label(key)));
+      var o=opens(key);
+      nmd.appendChild(el('span','cl3',(o<=today?'Members can see it now.':'Members see it from '+C.nice(o)+'.')+' File: '+C.shownName(m.pdf_path)+(m.photo_path?'':' (no photo)')));
+      lead.appendChild(nmd);row.appendChild(lead);
       var btns=el('div','btns');
-      var rl=el('label','nbtn filebtn','Replace PDF'),ri=el('input');ri.type='file';ri.accept='application/pdf';ri.setAttribute('aria-label','Replace the PDF for '+label(key));rl.appendChild(ri);
-      ri.onchange=function(){
-        var x=ri.files[0];if(!x)return;
-        if(!pdfOk(x,function(t){say(t,true);})){ri.value='';return;}
-        say('Uploading\u2026');
-        savePdf(x,key,m).then(function(){say('Replaced the PDF for '+label(key)+'.');load();}).catch(function(e){say('That did not save. '+(e&&e.message?e.message+' ':'')+'Please try again.',true);});
-      };
-      btns.appendChild(rl);
-      var rm=el('button','nbtn del','Remove');rm.type='button';rm.setAttribute('aria-label','Remove '+label(key));rm.onclick=function(){confirmId=m.id;drawMonths();};btns.appendChild(rm);
+      btns.appendChild(picker('Replace PDF','application/pdf',function(f,i){
+        if(!pdfOk(f,function(t){say(t,true);})){i.value='';return;}
+        say('Uploading…');saveMonth(key,f,null,m).then(function(){say('Replaced the PDF for '+label(key)+'.');load();}).catch(function(e){say(errMsg(e),true);});
+      }));
+      btns.appendChild(picker(m.photo_path?'Replace photo':'Add photo','image/jpeg,image/png',function(f,i){
+        if(!photoOk(f,function(t){say(t,true);})){i.value='';return;}
+        say('Uploading…');saveMonth(key,null,f,m).then(function(){say('Saved the photo for '+label(key)+'.');load();}).catch(function(e){say(errMsg(e),true);});
+      }));
+      if(m.photo_path){var rp=el('button','nbtn','Remove photo');rp.type='button';rp.setAttribute('aria-label','Remove the photo for '+label(key));
+        rp.onclick=function(){rp.disabled=true;sb.from('bom_months').update({photo_path:null}).eq('id',m.id).then(function(r){if(r.error){say('That did not remove. Please try again.',true);rp.disabled=false;return;}rmFiles([m.photo_path]);say('Removed the photo for '+label(key)+'.');load();});};btns.appendChild(rp);}
+      var rm=el('button','nbtn del','Remove');rm.type='button';rm.setAttribute('aria-label','Remove '+label(key));rm.onclick=function(){confirmId=m.id;drawMonthList();};btns.appendChild(rm);
       row.appendChild(btns);box.appendChild(row);
       if(confirmId===m.id){
-        var cf=el('div','confirm');cf.appendChild(el('p',null,'Remove '+label(key)+' and its PDF? Members will no longer see it. This can\u2019t be undone.'));
+        var cf=el('div','confirm');cf.appendChild(el('p',null,'Remove '+label(key)+', its PDF and photo? Members will no longer see it. This can’t be undone.'));
         var sr=el('div','saverow'),y=el('button','btn-del solid','Yes, remove');y.type='button';var k=el('button','btn-cancel','Keep it');k.type='button';
-        k.onclick=function(){confirmId=null;drawMonths();};
-        y.onclick=function(){y.disabled=true;sb.from('bom_months').delete().eq('id',m.id).then(function(r){confirmId=null;if(r.error){say('That did not remove. Please try again.',true);load();return;}sb.storage.from(B).remove([m.pdf_path]);say('Removed '+label(key)+'.');load();});};
+        k.onclick=function(){confirmId=null;drawMonthList();};
+        y.onclick=function(){y.disabled=true;sb.from('bom_months').delete().eq('id',m.id).then(function(r){confirmId=null;if(r.error){say('That did not remove. Please try again.',true);load();return;}rmFiles([m.pdf_path,m.photo_path]);say('Removed '+label(key)+'.');load();});};
         sr.appendChild(y);sr.appendChild(k);cf.appendChild(sr);box.appendChild(cf);
       }
     });
   }
-  drawAdd();
+  function drawFiles(){
+    var row=$('xadd');row.textContent='';
+    var fail=function(t){var e=$('xerr');e.textContent=t;e.classList.remove('hidden');};
+    var ds=el('input','field');ds.maxLength=300;ds.placeholder='e.g., Fabric and cutting list';
+    var dd=field('Short description',ds,'x-desc');dd.style.flex='1 1 260px';row.appendChild(dd);
+    var pdf=null,pho=null;
+    var d1=el('div'),n1=el('div','cl3','No PDF chosen');n1.style.marginTop='6px';
+    d1.appendChild(picker('Choose the PDF','application/pdf',function(f,i){$('xerr').classList.add('hidden');if(!pdfOk(f,fail)){i.value='';pdf=null;n1.textContent='No PDF chosen';return;}pdf=f;n1.textContent=f.name;}));d1.appendChild(n1);row.appendChild(d1);
+    var d2=el('div'),n2=el('div','cl3','No photo (optional)');n2.style.marginTop='6px';
+    d2.appendChild(picker('Choose a photo','image/jpeg,image/png',function(f,i){$('xerr').classList.add('hidden');if(!photoOk(f,fail)){i.value='';pho=null;n2.textContent='No photo (optional)';return;}pho=f;n2.textContent=f.name;}));d2.appendChild(n2);row.appendChild(d2);
+    var sv=el('button','btn-save','Add file');sv.type='button';row.appendChild(sv);
+    sv.onclick=function(){
+      $('xerr').classList.add('hidden');
+      var d=ds.value.trim();if(!d)return fail('Please type a short description.');
+      if(!pdf)return fail('Please choose the PDF.');
+      sv.disabled=true;var rec={year:yr,description:d};
+      upPdf(pdf).then(function(p){rec.pdf_path=p;return pho?upPhoto(pho):null;}).then(function(p){if(p)rec.photo_path=p;return sb.from('bom_files').insert(rec);})
+        .then(function(r){if(r.error){rmFiles([rec.pdf_path,rec.photo_path]);throw r.error;}say('Added the file for '+yr+'.');load();})
+        .catch(function(e){sv.disabled=false;fail(errMsg(e));});
+    };
+    var box=$('xlist');box.textContent='';
+    var fs=files.filter(function(f){return f.year===yr;});
+    $('xnone').classList.toggle('hidden',fs.length>0);
+    fs.forEach(function(f){
+      var w=el('div','xrow');w.appendChild(thumb(f.photo_path));
+      var right=el('div','fl');
+      var di=el('input','field');di.maxLength=300;di.value=f.description;di.setAttribute('aria-label','Description of this file');right.appendChild(di);
+      right.appendChild(el('div','cl3','File: '+C.shownName(f.pdf_path)));
+      var btns=el('div','btns');
+      var save=el('button','btn-save','Save description');save.type='button';
+      save.onclick=function(){var d=di.value.trim();if(!d){say('Please type a short description.',true);return;}save.disabled=true;
+        sb.from('bom_files').update({description:d}).eq('id',f.id).then(function(r){if(r.error){say('That did not save. Please try again.',true);save.disabled=false;return;}say('Saved.');load();});};
+      btns.appendChild(save);
+      btns.appendChild(picker('Replace PDF','application/pdf',function(x,i){
+        if(!pdfOk(x,function(t){say(t,true);})){i.value='';return;}
+        say('Uploading…');upPdf(x).then(function(p){return sb.from('bom_files').update({pdf_path:p}).eq('id',f.id).then(function(r){if(r.error){rmFiles([p]);throw r.error;}rmFiles([f.pdf_path]);say('Replaced the PDF.');load();});}).catch(function(e){say(errMsg(e),true);});
+      }));
+      btns.appendChild(picker(f.photo_path?'Replace photo':'Add photo','image/jpeg,image/png',function(x,i){
+        if(!photoOk(x,function(t){say(t,true);})){i.value='';return;}
+        say('Uploading…');upPhoto(x).then(function(p){return sb.from('bom_files').update({photo_path:p}).eq('id',f.id).then(function(r){if(r.error){rmFiles([p]);throw r.error;}rmFiles([f.photo_path]);say('Saved the photo.');load();});}).catch(function(e){say(errMsg(e),true);});
+      }));
+      if(f.photo_path){var rp=el('button','nbtn','Remove photo');rp.type='button';
+        rp.onclick=function(){rp.disabled=true;sb.from('bom_files').update({photo_path:null}).eq('id',f.id).then(function(r){if(r.error){say('That did not remove. Please try again.',true);rp.disabled=false;return;}rmFiles([f.photo_path]);say('Removed the photo.');load();});};btns.appendChild(rp);}
+      var rm=el('button','nbtn del','Remove file');rm.type='button';rm.onclick=function(){confirmId=f.id;drawFiles();};btns.appendChild(rm);
+      right.appendChild(btns);
+      if(confirmId===f.id){
+        var cf=el('div','confirm');cf.appendChild(el('p',null,'Remove this file and its photo? Members will no longer see it. This can’t be undone.'));
+        var sr=el('div','saverow'),y=el('button','btn-del solid','Yes, remove');y.type='button';var k=el('button','btn-cancel','Keep it');k.type='button';
+        k.onclick=function(){confirmId=null;drawFiles();};
+        y.onclick=function(){y.disabled=true;sb.from('bom_files').delete().eq('id',f.id).then(function(r){confirmId=null;if(r.error){say('That did not remove. Please try again.',true);load();return;}rmFiles([f.pdf_path,f.photo_path]);say('Removed the file.');load();});};
+        sr.appendChild(y);sr.appendChild(k);cf.appendChild(sr);right.appendChild(cf);
+      }
+      w.appendChild(right);box.appendChild(w);
+    });
+  }
   load();
 });
 </script>

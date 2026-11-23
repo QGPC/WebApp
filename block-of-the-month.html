@@ -43,6 +43,17 @@
 .mcard{border:2px solid var(--cobalt);background:var(--mist-lt);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px}
 .mcard h3{margin:0;font-size:var(--fs-xl)}
 .mcard .act{display:flex;gap:10px;flex-wrap:wrap}
+.yrs{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.yrs .lbl{margin:0 4px 0 0}
+.mcard .mp{max-width:360px;aspect-ratio:4/3;border-radius:12px;overflow:hidden;background:#E9E4D8}
+.mcard .mp img{width:100%;height:100%;object-fit:cover;display:block}
+.xf{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:18px}
+.xf li{border:1px solid var(--edge);border-radius:16px;background:#fff;overflow:hidden;display:flex;flex-direction:column}
+.xf .ph2{aspect-ratio:4/3;background:#E9E4D8;display:flex;align-items:center;justify-content:center;color:#7a7466;font-size:var(--fs-sm)}
+.xf .ph2 img{width:100%;height:100%;object-fit:cover;display:block}
+.xf .in{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px}
+.xf .in p{margin:0;font-size:var(--fs-md);line-height:1.5;overflow-wrap:anywhere}
+.xf .act{display:flex;gap:10px;flex-wrap:wrap}
 </style>
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
@@ -59,6 +70,7 @@
 <div class="mwrap" style="max-width:1200px;gap:22px" id="content">
 <p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
 <p id="loading" role="status" style="margin:0">Loading&hellip;</p>
+<div class="yrs hidden" id="yrs-wrap"><span class="lbl" id="yrs-l">Year</span><div class="yrs" id="yrs" role="group" aria-labelledby="yrs-l"></div></div>
 <section class="cqc hidden" id="quilt-card" aria-labelledby="q-name"><div class="bq"><div class="ph" id="q-photo">No photo yet</div>
 <div><h2 id="q-name"></h2><p class="desc" id="q-desc"></p></div></div></section>
 <section class="cqc hidden" id="months-card" aria-labelledby="m-h">
@@ -66,6 +78,10 @@
 <div class="mons" id="mons" role="group" aria-label="Months"></div>
 <div id="slot"></div>
 <p class="empty hidden" id="none">No block patterns are open yet. The first one appears one week before its month begins.</p>
+</section>
+<section class="cqc hidden" id="files-card" aria-labelledby="f-h">
+<div class="cqh"><div><h2 id="f-h">More files</h2><p class="sub">Extra patterns and helpful information for this quilt.</p></div></div>
+<ul class="xf" id="xf"></ul>
 </section>
 </div>
 </main>
@@ -86,59 +102,83 @@ QGPCShell.start({need:function(c){return c.full||c.isAdmin;}},function(ctx){
   var $=function(i){return document.getElementById(i)};
   var C=QGPCComfort,sb=QGPC.sb,el=C.el,B='block-of-the-month';
   var MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
-  var months=[],urls={},dlurls={},openId=null,multiYear=false;
+  var yinfo={},months=[],files=[],years=[],cur=null,urls={},dlurls={},openId=null;
   function say(t,bad){var n=$('status');n.textContent=t;n.className='msg '+(bad?'err':'ok');n.style.margin='0';}
   function parts(d){var p=String(d).slice(0,10).split('-');return {y:+p[0],m:+p[1]};}
-  function label(d,withYear){var p=parts(d);return MONTHS[p.m-1]+(withYear?' '+p.y:'');}
+  function mname(d){return MONTHS[parts(d).m-1];}
   function signed(paths,opts){
     paths=paths.filter(Boolean);if(!paths.length)return Promise.resolve({});
     return sb.storage.from(B).createSignedUrls(paths,3600,opts).then(function(r){var m={};(r.data||[]).forEach(function(x){if(x&&x.signedUrl&&x.path)m[x.path]=x.signedUrl;});return m;}).catch(function(){return {};});
   }
   function load(){
-    return Promise.all([sb.from('bom_settings').select('*').limit(1),sb.from('bom_months').select('id,month_start,pdf_path').order('month_start')]).then(function(r){
+    return Promise.all([sb.from('bom_years').select('*'),sb.from('bom_months').select('id,month_start,pdf_path,photo_path').order('month_start'),sb.from('bom_files').select('*').order('created_at')]).then(function(r){
       $('loading').classList.add('hidden');
-      if(r[0].error||r[1].error){say('Could not load the Block of the Month. Please refresh and try again.',true);return;}
-      var s=(r[0].data&&r[0].data[0])||{};months=r[1].data||[];
-      var ys={};months.forEach(function(m){ys[parts(m.month_start).y]=1;});multiYear=Object.keys(ys).length>1;
-      var paths=months.map(function(m){return m.pdf_path;});
-      return Promise.all([signed([s.photo_path]),signed(paths),signed(paths,{download:true})]).then(function(u){
-        urls=Object.assign({},u[0],u[1]);dlurls=u[2];draw(s);
-      });
+      if(r[0].error||r[1].error||r[2].error){say('Could not load the Block of the Month. Please refresh and try again.',true);return;}
+      yinfo={};(r[0].data||[]).forEach(function(y){yinfo[y.year]=y;});months=r[1].data||[];files=r[2].data||[];
+      var ys={};months.forEach(function(m){ys[parts(m.month_start).y]=1;});Object.keys(yinfo).forEach(function(y){ys[y]=1;});files.forEach(function(f){ys[f.year]=1;});
+      years=Object.keys(ys).map(Number).sort();
+      var now=+C.today().slice(0,4);
+      if(cur===null||years.indexOf(cur)<0)cur=years.indexOf(now)>-1?now:(years.length?years[years.length-1]:null);
+      var all=[];Object.keys(yinfo).forEach(function(y){all.push(yinfo[y].photo_path);});
+      months.forEach(function(m){all.push(m.photo_path);});files.forEach(function(f){all.push(f.photo_path);});
+      var pdfs=months.map(function(m){return m.pdf_path;}).concat(files.map(function(f){return f.pdf_path;}));
+      return Promise.all([signed(all.concat(pdfs)),signed(pdfs,{download:true})]).then(function(u){urls=u[0];dlurls=u[1];draw();});
     });
   }
-  function draw(s){
-    var hasQ=!!(s.quilt_name||s.description||s.photo_path);
+  function pdfButtons(box,path,nm){
+    if(urls[path]){
+      var v=el('a','nbtn solid','View pattern');v.href=urls[path];v.target='_blank';v.rel='noopener';v.setAttribute('aria-label','View '+nm+' (opens in a new tab)');box.appendChild(v);
+      var d=el('a','nbtn','Download PDF');d.href=dlurls[path]||urls[path];d.rel='noopener';d.setAttribute('aria-label','Download '+nm+' as a PDF');box.appendChild(d);
+    }else box.appendChild(el('span',null,'This file could not be opened right now. Please refresh and try again.'));
+  }
+  function draw(){
+    var yw=$('yrs-wrap'),yb=$('yrs');yb.textContent='';
+    yw.classList.toggle('hidden',years.length<2);
+    years.forEach(function(y){var b=el('button','nbtn'+(y===cur?' solid':''),String(y));b.type='button';b.setAttribute('aria-pressed',y===cur?'true':'false');
+      b.onclick=function(){cur=y;openId=null;draw();};yb.appendChild(b);});
+    if(cur===null){$('quilt-card').classList.add('hidden');$('files-card').classList.add('hidden');$('months-card').classList.remove('hidden');$('mons').textContent='';$('slot').textContent='';$('none').classList.remove('hidden');$('m-sub').classList.add('hidden');return;}
+    var s=yinfo[cur]||{},hasQ=!!(s.quilt_name||s.description||s.photo_path);
     $('quilt-card').classList.toggle('hidden',!hasQ);
     if(hasQ){
-      $('q-name').textContent=s.quilt_name||'Block of the Month';
+      $('q-name').textContent=s.quilt_name||('Block of the Month '+cur);
       $('q-desc').textContent=s.description||'';
       var ph=$('q-photo');ph.textContent='';
       if(s.photo_path&&urls[s.photo_path]){var im=el('img');im.src=urls[s.photo_path];im.alt='Photo of the '+(s.quilt_name||'Block of the Month')+' quilt';ph.appendChild(im);}else ph.textContent='No photo yet';
     }
+    var ms=months.filter(function(m){return parts(m.month_start).y===cur;});
     $('months-card').classList.remove('hidden');
-    $('none').classList.toggle('hidden',months.length>0);
-    $('m-sub').classList.toggle('hidden',!months.length);
+    $('m-h').textContent='Block patterns for '+cur;
+    $('none').classList.toggle('hidden',ms.length>0);
+    $('m-sub').classList.toggle('hidden',!ms.length);
     var box=$('mons');box.textContent='';
-    months.forEach(function(m){
-      var b=el('button','nbtn'+(openId===m.id?' solid':''),label(m.month_start,multiYear));b.type='button';
+    ms.forEach(function(m){
+      var b=el('button','nbtn'+(openId===m.id?' solid':''),mname(m.month_start));b.type='button';
       b.setAttribute('aria-expanded',openId===m.id?'true':'false');b.setAttribute('aria-controls','mcard');
-      b.onclick=function(){openId=openId===m.id?null:m.id;draw(s);if(openId){var c=$('mcard');if(c)c.scrollIntoView({behavior:'smooth',block:'nearest'});}};
+      b.onclick=function(){openId=openId===m.id?null:m.id;draw();if(openId){var c=$('mcard');if(c)c.scrollIntoView({behavior:'smooth',block:'nearest'});}};
       box.appendChild(b);
     });
     var slot=$('slot');slot.textContent='';
-    var om=months.filter(function(m){return m.id===openId;})[0];
+    var om=ms.filter(function(m){return m.id===openId;})[0];
     if(om){
+      var nm=mname(om.month_start)+' '+cur;
       var card=el('div','mcard');card.id='mcard';card.setAttribute('role','region');
-      var head=el('div','cqh'),h3=el('h3',null,label(om.month_start,true)+' block');h3.id='mcard-t';card.setAttribute('aria-labelledby','mcard-t');head.appendChild(h3);
-      var cl=el('button','nbtn','Close');cl.type='button';cl.onclick=function(){openId=null;draw(s);};head.appendChild(cl);card.appendChild(head);
+      var head=el('div','cqh'),h3=el('h3',null,nm+' block');h3.id='mcard-t';card.setAttribute('aria-labelledby','mcard-t');head.appendChild(h3);
+      var cl=el('button','nbtn','Close');cl.type='button';cl.onclick=function(){openId=null;draw();};head.appendChild(cl);card.appendChild(head);
+      if(om.photo_path&&urls[om.photo_path]){var mp=el('div','mp'),mi=el('img');mi.src=urls[om.photo_path];mi.alt='Photo of the '+nm+' block';mp.appendChild(mi);card.appendChild(mp);}
       card.appendChild(el('p','sub','Pattern file: '+C.shownName(om.pdf_path)));
-      var a=el('div','act'),nm=label(om.month_start,true);
-      if(urls[om.pdf_path]){
-        var v=el('a','nbtn solid','View pattern');v.href=urls[om.pdf_path];v.target='_blank';v.rel='noopener';v.setAttribute('aria-label','View the '+nm+' block pattern (opens in a new tab)');a.appendChild(v);
-        var d=el('a','nbtn','Download PDF');d.href=dlurls[om.pdf_path]||urls[om.pdf_path];d.rel='noopener';d.setAttribute('aria-label','Download the '+nm+' block pattern as a PDF');a.appendChild(d);
-      }else a.appendChild(el('span',null,'This pattern could not be opened right now. Please refresh and try again.'));
+      var a=el('div','act');pdfButtons(a,om.pdf_path,'the '+nm+' block pattern');
       card.appendChild(a);slot.appendChild(card);
     }
+    var fs=files.filter(function(f){return f.year===cur;});
+    $('files-card').classList.toggle('hidden',!fs.length);
+    var ul=$('xf');ul.textContent='';
+    fs.forEach(function(f){
+      var li=el('li'),p2=el('div','ph2');
+      if(f.photo_path&&urls[f.photo_path]){var im2=el('img');im2.src=urls[f.photo_path];im2.alt='';im2.loading='lazy';p2.appendChild(im2);}else p2.textContent='No photo';
+      li.appendChild(p2);
+      var inn=el('div','in');inn.appendChild(el('p',null,f.description));
+      var a2=el('div','act');pdfButtons(a2,f.pdf_path,'the file: '+f.description);inn.appendChild(a2);li.appendChild(inn);ul.appendChild(li);
+    });
   }
   load();
 });
