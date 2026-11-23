@@ -72,7 +72,7 @@ textarea.field{min-height:140px;resize:vertical;font:inherit}
 <div class="ysel" id="ysel"></div></section>
 <section class="cqc" aria-labelledby="qt"><div class="cqh"><div><h2 id="qt">The quilt</h2><p class="sub" id="qsub">Members see this at the top of the page for this year.</p></div></div>
 <div class="qf" id="qform"></div></section>
-<section class="cqc" aria-labelledby="mt"><div class="cqh"><div><h2 id="mt">Monthly patterns</h2><p class="sub">Add a PDF for each month, and a photo if you like. Members see a month&rsquo;s button starting 7 days before that month begins.</p></div></div>
+<section class="cqc" aria-labelledby="mt"><div class="cqh"><div><h2 id="mt">Monthly patterns</h2><p class="sub">Add a PDF for each month, and a photo if you like. You choose the date each month becomes available to members.</p></div></div>
 <div class="addrow" id="addrow"></div>
 <p id="adderr" class="msg err hidden" role="alert" style="margin:0"></p>
 <p class="empty hidden" id="none">No months added for this year yet.</p>
@@ -188,6 +188,11 @@ QGPCShell.start({need:function(c){return c.has('bom_chair')||c.isAdmin;}},functi
     var used=months.map(function(m){return String(m.month_start).slice(0,10);});
     var first=1;for(var k=1;k<=12;k++){if(used.indexOf(keyOf(yr,k))<0){first=k;break;}}ms.value=String(first);
     row.appendChild(field('Month',ms,'a-m'));
+    var dt=el('input','field');dt.type='date';var touched=false;dt.addEventListener('input',function(){touched=true;});
+    function exOf(){var k=keyOf(yr,+ms.value);return months.filter(function(m){return String(m.month_start).slice(0,10)===k;})[0];}
+    function setDefault(){if(touched)return;var e=exOf();dt.value=(e&&e.release_date)||opens(keyOf(yr,+ms.value));}
+    ms.addEventListener('change',function(){touched=false;setDefault();});setDefault();
+    row.appendChild(field('Available on',dt,'a-d'));
     var fail=function(t){var e=$('adderr');e.textContent=t;e.classList.remove('hidden');};
     var pdf=null,pho=null;
     var d1=el('div'),n1=el('div','cl3','No PDF chosen');n1.style.marginTop='6px';
@@ -199,15 +204,16 @@ QGPCShell.start({need:function(c){return c.has('bom_chair')||c.isAdmin;}},functi
       $('adderr').classList.add('hidden');
       var key=keyOf(yr,+ms.value),ex=months.filter(function(m){return String(m.month_start).slice(0,10)===key;})[0];
       if(!pdf&&!ex)return fail('Please choose the PDF for this month.');
-      if(!pdf&&!pho)return fail('Choose a PDF or a photo to save.');
+      if(!dt.value)return fail('Please choose the date this month becomes available.');
       sv.disabled=true;
-      saveMonth(key,pdf,pho,ex).then(function(){say((ex?'Updated ':'Added ')+label(key)+'. Members see it from '+C.nice(opens(key))+'.');load();})
+      saveMonth(key,pdf,pho,ex,dt.value).then(function(){say((ex?'Updated ':'Added ')+label(key)+'. Members see it from '+C.nice(dt.value)+'.');load();})
         .catch(function(e){sv.disabled=false;fail(errMsg(e));});
     };
     drawMonthList();
   }
-  function saveMonth(key,pdf,pho,ex){
+  function saveMonth(key,pdf,pho,ex,date){
     var rec={},old=[],up=Promise.resolve();
+    if(date)rec.release_date=date;
     if(pdf)up=up.then(function(){return upPdf(pdf);}).then(function(p){rec.pdf_path=p;if(ex)old.push(ex.pdf_path);});
     if(pho)up=up.then(function(){return upPhoto(pho);}).then(function(p){rec.photo_path=p;if(ex)old.push(ex.photo_path);});
     return up.then(function(){
@@ -224,8 +230,13 @@ QGPCShell.start({need:function(c){return c.has('bom_chair')||c.isAdmin;}},functi
       var key=String(m.month_start).slice(0,10),row=el('div','mrow'),lead=el('div','lead');
       lead.appendChild(thumb(m.photo_path));
       var nmd=el('div','nm');nmd.appendChild(el('b',null,label(key)));
-      var o=opens(key);
+      var o=m.release_date||opens(key);
       nmd.appendChild(el('span','cl3',(o<=today?'Members can see it now.':'Members see it from '+C.nice(o)+'.')+' File: '+C.shownName(m.pdf_path)+(m.photo_path?'':' (no photo)')));
+      var de=el('div','btns');de.style.marginTop='6px';
+      var di=el('input','field');di.type='date';di.value=o;di.style.width='auto';di.setAttribute('aria-label','Date '+label(key)+' becomes available to members');
+      var ds=el('button','nbtn','Save date');ds.type='button';
+      ds.onclick=function(){if(!di.value){say('Please choose a date.',true);return;}ds.disabled=true;sb.from('bom_months').update({release_date:di.value}).eq('id',m.id).then(function(r){if(r.error){say('That did not save. Please try again.',true);ds.disabled=false;return;}say(label(key)+' becomes available on '+C.nice(di.value)+'.');load();});};
+      de.appendChild(di);de.appendChild(ds);nmd.appendChild(de);
       lead.appendChild(nmd);row.appendChild(lead);
       var btns=el('div','btns');
       btns.appendChild(picker('Replace PDF','application/pdf',function(f,i){
