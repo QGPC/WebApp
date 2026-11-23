@@ -35,8 +35,8 @@
 .okbox{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:12px 14px;border-radius:12px;background:#fff;border:1px solid var(--cobalt)}
 .bq{display:grid;grid-template-columns:minmax(0,420px) 1fr;gap:22px;align-items:start}
 @media(max-width:720px){.bq{grid-template-columns:1fr}}
-.bq .ph{aspect-ratio:4/3;background:#E9E4D8;border-radius:16px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#7a7466;font-size:var(--fs-sm);text-align:center}
-.bq .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.bq .ph{background:#E9E4D8;border-radius:16px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#7a7466;font-size:var(--fs-sm);text-align:center}
+.bq .ph img{width:100%;height:auto;display:block}
 .bq h2{margin:0 0 8px;font:400 var(--fs-2xl) 'Young Serif',Georgia,serif}
 .bq .desc{margin:0;font-size:var(--fs-md);line-height:1.6;white-space:pre-line;overflow-wrap:anywhere}
 .mons{display:flex;gap:10px;flex-wrap:wrap}
@@ -45,12 +45,12 @@
 .mcard .act{display:flex;gap:10px;flex-wrap:wrap}
 .yrs{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .yrs .lbl{margin:0 4px 0 0}
-.mcard .mp{max-width:360px;aspect-ratio:4/3;border-radius:12px;overflow:hidden;background:#E9E4D8}
-.mcard .mp img{width:100%;height:100%;object-fit:cover;display:block}
-.xf{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:18px}
+.mcard .mp{max-width:360px;border-radius:12px;overflow:hidden;background:#E9E4D8}
+.mcard .mp img{width:100%;height:auto;display:block}
+.xf{list-style:none;margin:0;padding:0;display:grid;align-items:start;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:18px}
 .xf li{border:1px solid var(--edge);border-radius:16px;background:#fff;overflow:hidden;display:flex;flex-direction:column}
-.xf .ph2{aspect-ratio:4/3;background:#E9E4D8;display:flex;align-items:center;justify-content:center;color:#7a7466;font-size:var(--fs-sm)}
-.xf .ph2 img{width:100%;height:100%;object-fit:cover;display:block}
+.xf .ph2{background:#E9E4D8}
+.xf .ph2 img{width:100%;height:auto;display:block}
 .xf .in{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px}
 .xf .in p{margin:0;font-size:var(--fs-md);line-height:1.5;overflow-wrap:anywhere}
 .xf .act{display:flex;gap:10px;flex-wrap:wrap}
@@ -143,7 +143,7 @@ QGPCShell.start({need:function(c){return c.full||c.isAdmin;}},function(ctx){
       $('q-name').textContent=s.quilt_name||('Block of the Month '+cur);
       $('q-desc').textContent=s.description||'';
       var ph=$('q-photo');ph.textContent='';
-      if(s.photo_path&&urls[s.photo_path]){var im=el('img');im.src=urls[s.photo_path];im.alt='Photo of the '+(s.quilt_name||'Block of the Month')+' quilt';ph.appendChild(im);}else ph.textContent='No photo yet';
+      if(s.photo_path&&urls[s.photo_path]){var im=el('img');im.src=urls[s.photo_path];im.alt='Photo of the '+(s.quilt_name||'Block of the Month')+' quilt';ph.appendChild(im);}else{ph.textContent='No photo yet';ph.style.padding='48px 16px';}
     }
     var ms=months.filter(function(m){return parts(m.month_start).y===cur;});
     $('months-card').classList.remove('hidden');
@@ -173,9 +173,8 @@ QGPCShell.start({need:function(c){return c.full||c.isAdmin;}},function(ctx){
     $('files-card').classList.toggle('hidden',!fs.length);
     var ul=$('xf');ul.textContent='';
     fs.forEach(function(f){
-      var li=el('li'),p2=el('div','ph2');
-      if(f.photo_path&&urls[f.photo_path]){var im2=el('img');im2.src=urls[f.photo_path];im2.alt='';im2.loading='lazy';p2.appendChild(im2);}else p2.textContent='No photo';
-      li.appendChild(p2);
+      var li=el('li');
+      if(f.photo_path&&urls[f.photo_path]){var p2=el('div','ph2'),im2=el('img');im2.src=urls[f.photo_path];im2.alt='';im2.loading='lazy';p2.appendChild(im2);li.appendChild(p2);}
       var inn=el('div','in');inn.appendChild(el('p',null,f.description));
       var a2=el('div','act');pdfButtons(a2,f.pdf_path,'the file: '+f.description);inn.appendChild(a2);li.appendChild(inn);ul.appendChild(li);
     });

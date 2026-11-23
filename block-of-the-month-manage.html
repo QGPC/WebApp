@@ -38,8 +38,8 @@
 .mrow .nm{display:flex;flex-direction:column;gap:2px;min-width:0}.mrow .nm b{font-size:var(--fs-lg)}
 .mrow .btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .qf{display:grid;grid-template-columns:240px 1fr;gap:18px}@media(max-width:700px){.qf{grid-template-columns:1fr}}
-.qf .ph{aspect-ratio:4/3;background:#E9E4D8;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#7a7466;font-size:var(--fs-sm);text-align:center}
-.qf .ph img{width:100%;height:100%;object-fit:cover}
+.qf .ph{background:#E9E4D8;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#7a7466;font-size:var(--fs-sm);text-align:center}
+.qf .ph img{width:100%;height:auto;display:block}
 .qf .fl{display:flex;flex-direction:column;gap:12px;min-width:0}
 .qf .pick{display:flex;flex-direction:column;gap:6px;margin-top:8px}.qf .fn{font-size:var(--fs-sm);color:var(--muted);overflow-wrap:anywhere}
 textarea.field{min-height:140px;resize:vertical;font:inherit}
@@ -154,7 +154,7 @@ QGPCShell.start({need:function(c){return c.has('bom_chair')||c.isAdmin;}},functi
     var cfg=yinfo[yr]||{},photoUrl=cfg.photo_path?urls[cfg.photo_path]:null;
     var box=$('qform');box.textContent='';var st={photo:null};
     var left=el('div'),ph=el('div','ph');
-    function show(src){ph.textContent='';if(src){var im=el('img');im.src=src;im.alt='Photo of the quilt';ph.appendChild(im);}else ph.textContent='No photo yet';}
+    function show(src){ph.textContent='';if(src){var im=el('img');im.src=src;im.alt='Photo of the quilt';ph.appendChild(im);}else{ph.textContent='No photo yet';ph.style.padding='48px 16px';}}
     left.appendChild(ph);
     var pick=el('div','pick'),fn=el('span','fn',cfg.photo_path?'A photo is saved':'No photo chosen');
     var pl=picker(cfg.photo_path?'Replace the photo':'Choose a photo','image/jpeg,image/png',function(f,i){if(!photoOk(f,function(t){say(t,true);})){i.value='';return;}st.photo=f;fn.textContent=f.name+' (not saved yet)';show(URL.createObjectURL(f));});
