@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Block of the Month Chair</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118f">
+<style>
+
+
+
+.cqc>h2,.cqh h2{margin:0;font:400 var(--fs-xl) 'Young Serif',Georgia,serif}
+.sub{margin:2px 0 0;color:var(--muted);font-size:var(--fs-md)}
+.pl{font-size:var(--fs-sm);font-weight:700;padding:4px 10px;border-radius:999px;background:var(--mist);color:var(--cobalt);white-space:nowrap}
+.pl.gray{background:var(--sand);color:var(--muted-dark)}
+.pl.new{background:var(--persimmon);color:var(--ink)}
+
+.infobox p{margin:0;font-size:var(--fs-md);line-height:1.5;color:var(--ink)}
+.blue-note h3{margin:0;font-size:var(--fs-lg)}.blue-note ul{margin:8px 0 0;padding-left:20px;line-height:1.5}
+.empty{margin:0;padding:14px 16px;border-radius:12px;background:var(--sand);color:var(--muted-dark)}
+.lbl{display:block;font-weight:600;font-size:var(--fs-md);margin:0 0 6px}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+
+.pe{border:1px solid var(--edge);border-radius:16px;background:#fff;padding:18px;display:grid;grid-template-columns:200px 1fr;gap:18px}
+@media(max-width:640px){.pe{grid-template-columns:1fr}}
+.pe .ph{aspect-ratio:4/3;background:#E9E4D8;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#7a7466;font-size:var(--fs-sm);text-align:center}
+.pe .ph img{width:100%;height:100%;object-fit:cover}
+.pe .fl{display:flex;flex-direction:column;gap:12px;min-width:0}
+.pe .pick{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.pe .pick span.fn{font-size:var(--fs-sm);color:var(--muted);overflow-wrap:anywhere}
+.pe .btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.cl3{font-size:var(--fs-sm);color:var(--muted-dark)}
+.filebtn{position:relative;overflow:hidden}.filebtn input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.filebtn:focus-within{outline:3px solid rgba(1,87,174,.35);outline-offset:2px}
+.klist{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}.klist li{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.mrow{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:12px 14px;border:1px solid var(--edge);border-radius:12px;background:#fff}
+.mrow .nm{display:flex;flex-direction:column;gap:2px;min-width:0}.mrow .nm b{font-size:var(--fs-lg)}
+.mrow .btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.qf{display:grid;grid-template-columns:240px 1fr;gap:18px}@media(max-width:700px){.qf{grid-template-columns:1fr}}
+.qf .ph{aspect-ratio:4/3;background:#E9E4D8;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#7a7466;font-size:var(--fs-sm);text-align:center}
+.qf .ph img{width:100%;height:100%;object-fit:cover}
+.qf .fl{display:flex;flex-direction:column;gap:12px;min-width:0}
+.qf .pick{display:flex;flex-direction:column;gap:6px;margin-top:8px}.qf .fn{font-size:var(--fs-sm);color:var(--muted);overflow-wrap:anywhere}
+textarea.field{min-height:140px;resize:vertical;font:inherit}
+.addrow{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-104.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<nav class="head-actions" aria-label="Home and account"><a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a><span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span><button type="button" class="pill out" id="out">Sign out</button></nav>
+</div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">BOM Chair</span>
+<h1 id="pg-title" style="margin:0">Block of the Month</h1><p class="stat-line" id="lead">Set the quilt&rsquo;s photo, name and description, and add a PDF for each month.</p></div>
+</div></section>
+<div class="mwrap" style="max-width:900px;gap:22px" id="content">
+<div class="toplinks"><a class="nbtn" href="block-of-the-month.html">See the page members see &rarr;</a></div>
+<p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
+<p id="loading" role="status" style="margin:0">Loading&hellip;</p>
+<section class="cqc" aria-labelledby="qt"><div class="cqh"><div><h2 id="qt">The quilt</h2><p class="sub">Members see this at the top of the Block of the Month page.</p></div></div>
+<div class="qf" id="qform"></div></section>
+<section class="cqc" aria-labelledby="mt"><div class="cqh"><div><h2 id="mt">Monthly patterns</h2><p class="sub">Add one PDF for each month. Members see a month&rsquo;s button starting 7 days before that month begins.</p></div></div>
+<div class="addrow" id="addrow"></div>
+<p id="adderr" class="msg err hidden" role="alert" style="margin:0"></p>
+<p class="empty hidden" id="none">No months added yet.</p>
+<div id="list" style="display:flex;flex-direction:column;gap:10px"></div></section>
+<section class="infobox"><div><h2>Who can use this page</h2><p>The Block of the Month Chair, Administrators and the Superuser. PDFs can be up to 20 MB. Choosing a month that already has a PDF replaces it. Photos are shrunk to a web size when you upload them. Keep the original files in the Guild&rsquo;s Drive folder.</p></div></section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js?v=20261118f"></script>
+<script src="assets/js/auth.js?v=20261118f"></script>
+<script src="assets/js/shell.js?v=20261118f"></script>
+<script src="assets/js/comfort.js?v=20261118f"></script>
+<script>
+QGPCShell.start({need:function(c){return c.has('bom_chair')||c.isAdmin;}},function(ctx){
+  var $=function(i){return document.getElementById(i)};
+  var C=QGPCComfort,sb=QGPC.sb,el=C.el,B='block-of-the-month';
+  var MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var cfg={},months=[],photoUrl=null,confirmId=null;
+  function say(t,bad){var n=$('status');n.textContent=t;n.className='msg '+(bad?'err':'ok');n.style.margin='0';n.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  function parts(d){var p=String(d).slice(0,10).split('-');return {y:+p[0],m:+p[1]};}
+  function label(d){var p=parts(d);return MONTHS[p.m-1]+' '+p.y;}
+  function pad(n){return (n<10?'0':'')+n;}
+  function keyOf(y,m){return y+'-'+pad(m)+'-01';}
+  // The day members first see a month: 7 days before it begins.
+  function opens(d){var p=parts(d),t=new Date(Date.UTC(p.y,p.m-1,1-7));return t.getUTCFullYear()+'-'+pad(t.getUTCMonth()+1)+'-'+pad(t.getUTCDate());}
+  function field(label,node,id){var d=el('div'),l=el('label','lbl',label);node.id=id;l.htmlFor=id;d.appendChild(l);d.appendChild(node);return d;}
+  function pdfOk(f,fail){
+    if(f.type!=='application/pdf'&&!/\.pdf$/i.test(f.name)){fail('That file is not a PDF.');return false;}
+    if(f.size>20*1024*1024){fail('That PDF is larger than 20 MB. Please make it smaller and try again.');return false;}
+    return true;
+  }
+  function load(){
+    return Promise.all([sb.from('bom_settings').select('*').limit(1),sb.from('bom_months').select('*').order('month_start')]).then(function(r){
+      $('loading').classList.add('hidden');
+      if(r[0].error||r[1].error){say('Could not load this page. Please refresh and try again.',true);return;}
+      cfg=(r[0].data&&r[0].data[0])||{};months=r[1].data||[];photoUrl=null;
+      if(!cfg.photo_path)return;
+      return sb.storage.from(B).createSignedUrl(cfg.photo_path,3600).then(function(x){photoUrl=x&&x.data?x.data.signedUrl:null;});
+    }).then(function(){drawQuilt();drawMonths();});
+  }
+  function drawQuilt(){
+    var box=$('qform');box.textContent='';var st={photo:null};
+    var left=el('div'),ph=el('div','ph');
+    function show(src){ph.textContent='';if(src){var im=el('img');im.src=src;im.alt='Photo of the quilt';ph.appendChild(im);}else ph.textContent='No photo yet';}
+    left.appendChild(ph);
+    var pick=el('div','pick'),pl=el('label','nbtn filebtn',cfg.photo_path?'Replace the photo':'Choose a photo'),pi=el('input');pi.type='file';pi.accept='image/jpeg,image/png';pl.appendChild(pi);pick.appendChild(pl);
+    var fn=el('span','fn',cfg.photo_path?'A photo is saved':'No photo chosen');pick.appendChild(fn);left.appendChild(pick);
+    pi.onchange=function(){var f=pi.files[0];if(!f)return;st.photo=f;fn.textContent=f.name+' (not saved yet)';show(URL.createObjectURL(f));};
+    show(photoUrl);box.appendChild(left);
+    var right=el('div','fl');
+    var nm=el('input','field');nm.maxLength=120;nm.value=cfg.quilt_name||'';nm.placeholder='e.g., Garden Party Sampler';
+    right.appendChild(field('Quilt name',nm,'q-name'));
+    var ds=el('textarea','field');ds.maxLength=3000;ds.value=cfg.description||'';ds.placeholder='Tell members about the quilt: finished size, fabrics, skill level.';
+    right.appendChild(field('Description',ds,'q-desc'));
+    var cnt=el('div','cl3');cnt.style.margin='-6px 0 0';function upd(){cnt.textContent=ds.value.length+' of 3000 characters';}ds.addEventListener('input',upd);upd();right.appendChild(cnt);
+    var btns=el('div','btns'),sv=el('button','btn-save','Save the quilt');sv.type='button';btns.appendChild(sv);right.appendChild(btns);
+    var er=el('p','msg err hidden');er.setAttribute('role','alert');er.style.margin='0';right.appendChild(er);
+    function fail(t){er.textContent=t;er.classList.remove('hidden');}
+    sv.onclick=function(){
+      er.classList.add('hidden');
+      var name=nm.value.trim();if(!name)return fail('Please type the quilt name.');
+      sv.disabled=true;
+      var rec={quilt_name:name,description:ds.value.trim()},old=null,up=Promise.resolve();
+      if(st.photo)up=C.shrink(st.photo,1600).then(function(b){var path='photos/'+C.uuid()+'.jpg';return sb.storage.from(B).upload(path,b,{contentType:'image/jpeg'}).then(function(r){if(r.error)throw r.error;old=cfg.photo_path;rec.photo_path=path;});});
+      up.then(function(){return sb.from('bom_settings').update(rec).eq('id',true);}).then(function(r){
+        if(r.error)throw r.error;
+        if(old)sb.storage.from(B).remove([old]);
+        say('Saved. The quilt is updated on the Block of the Month page.');load();
+      }).catch(function(e){sv.disabled=false;fail('That did not save. '+(e&&e.message?e.message+' ':'')+'Please try again.');});
+    };
+    box.appendChild(right);
+  }
+  function drawAdd(){
+    var row=$('addrow');row.textContent='';
+    var now=new Date(),y0=now.getFullYear();
+    var ms=el('select','field');MONTHS.forEach(function(n,i){var o=el('option',null,n);o.value=String(i+1);ms.appendChild(o);});
+    var nm=now.getMonth()+1+1;if(nm>12)nm=1;ms.value=String(nm);
+    var ys=el('select','field');for(var y=y0-1;y<=y0+3;y++){var o=el('option',null,String(y));o.value=String(y);ys.appendChild(o);}
+    ys.value=String(nm===1?y0+1:y0);
+    row.appendChild(field('Month',ms,'a-m'));row.appendChild(field('Year',ys,'a-y'));
+    var d=el('div'),pl=el('label','nbtn filebtn','Choose the PDF'),pi=el('input');pi.type='file';pi.accept='application/pdf';pl.appendChild(pi);
+    var fn=el('div','cl3','No PDF chosen');fn.style.marginTop='6px';d.appendChild(pl);d.appendChild(fn);row.appendChild(d);
+    var f=null;
+    function fail(t){var e=$('adderr');e.textContent=t;e.classList.remove('hidden');}
+    pi.onchange=function(){$('adderr').classList.add('hidden');var x=pi.files[0];if(!x)return;if(!pdfOk(x,fail)){pi.value='';f=null;fn.textContent='No PDF chosen';return;}f=x;fn.textContent=x.name;};
+    var sv=el('button','btn-save','Save month');sv.type='button';row.appendChild(sv);
+    sv.onclick=function(){
+      $('adderr').classList.add('hidden');
+      if(!f)return fail('Please choose the PDF for this month.');
+      var key=keyOf(+ys.value,+ms.value),ex=months.filter(function(m){return String(m.month_start).slice(0,10)===key;})[0];
+      sv.disabled=true;
+      savePdf(f,key,ex).then(function(){say((ex?'Replaced the PDF for ':'Added ')+label(key)+'. Members see it from '+C.nice(opens(key))+'.');load().then(drawAdd);})
+        .catch(function(e){sv.disabled=false;fail('That did not save. '+(e&&e.message?e.message+' ':'')+'Please try again.');});
+    };
+  }
+  function savePdf(file,key,ex){
+    var path='pdfs/'+C.uuid()+'-'+C.safeName(file.name);
+    return sb.storage.from(B).upload(path,file,{contentType:'application/pdf'}).then(function(r){
+      if(r.error)throw r.error;
+      var q=ex?sb.from('bom_months').update({pdf_path:path}).eq('id',ex.id):sb.from('bom_months').insert({month_start:key,pdf_path:path});
+      return q.then(function(x){
+        if(x.error){sb.storage.from(B).remove([path]);throw x.error;}
+        if(ex&&ex.pdf_path)sb.storage.from(B).remove([ex.pdf_path]);
+      });
+    });
+  }
+  function drawMonths(){
+    var box=$('list');box.textContent='';
+    $('none').classList.toggle('hidden',months.length>0);
+    var today=C.today();
+    months.forEach(function(m){
+      var key=String(m.month_start).slice(0,10),row=el('div','mrow'),nmd=el('div','nm');
+      nmd.appendChild(el('b',null,label(key)));
+      var o=opens(key),live=o<=today;
+      nmd.appendChild(el('span','cl3',(live?'Members can see it now.':'Members see it from '+C.nice(o)+'.')+' File: '+C.shownName(m.pdf_path)));
+      row.appendChild(nmd);
+      var btns=el('div','btns');
+      var rl=el('label','nbtn filebtn','Replace PDF'),ri=el('input');ri.type='file';ri.accept='application/pdf';ri.setAttribute('aria-label','Replace the PDF for '+label(key));rl.appendChild(ri);
+      ri.onchange=function(){
+        var x=ri.files[0];if(!x)return;
+        if(!pdfOk(x,function(t){say(t,true);})){ri.value='';return;}
+        say('Uploading\u2026');
+        savePdf(x,key,m).then(function(){say('Replaced the PDF for '+label(key)+'.');load();}).catch(function(e){say('That did not save. '+(e&&e.message?e.message+' ':'')+'Please try again.',true);});
+      };
+      btns.appendChild(rl);
+      var rm=el('button','nbtn del','Remove');rm.type='button';rm.setAttribute('aria-label','Remove '+label(key));rm.onclick=function(){confirmId=m.id;drawMonths();};btns.appendChild(rm);
+      row.appendChild(btns);box.appendChild(row);
+      if(confirmId===m.id){
+        var cf=el('div','confirm');cf.appendChild(el('p',null,'Remove '+label(key)+' and its PDF? Members will no longer see it. This can\u2019t be undone.'));
+        var sr=el('div','saverow'),y=el('button','btn-del solid','Yes, remove');y.type='button';var k=el('button','btn-cancel','Keep it');k.type='button';
+        k.onclick=function(){confirmId=null;drawMonths();};
+        y.onclick=function(){y.disabled=true;sb.from('bom_months').delete().eq('id',m.id).then(function(r){confirmId=null;if(r.error){say('That did not remove. Please try again.',true);load();return;}sb.storage.from(B).remove([m.pdf_path]);say('Removed '+label(key)+'.');load();});};
+        sr.appendChild(y);sr.appendChild(k);cf.appendChild(sr);box.appendChild(cf);
+      }
+    });
+  }
+  drawAdd();
+  load();
+});
+</script>
+</body></html>

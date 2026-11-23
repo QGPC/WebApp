@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Block of the Month</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118f">
+<style>
+
+
+
+.cqc>h2,.cqh h2{margin:0;font:400 var(--fs-xl) 'Young Serif',Georgia,serif}
+.sub{margin:2px 0 0;color:var(--muted);font-size:var(--fs-md)}
+.pl{font-size:var(--fs-sm);font-weight:700;padding:4px 10px;border-radius:999px;background:var(--mist);color:var(--cobalt);white-space:nowrap}
+.pl.gray{background:var(--sand);color:var(--muted-dark)}
+.pl.new{background:var(--persimmon);color:var(--ink)}
+
+.infobox p{margin:0;font-size:var(--fs-md);line-height:1.5;color:var(--ink)}
+.blue-note h3{margin:0;font-size:var(--fs-lg)}.blue-note ul{margin:8px 0 0;padding-left:20px;line-height:1.5}
+.empty{margin:0;padding:14px 16px;border-radius:12px;background:var(--sand);color:var(--muted-dark)}
+.lbl{display:block;font-weight:600;font-size:var(--fs-md);margin:0 0 6px}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+
+.pg{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:18px}
+.pc{border:1px solid var(--edge);border-radius:16px;background:#fff;overflow:hidden;display:flex;flex-direction:column}
+.pc .ph{aspect-ratio:4/3;background:#E9E4D8;display:flex;align-items:center;justify-content:center;color:#7a7466;font-size:var(--fs-sm)}
+.pc .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.pc .in{padding:16px 18px 18px;display:flex;flex-direction:column;gap:10px}
+.pc .t{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font:600 var(--fs-lg) var(--sans)}
+.pc .m{font-size:var(--fs-sm);color:var(--muted)}
+.pc .act{display:flex;gap:10px;flex-wrap:wrap}
+.kit{border:2px solid var(--cobalt);background:var(--mist-lt);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.kit h3{margin:0;font-size:var(--fs-xl)}
+.okbox{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:12px 14px;border-radius:12px;background:#fff;border:1px solid var(--cobalt)}
+.bq{display:grid;grid-template-columns:minmax(0,420px) 1fr;gap:22px;align-items:start}
+@media(max-width:720px){.bq{grid-template-columns:1fr}}
+.bq .ph{aspect-ratio:4/3;background:#E9E4D8;border-radius:16px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#7a7466;font-size:var(--fs-sm);text-align:center}
+.bq .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.bq h2{margin:0 0 8px;font:400 var(--fs-2xl) 'Young Serif',Georgia,serif}
+.bq .desc{margin:0;font-size:var(--fs-md);line-height:1.6;white-space:pre-line;overflow-wrap:anywhere}
+.mons{display:flex;gap:10px;flex-wrap:wrap}
+.mcard{border:2px solid var(--cobalt);background:var(--mist-lt);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.mcard h3{margin:0;font-size:var(--fs-xl)}
+.mcard .act{display:flex;gap:10px;flex-wrap:wrap}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-104.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<nav class="head-actions" aria-label="Home and account"><a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a><span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span><button type="button" class="pill out" id="out">Sign out</button></nav>
+</div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Members only</span>
+<h1 id="pg-title" style="margin:0">Block of the Month</h1><p class="stat-line" id="lead">Sew along with the Guild. A new block pattern opens one week before each month begins.</p></div>
+</div></section>
+<div class="mwrap" style="max-width:1200px;gap:22px" id="content">
+<p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
+<p id="loading" role="status" style="margin:0">Loading&hellip;</p>
+<section class="cqc hidden" id="quilt-card" aria-labelledby="q-name"><div class="bq"><div class="ph" id="q-photo">No photo yet</div>
+<div><h2 id="q-name"></h2><p class="desc" id="q-desc"></p></div></div></section>
+<section class="cqc hidden" id="months-card" aria-labelledby="m-h">
+<div class="cqh"><div><h2 id="m-h">Block patterns</h2><p class="sub" id="m-sub">Choose a month to view or download its pattern.</p></div></div>
+<div class="mons" id="mons" role="group" aria-label="Months"></div>
+<div id="slot"></div>
+<p class="empty hidden" id="none">No block patterns are open yet. The first one appears one week before its month begins.</p>
+</section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js?v=20261118f"></script>
+<script src="assets/js/auth.js?v=20261118f"></script>
+<script src="assets/js/tilebar.js?v=20261118f"></script>
+<script src="assets/js/shell.js?v=20261118f"></script>
+<script src="assets/js/comfort.js?v=20261118f"></script>
+<script>
+QGPCShell.start({need:function(c){return c.full||c.isAdmin;}},function(ctx){
+  var $=function(i){return document.getElementById(i)};
+  var C=QGPCComfort,sb=QGPC.sb,el=C.el,B='block-of-the-month';
+  var MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var months=[],urls={},dlurls={},openId=null,multiYear=false;
+  function say(t,bad){var n=$('status');n.textContent=t;n.className='msg '+(bad?'err':'ok');n.style.margin='0';}
+  function parts(d){var p=String(d).slice(0,10).split('-');return {y:+p[0],m:+p[1]};}
+  function label(d,withYear){var p=parts(d);return MONTHS[p.m-1]+(withYear?' '+p.y:'');}
+  function signed(paths,opts){
+    paths=paths.filter(Boolean);if(!paths.length)return Promise.resolve({});
+    return sb.storage.from(B).createSignedUrls(paths,3600,opts).then(function(r){var m={};(r.data||[]).forEach(function(x){if(x&&x.signedUrl&&x.path)m[x.path]=x.signedUrl;});return m;}).catch(function(){return {};});
+  }
+  function load(){
+    return Promise.all([sb.from('bom_settings').select('*').limit(1),sb.from('bom_months').select('id,month_start,pdf_path').order('month_start')]).then(function(r){
+      $('loading').classList.add('hidden');
+      if(r[0].error||r[1].error){say('Could not load the Block of the Month. Please refresh and try again.',true);return;}
+      var s=(r[0].data&&r[0].data[0])||{};months=r[1].data||[];
+      var ys={};months.forEach(function(m){ys[parts(m.month_start).y]=1;});multiYear=Object.keys(ys).length>1;
+      var paths=months.map(function(m){return m.pdf_path;});
+      return Promise.all([signed([s.photo_path]),signed(paths),signed(paths,{download:true})]).then(function(u){
+        urls=Object.assign({},u[0],u[1]);dlurls=u[2];draw(s);
+      });
+    });
+  }
+  function draw(s){
+    var hasQ=!!(s.quilt_name||s.description||s.photo_path);
+    $('quilt-card').classList.toggle('hidden',!hasQ);
+    if(hasQ){
+      $('q-name').textContent=s.quilt_name||'Block of the Month';
+      $('q-desc').textContent=s.description||'';
+      var ph=$('q-photo');ph.textContent='';
+      if(s.photo_path&&urls[s.photo_path]){var im=el('img');im.src=urls[s.photo_path];im.alt='Photo of the '+(s.quilt_name||'Block of the Month')+' quilt';ph.appendChild(im);}else ph.textContent='No photo yet';
+    }
+    $('months-card').classList.remove('hidden');
+    $('none').classList.toggle('hidden',months.length>0);
+    $('m-sub').classList.toggle('hidden',!months.length);
+    var box=$('mons');box.textContent='';
+    months.forEach(function(m){
+      var b=el('button','nbtn'+(openId===m.id?' solid':''),label(m.month_start,multiYear));b.type='button';
+      b.setAttribute('aria-expanded',openId===m.id?'true':'false');b.setAttribute('aria-controls','mcard');
+      b.onclick=function(){openId=openId===m.id?null:m.id;draw(s);if(openId){var c=$('mcard');if(c)c.scrollIntoView({behavior:'smooth',block:'nearest'});}};
+      box.appendChild(b);
+    });
+    var slot=$('slot');slot.textContent='';
+    var om=months.filter(function(m){return m.id===openId;})[0];
+    if(om){
+      var card=el('div','mcard');card.id='mcard';card.setAttribute('role','region');
+      var head=el('div','cqh'),h3=el('h3',null,label(om.month_start,true)+' block');h3.id='mcard-t';card.setAttribute('aria-labelledby','mcard-t');head.appendChild(h3);
+      var cl=el('button','nbtn','Close');cl.type='button';cl.onclick=function(){openId=null;draw(s);};head.appendChild(cl);card.appendChild(head);
+      card.appendChild(el('p','sub','Pattern file: '+C.shownName(om.pdf_path)));
+      var a=el('div','act'),nm=label(om.month_start,true);
+      if(urls[om.pdf_path]){
+        var v=el('a','nbtn solid','View pattern');v.href=urls[om.pdf_path];v.target='_blank';v.rel='noopener';v.setAttribute('aria-label','View the '+nm+' block pattern (opens in a new tab)');a.appendChild(v);
+        var d=el('a','nbtn','Download PDF');d.href=dlurls[om.pdf_path]||urls[om.pdf_path];d.rel='noopener';d.setAttribute('aria-label','Download the '+nm+' block pattern as a PDF');a.appendChild(d);
+      }else a.appendChild(el('span',null,'This pattern could not be opened right now. Please refresh and try again.'));
+      card.appendChild(a);slot.appendChild(card);
+    }
+  }
+  load();
+});
+</script>
+</body></html>
