@@ -29,14 +29,6 @@
     {l:'Reported Messages',i:'reported-messages',href:'reported-messages.html',r:[],adm:1},
     {l:'Site Administration',i:'site-administration',href:'admin.html',r:[],adm:1}];
   var PER_BAR=14;
-  // Superuser and Administrators have many job tiles, so Programs & Workshops starts the "More" list instead of ending the main bar.
-  function order(jobs,full,isAdm){
-    var all=jobs.concat(full?MEMBER:PUBLIC);
-    if(!(isAdm&&full))return all;
-    var i=-1;all.forEach(function(t,k){if(t.l==='Programs & Workshops'&&k>=jobs.length)i=k;});
-    if(i<0)return all;
-    var pw=all.splice(i,1)[0];all.splice(Math.min(PER_BAR,all.length),0,pw);return all;
-  }
   var st=document.createElement('style');
   st.textContent='.tilebar .tile[aria-current="page"]{border-color:var(--cobalt);box-shadow:inset 0 0 0 2px var(--cobalt)}';
   document.head.appendChild(st);
@@ -59,9 +51,10 @@
     li.appendChild(e);return li;
   }
   function fill(id,list){var u=$(id);u.textContent='';list.forEach(function(t){u.appendChild(tile(t));});}
-  function show(all){
-    fill('tilebar',all.slice(0,PER_BAR));
-    if(all.length>PER_BAR){fill('more-areas',all.slice(PER_BAR));$('more-btn').classList.remove('hidden');}
+  function show(all,bar){
+    bar=bar||PER_BAR;
+    fill('tilebar',all.slice(0,bar));
+    if(all.length>bar){fill('more-areas',all.slice(bar));$('more-btn').classList.remove('hidden');}
     var s=document.createElement('script');s.src='assets/js/navmenu.js?v=20261118f';document.body.appendChild(s);
   }
   $('more-btn').addEventListener('click',function(){
@@ -138,7 +131,7 @@
         if(isAdm&&sa)p.push(safe(sb.rpc('backup_status').then(function(r){var d=r&&r.data;if(r.error||!d||!d.due)return;sa.badge='!';sa.badgeLabel='a backup is due';})));
         var NEWKEYS={'Programs & Workshops':['programs'],'Block of the Month':['bom'],'Newsletters':['newsletters'],'Member Directory':['directory'],'Comfort Quilts':['comfort'],'Our Community':['sunshine','news'],'Retreats':['retreats'],'Bees':['bees'],'About our Guild':['about']};
         if(full)p.push(safe(newKeys().then(function(N){if(!N)return;return N.me().then(N.keys).then(function(nk){MEMBER.forEach(function(t){t.isNew=(NEWKEYS[t.l]||[]).some(function(k){return nk[k];});});});})));
-        return Promise.all(p).then(function(){show(order(jobs,full,isAdm));});
+        return Promise.all(p).then(function(){show(jobs.concat(full?MEMBER:PUBLIC),(isAdm&&full)?jobs.length:PER_BAR);});
       });
     });
   }).catch(function(){show(PUBLIC);});

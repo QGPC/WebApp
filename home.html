@@ -141,14 +141,6 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
     {l:'Reported Messages',i:'reported-messages',href:'reported-messages.html',r:[],adm:1},
     {l:'Site Administration',i:'site-administration',href:'admin.html',r:[],adm:1}];
   var PER_BAR=14;
-  // Superuser and Administrators have many job tiles, so Programs & Workshops starts the "More" list instead of ending the main bar.
-  function order(jobs,full,isAdm){
-    var all=jobs.concat(full?MEMBER:PUBLIC);
-    if(!(isAdm&&full))return all;
-    var i=-1;all.forEach(function(t,k){if(t.l==='Programs & Workshops'&&k>=jobs.length)i=k;});
-    if(i<0)return all;
-    var pw=all.splice(i,1)[0];all.splice(Math.min(PER_BAR,all.length),0,pw);return all;
-  }
   function tile(t){
     var li=document.createElement('li'),e=document.createElement(t.href?'a':'span');
     e.className='tile'+(t.href?'':' soon'); if(t.href)e.href=t.href; else e.tabIndex=0;
@@ -259,9 +251,9 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
         var NEWKEYS={'Programs & Workshops':['programs'],'Block of the Month':['bom'],'Newsletters':['newsletters'],'Member Directory':['directory'],'Comfort Quilts':['comfort'],'Our Community':['sunshine','news'],'Retreats':['retreats'],'Bees':['bees'],'About our Guild':['about']};
         var pend4=full?QGPCNew.me().then(QGPCNew.keys).then(function(nk){MEMBER.forEach(function(t){t.isNew=(NEWKEYS[t.l]||[]).some(function(k){return nk[k];});});}):Promise.resolve();
         return Promise.all([pending,pend2,pend3,pend4,pend5,pend6,pend7]).then(function(){
-        var all=order(jobs,full,isAdm);
-        fill('tilebar',all.slice(0,PER_BAR));
-        if(all.length>PER_BAR){fill('more-areas',all.slice(PER_BAR));$('more-btn').classList.remove('hidden');}
+        var all=jobs.concat(full?MEMBER:PUBLIC),bar=(isAdm&&full)?jobs.length:PER_BAR;   // Superuser/Administrators: every member tile sits under More
+        fill('tilebar',all.slice(0,bar));
+        if(all.length>bar){fill('more-areas',all.slice(bar));$('more-btn').classList.remove('hidden');}
         var canPost=isAdm||has('president')||has('vice_president')||has('publicity_chair');
         QGPCSpecial.show({members:full});
         if(canPost)$('post-notice').classList.remove('hidden');
