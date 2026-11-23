@@ -75,6 +75,8 @@ textarea.field{min-height:140px;resize:vertical;font:inherit}
 <div class="ysel" id="ysel"></div></section>
 <section class="cqc" aria-labelledby="qt"><div class="cqh"><div><h2 id="qt">The quilt</h2><p class="sub" id="qsub">Members see this at the top of the page for this year.</p></div></div>
 <div class="qf" id="qform"></div></section>
+<section class="cqc" aria-labelledby="ct"><div class="cqh"><div><h2 id="ct">Colorways</h2><p class="sub">Optional. Add up to two more photos of the quilt in other colorways. Members see small thumbnails under the quilt photo and choose one to see it larger. If you add none, nothing extra shows.</p></div></div>
+<div id="cwform" style="display:flex;flex-direction:column;gap:18px"></div></section>
 <section class="cqc" aria-labelledby="mt"><div class="cqh"><div><h2 id="mt">Monthly patterns</h2><p class="sub">Add a PDF for each month, and a photo if you like. You choose the date each month becomes available to members.</p></div></div>
 <div class="addrow" id="addrow"></div>
 <p id="adderr" class="msg err hidden" role="alert" style="margin:0"></p>
@@ -136,14 +138,14 @@ QGPCShell.start({need:function(c){return c.has('bom_chair')||c.isAdmin;}},functi
       $('loading').classList.add('hidden');
       if(r[0].error||r[1].error||r[2].error){say('Could not load this page. Please refresh and try again.',true);return;}
       yinfo={};(r[0].data||[]).forEach(function(y){yinfo[y.year]=y;});months=r[1].data||[];files=r[2].data||[];
-      var all=[];Object.keys(yinfo).forEach(function(y){all.push(yinfo[y].photo_path);});
+      var all=[];Object.keys(yinfo).forEach(function(y){all.push(yinfo[y].photo_path,yinfo[y].colorway1_path,yinfo[y].colorway2_path);});
       months.forEach(function(m){all.push(m.photo_path);});files.forEach(function(f){all.push(f.photo_path);});
       all=all.filter(Boolean);
       if(!all.length){urls={};return;}
       return sb.storage.from(B).createSignedUrls(all,3600).then(function(x){urls={};(x.data||[]).forEach(function(d){if(d&&d.signedUrl&&d.path)urls[d.path]=d.signedUrl;});});
     }).then(function(){drawAll();});
   }
-  function drawAll(){drawYear();drawQuilt();drawMonths();drawFiles();}
+  function drawAll(){drawYear();drawQuilt();drawColorways();drawMonths();drawFiles();}
   function drawYear(){
     var b=$('ysel');b.textContent='';
     var set={};set[yr]=1;set[thisYear]=1;for(var y=thisYear-1;y<=thisYear+3;y++)set[y]=1;
@@ -169,6 +171,16 @@ QGPCShell.start({need:function(c){return c.has('bom_chair')||c.isAdmin;}},functi
     right.appendChild(field('Description',ds,'q-desc'));
     var cnt=el('div','cl3');cnt.style.margin='-6px 0 0';function upd(){cnt.textContent=ds.value.length+' of 3000 characters';}ds.addEventListener('input',upd);upd();right.appendChild(cnt);
     var btns=el('div','btns'),sv=el('button','btn-save','Save the quilt for '+yr);sv.type='button';btns.appendChild(sv);right.appendChild(btns);
+    if(yinfo[yr]){
+      var rq=el('button','nbtn del','Remove the quilt for '+yr);rq.type='button';btns.appendChild(rq);
+      var qc=el('div','confirm hidden');qc.appendChild(el('p',null,'Remove the '+yr+' quilt name, description, photo and colorways? Members will no longer see the quilt card for '+yr+'. The monthly patterns and More files for '+yr+' are not removed. This can\u2019t be undone.'));
+      var qr=el('div','saverow'),qy=el('button','btn-del solid','Yes, remove');qy.type='button';var qk=el('button','btn-cancel','Keep it');qk.type='button';
+      qk.onclick=function(){qc.classList.add('hidden');rq.focus();};
+      qy.onclick=function(){qy.disabled=true;qk.disabled=true;var oldp=[cfg.photo_path,cfg.colorway1_path,cfg.colorway2_path];sb.from('bom_years').delete().eq('year',yr).then(function(r){if(r.error){say('That did not remove. Please try again.',true);qy.disabled=false;qk.disabled=false;return;}rmFiles(oldp);say('Removed the '+yr+' quilt.');load();});};
+      qr.appendChild(qy);qr.appendChild(qk);qc.appendChild(qr);
+      rq.onclick=function(){qc.classList.remove('hidden');qk.focus();};
+      right.appendChild(qc);
+    }
     var er=el('p','msg err hidden');er.setAttribute('role','alert');er.style.margin='0';right.appendChild(er);
     function fail(t){er.textContent=t;er.classList.remove('hidden');}
     sv.onclick=function(){
@@ -184,6 +196,40 @@ QGPCShell.start({need:function(c){return c.has('bom_chair')||c.isAdmin;}},functi
       }).catch(function(e){sv.disabled=false;fail(errMsg(e));});
     };
     box.appendChild(right);
+  }
+  function drawColorways(){
+    var box=$('cwform');box.textContent='';var cfg=yinfo[yr];
+    if(!cfg){box.appendChild(el('p',null,'Save the quilt for '+yr+' first, then you can add colorways.'));return;}
+    [1,2].forEach(function(n){
+      var pk='colorway'+n+'_path',nk='colorway'+n+'_name',cur=cfg[pk]||null,st={photo:null};
+      var row=el('div','qf');row.style.gridTemplateColumns='120px 1fr';
+      var left=el('div'),ph=el('div','ph');
+      function show(src){ph.textContent='';if(src){var im=el('img');im.src=src;im.alt='Colorway '+n+' photo';ph.appendChild(im);}else{ph.textContent='No photo yet';ph.style.padding='28px 8px';}}
+      show(cur?urls[cur]:null);left.appendChild(ph);row.appendChild(left);
+      var right=el('div','fl'),nm=el('input','field');nm.maxLength=40;nm.value=cfg[nk]||'';nm.placeholder='e.g., Blue and cream (optional)';
+      right.appendChild(field('Colorway '+n+' name',nm,'cw-name'+n));
+      var pick=el('div','pick'),fn=el('span','fn',cur?'A photo is saved':'No photo chosen');
+      pick.appendChild(picker(cur?'Replace the photo':'Choose a photo','image/jpeg,image/png',function(f,i){if(!photoOk(f,function(t){say(t,true);})){i.value='';return;}st.photo=f;fn.textContent=f.name+' (not saved yet)';show(URL.createObjectURL(f));}));
+      pick.appendChild(fn);right.appendChild(pick);
+      var btns=el('div','btns'),sv=el('button','btn-save','Save colorway '+n);sv.type='button';btns.appendChild(sv);
+      var rm=null;if(cur||cfg[nk]){rm=el('button','nbtn del','Remove colorway '+n);rm.type='button';btns.appendChild(rm);}
+      right.appendChild(btns);
+      var er=el('p','msg err hidden');er.setAttribute('role','alert');er.style.margin='0';right.appendChild(er);
+      function fail(t){er.textContent=t;er.classList.remove('hidden');}
+      sv.onclick=function(){
+        er.classList.add('hidden');
+        if(!st.photo&&!cur)return fail('Please choose a photo for colorway '+n+'.');
+        sv.disabled=true;var rec={},up=Promise.resolve(),old=null;
+        rec[nk]=nm.value.trim()||null;
+        if(st.photo)up=upPhoto(st.photo).then(function(p){old=cur;rec[pk]=p;});
+        up.then(function(){return sb.from('bom_years').update(rec).eq('year',yr);}).then(function(r){
+          if(r.error){if(rec[pk])rmFiles([rec[pk]]);throw r.error;}
+          rmFiles([old]);say('Saved colorway '+n+' for '+yr+'.');load();
+        }).catch(function(e){sv.disabled=false;fail(errMsg(e));});
+      };
+      if(rm)rm.onclick=function(){rm.disabled=true;var u={};u[pk]=null;u[nk]=null;sb.from('bom_years').update(u).eq('year',yr).then(function(r){if(r.error){say('That did not remove. Please try again.',true);rm.disabled=false;return;}rmFiles([cur]);say('Removed colorway '+n+'.');load();});};
+      row.appendChild(right);box.appendChild(row);
+    });
   }
   function drawMonths(){
     var row=$('addrow');row.textContent='';

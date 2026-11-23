@@ -37,6 +37,11 @@
 @media(max-width:700px){.bq{grid-template-columns:1fr}}
 .bq .ph{background:#E9E4D8;border-radius:16px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#7a7466;font-size:var(--fs-sm);text-align:center}
 .bq .ph img{width:100%;height:auto;display:block}
+.cw{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.cw button{padding:0;width:56px;height:56px;border:2px solid var(--edge);border-radius:10px;background:#fff;cursor:pointer;overflow:hidden}
+.cw button[aria-pressed=true]{border-color:var(--cobalt);box-shadow:0 0 0 2px var(--cobalt)}
+.cw button img{width:100%;height:100%;object-fit:cover;display:block}
+.cw .cwc{flex-basis:100%;margin:0;font-size:var(--fs-sm);color:var(--muted)}
 .bq h2{margin:0 0 8px;font:400 var(--fs-2xl) 'Young Serif',Georgia,serif}
 .bq .desc{margin:0;font-size:var(--fs-md);line-height:1.6;white-space:pre-line;overflow-wrap:anywhere}
 .mons{display:flex;gap:10px;flex-wrap:wrap}
@@ -71,7 +76,7 @@
 <p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
 <p id="loading" role="status" style="margin:0">Loading&hellip;</p>
 <div class="yrs hidden" id="yrs-wrap"><span class="lbl" id="yrs-l">Year</span><div class="yrs" id="yrs" role="group" aria-labelledby="yrs-l"></div></div>
-<section class="cqc hidden" id="quilt-card" aria-labelledby="q-name"><div class="bq"><div class="ph" id="q-photo">No photo yet</div>
+<section class="cqc hidden" id="quilt-card" aria-labelledby="q-name"><div class="bq"><div><div class="ph" id="q-photo">No photo yet</div><div class="cw hidden" id="cw" role="group" aria-label="Colorways"></div></div>
 <div><h2 id="q-name"></h2><p class="desc" id="q-desc"></p></div></div></section>
 <section class="cqc hidden" id="months-card" aria-labelledby="m-h">
 <div class="cqh"><div><h2 id="m-h">Block patterns</h2><p class="sub" id="m-sub">Choose a month to view or download its pattern.</p></div></div>
@@ -119,7 +124,7 @@ QGPCShell.start({need:function(c){return c.full||c.isAdmin;}},function(ctx){
       years=Object.keys(ys).map(Number).sort();
       var now=+C.today().slice(0,4);
       if(cur===null||years.indexOf(cur)<0)cur=years.indexOf(now)>-1?now:(years.length?years[years.length-1]:null);
-      var all=[];Object.keys(yinfo).forEach(function(y){all.push(yinfo[y].photo_path);});
+      var all=[];Object.keys(yinfo).forEach(function(y){all.push(yinfo[y].photo_path,yinfo[y].colorway1_path,yinfo[y].colorway2_path);});
       months.forEach(function(m){all.push(m.photo_path);});files.forEach(function(f){all.push(f.photo_path);});
       var pdfs=months.map(function(m){return m.pdf_path;}).concat(files.map(function(f){return f.pdf_path;}));
       return Promise.all([signed(all.concat(pdfs)),signed(pdfs,{download:true})]).then(function(u){urls=u[0];dlurls=u[1];draw();});
@@ -143,7 +148,21 @@ QGPCShell.start({need:function(c){return c.full||c.isAdmin;}},function(ctx){
       $('q-name').textContent=s.quilt_name||('Block of the Month '+cur);
       $('q-desc').textContent=s.description||'';
       var ph=$('q-photo');ph.textContent='';
-      if(s.photo_path&&urls[s.photo_path]){var im=el('img');im.src=urls[s.photo_path];im.alt='Photo of the '+(s.quilt_name||'Block of the Month')+' quilt';ph.appendChild(im);}else{ph.textContent='No photo yet';ph.style.padding='48px 16px';}
+      var qn=s.quilt_name||'Block of the Month',cw=$('cw');cw.textContent='';cw.classList.add('hidden');
+      var opts=[];[1,2].forEach(function(n){var cp=s['colorway'+n+'_path'];if(cp&&urls[cp])opts.push({p:cp,n:s['colorway'+n+'_name']||('Colorway '+n)});});
+      if(s.photo_path&&urls[s.photo_path]){var im=el('img');im.src=urls[s.photo_path];im.alt='Photo of the '+qn+' quilt';ph.appendChild(im);}else{ph.textContent='No photo yet';ph.style.padding='48px 16px';}
+      if(opts.length){
+        if(s.photo_path&&urls[s.photo_path])opts.unshift({p:s.photo_path,n:'Original'});
+        var mi=ph.querySelector('img'),btns=[],cap=el('p','cwc');
+        var pick=function(i){
+          var o=opts[i];if(!mi){ph.textContent='';ph.style.padding='';mi=el('img');ph.appendChild(mi);}
+          mi.src=urls[o.p];mi.alt='Photo of the '+qn+' quilt, '+o.n;cap.textContent='Showing: '+o.n;
+          btns.forEach(function(b,j){b.setAttribute('aria-pressed',j===i?'true':'false');});
+        };
+        opts.forEach(function(o,i){var b=el('button');b.type='button';b.setAttribute('aria-label','Show '+o.n);b.setAttribute('aria-pressed',i===0&&s.photo_path?'true':'false');
+          var t=el('img');t.src=urls[o.p];t.alt='';b.appendChild(t);b.onclick=function(){pick(i);};btns.push(b);cw.appendChild(b);});
+        cap.textContent=s.photo_path&&urls[s.photo_path]?'Showing: Original':'';cw.appendChild(cap);cw.classList.remove('hidden');
+      }
     }
     var ms=months.filter(function(m){return parts(m.month_start).y===cur;});
     $('months-card').classList.remove('hidden');
