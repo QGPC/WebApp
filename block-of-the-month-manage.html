@@ -169,6 +169,9 @@ QGPCShell.start({need:function(c){return c.has('bom_chair')||c.isAdmin;}},functi
     right.appendChild(field('Quilt name',nm,'q-name'));
     var ds=el('textarea','field');ds.maxLength=3000;ds.value=cfg.description||'';ds.placeholder='Tell members about the quilt: finished size, fabrics, skill level.';
     right.appendChild(field('Description',ds,'q-desc'));
+    var cp=el('textarea','field');cp.maxLength=1000;cp.rows=3;cp.value=cfg.copyright||'';cp.placeholder='Optional. For example: \u00a9 2026 Designer Name. Used with permission. For personal use only.';
+    right.appendChild(field('Copyright information (optional)',cp,'q-copy'));
+    right.appendChild(el('p','sub','Members see this under the description only when you type something here. Leave it empty if it does not apply.'));
     var cnt=el('div','cl3');cnt.style.margin='-6px 0 0';function upd(){cnt.textContent=ds.value.length+' of 3000 characters';}ds.addEventListener('input',upd);upd();right.appendChild(cnt);
     var btns=el('div','btns'),sv=el('button','btn-save','Save the quilt for '+yr);sv.type='button';btns.appendChild(sv);right.appendChild(btns);
     if(yinfo[yr]){
@@ -187,7 +190,7 @@ QGPCShell.start({need:function(c){return c.has('bom_chair')||c.isAdmin;}},functi
       er.classList.add('hidden');
       var name=nm.value.trim();if(!name)return fail('Please type the quilt name.');
       sv.disabled=true;
-      var rec={year:yr,quilt_name:name,description:ds.value.trim()},old=null,up=Promise.resolve();
+      var rec={year:yr,quilt_name:name,description:ds.value.trim(),copyright:cp.value.trim()||null},old=null,up=Promise.resolve();
       if(st.photo)up=upPhoto(st.photo).then(function(p){old=cfg.photo_path;rec.photo_path=p;});
       up.then(function(){return sb.from('bom_years').upsert(rec,{onConflict:'year'});}).then(function(r){
         if(r.error)throw r.error;
