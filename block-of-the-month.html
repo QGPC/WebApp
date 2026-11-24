@@ -49,8 +49,6 @@
 .mcard{border:2px solid var(--cobalt);background:var(--mist-lt);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:14px}
 .mcard h3{margin:0;font-size:var(--fs-xl)}
 .mcard .act{display:flex;gap:10px;flex-wrap:wrap}
-.yrs{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.yrs .lbl{margin:0 4px 0 0}
 .mcard .mp{max-width:360px;border-radius:12px;overflow:hidden;background:#E9E4D8}
 .mcard .mp img{width:100%;height:auto;display:block}
 .xf{list-style:none;margin:0;padding:0;display:grid;align-items:start;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:18px}
@@ -76,7 +74,7 @@
 <div class="mwrap" style="max-width:1200px;gap:22px" id="content">
 <p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
 <p id="loading" role="status" style="margin:0">Loading&hellip;</p>
-<div class="yrs hidden" id="yrs-wrap"><span class="lbl" id="yrs-l">Year</span><div class="yrs" id="yrs" role="group" aria-labelledby="yrs-l"></div></div>
+<label class="ypick hidden" id="yrs-wrap">Year<select class="field" id="yrs"></select></label>
 <section class="cqc hidden" id="quilt-card" aria-labelledby="q-name"><div class="bq"><div><div class="ph" id="q-photo">No photo yet</div><div class="cw hidden" id="cw" role="group" aria-label="Colorways"></div></div>
 <div><h2 id="q-name"></h2><p class="desc" id="q-desc"></p><p class="desc copy hidden" id="q-copy"></p></div></div></section>
 <section class="cqc hidden" id="months-card" aria-labelledby="m-h">
@@ -140,8 +138,8 @@ QGPCShell.start({need:function(c){return c.full||c.isAdmin;}},function(ctx){
   function draw(){
     var yw=$('yrs-wrap'),yb=$('yrs');yb.textContent='';
     yw.classList.toggle('hidden',years.length<2);
-    years.forEach(function(y){var b=el('button','nbtn'+(y===cur?' solid':''),String(y));b.type='button';b.setAttribute('aria-pressed',y===cur?'true':'false');
-      b.onclick=function(){cur=y;openId=null;draw();};yb.appendChild(b);});
+    years.forEach(function(y){var o=el('option',null,String(y));o.value=String(y);yb.appendChild(o);});
+    if(cur!==null)yb.value=String(cur);yb.onchange=function(){cur=+yb.value;openId=null;draw();};
     if(cur===null){$('quilt-card').classList.add('hidden');$('files-card').classList.add('hidden');$('months-card').classList.remove('hidden');$('mons').textContent='';$('slot').textContent='';$('none').classList.remove('hidden');$('m-sub').classList.add('hidden');return;}
     var s=yinfo[cur]||{},hasQ=!!(s.quilt_name||s.description||s.photo_path);
     $('quilt-card').classList.toggle('hidden',!hasQ);

@@ -47,7 +47,7 @@
 <div class="mwrap" style="max-width:1200px;gap:22px" id="content">
 
 <section class="cqc" aria-labelledby="nt" style="background:none;border:0;padding:0">
-<div class="cqh"><h2 id="nt">News mentions</h2><div class="seg" id="yrs" role="group" aria-label="Show year"></div></div>
+<div class="cqh"><h2 id="nt">News mentions</h2><label class="ypick" id="yrs-wrap">Year<select class="field" id="yrs"></select></label></div>
 <p id="loading" role="status" style="margin:0">Loading&hellip;</p>
 <p class="empty hidden" id="none"></p>
 <div id="out"></div></section>
@@ -89,14 +89,13 @@
   function years(){var s={};items.forEach(function(n){s[n.published_on.slice(0,4)]=1;});return Object.keys(s).sort().reverse();}
   function hasMany(){return years().length>1;}
   function buttons(){
-    var b=$('yrs');b.textContent='';
-    var ys=years();if(ys.length<2){b.classList.add('hidden');return;}
-    b.classList.remove('hidden');
-    ['all'].concat(ys).forEach(function(y){
-      var x=el('button',null,y==='all'?'All years':y);x.type='button';x.setAttribute('aria-pressed',y===year);
-      x.onclick=function(){year=y;buttons();draw();};b.appendChild(x);
-    });
+    var w=$('yrs-wrap'),b=$('yrs');b.textContent='';var ys=years();
+    if(ys.length<2){w.classList.add('hidden');return;}
+    w.classList.remove('hidden');
+    ['all'].concat(ys).forEach(function(y){var o=el('option',null,y==='all'?'All years':y);o.value=y;b.appendChild(o);});
+    b.value=year;b.onchange=function(){year=b.value;draw();};
   }
+
   C.who().then(function(w){
     if(w.signedIn)$('homelink').href='home.html';
     var r=w.roles;if(['superuser','administrator','president','vice_president','publicity_chair'].some(function(k){return r.indexOf(k)>-1;}))$('edit').classList.remove('hidden');

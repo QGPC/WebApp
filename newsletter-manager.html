@@ -68,7 +68,7 @@
 <p class="sub">The newest published issue automatically becomes the current issue on the Newsletters page. Save the original PDF in the Guild&rsquo;s Drive folder before uploading, and make the web copy small first (Save as PDF at minimum size). Check that the text can still be selected.</p>
 </section>
 <section class="cqc" aria-labelledby="all-title">
-<div class="cqh"><h2 id="all-title">All newsletters</h2><div class="seg" id="years" role="group" aria-label="Year"></div></div>
+<div class="cqh"><h2 id="all-title">All newsletters</h2><label class="ypick">Year<select class="field" id="years"></select></label></div>
 <p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
 <p id="loading" role="status" style="margin:0">Loading&hellip;</p>
 <ul class="nll" id="rows"></ul>
@@ -170,7 +170,8 @@ QGPCShell.start({need:function(c){return c.has('newsletter_chair')||c.isAdmin;}}
     var ys=[+C.today().slice(0,4)];rows.forEach(function(n){if(ys.indexOf(n.year)<0)ys.push(n.year);});if(ys.indexOf(year)<0)ys.push(year);
     ys.sort(function(a,b){return b-a;});
     var yb=$('years');yb.textContent='';
-    ys.forEach(function(y){var b=el('button',null,String(y));b.type='button';b.setAttribute('aria-pressed',y===year?'true':'false');b.onclick=function(){year=y;confirmId=null;draw();};yb.appendChild(b);});
+    ys.forEach(function(y){var o=el('option',null,String(y));o.value=String(y);yb.appendChild(o);});
+    yb.value=String(year);yb.onchange=function(){year=+yb.value;confirmId=null;draw();};
     var cur=current(),ul=$('rows');ul.textContent='';
     var list=rows.filter(function(n){return n.year===year;});
     $('none').classList.toggle('hidden',list.length>0);

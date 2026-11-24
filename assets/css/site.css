@@ -319,6 +319,9 @@ ul.special-list p{margin:0;white-space:pre-wrap}
 .cqc{background:#fff;border:1px solid var(--edge);border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:14px;box-sizing:border-box}
 .cqh{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .cbadge{min-width:26px;height:26px;padding:0 8px;border-radius:999px;background:var(--persimmon);color:var(--ink);font-weight:700;font-size:var(--fs-sm);display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box}
+/* Year choice: a labelled drop-down, the same look as the Year box on Charities We Support */
+.ypick{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:var(--fs-md)}
+.ypick select{min-height:46px;min-width:120px}
 .seg{display:flex;gap:8px;flex-wrap:wrap}
 .seg button{min-height:44px;padding:0 18px;border-radius:999px;border:2px solid var(--cobalt);background:#fff;color:var(--cobalt);font:600 var(--fs-sm) var(--sans);cursor:pointer}
 .seg button[aria-pressed=true]{background:var(--cobalt);color:#fff}

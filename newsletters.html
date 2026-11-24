@@ -64,7 +64,7 @@
 <p class="hint">If the newsletter does not show on your phone or tablet, use &ldquo;Open in a new tab&rdquo; or &ldquo;Download PDF&rdquo;.</p>
 </section>
 <section class="cqc" aria-labelledby="past-title">
-<div class="cqh"><h2 id="past-title">Past issues</h2><div class="seg" id="years" role="group" aria-label="Year"></div></div>
+<div class="cqh"><h2 id="past-title">Past issues</h2><label class="ypick">Year<select class="field" id="years"></select></label></div>
 <ul class="ihl" id="issues"></ul>
 <p class="hint" id="issues-load">Loading&hellip;</p>
 <p class="empty hidden" id="none">No newsletters have been posted yet.</p>
@@ -123,7 +123,8 @@ QGPCShell.start({need:function(c){return c.full||c.isAdmin;}},function(ctx){
     $('back-cur').classList.toggle('hidden',cur);
     var ys=[];all.forEach(function(n){if(ys.indexOf(n.year)<0)ys.push(n.year);});
     var yb=$('years');yb.textContent='';
-    ys.forEach(function(y){var b=el('button',null,String(y));b.type='button';b.setAttribute('aria-pressed',y===year?'true':'false');b.onclick=function(){year=y;draw();};yb.appendChild(b);});
+    ys.forEach(function(y){var o=el('option',null,String(y));o.value=String(y);yb.appendChild(o);});
+    yb.value=String(year);yb.onchange=function(){year=+yb.value;draw();};
     var ul=$('issues');ul.textContent='';
     all.filter(function(n){return n.year===year;}).forEach(function(n){
       var li=el('li',n.id===sel.id?'on':''),nm=el('span','nm',label(n));
