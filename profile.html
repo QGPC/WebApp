@@ -95,8 +95,12 @@
 </aside>
 </form>
 <section class="pcard" style="margin:32px 0 0" aria-labelledby="priv-title"><div class="ph"><h2 id="priv-title">Your information and privacy</h2></div>
-<span class="sub">The Guild keeps your name, email address and membership details, the contact details and interests on this page, your photo if you add one, and any workshop sign-ups you make. Signed-in members can see your name, contact details, birthday (month and day only), interests and photo in the Member Directory, unless you have unticked the Directory box below. The Membership Chair, Administrators and the Superuser can see your whole membership record. Your password is private.</span>
-<span class="sub">To ask us to correct your details, or to have your record removed from the site, contact the Membership Chair. The Guild&rsquo;s contact details are at the bottom of every page. <a href="privacy.html">Read the full Privacy Notice</a>.</span></section>
+<span class="sub">Any information you share on this page can be seen by members who are logged into the website. If you choose to keep your information private, uncheck the &ldquo;Member Directory&rdquo; box.</span>
+<ul class="sub" style="margin:10px 0 0;padding-left:22px">
+<li>Your password is private and not seen by anyone.</li>
+<li>Corrections may be sent to the Membership Chair.</li>
+<li><a href="privacy.html">Read the full Privacy Notice</a> to learn how your information is used by the Guild and how your privacy is protected.</li>
+</ul></section>
 </div></main>
 <footer class="site-foot"><div class="wrap">
 <div><b>Quilter&rsquo;s Guild of Parker County</b>
@@ -112,17 +116,6 @@
 (function(){
   var $=function(i){return document.getElementById(i)};
   var member=null;
-  // "Visible to members" tags: these fields appear in the Member Directory. They change to "Not shown" when the member unticks the listing.
-  var TAGGED=['label[for=pf-first]','label[for=pf-last]','label[for=pf-email]','label[for=pf-cell]','#pf-street-h','#pf-bday-h','#int-title'];
-  function tagsPaint(){
-    var listed=$('pf-listed').checked;
-    TAGGED.forEach(function(q,i){
-      var host=document.querySelector(q);if(!host)return;
-      var t=host.querySelector('.vtag');
-      if(!t){t=document.createElement('span');t.className='vtag';host.appendChild(t);}
-      t.textContent=listed?'Visible to members':'Not shown';t.classList.toggle('off',!listed);
-    });
-  }
   // Unsaved-changes warning: only for the fields the Save changes button saves (the listing, photo and message choices save at once).
   var dirty=false;
   function setDirty(d){dirty=d;$('dirty').classList.toggle('hidden',!d);if(d)$('saved').classList.add('hidden');}
@@ -185,7 +178,7 @@
         $('pf-cell').value=m.cell_phone||'';$('pf-street').value=m.street_address||'';$('pf-city').value=m.city||'';
         $('pf-state').value=m.state||'';$('pf-zip').value=m.zip||'';
         $('pf-bm').value=m.birthday_month||'';$('pf-bd').value=m.birthday_day||'';
-        $('pf-listed').checked=!m.directory_opt_out;tagsPaint();
+        $('pf-listed').checked=!m.directory_opt_out;
         var mine=m.interests||[];checks().forEach(function(c){c.checked=mine.indexOf(c.value)>-1;});
         $('pf-other').value=m.interests_other||'';
         $('m-type').textContent=m.membership_type||'—';$('m-since').textContent=m.member_since||'—';
@@ -211,7 +204,7 @@
     QGPC.sb.from('members').update({directory_opt_out:!want}).eq('id',member.id).select('id').then(function(r){
       box.disabled=false;
       if(r.error||!r.data||!r.data.length){box.checked=!want;say('dir-err','We could not save that choice. Please try again, or contact the Membership Chair.');return;}
-      member.directory_opt_out=!want;tagsPaint();
+      member.directory_opt_out=!want;
       say('dir-saved',want?'Saved. You are listed in the Member Directory.':'Saved. You are no longer listed in the Member Directory.');
     });
   });

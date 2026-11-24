@@ -141,8 +141,6 @@ button.pill.out{height:44px;padding:0 16px;border:1px solid var(--ink);backgroun
 @media(max-width:560px){.grid3{grid-template-columns:1fr}}
 .chks{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:4px 16px}
 .chk{display:flex;align-items:center;gap:10px;min-height:44px;font-weight:500}
-.vtag{display:inline-block;margin-left:8px;padding:1px 9px;border-radius:999px;border:1px solid var(--cobalt);background:#EAF2FB;color:var(--cobalt);font-size:var(--fs-sm);font-weight:600;line-height:1.5;vertical-align:middle;white-space:nowrap}
-.vtag.off{border-color:#8A8F9C;background:#F3F2EE;color:var(--muted-dark)}
 .dirty{font-weight:700;color:var(--persimmon-dark)}
 .chk input{width:20px;height:20px;margin:0;accent-color:var(--cobalt)}
 .photo-row{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
