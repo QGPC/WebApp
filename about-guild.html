@@ -22,12 +22,9 @@
 .lbl{display:block;font-weight:600;font-size:var(--fs-md);margin:0 0 6px}
 .row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
 
-.bigbtn{display:flex;align-items:center;gap:16px;width:100%;min-height:88px;padding:12px 24px 12px 12px;box-sizing:border-box;background:#fff;border:1px solid var(--edge);border-radius:16px;color:var(--ink);text-align:left;text-decoration:none;font:inherit;cursor:pointer}
-.bigbtn:hover,.bigbtn:focus-visible{border-color:var(--cobalt)}
-.bigbtn .ic{flex:0 0 auto;width:64px;height:64px;border-radius:12px;background:var(--mist);color:var(--cobalt);display:flex;align-items:center;justify-content:center}
-.bigbtn .ic.hot{background:var(--peach);color:var(--persimmon-dark)}
-.bigbtn .tx{flex:1 1 auto;display:flex;flex-direction:column;gap:4px}.bigbtn .tx b{font-size:var(--fs-xl)}.bigbtn .tx span{font-size:var(--fs-md);color:var(--muted);line-height:1.45}
-.bigbtn .chev{flex:0 0 auto;transition:transform .15s}.bigbtn[aria-expanded=true] .chev{transform:rotate(180deg)}
+button.acard{width:100%;text-align:left;font:inherit;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease}
+button.acard:hover,button.acard:focus-visible{transform:translateY(-2px);box-shadow:0 8px 24px rgba(31,36,51,.10);border-color:var(--cobalt)}
+button.acard[aria-expanded=true]{border-color:var(--cobalt);background:var(--mist-lt);box-shadow:0 0 0 1px var(--cobalt)}
 .people{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:12px}
 .pcl{flex:1 1 auto;min-height:88px;display:flex;align-items:center;gap:14px;padding:12px 16px 12px 12px;box-sizing:border-box;border:1px solid var(--edge);border-radius:14px;background:var(--cream);font:inherit;color:var(--ink);text-align:left;width:100%}
 button.pcl{border:2px solid var(--edge);cursor:pointer}button.pcl[aria-expanded=true]{border-color:var(--cobalt);background:var(--mist-lt)}button.pcl:hover{border-color:var(--cobalt)}
@@ -60,9 +57,12 @@ button.pcl{border:2px solid var(--edge);cursor:pointer}button.pcl[aria-expanded=
 <div class="mwrap" style="max-width:1200px;gap:22px" id="content">
 
 <section class="cqc" aria-labelledby="ms-title" style="padding:28px;gap:14px"><h2 id="ms-title">Guild Mission Statement</h2><p id="ms-body" style="margin:0;font-size:var(--fs-lg);line-height:1.6;white-space:pre-line;overflow-wrap:anywhere" aria-live="polite">Loading&hellip;</p></section>
-<button type="button" class="bigbtn" id="board-btn" aria-expanded="false" aria-controls="board-panel"><span class="ic"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><circle cx="17" cy="9" r="2.6"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 14.5c3 0 6 2 6 5.5"/></svg></span><span class="tx"><b>Our Board</b><span id="board-intro">Board members and committee chairs.</span></span><svg class="chev" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+<section class="hubsec" aria-labelledby="learn-h"><h2 id="learn-h">Our Guild</h2>
+<div class="ptools">
+<button type="button" class="acard" id="board-btn" aria-expanded="false" aria-controls="board-panel"><img width="44" height="44" src="assets/tiles/our-board.svg" alt=""><span class="tx"><b>Our Board</b><span id="board-intro">Board members and committee chairs.</span></span></button>
+<a class="acard" href="guild-history.html"><img width="44" height="44" src="assets/tiles/about-our-guild.svg" alt=""><span class="tx"><b>Guild History</b><span>How the Guild began and how it has grown.</span></span></a>
+</div></section>
 <div id="board-panel" style="display:none;flex-direction:column;gap:24px"></div>
-<a class="bigbtn" href="guild-history.html"><span class="ic hot"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="tx"><b>Guild History</b><span>How the Guild began and how it has grown.</span></span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a>
 </div>
 </main>
 <footer class="site-foot"><div class="wrap">
