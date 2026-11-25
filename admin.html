@@ -5,7 +5,7 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261118f">
+<link rel="stylesheet" href="assets/css/site.css?v=20261125a">
 <style>
 
 
@@ -112,6 +112,12 @@ QGPCShell.start({need:function(c){return c.isAdmin;}},function(ctx){
       g.appendChild(a);
     });
     sec.appendChild(g);box.appendChild(sec);
+  });
+  // how many reported messages are waiting, on that card
+  QGPC.sb.rpc('reported_messages_waiting').then(function(r){
+    var n=(!r.error&&r.data>0)?r.data:0,a=box.querySelector('a[href="reported-messages.html"]');if(!n||!a)return;
+    var b=el('span','cbadge',String(n));b.setAttribute('aria-hidden','true');b.style.color='var(--ink)';a.querySelector('b').appendChild(b);
+    a.querySelector('.tx').appendChild(el('span','nw',n===1?'1 report waiting':n+' reports waiting'));
   });
 });
 </script>
