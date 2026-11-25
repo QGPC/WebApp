@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Review Sunshine and Shadows Notes</title>
+<title>Sunshine and Shadows Notes Waiting for Review</title>
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
@@ -44,21 +44,16 @@
 <main id="main">
 <section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
 <div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Sunshine &amp; Shadows</span>
-<h1 id="pg-title" style="margin:0">Review Notes</h1><p class="stat-line" id="lead">Approve, edit or decline notes from members before they&rsquo;re posted, and take down posted notes.</p></div>
+<h1 id="pg-title" style="margin:0">Waiting for Review</h1><p class="stat-line" id="lead">Approve, edit or decline notes from members before they&rsquo;re posted.</p></div>
 </div></section>
 <div class="mwrap" style="max-width:1200px;gap:22px" id="content">
 <a class="backlink" href="sunshine-review.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to Sunshine &amp; Shadows Review</a>
 <section class="cqc" aria-labelledby="queue-title">
-<div class="cqh"><h2 id="queue-title">Waiting for review</h2><span class="pl" id="count"></span></div>
+<div class="cqh"><h2 id="queue-title">Notes from members</h2><span class="pl" id="count"></span></div>
 <p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
 <p id="loading" role="status" style="margin:0">Loading&hellip;</p>
 <div id="queue" style="display:flex;flex-direction:column;gap:14px"></div>
 <p class="empty hidden" id="caught">All caught up. New notes from members will appear here.</p>
-</section>
-<section class="cqc" aria-labelledby="posted-title">
-<div class="cqh"><h2 id="posted-title">On the page now</h2></div>
-<ul class="lv" id="live"></ul>
-<p class="empty hidden" id="none-live">Nothing is on the page right now.</p>
 </section>
 <section class="infobox"><div><h2>Who can use this page</h2><p>The Sunshine &amp; Shadows Chair, Administrators and the Superuser. Members&rsquo; contact details shown here stay private to these roles. A note with an end date stays up through that date.</p></div></section>
 </div>
@@ -82,10 +77,10 @@ QGPCShell.start({need:function(c){return c.has('sunshine_shadows_chair')||c.isAd
   function say(t,bad){var n=$('status');n.textContent=t;n.className='msg '+(bad?'err':'ok');n.style.margin='0';n.scrollIntoView({behavior:'smooth',block:'nearest'});}
   function niceD(iso){return C.nice(iso);}
   function load(){
-    return Promise.all([sb.rpc('sunshine_queue'),sb.from('sunshine_notes').select('id,kind,headline,about_name,decided_at,expires_on').eq('status','approved').order('decided_at',{ascending:false})]).then(function(r){
+    return sb.rpc('sunshine_queue').then(function(r){
       $('loading').classList.add('hidden');
-      if(r[0].error){say('Could not load the notes. Please refresh and try again.',true);return;}
-      drawQueue(r[0].data||[]);drawLive(r[1].data||[]);
+      if(r.error){say('Could not load the notes. Please refresh and try again.',true);return;}
+      drawQueue(r.data||[]);
     });
   }
   function field(label,node,id){var d=el('div'),l=el('label','lbl',label);node.id=id;l.htmlFor=id;d.appendChild(l);d.appendChild(node);return d;}
@@ -146,18 +141,6 @@ QGPCShell.start({need:function(c){return c.has('sunshine_shadows_chair')||c.isAd
         });
       };
       box.appendChild(card);
-    });
-  }
-  function drawLive(l){
-    var ul=$('live');ul.textContent='';$('none-live').classList.toggle('hidden',l.length>0);
-    l.forEach(function(n){
-      var li=el('li'),tx=el('span'),gone=n.expires_on&&n.expires_on<today;
-      tx.appendChild(el('span','t',n.headline||n.about_name));tx.appendChild(el('br'));
-      tx.appendChild(el('span','s',(n.kind==='sun'?'Sunshine':'Shadow')+' · approved '+niceD(n.decided_at)+' · '+(n.expires_on?(gone?'came down after '+niceD(n.expires_on):'stays up through '+niceD(n.expires_on)):'no expiration date')));
-      li.appendChild(tx);
-      var b=el('button','nbtn del','Take down');b.type='button';b.setAttribute('aria-label','Take down '+(n.headline||n.about_name));
-      b.onclick=function(){b.disabled=true;sb.rpc('sunshine_take_down',{p_id:n.id}).then(function(r){if(r.error)say('That did not work. Please try again.',true);else say('Taken down from the Sunshine & Shadows page.');load();});};
-      li.appendChild(b);ul.appendChild(li);
     });
   }
   load();

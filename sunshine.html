@@ -47,6 +47,7 @@
 <a class="backlink" href="our-community.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to Our Community</a>
 <section class="cqc" aria-labelledby="list-title">
 <div class="cqh"><h2 id="list-title">Guild news</h2><div class="seg" id="filters" role="group" aria-label="Show"></div></div>
+<p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
 <p id="loading" role="status" style="margin:0">Loading&hellip;</p>
 <ul class="ssl" id="list"></ul>
 <p class="empty hidden" id="none">Nothing has been posted yet.</p>
@@ -69,6 +70,7 @@
 QGPCShell.start({need:function(c){return c.full||c.isAdmin;}},function(ctx){
   var $=function(i){return document.getElementById(i)};
   var C=QGPCComfort,sb=QGPC.sb,el=C.el,show='all',rows=[];
+  var canManage=ctx.has('sunshine_shadows_chair')||ctx.isAdmin;
   var SUN='<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
   var SHA='<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>';
   function draw(){
@@ -83,8 +85,24 @@ QGPCShell.start({need:function(c){return c.full||c.isAdmin;}},function(ctx){
       if(r.posted_at&&(Date.now()-new Date(r.posted_at).getTime())<14*86400000)m.appendChild(el('span','pl new','New'));
       d.appendChild(m);d.appendChild(el('h3',null,r.headline));d.appendChild(el('p',null,r.body));
       if(r.card_address)d.appendChild(el('span','card','Cards may be sent to: '+r.card_address));
+      if(canManage)d.appendChild(takeDown(r));
       li.appendChild(d);ul.appendChild(li);
     });
+  }
+  function say(t,bad){var n=$('status');n.textContent=t;n.className='msg '+(bad?'err':'ok');n.style.margin='0';n.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  // Chair, Administrators and Superuser only; the database checks this again.
+  function takeDown(r){
+    var w=el('div'),b=el('button','nbtn del','Take down'),box=el('div','confirm hidden'),row=el('div','saverow'),
+        yes=el('button','btn-del solid','Yes, take down'),keep=el('button','btn-cancel','Keep it');
+    w.style.marginTop='12px';b.type=yes.type=keep.type='button';b.setAttribute('aria-label','Take down '+r.headline);
+    box.setAttribute('role','alert');box.appendChild(el('p',null,'Take this note off the page? It can’t be put back.'));
+    row.appendChild(yes);row.appendChild(keep);box.appendChild(row);w.appendChild(b);w.appendChild(box);
+    function ask(on){box.classList.toggle('hidden',!on);b.classList.toggle('hidden',on);}
+    b.onclick=function(){ask(true);};keep.onclick=function(){ask(false);};
+    yes.onclick=function(){yes.disabled=true;sb.rpc('sunshine_take_down',{p_id:r.id}).then(function(x){
+      if(x.error){yes.disabled=false;say('That did not work. Please try again.',true);return;}
+      rows=rows.filter(function(y){return y.id!==r.id;});draw();say('Taken down from the Sunshine & Shadows page.');});};
+    return w;
   }
   sb.rpc('sunshine_list').then(function(r){
     $('loading').classList.add('hidden');
