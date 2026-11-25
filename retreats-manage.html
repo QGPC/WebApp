@@ -1,66 +1,37 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Edit Retreats</title>
+<title>Retreat Chair</title>
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261118f">
-<style>
-
-
-
-.cqc>h2,.cqh h2{margin:0;font:400 var(--fs-xl) 'Young Serif',Georgia,serif}
-.sub{margin:2px 0 0;color:var(--muted);font-size:var(--fs-md)}
-.pl{font-size:var(--fs-sm);font-weight:700;padding:4px 10px;border-radius:999px;background:var(--mist);color:var(--cobalt);white-space:nowrap}
-.pl.gray{background:var(--sand);color:var(--muted-dark)}
-.pl.new{background:var(--persimmon);color:var(--ink)}
-
-.infobox p{margin:0;font-size:var(--fs-md);line-height:1.5;color:var(--ink)}
-.blue-note h3{margin:0;font-size:var(--fs-lg)}.blue-note ul{margin:8px 0 0;padding-left:20px;line-height:1.5}
-.empty{margin:0;padding:14px 16px;border-radius:12px;background:var(--sand);color:var(--muted-dark)}
-.lbl{display:block;font-weight:600;font-size:var(--fs-md);margin:0 0 6px}
-.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
-
-.rowi{display:flex;gap:10px 16px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;padding:12px 0;border-top:1px solid var(--sand-dk)}
-.rowi .l{flex:1 1 280px;min-width:0}.rowi .l b{font-size:var(--fs-md);overflow-wrap:anywhere}.rowi .l .sub{font-size:var(--fs-sm);overflow-wrap:anywhere}
-.rowi .r{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start}
-textarea.field{min-height:96px;resize:vertical;font-family:inherit}
-.nl-tell{display:flex;gap:14px;align-items:center;text-decoration:none;color:inherit;border:2px solid var(--cobalt);background:#fff;border-radius:16px;padding:14px 18px}.nl-tell b{display:block;font-size:var(--fs-lg)}.nl-tell .d{color:var(--muted);font-size:var(--fs-md)}
-</style>
+<link rel="stylesheet" href="assets/css/site.css?v=20261125a">
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
 <header class="site-head"><div class="wrap">
 <div class="head-top">
 <a class="brand" href="home.html"><img src="assets/icons/icon-104.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
-<nav class="head-actions" aria-label="Home and account"><a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a><span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span><button type="button" class="pill out" id="out">Sign out</button></nav>
-</div></div></header>
+<nav class="head-actions" aria-label="Home and account">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</nav></div></div></header>
 <main id="main">
-<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
-<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Retreats Chair</span>
-<h1 id="pg-title" style="margin:0">Edit Retreats</h1><p class="stat-line" id="lead">Add, change and remove the retreats shown on the Retreats page.</p></div>
-
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Retreats</span>
+<h1 id="pg-title" style="margin:0">Retreat Chair</h1><p class="stat-line">Tools for the Retreats Chair, Administrators and the Superuser.</p></div>
 </div></section>
-<div class="mwrap" style="max-width:1200px;gap:22px" id="content">
-<a class="backlink" href="retreats.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to Retreats</a>
-<p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
-<section class="cqc" aria-labelledby="f-t"><div class="cqh"><h2 id="f-t">Add a retreat</h2></div>
-<form id="form" novalidate style="display:flex;flex-direction:column;gap:14px">
-<div><label class="lbl" for="f-name">Name of the retreat</label><input class="field" id="f-name" maxlength="120" placeholder="Fall Retreat"></div>
-<div class="row2"><div><label class="lbl" for="f-start">First day</label><input class="field" id="f-start" type="date"></div>
-<div><label class="lbl" for="f-end">Last day (leave empty for a one-day retreat)</label><input class="field" id="f-end" type="date"></div></div>
-<div class="row2"><div><label class="lbl" for="f-place">Where</label><input class="field" id="f-place" maxlength="200"></div>
-<div><label class="lbl" for="f-cost">Cost</label><input class="field" id="f-cost" maxlength="200" placeholder="$250, meals included"></div></div>
-<div><label class="lbl" for="f-web">Retreat center website (optional)</label><input class="field" id="f-web" type="url" maxlength="500" placeholder="https://..."><p class="sub" style="font-size:var(--fs-sm)">Copy the address from your browser. It must start with https:// or http://.</p></div>
-<div><label class="lbl" for="f-about">About this retreat</label><textarea class="field" id="f-about" maxlength="2000"></textarea></div>
-<div><label class="lbl" for="f-signup">How to sign up</label><textarea class="field" id="f-signup" maxlength="1000" placeholder="For example: contact the Retreats Chair, or pay by check at the next meeting."></textarea></div>
-<p class="sub" style="font-size:var(--fs-sm);margin:0">The first day of each retreat is put on the Guild events calendar for you, and it changes there when you change it here.</p>
-<p class="msg err hidden" id="f-err" role="alert" style="margin:0"></p>
-<div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn-save" id="f-save" type="submit">Add retreat</button><button class="btn-cancel hidden" id="f-cancel" type="button">Cancel</button></div>
-</form></section>
-<section class="cqc" aria-labelledby="l-t"><h2 id="l-t">Retreats</h2><p id="loading" style="margin:0">Loading&hellip;</p><div id="list"></div></section>
-<a class="nl-tell" href="whats-new-manage.html?page=retreats"><span><b>Post to What&rsquo;s New</b><span class="d">Post a short note to the What&rsquo;s New button on the home page, with a link to the Retreats page.</span></span></a>
-<section class="infobox"><div><h2>Who can use this page</h2><p>The Retreats Chair, Administrators and the Superuser. The Retreats page itself can be read by everyone, signed in or not.</p></div></section>
+<div class="mwrap" style="max-width:1200px" id="content">
+
+<section class="hubsec" aria-labelledby="tools-h"><h2 id="tools-h">Retreats</h2>
+<div class="ptools">
+<a class="acard" href="retreats-edit.html"><img width="44" height="44" src="assets/tiles/manage-events.svg" alt=""><span class="tx"><b>Edit Retreats</b><span>Add, change and remove retreats: dates, place, cost and how to sign up</span></span></a>
+<a class="acard" href="whats-new-manage.html?page=retreats"><img width="44" height="44" src="assets/icons/i-whatsnew.svg" alt=""><span class="tx"><b>Post to What&rsquo;s New</b><span>Post a short note to the What&rsquo;s New button on the home page, with a link to the Retreats page</span></span></a>
+<a class="acard" href="retreats.html"><img width="44" height="44" src="assets/tiles/retreats.svg" alt=""><span class="tx"><b>See the Retreats page</b><span>Check how the page looks after your changes</span></span></a>
+</div></section>
+
+<section class="access" aria-labelledby="access-title"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:0 0 auto;margin-top:2px"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+<div><h2 id="access-title">Who can use this page</h2><p>The Retreats Chair, Administrators and the Superuser. Other members don&rsquo;t see the Retreat Chair tile.</p></div></section>
 </div>
 </main>
 <footer class="site-foot"><div class="wrap">
@@ -74,59 +45,7 @@ textarea.field{min-height:96px;resize:vertical;font-family:inherit}
 <script src="assets/js/auth.js?v=20261118f"></script>
 <script src="assets/js/tilebar.js?v=20261118f"></script>
 <script src="assets/js/shell.js?v=20261118f"></script>
-<script src="assets/js/comfort.js?v=20261118f"></script>
 <script>
-/*PURE-START*/
-/*PURE-END*/
-QGPCShell.start({need:function(c){return c.isAdmin||c.has('retreats_chair');}},function(ctx){
-  var $=function(i){return document.getElementById(i)};
-  var C=QGPCComfort,sb=QGPC.sb,el=C.el,rows=[],editId=null,confirmId=null;
-  function say(t,bad){var n=$('status');n.textContent=t;n.className='msg '+(bad?'err':'ok');n.style.margin='0';n.scrollIntoView({behavior:'smooth',block:'nearest'});}
-  function ferr(t){var n=$('f-err');n.textContent=t||'';n.classList.toggle('hidden',!t);}
-  function reset(){editId=null;$('form').reset();$('f-t').textContent='Add a retreat';$('f-save').textContent='Add retreat';$('f-cancel').classList.add('hidden');ferr('');}
-  function range(r){return r.ends_on&&r.ends_on!==r.starts_on?C.nice(r.starts_on)+' to '+C.nice(r.ends_on):C.nice(r.starts_on);}
-  function draw(){
-    var l=$('list');l.textContent='';$('loading').classList.add('hidden');
-    if(!rows.length){l.appendChild(el('p','empty','No retreats yet. Use the form above to add one.'));return;}
-    rows.forEach(function(n){
-      var r=el('div','rowi'),L=el('div','l');L.appendChild(el('b',null,n.name));
-      L.appendChild(el('div','sub',range(n)+(n.place?' \u00B7 '+n.place:'')));
-      r.appendChild(L);var R=el('div','r');
-      if(confirmId===n.id){
-        var cf=el('div','confirm');cf.appendChild(el('p',null,'Delete this retreat? It is also removed from the Guild events calendar.'));
-        var y=el('button','nbtn del','Yes, delete');y.type='button';var k=el('button','nbtn','Keep it');k.type='button';
-        k.onclick=function(){confirmId=null;draw();};
-        y.onclick=function(){y.disabled=true;sb.from('retreats').delete().eq('id',n.id).then(function(x){confirmId=null;if(x.error){say('That could not be deleted. Please try again.',true);}else{say('Retreat deleted.');if(editId===n.id)reset();}load();});};
-        var w=el('div');w.style.cssText='display:flex;gap:10px;flex-wrap:wrap';w.appendChild(y);w.appendChild(k);cf.appendChild(w);R.appendChild(cf);
-      }else{
-        var e=el('button','nbtn','Edit');e.type='button';e.onclick=function(){
-          editId=n.id;$('f-name').value=n.name;$('f-start').value=n.starts_on;$('f-end').value=n.ends_on||'';$('f-place').value=n.place||'';$('f-web').value=n.website_url||'';$('f-cost').value=n.cost_text||'';$('f-about').value=n.about||'';$('f-signup').value=n.signup_text||'';
-          $('f-t').textContent='Change this retreat';$('f-save').textContent='Save changes';$('f-cancel').classList.remove('hidden');ferr('');$('f-t').scrollIntoView({behavior:'smooth'});
-        };
-        var d=el('button','nbtn del','Delete');d.type='button';d.onclick=function(){confirmId=n.id;draw();};
-        R.appendChild(e);R.appendChild(d);
-      }
-      r.appendChild(R);l.appendChild(r);
-    });
-  }
-  function load(){return sb.from('retreats').select('*').order('starts_on',{ascending:false}).then(function(r){if(r.error){say('The list could not be loaded. Please refresh.',true);return;}rows=r.data||[];draw();});}
-  $('f-cancel').onclick=reset;
-  $('form').addEventListener('submit',function(e){
-    e.preventDefault();ferr('');
-    var rec={name:$('f-name').value.trim(),starts_on:$('f-start').value,ends_on:$('f-end').value||null,place:$('f-place').value.trim()||null,website_url:$('f-web').value.trim()||null,cost_text:$('f-cost').value.trim()||null,about:$('f-about').value.trim()||null,signup_text:$('f-signup').value.trim()||null};
-    if(!rec.name)return ferr('Please type the name of the retreat.');
-    if(!/^\d{4}-\d{2}-\d{2}$/.test(rec.starts_on))return ferr('Please choose the first day.');
-    if(rec.website_url&&!/^https?:\/\/\S+$/i.test(rec.website_url))return ferr('The website address must start with https:// or http:// and have no spaces.');
-    if(rec.ends_on&&rec.ends_on<rec.starts_on)return ferr('The last day cannot be before the first day.');
-    $('f-save').disabled=true;
-    var q=editId?sb.from('retreats').update(rec).eq('id',editId):sb.from('retreats').insert(rec);
-    q.then(function(r){
-      $('f-save').disabled=false;
-      if(r.error){ferr('That did not save. Please try again.');return;}
-      say(editId?'Changes saved.':'Retreat added. Its first day is now on the Guild events calendar.');reset();load();
-    });
-  });
-  reset();load();
-});
+QGPCShell.start({need:function(c){return c.isAdmin||c.has('retreats_chair');}},function(ctx){});
 </script>
 </body></html>

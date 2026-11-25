@@ -370,3 +370,15 @@ ul.tdlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;
 .td-title{font-weight:600;font-size:var(--fs-lg)}.td-title .chip{margin-left:8px;vertical-align:middle}
 .td-sub{font-weight:400;font-size:var(--fs-sm);color:var(--muted);white-space:pre-wrap}
 .td-by{font-size:var(--fs-sm);font-weight:700;color:var(--cobalt)}
+
+/* President's Page and chair pages: cards that each open their own page, then who can use the page (2026-11-25) */
+.hubsec{display:flex;flex-direction:column;gap:14px}.hubsec>h2{margin:0;font-size:var(--fs-xl)}
+.ptools{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:12px}
+.ptools .acard{position:relative;box-sizing:border-box;text-decoration:none}
+.ptools .acard>img{width:44px;height:44px}
+.acard .tx{display:flex;flex-direction:column;gap:4px;min-width:0}
+.acard .tx b{display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:var(--fs-lg);font-weight:600}
+.acard .tx>span{font-size:var(--fs-sm);color:var(--muted);line-height:1.45}
+.acard .tx>span.nw{font-weight:700;color:var(--persimmon-dark)}
+.access{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:var(--mist);color:var(--cobalt)}
+.access h2{margin:0 0 4px;font-size:var(--fs-md);font-weight:700}.access p{margin:0;font-size:var(--fs-md);line-height:1.5;color:var(--ink)}

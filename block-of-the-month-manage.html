@@ -5,89 +5,33 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261118f">
-<style>
-
-
-
-.cqc>h2,.cqh h2{margin:0;font:400 var(--fs-xl) 'Young Serif',Georgia,serif}
-.sub{margin:2px 0 0;color:var(--muted);font-size:var(--fs-md)}
-.nl-tell{display:flex;gap:14px;align-items:center;text-decoration:none;color:inherit;border:2px solid var(--cobalt);background:#fff;border-radius:16px;padding:14px 18px}
-.nl-tell b{display:block;font-size:var(--fs-lg)}.nl-tell .d{color:var(--muted);font-size:var(--fs-md)}
-.pl{font-size:var(--fs-sm);font-weight:700;padding:4px 10px;border-radius:999px;background:var(--mist);color:var(--cobalt);white-space:nowrap}
-.pl.gray{background:var(--sand);color:var(--muted-dark)}
-.pl.new{background:var(--persimmon);color:var(--ink)}
-
-.infobox p{margin:0;font-size:var(--fs-md);line-height:1.5;color:var(--ink)}
-.blue-note h3{margin:0;font-size:var(--fs-lg)}.blue-note ul{margin:8px 0 0;padding-left:20px;line-height:1.5}
-.empty{margin:0;padding:14px 16px;border-radius:12px;background:var(--sand);color:var(--muted-dark)}
-.lbl{display:block;font-weight:600;font-size:var(--fs-md);margin:0 0 6px}
-.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
-
-.pe{border:1px solid var(--edge);border-radius:16px;background:#fff;padding:18px;display:grid;grid-template-columns:200px 1fr;gap:18px}
-@media(max-width:640px){.pe{grid-template-columns:1fr}}
-.pe .ph{aspect-ratio:4/3;background:#E9E4D8;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#7a7466;font-size:var(--fs-sm);text-align:center}
-.pe .ph img{width:100%;height:100%;object-fit:cover}
-.pe .fl{display:flex;flex-direction:column;gap:12px;min-width:0}
-.pe .pick{display:flex;flex-direction:column;gap:6px;margin-top:8px}
-.pe .pick span.fn{font-size:var(--fs-sm);color:var(--muted);overflow-wrap:anywhere}
-.pe .btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.cl3{font-size:var(--fs-sm);color:var(--muted-dark)}
-.filebtn{position:relative;overflow:hidden}.filebtn input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
-.filebtn:focus-within{outline:3px solid rgba(1,87,174,.35);outline-offset:2px}
-.klist{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}.klist li{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.mrow{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:12px 14px;border:1px solid var(--edge);border-radius:12px;background:#fff}
-.mrow .nm{display:flex;flex-direction:column;gap:2px;min-width:0}.mrow .nm b{font-size:var(--fs-lg)}
-.mrow .btns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.qf{display:grid;grid-template-columns:240px 1fr;gap:18px}@media(max-width:700px){.qf{grid-template-columns:1fr}}
-.qf .ph{background:#E9E4D8;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#7a7466;font-size:var(--fs-sm);text-align:center}
-.qf .ph img{width:100%;height:auto;display:block}
-.qf .fl{display:flex;flex-direction:column;gap:12px;min-width:0}
-.qf .pick{display:flex;flex-direction:column;gap:6px;margin-top:8px}.qf .fn{font-size:var(--fs-sm);color:var(--muted);overflow-wrap:anywhere}
-textarea.field{min-height:140px;resize:vertical;font:inherit}
-.addrow{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
-.thumb{width:72px;height:54px;border-radius:8px;object-fit:cover;background:#E9E4D8;flex:none}
-.mrow .lead{display:flex;gap:12px;align-items:center;min-width:0}
-.ysel{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap}
-.xrow{border:1px solid var(--edge);border-radius:12px;background:#fff;padding:14px;display:grid;grid-template-columns:120px 1fr;gap:14px}
-@media(max-width:560px){.xrow{grid-template-columns:1fr}}
-.xrow .thumb{width:120px;height:90px}
-.xrow .fl{display:flex;flex-direction:column;gap:10px;min-width:0}
-</style>
+<link rel="stylesheet" href="assets/css/site.css?v=20261125a">
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
 <header class="site-head"><div class="wrap">
 <div class="head-top">
 <a class="brand" href="home.html"><img src="assets/icons/icon-104.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
-<nav class="head-actions" aria-label="Home and account"><a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a><span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span><button type="button" class="pill out" id="out">Sign out</button></nav>
-</div></div></header>
+<nav class="head-actions" aria-label="Home and account">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</nav></div></div></header>
 <main id="main">
-<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
-<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">BOM Chair</span>
-<h1 id="pg-title" style="margin:0">Block of the Month</h1><p class="stat-line" id="lead">Each year has its own quilt, a PDF and optional photo for each month, and extra files.</p></div>
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Block of the Month</span>
+<h1 id="pg-title" style="margin:0">Block of the Month Chair</h1><p class="stat-line">Tools for the Block of the Month Chair, Administrators and the Superuser.</p></div>
 </div></section>
-<div class="mwrap" style="max-width:900px;gap:22px" id="content">
-<a class="nl-tell" href="whats-new-manage.html?page=bom"><span><b>Post to What&rsquo;s New</b><span class="d">Post a short note to the What&rsquo;s New button on the home page, with a link to the Block of the Month page.</span></span></a>
-<div class="toplinks"><a class="nbtn" href="block-of-the-month.html">See the page members see &rarr;</a></div>
-<p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
-<p id="loading" role="status" style="margin:0">Loading&hellip;</p>
-<section class="cqc" aria-labelledby="yt"><div class="cqh"><div><h2 id="yt">Year</h2><p class="sub">Everything below belongs to the year you choose. Members pick a year on their page. A year shows to members once one of its months is open.</p></div></div>
-<div class="ysel" id="ysel"></div></section>
-<section class="cqc" aria-labelledby="qt"><div class="cqh"><div><h2 id="qt">The quilt</h2><p class="sub" id="qsub">Members see this at the top of the page for this year.</p></div></div>
-<div class="qf" id="qform"></div></section>
-<section class="cqc" aria-labelledby="ct"><div class="cqh"><div><h2 id="ct">Colorways</h2><p class="sub">Optional. Add up to two more photos of the quilt in other colorways. Members see small thumbnails under the quilt photo and choose one to see it larger. If you add none, nothing extra shows.</p></div></div>
-<div id="cwform" style="display:flex;flex-direction:column;gap:18px"></div></section>
-<section class="cqc" aria-labelledby="mt"><div class="cqh"><div><h2 id="mt">Monthly patterns</h2><p class="sub">Add a PDF for each month, and a photo if you like. You choose the date each month becomes available to members.</p></div></div>
-<div class="addrow" id="addrow"></div>
-<p id="adderr" class="msg err hidden" role="alert" style="margin:0"></p>
-<p class="empty hidden" id="none">No months added for this year yet.</p>
-<div id="list" style="display:flex;flex-direction:column;gap:10px"></div></section>
-<section class="cqc" aria-labelledby="ft"><div class="cqh"><div><h2 id="ft">More files</h2><p class="sub">Extra files for this year&rsquo;s quilt. Each has a short description, a PDF and, if you like, a photo.</p></div></div>
-<div class="addrow" id="xadd"></div>
-<p id="xerr" class="msg err hidden" role="alert" style="margin:0"></p>
-<p class="empty hidden" id="xnone">No extra files for this year yet.</p>
-<div id="xlist" style="display:flex;flex-direction:column;gap:10px"></div></section>
-<section class="infobox"><div><h2>Who can use this page</h2><p>The Block of the Month Chair, Administrators and the Superuser. PDFs can be up to 20 MB. Choosing a month that already has a PDF replaces it. Photos are shrunk to a web size when you upload them. Keep the original files in the Guild&rsquo;s Drive folder.</p></div></section>
+<div class="mwrap" style="max-width:1200px" id="content">
+
+<section class="hubsec" aria-labelledby="tools-h"><h2 id="tools-h">Block of the Month</h2>
+<div class="ptools">
+<a class="acard" href="block-of-the-month-edit.html"><img width="44" height="44" src="assets/tiles/block-of-the-month-manager.svg" alt=""><span class="tx"><b>Edit Block of the Month</b><span>The quilt, colorways, monthly patterns and more files for each year</span></span></a>
+<a class="acard" href="whats-new-manage.html?page=bom"><img width="44" height="44" src="assets/icons/i-whatsnew.svg" alt=""><span class="tx"><b>Post to What&rsquo;s New</b><span>Post a short note to the What&rsquo;s New button on the home page, with a link to the Block of the Month page</span></span></a>
+<a class="acard" href="block-of-the-month.html"><img width="44" height="44" src="assets/tiles/block-of-the-month.svg" alt=""><span class="tx"><b>See the Block of the Month page</b><span>Check how the page looks after your changes</span></span></a>
+</div></section>
+
+<section class="access" aria-labelledby="access-title"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:0 0 auto;margin-top:2px"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+<div><h2 id="access-title">Who can use this page</h2><p>The Block of the Month Chair, Administrators and the Superuser. Other members don&rsquo;t see the BOM Chair tile.</p></div></section>
 </div>
 </main>
 <footer class="site-foot"><div class="wrap">
@@ -101,274 +45,7 @@ textarea.field{min-height:140px;resize:vertical;font:inherit}
 <script src="assets/js/auth.js?v=20261118f"></script>
 <script src="assets/js/tilebar.js?v=20261118f"></script>
 <script src="assets/js/shell.js?v=20261118f"></script>
-<script src="assets/js/comfort.js?v=20261118f"></script>
 <script>
-QGPCShell.start({need:function(c){return c.has('bom_chair')||c.isAdmin;}},function(ctx){
-  var $=function(i){return document.getElementById(i)};
-  var C=QGPCComfort,sb=QGPC.sb,el=C.el,B='block-of-the-month';
-  var MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
-  var thisYear=+C.today().slice(0,4),yr=thisYear;
-  var yinfo={},months=[],files=[],urls={},confirmId=null;
-  function say(t,bad){var n=$('status');n.textContent=t;n.className='msg '+(bad?'err':'ok');n.style.margin='0';n.scrollIntoView({behavior:'smooth',block:'nearest'});}
-  function parts(d){var p=String(d).slice(0,10).split('-');return {y:+p[0],m:+p[1]};}
-  function label(d){var p=parts(d);return MONTHS[p.m-1]+' '+p.y;}
-  function pad(n){return (n<10?'0':'')+n;}
-  function keyOf(y,m){return y+'-'+pad(m)+'-01';}
-  function opens(d){var p=parts(d),t=new Date(Date.UTC(p.y,p.m-1,1-7));return t.getUTCFullYear()+'-'+pad(t.getUTCMonth()+1)+'-'+pad(t.getUTCDate());}
-  function field(lab,node,id){var d=el('div'),l=el('label','lbl',lab);node.id=id;l.htmlFor=id;d.appendChild(l);d.appendChild(node);return d;}
-  function errMsg(e){return 'That did not save. '+(e&&e.message?e.message+' ':'')+'Please try again.';}
-  function pdfOk(f,fail){
-    if(f.type!=='application/pdf'&&!/\.pdf$/i.test(f.name)){fail('That file is not a PDF.');return false;}
-    if(f.size>20*1024*1024){fail('That PDF is larger than 20 MB. Please make it smaller and try again.');return false;}
-    return true;
-  }
-  function photoOk(f,fail){
-    if(f.type!=='image/jpeg'&&f.type!=='image/png'){fail('Please choose a JPEG or PNG photo.');return false;}
-    return true;
-  }
-  function upPdf(f){var p='pdfs/'+C.uuid()+'-'+C.safeName(f.name);return sb.storage.from(B).upload(p,f,{contentType:'application/pdf'}).then(function(r){if(r.error)throw r.error;return p;});}
-  function upPhoto(f){return C.shrink(f,1600).then(function(b){var p='photos/'+C.uuid()+'.jpg';return sb.storage.from(B).upload(p,b,{contentType:'image/jpeg'}).then(function(r){if(r.error)throw r.error;return p;});});}
-  function rmFiles(a){a=a.filter(Boolean);if(a.length)sb.storage.from(B).remove(a);}
-  function thumb(path){var i=el('img','thumb');i.alt='';if(path&&urls[path])i.src=urls[path];else i.style.visibility='hidden';return i;}
-  function picker(text,accept,onpick){
-    var l=el('label','nbtn filebtn',text),i=el('input');i.type='file';i.accept=accept;l.appendChild(i);
-    i.onchange=function(){var f=i.files[0];if(f)onpick(f,i);};return l;
-  }
-  function load(){
-    return Promise.all([sb.from('bom_years').select('*'),sb.from('bom_months').select('*').order('month_start'),sb.from('bom_files').select('*').order('created_at')]).then(function(r){
-      $('loading').classList.add('hidden');
-      if(r[0].error||r[1].error||r[2].error){say('Could not load this page. Please refresh and try again.',true);return;}
-      yinfo={};(r[0].data||[]).forEach(function(y){yinfo[y.year]=y;});months=r[1].data||[];files=r[2].data||[];
-      var all=[];Object.keys(yinfo).forEach(function(y){all.push(yinfo[y].photo_path,yinfo[y].colorway1_path,yinfo[y].colorway2_path);});
-      months.forEach(function(m){all.push(m.photo_path);});files.forEach(function(f){all.push(f.photo_path);});
-      all=all.filter(Boolean);
-      if(!all.length){urls={};return;}
-      return sb.storage.from(B).createSignedUrls(all,3600).then(function(x){urls={};(x.data||[]).forEach(function(d){if(d&&d.signedUrl&&d.path)urls[d.path]=d.signedUrl;});});
-    }).then(function(){drawAll();});
-  }
-  function drawAll(){drawYear();drawQuilt();drawColorways();drawMonths();drawFiles();}
-  function drawYear(){
-    var b=$('ysel');b.textContent='';
-    var set={};set[yr]=1;set[thisYear]=1;for(var y=thisYear-1;y<=thisYear+3;y++)set[y]=1;
-    Object.keys(yinfo).forEach(function(y){set[y]=1;});months.forEach(function(m){set[parts(m.month_start).y]=1;});files.forEach(function(f){set[f.year]=1;});
-    var sel=el('select','field');Object.keys(set).map(Number).sort().forEach(function(y){var o=el('option',null,String(y));o.value=String(y);sel.appendChild(o);});
-    sel.value=String(yr);
-    sel.onchange=function(){yr=+sel.value;confirmId=null;drawAll();};
-    b.appendChild(field('Year',sel,'y-sel'));
-  }
-  function drawQuilt(){
-    var cfg=yinfo[yr]||{},photoUrl=cfg.photo_path?urls[cfg.photo_path]:null;
-    var box=$('qform');box.textContent='';var st={photo:null};
-    var left=el('div'),ph=el('div','ph');
-    function show(src){ph.textContent='';if(src){var im=el('img');im.src=src;im.alt='Photo of the quilt';ph.appendChild(im);}else{ph.textContent='No photo yet';ph.style.padding='48px 16px';}}
-    left.appendChild(ph);
-    var pick=el('div','pick'),fn=el('span','fn',cfg.photo_path?'A photo is saved':'No photo chosen');
-    var pl=picker(cfg.photo_path?'Replace the photo':'Choose a photo','image/jpeg,image/png',function(f,i){if(!photoOk(f,function(t){say(t,true);})){i.value='';return;}st.photo=f;fn.textContent=f.name+' (not saved yet)';show(URL.createObjectURL(f));});
-    pick.appendChild(pl);pick.appendChild(fn);left.appendChild(pick);show(photoUrl);box.appendChild(left);
-    var right=el('div','fl');
-    var nm=el('input','field');nm.maxLength=120;nm.value=cfg.quilt_name||'';nm.placeholder='e.g., Garden Party Sampler';
-    right.appendChild(field('Quilt name',nm,'q-name'));
-    var ds=el('textarea','field');ds.maxLength=3000;ds.value=cfg.description||'';ds.placeholder='Tell members about the quilt: finished size, fabrics, skill level.';
-    right.appendChild(field('Description',ds,'q-desc'));
-    var cp=el('textarea','field');cp.maxLength=1000;cp.rows=3;cp.value=cfg.copyright||'';cp.placeholder='Optional. For example: \u00a9 2026 Designer Name. Used with permission. For personal use only.';
-    right.appendChild(field('Copyright information (optional)',cp,'q-copy'));
-    right.appendChild(el('p','sub','Members see this under the description only when you type something here. Leave it empty if it does not apply.'));
-    var cnt=el('div','cl3');cnt.style.margin='-6px 0 0';function upd(){cnt.textContent=ds.value.length+' of 3000 characters';}ds.addEventListener('input',upd);upd();right.appendChild(cnt);
-    var btns=el('div','btns'),sv=el('button','btn-save','Save the quilt for '+yr);sv.type='button';btns.appendChild(sv);right.appendChild(btns);
-    if(yinfo[yr]){
-      var rq=el('button','nbtn del','Remove the quilt for '+yr);rq.type='button';btns.appendChild(rq);
-      var qc=el('div','confirm hidden');qc.appendChild(el('p',null,'Remove the '+yr+' quilt name, description, photo and colorways? Members will no longer see the quilt card for '+yr+'. The monthly patterns and More files for '+yr+' are not removed. This can\u2019t be undone.'));
-      var qr=el('div','saverow'),qy=el('button','btn-del solid','Yes, remove');qy.type='button';var qk=el('button','btn-cancel','Keep it');qk.type='button';
-      qk.onclick=function(){qc.classList.add('hidden');rq.focus();};
-      qy.onclick=function(){qy.disabled=true;qk.disabled=true;var oldp=[cfg.photo_path,cfg.colorway1_path,cfg.colorway2_path];sb.from('bom_years').delete().eq('year',yr).then(function(r){if(r.error){say('That did not remove. Please try again.',true);qy.disabled=false;qk.disabled=false;return;}rmFiles(oldp);say('Removed the '+yr+' quilt.');load();});};
-      qr.appendChild(qy);qr.appendChild(qk);qc.appendChild(qr);
-      rq.onclick=function(){qc.classList.remove('hidden');qk.focus();};
-      right.appendChild(qc);
-    }
-    var er=el('p','msg err hidden');er.setAttribute('role','alert');er.style.margin='0';right.appendChild(er);
-    function fail(t){er.textContent=t;er.classList.remove('hidden');}
-    sv.onclick=function(){
-      er.classList.add('hidden');
-      var name=nm.value.trim();if(!name)return fail('Please type the quilt name.');
-      sv.disabled=true;
-      var rec={year:yr,quilt_name:name,description:ds.value.trim(),copyright:cp.value.trim()||null},old=null,up=Promise.resolve();
-      if(st.photo)up=upPhoto(st.photo).then(function(p){old=cfg.photo_path;rec.photo_path=p;});
-      up.then(function(){return sb.from('bom_years').upsert(rec,{onConflict:'year'});}).then(function(r){
-        if(r.error)throw r.error;
-        rmFiles([old]);
-        say('Saved. The '+yr+' quilt is updated.');load();
-      }).catch(function(e){sv.disabled=false;fail(errMsg(e));});
-    };
-    box.appendChild(right);
-  }
-  function drawColorways(){
-    var box=$('cwform');box.textContent='';var cfg=yinfo[yr];
-    if(!cfg){box.appendChild(el('p',null,'Save the quilt for '+yr+' first, then you can add colorways.'));return;}
-    [1,2].forEach(function(n){
-      var pk='colorway'+n+'_path',nk='colorway'+n+'_name',cur=cfg[pk]||null,st={photo:null};
-      var row=el('div','qf');row.style.gridTemplateColumns='120px 1fr';
-      var left=el('div'),ph=el('div','ph');
-      function show(src){ph.textContent='';if(src){var im=el('img');im.src=src;im.alt='Colorway '+n+' photo';ph.appendChild(im);}else{ph.textContent='No photo yet';ph.style.padding='28px 8px';}}
-      show(cur?urls[cur]:null);left.appendChild(ph);row.appendChild(left);
-      var right=el('div','fl'),nm=el('input','field');nm.maxLength=40;nm.value=cfg[nk]||'';nm.placeholder='e.g., Blue and cream (optional)';
-      right.appendChild(field('Colorway '+n+' name',nm,'cw-name'+n));
-      var pick=el('div','pick'),fn=el('span','fn',cur?'A photo is saved':'No photo chosen');
-      pick.appendChild(picker(cur?'Replace the photo':'Choose a photo','image/jpeg,image/png',function(f,i){if(!photoOk(f,function(t){say(t,true);})){i.value='';return;}st.photo=f;fn.textContent=f.name+' (not saved yet)';show(URL.createObjectURL(f));}));
-      pick.appendChild(fn);right.appendChild(pick);
-      var btns=el('div','btns'),sv=el('button','btn-save','Save colorway '+n);sv.type='button';btns.appendChild(sv);
-      var rm=null;if(cur||cfg[nk]){rm=el('button','nbtn del','Remove colorway '+n);rm.type='button';btns.appendChild(rm);}
-      right.appendChild(btns);
-      var er=el('p','msg err hidden');er.setAttribute('role','alert');er.style.margin='0';right.appendChild(er);
-      function fail(t){er.textContent=t;er.classList.remove('hidden');}
-      sv.onclick=function(){
-        er.classList.add('hidden');
-        if(!st.photo&&!cur)return fail('Please choose a photo for colorway '+n+'.');
-        sv.disabled=true;var rec={},up=Promise.resolve(),old=null;
-        rec[nk]=nm.value.trim()||null;
-        if(st.photo)up=upPhoto(st.photo).then(function(p){old=cur;rec[pk]=p;});
-        up.then(function(){return sb.from('bom_years').update(rec).eq('year',yr);}).then(function(r){
-          if(r.error){if(rec[pk])rmFiles([rec[pk]]);throw r.error;}
-          rmFiles([old]);say('Saved colorway '+n+' for '+yr+'.');load();
-        }).catch(function(e){sv.disabled=false;fail(errMsg(e));});
-      };
-      if(rm)rm.onclick=function(){rm.disabled=true;var u={};u[pk]=null;u[nk]=null;sb.from('bom_years').update(u).eq('year',yr).then(function(r){if(r.error){say('That did not remove. Please try again.',true);rm.disabled=false;return;}rmFiles([cur]);say('Removed colorway '+n+'.');load();});};
-      row.appendChild(right);box.appendChild(row);
-    });
-  }
-  function drawMonths(){
-    var row=$('addrow');row.textContent='';
-    var ms=el('select','field');MONTHS.forEach(function(n,i){var o=el('option',null,n);o.value=String(i+1);ms.appendChild(o);});
-    var used=months.map(function(m){return String(m.month_start).slice(0,10);});
-    var first=1;for(var k=1;k<=12;k++){if(used.indexOf(keyOf(yr,k))<0){first=k;break;}}ms.value=String(first);
-    row.appendChild(field('Month',ms,'a-m'));
-    var dt=el('input','field');dt.type='date';var touched=false;dt.addEventListener('input',function(){touched=true;});
-    function exOf(){var k=keyOf(yr,+ms.value);return months.filter(function(m){return String(m.month_start).slice(0,10)===k;})[0];}
-    function setDefault(){if(touched)return;var e=exOf();dt.value=(e&&e.release_date)||opens(keyOf(yr,+ms.value));}
-    ms.addEventListener('change',function(){touched=false;setDefault();});setDefault();
-    row.appendChild(field('Available on',dt,'a-d'));
-    var fail=function(t){var e=$('adderr');e.textContent=t;e.classList.remove('hidden');};
-    var pdf=null,pho=null;
-    var d1=el('div'),n1=el('div','cl3','No PDF chosen');n1.style.marginTop='6px';
-    d1.appendChild(picker('Choose the PDF','application/pdf',function(f,i){$('adderr').classList.add('hidden');if(!pdfOk(f,fail)){i.value='';pdf=null;n1.textContent='No PDF chosen';return;}pdf=f;n1.textContent=f.name;}));d1.appendChild(n1);row.appendChild(d1);
-    var d2=el('div'),n2=el('div','cl3','No photo (optional)');n2.style.marginTop='6px';
-    d2.appendChild(picker('Choose a photo','image/jpeg,image/png',function(f,i){$('adderr').classList.add('hidden');if(!photoOk(f,fail)){i.value='';pho=null;n2.textContent='No photo (optional)';return;}pho=f;n2.textContent=f.name;}));d2.appendChild(n2);row.appendChild(d2);
-    var sv=el('button','btn-save','Save month');sv.type='button';row.appendChild(sv);
-    sv.onclick=function(){
-      $('adderr').classList.add('hidden');
-      var key=keyOf(yr,+ms.value),ex=months.filter(function(m){return String(m.month_start).slice(0,10)===key;})[0];
-      if(!pdf&&!ex)return fail('Please choose the PDF for this month.');
-      if(!dt.value)return fail('Please choose the date this month becomes available.');
-      sv.disabled=true;
-      saveMonth(key,pdf,pho,ex,dt.value).then(function(){say((ex?'Updated ':'Added ')+label(key)+'. Members see it from '+C.nice(dt.value)+'.');load();})
-        .catch(function(e){sv.disabled=false;fail(errMsg(e));});
-    };
-    drawMonthList();
-  }
-  function saveMonth(key,pdf,pho,ex,date){
-    var rec={},old=[],up=Promise.resolve();
-    if(date)rec.release_date=date;
-    if(pdf)up=up.then(function(){return upPdf(pdf);}).then(function(p){rec.pdf_path=p;if(ex)old.push(ex.pdf_path);});
-    if(pho)up=up.then(function(){return upPhoto(pho);}).then(function(p){rec.photo_path=p;if(ex)old.push(ex.photo_path);});
-    return up.then(function(){
-      var q=ex?sb.from('bom_months').update(rec).eq('id',ex.id):sb.from('bom_months').insert(Object.assign({month_start:key},rec));
-      return q.then(function(x){if(x.error){rmFiles([rec.pdf_path,rec.photo_path]);throw x.error;}rmFiles(old);});
-    });
-  }
-  function drawMonthList(){
-    var box=$('list');box.textContent='';
-    var ms=months.filter(function(m){return parts(m.month_start).y===yr;});
-    $('none').classList.toggle('hidden',ms.length>0);
-    var today=C.today();
-    ms.forEach(function(m){
-      var key=String(m.month_start).slice(0,10),row=el('div','mrow'),lead=el('div','lead');
-      lead.appendChild(thumb(m.photo_path));
-      var nmd=el('div','nm');nmd.appendChild(el('b',null,label(key)));
-      var o=m.release_date||opens(key);
-      nmd.appendChild(el('span','cl3',(o<=today?'Members can see it now.':'Members see it from '+C.nice(o)+'.')+' File: '+C.shownName(m.pdf_path)+(m.photo_path?'':' (no photo)')));
-      var de=el('div','btns');de.style.marginTop='6px';
-      var di=el('input','field');di.type='date';di.value=o;di.style.width='auto';di.setAttribute('aria-label','Date '+label(key)+' becomes available to members');
-      var ds=el('button','nbtn','Save date');ds.type='button';
-      ds.onclick=function(){if(!di.value){say('Please choose a date.',true);return;}ds.disabled=true;sb.from('bom_months').update({release_date:di.value}).eq('id',m.id).then(function(r){if(r.error){say('That did not save. Please try again.',true);ds.disabled=false;return;}say(label(key)+' becomes available on '+C.nice(di.value)+'.');load();});};
-      de.appendChild(di);de.appendChild(ds);nmd.appendChild(de);
-      lead.appendChild(nmd);row.appendChild(lead);
-      var btns=el('div','btns');
-      btns.appendChild(picker('Replace PDF','application/pdf',function(f,i){
-        if(!pdfOk(f,function(t){say(t,true);})){i.value='';return;}
-        say('Uploading…');saveMonth(key,f,null,m).then(function(){say('Replaced the PDF for '+label(key)+'.');load();}).catch(function(e){say(errMsg(e),true);});
-      }));
-      btns.appendChild(picker(m.photo_path?'Replace photo':'Add photo','image/jpeg,image/png',function(f,i){
-        if(!photoOk(f,function(t){say(t,true);})){i.value='';return;}
-        say('Uploading…');saveMonth(key,null,f,m).then(function(){say('Saved the photo for '+label(key)+'.');load();}).catch(function(e){say(errMsg(e),true);});
-      }));
-      if(m.photo_path){var rp=el('button','nbtn','Remove photo');rp.type='button';rp.setAttribute('aria-label','Remove the photo for '+label(key));
-        rp.onclick=function(){rp.disabled=true;sb.from('bom_months').update({photo_path:null}).eq('id',m.id).then(function(r){if(r.error){say('That did not remove. Please try again.',true);rp.disabled=false;return;}rmFiles([m.photo_path]);say('Removed the photo for '+label(key)+'.');load();});};btns.appendChild(rp);}
-      var rm=el('button','nbtn del','Remove');rm.type='button';rm.setAttribute('aria-label','Remove '+label(key));rm.onclick=function(){confirmId=m.id;drawMonthList();};btns.appendChild(rm);
-      row.appendChild(btns);box.appendChild(row);
-      if(confirmId===m.id){
-        var cf=el('div','confirm');cf.appendChild(el('p',null,'Remove '+label(key)+', its PDF and photo? Members will no longer see it. This can’t be undone.'));
-        var sr=el('div','saverow'),y=el('button','btn-del solid','Yes, remove');y.type='button';var k=el('button','btn-cancel','Keep it');k.type='button';
-        k.onclick=function(){confirmId=null;drawMonthList();};
-        y.onclick=function(){y.disabled=true;sb.from('bom_months').delete().eq('id',m.id).then(function(r){confirmId=null;if(r.error){say('That did not remove. Please try again.',true);load();return;}rmFiles([m.pdf_path,m.photo_path]);say('Removed '+label(key)+'.');load();});};
-        sr.appendChild(y);sr.appendChild(k);cf.appendChild(sr);box.appendChild(cf);
-      }
-    });
-  }
-  function drawFiles(){
-    var row=$('xadd');row.textContent='';
-    var fail=function(t){var e=$('xerr');e.textContent=t;e.classList.remove('hidden');};
-    var ds=el('input','field');ds.maxLength=300;ds.placeholder='e.g., Fabric and cutting list';
-    var dd=field('Short description',ds,'x-desc');dd.style.flex='1 1 260px';row.appendChild(dd);
-    var pdf=null,pho=null;
-    var d1=el('div'),n1=el('div','cl3','No PDF chosen');n1.style.marginTop='6px';
-    d1.appendChild(picker('Choose the PDF','application/pdf',function(f,i){$('xerr').classList.add('hidden');if(!pdfOk(f,fail)){i.value='';pdf=null;n1.textContent='No PDF chosen';return;}pdf=f;n1.textContent=f.name;}));d1.appendChild(n1);row.appendChild(d1);
-    var d2=el('div'),n2=el('div','cl3','No photo (optional)');n2.style.marginTop='6px';
-    d2.appendChild(picker('Choose a photo','image/jpeg,image/png',function(f,i){$('xerr').classList.add('hidden');if(!photoOk(f,fail)){i.value='';pho=null;n2.textContent='No photo (optional)';return;}pho=f;n2.textContent=f.name;}));d2.appendChild(n2);row.appendChild(d2);
-    var sv=el('button','btn-save','Add file');sv.type='button';row.appendChild(sv);
-    sv.onclick=function(){
-      $('xerr').classList.add('hidden');
-      var d=ds.value.trim();if(!d)return fail('Please type a short description.');
-      if(!pdf)return fail('Please choose the PDF.');
-      sv.disabled=true;var rec={year:yr,description:d};
-      upPdf(pdf).then(function(p){rec.pdf_path=p;return pho?upPhoto(pho):null;}).then(function(p){if(p)rec.photo_path=p;return sb.from('bom_files').insert(rec);})
-        .then(function(r){if(r.error){rmFiles([rec.pdf_path,rec.photo_path]);throw r.error;}say('Added the file for '+yr+'.');load();})
-        .catch(function(e){sv.disabled=false;fail(errMsg(e));});
-    };
-    var box=$('xlist');box.textContent='';
-    var fs=files.filter(function(f){return f.year===yr;});
-    $('xnone').classList.toggle('hidden',fs.length>0);
-    fs.forEach(function(f){
-      var w=el('div','xrow');w.appendChild(thumb(f.photo_path));
-      var right=el('div','fl');
-      var di=el('input','field');di.maxLength=300;di.value=f.description;di.setAttribute('aria-label','Description of this file');right.appendChild(di);
-      right.appendChild(el('div','cl3','File: '+C.shownName(f.pdf_path)));
-      var btns=el('div','btns');
-      var save=el('button','btn-save','Save description');save.type='button';
-      save.onclick=function(){var d=di.value.trim();if(!d){say('Please type a short description.',true);return;}save.disabled=true;
-        sb.from('bom_files').update({description:d}).eq('id',f.id).then(function(r){if(r.error){say('That did not save. Please try again.',true);save.disabled=false;return;}say('Saved.');load();});};
-      btns.appendChild(save);
-      btns.appendChild(picker('Replace PDF','application/pdf',function(x,i){
-        if(!pdfOk(x,function(t){say(t,true);})){i.value='';return;}
-        say('Uploading…');upPdf(x).then(function(p){return sb.from('bom_files').update({pdf_path:p}).eq('id',f.id).then(function(r){if(r.error){rmFiles([p]);throw r.error;}rmFiles([f.pdf_path]);say('Replaced the PDF.');load();});}).catch(function(e){say(errMsg(e),true);});
-      }));
-      btns.appendChild(picker(f.photo_path?'Replace photo':'Add photo','image/jpeg,image/png',function(x,i){
-        if(!photoOk(x,function(t){say(t,true);})){i.value='';return;}
-        say('Uploading…');upPhoto(x).then(function(p){return sb.from('bom_files').update({photo_path:p}).eq('id',f.id).then(function(r){if(r.error){rmFiles([p]);throw r.error;}rmFiles([f.photo_path]);say('Saved the photo.');load();});}).catch(function(e){say(errMsg(e),true);});
-      }));
-      if(f.photo_path){var rp=el('button','nbtn','Remove photo');rp.type='button';
-        rp.onclick=function(){rp.disabled=true;sb.from('bom_files').update({photo_path:null}).eq('id',f.id).then(function(r){if(r.error){say('That did not remove. Please try again.',true);rp.disabled=false;return;}rmFiles([f.photo_path]);say('Removed the photo.');load();});};btns.appendChild(rp);}
-      var rm=el('button','nbtn del','Remove file');rm.type='button';rm.onclick=function(){confirmId=f.id;drawFiles();};btns.appendChild(rm);
-      right.appendChild(btns);
-      if(confirmId===f.id){
-        var cf=el('div','confirm');cf.appendChild(el('p',null,'Remove this file and its photo? Members will no longer see it. This can’t be undone.'));
-        var sr=el('div','saverow'),y=el('button','btn-del solid','Yes, remove');y.type='button';var k=el('button','btn-cancel','Keep it');k.type='button';
-        k.onclick=function(){confirmId=null;drawFiles();};
-        y.onclick=function(){y.disabled=true;sb.from('bom_files').delete().eq('id',f.id).then(function(r){confirmId=null;if(r.error){say('That did not remove. Please try again.',true);load();return;}rmFiles([f.pdf_path,f.photo_path]);say('Removed the file.');load();});};
-        sr.appendChild(y);sr.appendChild(k);cf.appendChild(sr);right.appendChild(cf);
-      }
-      w.appendChild(right);box.appendChild(w);
-    });
-  }
-  load();
-});
+QGPCShell.start({need:function(c){return c.has('bom_chair')||c.isAdmin;}},function(ctx){});
 </script>
 </body></html>
