@@ -25,9 +25,14 @@
 .sn-sec{background:#fff;border:1px solid var(--edge);border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:18px}
 .sn-sec h2{margin:0;font:400 var(--fs-2xl) 'Young Serif',Georgia,serif}
 .sn-sec>p{margin:0;color:var(--muted);font-size:var(--fs-md)}
-.panels{display:flex;gap:12px;flex-wrap:wrap}
-.panels .nbtn{min-height:50px;font-size:var(--fs-md);padding:0 26px}
-.panels .nbtn[aria-expanded=true]{background:var(--cobalt);color:#fff}
+.ptools{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:12px}
+.acard{position:relative;display:flex;align-items:flex-start;gap:14px;min-height:96px;padding:18px;box-sizing:border-box;background:#fff;border:1px solid var(--edge);border-radius:14px;text-decoration:none;color:var(--ink)}
+a.acard:hover,a.acard:focus-visible{border-color:var(--cobalt)}
+.acard img{flex:0 0 auto;width:44px;height:44px;border-radius:12px;display:block}
+.acard .tx{display:flex;flex-direction:column;gap:4px}.acard .tx b{font-size:var(--fs-lg);font-weight:600}.acard .tx span{font-size:var(--fs-sm);color:var(--muted);line-height:1.45}
+button.acard{width:100%;font:inherit;text-align:left;cursor:pointer}
+button.acard:hover,button.acard:focus-visible{border-color:var(--cobalt)}
+button.acard[aria-expanded=true]{border:2px solid var(--cobalt);padding:17px;background:var(--mist-lt)}
 #edit-panel{display:flex;flex-direction:column;gap:24px}
 .nform{background:#fff;border:1px solid var(--edge);border-radius:14px;padding:22px}
 .nform h2{margin:0 0 12px;font-size:var(--fs-xl)}.nform label.l{display:block;margin:12px 0 4px;font-weight:600;font-size:var(--fs-md)}
@@ -59,9 +64,9 @@
 <p id="note" class="msg ok hidden" role="status" style="margin:0"></p>
 <p id="err" class="msg err hidden" role="alert" style="margin:0"></p>
 
-<div class="panels">
-<button type="button" class="nbtn" id="st-btn" aria-expanded="false" aria-controls="st-panel">To-Do status</button>
-<button type="button" class="nbtn" id="edit-btn" aria-expanded="false" aria-controls="edit-panel">Edit to-do list</button>
+<div class="ptools">
+<button type="button" class="acard" id="st-btn" aria-expanded="false" aria-controls="st-panel"><img width="44" height="44" src="assets/tiles/board-todo.svg" alt=""><span class="tx"><b>To-Do status</b><span>See what is done and not done, month by month and year by year</span></span></button>
+<button type="button" class="acard" id="edit-btn" aria-expanded="false" aria-controls="edit-panel"><img width="44" height="44" src="assets/tiles/manage-notices.svg" alt=""><span class="tx"><b>Edit to-do list</b><span>Add, change and delete the tasks for each month</span></span></button>
 </div>
 <p id="loading" role="status" style="margin:0">Loading the list&hellip;</p>
 
@@ -288,7 +293,7 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
   }
   $('st-year').addEventListener('change',function(){year=+this.value;drawStatus();});
 
-  // ---- the two buttons: one panel open at a time, both closed to start ----
+  // ---- the two cards: one panel open at a time, both closed to start ----
   var PANELS=[['st-btn','st-panel'],['edit-btn','edit-panel']];
   PANELS.forEach(function(p){
     $(p[0]).addEventListener('click',function(){
