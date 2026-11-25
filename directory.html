@@ -81,7 +81,7 @@ QGPCShell.start({need:function(c){return c.full;}},function(c){
     b.disabled=true;say('Making the PDF\u2026');
     var need=[];
     if(!window.jspdf)need.push(loadScript('assets/js/jspdf.umd.min.js?v=4.2.1'));
-    Promise.all(need).then(function(){return window.QGPCDirPdf?0:loadScript('assets/js/directory-pdf.js?v=20261121b');}).then(function(){
+    Promise.all(need).then(function(){return window.QGPCDirPdf?0:loadScript('assets/js/directory-pdf.js?v=20261125a');}).then(function(){
       var d=new Date(),txt=new Intl.DateTimeFormat('en-US',{timeZone:'America/Chicago',year:'numeric',month:'long',day:'numeric'}).format(d);
       var iso=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(d);
       var doc=window.QGPCDirPdf.build(window.jspdf.jsPDF,rows,txt);

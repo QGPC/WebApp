@@ -20,7 +20,7 @@
   }
   function build(JsPDF,rows,dateText){
     var doc=new JsPDF({unit:'pt',format:'letter'});
-    var W=612,H=792,M=44,GAP=24,CW=(W-2*M-GAP)/2,LH=11.5,BOTTOM=H-M-6;
+    var W=612,H=792,M=44,GAP=16,COLS=3,CW=(W-2*M-(COLS-1)*GAP)/COLS,LH=11.5,BOTTOM=H-M-6;
     var TITLE='Quilter’s Guild of Parker County';
     doc.setProperties({title:'Member Directory - '+clean(TITLE),subject:'Member Directory',author:clean(TITLE)});
     var y=0,first=true;
@@ -39,17 +39,34 @@
       var name=clean((r.last_name||'')+(r.first_name?', '+r.first_name:''))||'(no name)';
       var letter=name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').charAt(0).toUpperCase();if(!/[A-Z]/.test(letter))letter='#';
       doc.setFont('helvetica','normal');doc.setFontSize(9);
-      var lines=[];
-      var a=clean(addr(r));if(a)doc.splitTextToSize(a,CW-6).forEach(function(l){lines.push(l);});
+      var lines=[],wide=CW-6;
+      var a=clean(addr(r));
+      if(a){var st=clean(r.street_address),town=clean([r.city,[r.state,r.zip].filter(Boolean).join(' ')].filter(Boolean).join(', '));
+        if(doc.getTextWidth(a)<=wide)lines.push(a);   // otherwise street and town go on their own lines
+        else [st,town].filter(Boolean).forEach(function(p){doc.splitTextToSize(p,wide).forEach(function(l){lines.push(l);});});}
       if(r.cell_phone)lines.push(clean(r.cell_phone));
-      if(r.email)doc.splitTextToSize(clean(r.email),CW-6).forEach(function(l){lines.push(l);});
-      return {name:name,letter:letter,lines:lines,h:LH+lines.length*LH+8};
+      if(r.email){var em=clean(r.email),at=em.indexOf('@');   // a long address breaks before the @
+        var parts=(doc.getTextWidth(em)>wide&&at>0)?[em.slice(0,at),em.slice(at)]:[em];
+        parts.forEach(function(p){doc.splitTextToSize(p,wide).forEach(function(l){lines.push(l);});});}
+      doc.setFont('helvetica','bold');doc.setFontSize(10);
+      var names=doc.splitTextToSize(name,CW);
+      return {names:names,letter:letter,lines:lines,h:(names.length+lines.length)*LH+8};
     });
     function drawEntry(e,x,yy){
       doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(20,20,20);
-      doc.text(e.name,x,yy+9);
+      var t=yy+9;e.names.forEach(function(l){doc.text(l,x,t);t+=LH;});
       doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(50,50,50);
-      var t=yy+9+LH;e.lines.forEach(function(l){doc.text(l,x+6,t);t+=LH;});
+      e.lines.forEach(function(l){doc.text(l,x+6,t);t+=LH;});
+    }
+    // Fill up to COLS columns, top to bottom then left to right, none taller than lim
+    function pack(list,lim){
+      var cols=[],tall=0,i=0;
+      for(var c=0;c<COLS&&i<list.length;c++){
+        var col=[],h=0;
+        while(i<list.length&&(h+list[i].h<=lim||!col.length)){h+=list[i].h;col.push(list[i++]);}
+        cols.push(col);tall=Math.max(tall,h);
+      }
+      return {cols:cols,used:i,h:tall};
     }
     function band(letter,cont){
       doc.setFillColor(232,240,248);doc.rect(M,y,W-2*M,20,'F');
@@ -64,15 +81,13 @@
         if(y+26+list[0].h>BOTTOM){doc.addPage();pageTop();}
         var space=BOTTOM-(y+26);
         var T=list.reduce(function(s,e){return s+e.h;},0),maxH=Math.max.apply(null,list.map(function(e){return e.h;}));
-        var lim=Math.min(space,T/2+maxH/2);
-        var c1=[],h1=0;
-        while(list.length&&(h1+list[0].h<=lim||!c1.length)){h1+=list[0].h;c1.push(list.shift());}
-        var c2=[],h2=0;
-        while(list.length&&h2+list[0].h<=space){h2+=list[0].h;c2.push(list.shift());}
+        // the shortest column height that holds the whole letter, so the columns come out about even
+        var lim=Math.min(space,Math.max(maxH,T/COLS));
+        while(lim<space&&pack(list,lim).used<list.length)lim=Math.min(space,lim+2);
+        var p3=pack(list,lim);list=list.slice(p3.used);
         band(L,cont);
-        var yy=y;c1.forEach(function(e){drawEntry(e,M,yy);yy+=e.h;});
-        yy=y;c2.forEach(function(e){drawEntry(e,M+CW+GAP,yy);yy+=e.h;});
-        y+=Math.max(h1,h2)+6;cont=true;
+        p3.cols.forEach(function(col,c){var yy=y;col.forEach(function(e){drawEntry(e,M+c*(CW+GAP),yy);yy+=e.h;});});
+        y+=p3.h+6;cont=true;
       }
     });
     var n=doc.getNumberOfPages();
