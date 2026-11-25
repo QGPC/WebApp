@@ -9,7 +9,9 @@
 <style>
 .ptools{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:12px}
 .acard{position:relative;display:flex;align-items:flex-start;gap:14px;min-height:96px;padding:18px;box-sizing:border-box;background:#fff;border:1px solid var(--edge);border-radius:14px;text-decoration:none;color:var(--ink)}
-a.acard:hover,a.acard:focus-visible{border-color:var(--cobalt)}
+a.acard:hover,a.acard:focus-visible,button.acard:hover,button.acard:focus-visible{border-color:var(--cobalt)}
+button.acard{width:100%;font:inherit;text-align:left;cursor:pointer}
+button.acard[aria-expanded="true"]{border-color:var(--cobalt);box-shadow:inset 0 0 0 2px var(--cobalt);background:var(--mist-lt)}
 .acard img{flex:0 0 auto;width:44px;height:44px;border-radius:12px;display:block}
 .acard .tx{display:flex;flex-direction:column;gap:4px}.acard .tx b{font-size:var(--fs-lg);font-weight:600}.acard .tx span{font-size:var(--fs-sm);color:var(--muted);line-height:1.45}
 .sn-sec{background:#fff;border:1px solid var(--edge);border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:24px}
@@ -66,13 +68,14 @@ a.acard:hover,a.acard:focus-visible{border-color:var(--cobalt)}
 
 <section aria-labelledby="tools-h" style="display:flex;flex-direction:column;gap:14px"><h2 id="tools-h" style="margin:0;font:400 var(--fs-xl) 'Young Serif',Georgia,serif">Guild business</h2>
 <div class="ptools">
+<button type="button" class="acard" id="sn-open" aria-expanded="false" aria-controls="sn-sec"><img width="44" height="44" src="assets/tiles/manage-notices.svg" alt=""><span class="tx"><b>Post Special Notice</b><span>Post, change and delete urgent news for the Welcome and member home pages</span></span></button>
 <a class="acard" href="calendar-manage.html?cal=board"><img width="44" height="44" src="assets/tiles/manage-events.svg" alt=""><span class="tx"><b>President&rsquo;s Calendar</b><span>Board meetings and important events for the Board throughout the year</span></span></a>
 <a class="acard" href="email-members.html"><img width="44" height="44" src="assets/tiles/messages.svg" alt=""><span class="tx"><b>Email Members</b><span>Write one email and send it to every current member</span></span></a>
 <a class="acard" href="charities-manage.html"><img width="44" height="44" src="assets/tiles/our-community.svg" alt=""><span class="tx"><b>Charities We Support</b><span>Add, change and reorder the list of charities</span></span></a>
 <a class="acard" href="board-todos-manage.html"><img width="44" height="44" src="assets/tiles/board-todo.svg" alt=""><span class="tx"><b>Board To-Do List</b><span>Enter and assign tasks for the Board and committee chairs, and see their status</span></span></a>
 </div></section>
 
-<section class="sn-sec" aria-labelledby="sn-title">
+<section class="sn-sec hidden" id="sn-sec" aria-labelledby="sn-title">
 <div><h2 id="sn-title">Special Notices</h2>
 <p>Urgent or important news shown in a highlighted card under the banner on the Welcome page and the member home page.</p></div>
 <p id="note" class="msg ok hidden" role="status" style="margin:0"></p>
@@ -268,6 +271,12 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
       });
     });
   });
+  // The Special Notices card stays closed until the Post Special Notice card is chosen; choosing it again closes it.
+  $('sn-open').onclick=function(){
+    var open=$('sn-sec').classList.toggle('hidden')===false;
+    this.setAttribute('aria-expanded',open?'true':'false');
+    if(open)$('sn-sec').scrollIntoView({behavior:'smooth',block:'start'});
+  };
   load();
 });
 </script>
