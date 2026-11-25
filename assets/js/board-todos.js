@@ -12,7 +12,9 @@
     now:function(){var d=today();return {year:+d.slice(0,4),month:+d.slice(5,7)};},
     // Any Executive Board or committee chair role (everything except the two site administration roles).
     isBoard:function(roles){return roles.some(function(k){return k!=='superuser'&&k!=='administrator';});},
-    applies:function(t,year){return year>=t.first_year&&(t.last_year==null||year<=t.last_year);},
+    // parity: 'even', 'odd' or null (any year)
+    fits:function(parity,year){return !parity||(year%2===0)===(parity==='even');},
+    applies:function(t,year){return year>=t.first_year&&(t.last_year==null||year<=t.last_year)&&T.fits(t.year_parity,year);},
     // -> {items, done:{'id|year':row}, holders:{role:[names]}}; rejects if the list cannot be read
     load:function(){
       var sb=QGPC.sb;

@@ -56,7 +56,7 @@
 <textarea class="field" id="f-det" rows="2" maxlength="600" style="min-height:70px"></textarea>
 <fieldset id="f-roles"><legend>Assign to <span aria-hidden="true">*</span></legend></fieldset>
 <div class="row2"><div><label class="l" for="f-month">Month</label><select class="field" id="f-month" style="width:200px"></select></div>
-<div><label class="l" for="f-rep">How often</label><select class="field" id="f-rep" style="width:200px"><option value="yearly">Every year</option><option value="once">One time only</option></select></div>
+<div><label class="l" for="f-rep">How often</label><select class="field" id="f-rep" style="width:200px"><option value="yearly">Every year</option><option value="even">Even years</option><option value="odd">Odd years</option><option value="once">One time only</option></select></div>
 <div><label class="l" for="f-year" id="f-year-lab">Starting year</label><select class="field" id="f-year" style="width:160px"></select></div></div>
 <p id="f-err" class="msg err hidden" role="alert"></p>
 <div class="saverow"><button type="submit" class="btn-save" id="f-save">Save item</button><button type="button" class="btn-cancel" id="f-cancel">Cancel</button></div>
@@ -78,7 +78,7 @@
 <script src="assets/js/auth.js?v=20261118f"></script>
 <script src="assets/js/tilebar.js?v=20261118f"></script>
 <script src="assets/js/shell.js?v=20261118f"></script>
-<script src="assets/js/board-todos.js?v=20261125a"></script>
+<script src="assets/js/board-todos.js?v=20261125b"></script>
 <script>
 QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president');}},function(c){
   var $=function(i){return document.getElementById(i)};
@@ -102,10 +102,13 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
     });
     $('new-btn').disabled=false;
   }
+  function parity(){var v=$('f-rep').value;return v==='even'||v==='odd'?v:null;}
+  // The year list offers only years that suit the How often choice.
   function fillYears(sel){
-    var s=$('f-year');s.textContent='';
-    var lo=Math.min(now.year-1,sel),hi=Math.max(now.year+3,sel);
-    for(var y=lo;y<=hi;y++)opt(s,y,String(y));
+    var s=$('f-year'),p=parity();s.textContent='';
+    if(!T.fits(p,sel))sel++;
+    var lo=Math.min(now.year-(p?2:1),sel),hi=Math.max(now.year+(p?5:3),sel);
+    for(var y=lo;y<=hi;y++)if(T.fits(p,y))opt(s,y,String(y));
     s.value=sel;
   }
   // A month already past this year most likely means the next one.
@@ -116,18 +119,22 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
       $('loading').classList.add('hidden');bad('Could not load the to-do list. Please refresh and try again.');
     });
   }
+  // One time = starts and ends in the same year (an even/odd item stopped after one year still repeats by kind).
+  function isOnce(t){return !t.year_parity&&t.last_year===t.first_year;}
   function often(t){
-    if(t.last_year===t.first_year)return 'One time: '+t.first_year;
-    if(t.last_year==null)return 'Every year, starting '+t.first_year;
-    return 'Every year '+t.first_year+' to '+t.last_year;
+    if(isOnce(t))return 'One time: '+t.first_year;
+    var how=t.year_parity==='even'?'Even years':t.year_parity==='odd'?'Odd years':'Every year';
+    if(t.last_year==null)return how+', starting '+t.first_year;
+    return how+' '+t.first_year+' to '+t.last_year;
   }
   function doneYears(t){return Object.keys(data.done).filter(function(k){return k.indexOf(t.id+'|')===0;}).map(function(k){return +k.split('|')[1];});}
   // The last year to keep if a repeating item is stopped now, or null if there is nothing to keep.
   function keepThrough(t){
-    if(t.last_year===t.first_year)return null;
+    if(isOnce(t))return null;
     var y=doneYears(t);
     y.push(t.month<now.month||data.done[t.id+'|'+now.year]?now.year:now.year-1);
     var last=Math.max.apply(null,y);
+    if(!T.fits(t.year_parity,last))last--;
     if(t.last_year!=null&&t.last_year<=last)return null;
     return last>=t.first_year?last:null;
   }
@@ -189,7 +196,7 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
     $('form-h').textContent=t?'Edit to-do item':'Add a to-do item';
     $('f-title').value=t?t.title:'';$('f-det').value=t&&t.details?t.details:'';
     $('f-month').value=m;
-    $('f-rep').value=t&&t.last_year===t.first_year?'once':'yearly';
+    $('f-rep').value=!t?'yearly':isOnce(t)?'once':t.year_parity||'yearly';
     fillYears(t?t.first_year:suggest(m));yearLabel();
     Array.prototype.forEach.call(document.querySelectorAll('input[name=role]'),function(b){b.checked=!!t&&t.roles.indexOf(b.value)>-1;});
     $('f-err').classList.add('hidden');$('form').classList.remove('hidden');$('note').classList.add('hidden');draw();
@@ -200,7 +207,7 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
   $('f-cancel').onclick=function(){closeForm();};
   $('f-month').addEventListener('change',function(){if(!yearTouched)fillYears(suggest(+this.value));});
   $('f-year').addEventListener('change',function(){yearTouched=true;});
-  $('f-rep').addEventListener('change',yearLabel);
+  $('f-rep').addEventListener('change',function(){fillYears(yearTouched?+$('f-year').value:suggest(+$('f-month').value));yearLabel();});
   $('form').addEventListener('submit',function(e){
     e.preventDefault();
     var title=$('f-title').value.trim();
@@ -211,8 +218,8 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
     var last=null;
     if($('f-rep').value==='once')last=year;
     // keep the end year of an item that was stopped earlier
-    else if(old&&old.last_year!=null&&old.last_year!==old.first_year&&old.last_year>=year)last=old.last_year;
-    var rec={title:title,details:$('f-det').value.trim()||null,roles:roles,month:+$('f-month').value,first_year:year,last_year:last};
+    else if(old&&old.last_year!=null&&!isOnce(old)&&old.last_year>=year)last=old.last_year;
+    var rec={title:title,details:$('f-det').value.trim()||null,roles:roles,month:+$('f-month').value,first_year:year,last_year:last,year_parity:parity()};
     var btn=$('f-save'),month=T.MONTHS[rec.month-1],wasEdit=!!editId;btn.disabled=true;$('f-err').classList.add('hidden');
     var q=editId?sb.from('board_todos').update(rec).eq('id',editId):sb.from('board_todos').insert(rec);
     q.select().then(function(r){
