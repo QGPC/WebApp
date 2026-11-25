@@ -96,6 +96,9 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
 <p id="note" class="msg err hidden" role="alert"></p>
 <section class="card hcard hidden" id="backup-card" aria-labelledby="backup-h" role="alert" style="border:2px solid var(--persimmon)"><div class="hcard-h"><h2 id="backup-h">Time for a backup</h2><a class="btn-save small" href="backups.html">Go to Backups</a></div>
 <p id="backup-txt" style="margin:0;line-height:1.5"></p></section>
+<section class="card hcard hidden" id="todo-card" aria-labelledby="todo-h"><div class="hcard-h"><h2 id="todo-h">Board To-Do List</h2></div>
+<p id="todo-err" class="msg err hidden" role="alert"></p>
+<ul class="tdlist" id="todo-list"></ul><p class="muted" id="todo-none">Loading&hellip;</p></section>
 <section class="card hcard special hidden" id="special-card" aria-labelledby="special-h"><div class="hcard-h"><h2 id="special-h">Special Notices</h2></div>
 <ul class="special-list" id="special-list"></ul></section>
 <div class="hpair">
@@ -118,6 +121,7 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
 <script src="assets/js/auth.js?v=20261118f"></script>
 <script src="assets/js/newbadge.js?v=20261118f"></script>
 <script src="assets/js/special-notices.js?v=20261118f"></script>
+<script src="assets/js/board-todos.js?v=20261125a"></script>
 <script>
 (function(){
   var $=function(i){return document.getElementById(i)};
@@ -256,6 +260,24 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
         if(all.length>bar){fill('more-areas',all.slice(bar));$('more-btn').classList.remove('hidden');}
         var canPost=isAdm||has('president')||has('vice_president')||has('publicity_chair');
         QGPCSpecial.show({members:full});
+        // Board To-Do List: this month's tasks, for the Board, committee chairs (and Administrators).
+        if(full&&(isAdm||QGPCTodos.isBoard(roles))){
+          var tdFail=function(t){var n=$('todo-err');n.textContent=t;n.classList.remove('hidden');};
+          var tdLoad=function(){
+            var T=QGPCTodos,now=T.now();
+            $('todo-h').textContent='Board To-Do List: '+T.MONTHS[now.month-1]+' '+now.year;
+            return T.load().then(function(d){
+              var ul=$('todo-list');ul.textContent='';$('todo-err').classList.add('hidden');
+              var list=d.items.filter(function(t){return t.month===now.month&&T.applies(t,now.year);});
+              list.forEach(function(t){ul.appendChild(T.row(t,{data:d,year:now.year,roles:roles,yours:true,
+                manage:isAdm||has('president')||has('vice_president'),changed:tdLoad,fail:tdFail}));});
+              $('todo-none').textContent='No to-do items for '+T.MONTHS[now.month-1]+'.';
+              $('todo-none').classList.toggle('hidden',list.length>0);
+            },function(){$('todo-none').classList.add('hidden');tdFail('We couldn\u2019t load this. Please try again.');});
+          };
+          $('todo-card').classList.remove('hidden');
+          tdLoad();
+        }
         if(canPost)$('post-notice').classList.remove('hidden');
         var today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
         var nq=QGPC.sb.from('notices').select('*').or('show_until.is.null,show_until.gte.'+today).order('pinned',{ascending:false}).order('created_at',{ascending:false});

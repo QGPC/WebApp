@@ -65,8 +65,8 @@ begin
                         and (r.role_key = 'superuser' or (v_admins and r.role_key = 'administrator')))));
   foreach t in array array['membership_requests','workshop_registrations','whats_new','last_seen','notices','special_notices',
       'member_emails','sunshine_notes','comfort_kit_claims','quilts_needing_work','comfort_log_in','comfort_log_out',
-      'comfort_year_start','member_imports',
-      'program_months','program_month_costs','program_costs','nonmember_fees','workshop_materials','newsletters','charities',
+      'comfort_year_start','member_imports','board_todo_done',
+      'board_todos','program_months','program_month_costs','program_costs','nonmember_fees','workshop_materials','newsletters','charities',
       'bees','guild_history_entries','comfort_patterns','news_items','retreats','events','guild_contact','site_appearance',
       'conversations','message_blocks','member_messaging'] loop
     out := out || jsonb_build_object(t, public._count_rows(t));
@@ -94,7 +94,7 @@ declare
   buckets    text[] := array['special-notices'];
   n          bigint;
   content_tables text[] := array['workshop_materials','program_month_costs','program_costs','program_months',
-      'nonmember_fees','newsletters','charities','bees','guild_history_entries','comfort_patterns','news_items','retreats','events'];
+      'nonmember_fees','newsletters','charities','bees','guild_history_entries','comfort_patterns','news_items','retreats','events','board_todos'];
   existing   text[] := '{}';
 begin
   if not public.is_superuser() then
@@ -121,7 +121,7 @@ begin
   -- test activity (always cleared)
   foreach t in array array['membership_requests','workshop_registrations','whats_new','last_seen','notices','special_notices',
       'member_emails','sunshine_notes','comfort_kit_claims','quilts_needing_work','comfort_log_in','comfort_log_out',
-      'comfort_year_start','member_imports','signin_link_requests',
+      'comfort_year_start','member_imports','board_todo_done','signin_link_requests',
       'conversations','message_blocks','member_messaging'] loop
     if to_regclass('public.' || quote_ident(t)) is not null then
       execute format('delete from public.%I where true', t);

@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Board To-Do List</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118f">
+<style>
+.months{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+@media (max-width:820px){.months{grid-template-columns:1fr}}
+.mcard{background:#fff;border:1px solid var(--edge);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.mcard .mh{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.mcard h2{margin:0;font-size:var(--fs-xl)}
+.mcard li{border:1px solid var(--edge);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;overflow-wrap:anywhere}
+.mcard li.ended{background:#F7F5F0}
+.mcard li b{font-size:var(--fs-lg);font-weight:600}
+.mcard .sub{font-size:var(--fs-sm);color:var(--muted);white-space:pre-wrap}
+.acts{display:flex;gap:10px;flex-wrap:wrap}
+.none{margin:0;color:var(--muted);font-size:var(--fs-md)}
+.nform{background:#fff;border:1px solid var(--edge);border-radius:14px;padding:22px}
+.nform h2{margin:0 0 12px;font-size:var(--fs-xl)}.nform label.l{display:block;margin:12px 0 4px;font-weight:600;font-size:var(--fs-md)}
+.nform .hint{margin:2px 0 8px;font-size:var(--fs-sm);color:var(--muted)}
+.nform fieldset{margin:12px 0;padding:0;border:0;display:flex;flex-wrap:wrap;gap:10px}
+.nform legend{padding:0;margin:0 0 8px;font-weight:600;font-size:var(--fs-md)}
+.nform .opt{display:flex;align-items:center;gap:10px;min-height:44px;padding:8px 14px;border:1px solid var(--edge);border-radius:10px;background:var(--cream);cursor:pointer;font-size:var(--fs-md);font-weight:600}
+.nform .opt input{width:20px;height:20px;margin:0;accent-color:var(--cobalt)}
+.nform .grp{flex:0 0 100%;margin:4px 0 0;font-size:var(--fs-sm);color:var(--muted);font-weight:600}
+.row2{display:flex;gap:24px;flex-wrap:wrap}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-104.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<nav class="head-actions" aria-label="Home and account">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</nav></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Board &amp; committee chairs</span>
+<h1 id="pg-title" style="margin:0">Board To-Do List</h1><p class="stat-line">Tasks month by month. Board members and committee chairs see the current month on their home page.</p></div>
+</div></section>
+<div class="mwrap" style="max-width:1200px" id="content">
+<a class="backlink" href="presidents-page.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to the President&rsquo;s Page</a>
+<p id="note" class="msg ok hidden" role="status" style="margin:0"></p>
+<p id="err" class="msg err hidden" role="alert" style="margin:0"></p>
+
+<form class="nform hidden" id="form" novalidate>
+<h2 id="form-h">Add a to-do item</h2>
+<label class="l" for="f-title">Task <span aria-hidden="true">*</span></label>
+<input class="field" id="f-title" maxlength="150" autocomplete="off">
+<label class="l" for="f-det">Details <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
+<textarea class="field" id="f-det" rows="2" maxlength="600" style="min-height:70px"></textarea>
+<fieldset id="f-roles"><legend>Assign to <span aria-hidden="true">*</span></legend></fieldset>
+<div class="row2"><div><label class="l" for="f-month">Month</label><select class="field" id="f-month" style="width:200px"></select></div>
+<div><label class="l" for="f-rep">How often</label><select class="field" id="f-rep" style="width:200px"><option value="yearly">Every year</option><option value="once">One time only</option></select></div>
+<div><label class="l" for="f-year" id="f-year-lab">Starting year</label><select class="field" id="f-year" style="width:160px"></select></div></div>
+<p id="f-err" class="msg err hidden" role="alert"></p>
+<div class="saverow"><button type="submit" class="btn-save" id="f-save">Save item</button><button type="button" class="btn-cancel" id="f-cancel">Cancel</button></div>
+</form>
+
+<div><button type="button" class="btn-save" id="new-btn" disabled>Add a to-do item</button></div>
+<p id="loading" role="status">Loading the list&hellip;</p>
+<div class="months" id="months"></div>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js?v=20261118f"></script>
+<script src="assets/js/auth.js?v=20261118f"></script>
+<script src="assets/js/tilebar.js?v=20261118f"></script>
+<script src="assets/js/shell.js?v=20261118f"></script>
+<script src="assets/js/board-todos.js?v=20261125a"></script>
+<script>
+QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president');}},function(c){
+  var $=function(i){return document.getElementById(i)};
+  var T=QGPCTodos,el=T.el,sb=QGPC.sb,now=T.now();
+  var data={items:[],done:{},holders:{}},editId=null,confirmId=null,yearTouched=false;
+  function say(t){var n=$('note');n.textContent=t;n.classList.remove('hidden');$('err').classList.add('hidden');}
+  function bad(t){var n=$('err');n.textContent=t;n.classList.remove('hidden');$('note').classList.add('hidden');}
+  function ferr(t){var f=$('f-err');f.textContent=t;f.classList.remove('hidden');}
+  function opt(sel,v,t){var o=el('option',null,t);o.value=v;sel.appendChild(o);}
+
+  T.MONTHS.forEach(function(m,i){opt($('f-month'),i+1,m);});
+  // One check box per role, built once the roles list has loaded.
+  var rolesBuilt=false;
+  function buildRoles(){
+    if(rolesBuilt||!T.ROLES.length)return;rolesBuilt=true;
+    [['Executive Board',function(r){return r.sort_order<30;}],['Committee chairs',function(r){return r.sort_order>=30;}]].forEach(function(g){
+      $('f-roles').appendChild(el('p','grp',g[0]));
+      T.ROLES.filter(g[1]).forEach(function(r){
+        var l=el('label','opt'),b=el('input');b.type='checkbox';b.name='role';b.value=r.role_key;l.appendChild(b);l.appendChild(document.createTextNode(r.label));$('f-roles').appendChild(l);
+      });
+    });
+    $('new-btn').disabled=false;
+  }
+  function fillYears(sel){
+    var s=$('f-year');s.textContent='';
+    var lo=Math.min(now.year-1,sel),hi=Math.max(now.year+3,sel);
+    for(var y=lo;y<=hi;y++)opt(s,y,String(y));
+    s.value=sel;
+  }
+  // A month already past this year most likely means the next one.
+  function suggest(month){return month<now.month?now.year+1:now.year;}
+
+  function load(){
+    return T.load().then(function(d){data=d;$('loading').classList.add('hidden');buildRoles();draw();},function(){
+      $('loading').classList.add('hidden');bad('Could not load the to-do list. Please refresh and try again.');
+    });
+  }
+  function often(t){
+    if(t.last_year===t.first_year)return 'One time: '+t.first_year;
+    if(t.last_year==null)return 'Every year, starting '+t.first_year;
+    return 'Every year '+t.first_year+' to '+t.last_year;
+  }
+  function doneYears(t){return Object.keys(data.done).filter(function(k){return k.indexOf(t.id+'|')===0;}).map(function(k){return +k.split('|')[1];});}
+  // The last year to keep if a repeating item is stopped now, or null if there is nothing to keep.
+  function keepThrough(t){
+    if(t.last_year===t.first_year)return null;
+    var y=doneYears(t);
+    y.push(t.month<now.month||data.done[t.id+'|'+now.year]?now.year:now.year-1);
+    var last=Math.max.apply(null,y);
+    if(t.last_year!=null&&t.last_year<=last)return null;
+    return last>=t.first_year?last:null;
+  }
+  function draw(){
+    var box=$('months');box.textContent='';
+    T.MONTHS.forEach(function(name,i){
+      var m=i+1,card=el('section','mcard'),mh=el('div','mh');
+      card.setAttribute('aria-label',name);
+      mh.appendChild(el('h2',null,name));
+      var add=el('button','nbtn','Add item');add.type='button';add.setAttribute('aria-label','Add item to '+name);add.onclick=function(){openForm(null,m);};
+      mh.appendChild(add);card.appendChild(mh);
+      var list=data.items.filter(function(t){return t.month===m;});
+      if(!list.length){card.appendChild(el('p','none','No items.'));box.appendChild(card);return;}
+      var ul=el('ul','tdlist');
+      list.forEach(function(t){
+        var li=el('li',t.last_year!=null&&t.last_year<now.year?'ended':null);
+        li.appendChild(el('b',null,t.title));
+        if(t.details)li.appendChild(el('span','sub',t.details));
+        li.appendChild(el('span','sub','Assigned to: '+T.assigned(t,data.holders)));
+        li.appendChild(el('span','sub',often(t)));
+        var act=el('div','acts');
+        var e=el('button','nbtn','Edit');e.type='button';e.setAttribute('aria-label','Edit '+t.title);e.onclick=function(){openForm(t);};
+        var x=el('button','nbtn del','Delete');x.type='button';x.setAttribute('aria-label','Delete '+t.title);x.onclick=function(){confirmId=t.id;draw();};
+        act.appendChild(e);act.appendChild(x);li.appendChild(act);
+        if(confirmId===t.id)li.appendChild(confirmBox(t));
+        ul.appendChild(li);
+      });
+      card.appendChild(ul);box.appendChild(card);
+    });
+  }
+  function confirmBox(t){
+    var cf=el('div','confirm'),keep=keepThrough(t),n=doneYears(t).length;
+    cf.appendChild(el('p',null,(keep!=null?'Stop repeating keeps the record through '+keep+'. ':'')+
+      'Delete completely removes the item'+(n?' and its completion record ('+n+(n===1?' year':' years')+')':'')+'. That can’t be undone.'));
+    var row=el('div','saverow');
+    function run(q,msg){
+      Array.prototype.forEach.call(row.children,function(b){b.disabled=true;});
+      q.select().then(function(r){
+        confirmId=null;
+        if(r.error||!r.data||!r.data.length){bad('That did not save. Please try again.');load();return;}
+        if(editId===t.id)closeForm();
+        say(msg);load();
+      });
+    }
+    if(keep!=null){
+      var s=el('button','btn-save','Stop repeating');s.type='button';
+      s.onclick=function(){run(sb.from('board_todos').update({last_year:keep}).eq('id',t.id),'Stopped after '+keep+'. Earlier years are kept.');};
+      row.appendChild(s);
+    }
+    var d=el('button','btn-del solid','Delete completely');d.type='button';
+    d.onclick=function(){run(sb.from('board_todos').delete().eq('id',t.id),'Deleted.');};
+    var k=el('button','btn-cancel','Keep it');k.type='button';k.onclick=function(){confirmId=null;draw();};
+    row.appendChild(d);row.appendChild(k);cf.appendChild(row);return cf;
+  }
+  function yearLabel(){$('f-year-lab').textContent=$('f-rep').value==='once'?'Year':'Starting year';}
+  function openForm(t,month){
+    editId=t?t.id:null;confirmId=null;yearTouched=!!t;
+    var m=t?t.month:(month||now.month);
+    $('form-h').textContent=t?'Edit to-do item':'Add a to-do item';
+    $('f-title').value=t?t.title:'';$('f-det').value=t&&t.details?t.details:'';
+    $('f-month').value=m;
+    $('f-rep').value=t&&t.last_year===t.first_year?'once':'yearly';
+    fillYears(t?t.first_year:suggest(m));yearLabel();
+    Array.prototype.forEach.call(document.querySelectorAll('input[name=role]'),function(b){b.checked=!!t&&t.roles.indexOf(b.value)>-1;});
+    $('f-err').classList.add('hidden');$('form').classList.remove('hidden');$('note').classList.add('hidden');draw();
+    $('f-title').focus();$('form').scrollIntoView({behavior:'smooth',block:'start'});
+  }
+  function closeForm(){editId=null;$('form').classList.add('hidden');}
+  $('new-btn').onclick=function(){openForm(null);};
+  $('f-cancel').onclick=function(){closeForm();};
+  $('f-month').addEventListener('change',function(){if(!yearTouched)fillYears(suggest(+this.value));});
+  $('f-year').addEventListener('change',function(){yearTouched=true;});
+  $('f-rep').addEventListener('change',yearLabel);
+  $('form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var title=$('f-title').value.trim();
+    var roles=Array.prototype.filter.call(document.querySelectorAll('input[name=role]'),function(b){return b.checked;}).map(function(b){return b.value;});
+    if(!title){ferr('Please type the task.');$('f-title').focus();return;}
+    if(!roles.length){ferr('Please choose at least one role.');return;}
+    var year=+$('f-year').value,old=data.items.filter(function(x){return x.id===editId;})[0];
+    var last=null;
+    if($('f-rep').value==='once')last=year;
+    // keep the end year of an item that was stopped earlier
+    else if(old&&old.last_year!=null&&old.last_year!==old.first_year&&old.last_year>=year)last=old.last_year;
+    var rec={title:title,details:$('f-det').value.trim()||null,roles:roles,month:+$('f-month').value,first_year:year,last_year:last};
+    var btn=$('f-save'),month=T.MONTHS[rec.month-1],wasEdit=!!editId;btn.disabled=true;$('f-err').classList.add('hidden');
+    var q=editId?sb.from('board_todos').update(rec).eq('id',editId):sb.from('board_todos').insert(rec);
+    q.select().then(function(r){
+      btn.disabled=false;
+      if(r.error||!r.data||!r.data.length){ferr('That did not save. Please try again.');return;}
+      closeForm();say((wasEdit?'Changes saved to ':'Added to ')+month+'.');load();
+    });
+  });
+  load();
+});
+</script>
+</body></html>
