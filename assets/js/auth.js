@@ -105,24 +105,8 @@
   });
   // ---- Guild contact details and Facebook link (set on the Site Appearance page) ----
   var GC_KEY = 'qgpc_guild_contact';
-  // Footer "Find us on Facebook" link on every page. Uses the address saved on Site Appearance when there is one, else this one.
+  // Header "Find us on Facebook" link. Uses the address saved on Site Appearance when there is one, else this one.
   var FB_DEFAULT = 'https://facebook.com/quiltersguildofparkercounty';
-  function fbFoot(url){
-    var run = function(){
-      var foots = document.querySelectorAll('.site-foot');
-      for (var i = 0; i < foots.length; i++) {
-        var f = foots[i], old = f.querySelector('[data-fb-foot]');
-        if (old) { if (old.getAttribute('href') === url) continue; old.parentNode.removeChild(old); }
-        var box = f.querySelector('.wrap > div'); if (!box) continue;
-        var a = document.createElement('a'); a.setAttribute('data-fb-foot', '1'); a.href = url; a.target = '_blank'; a.rel = 'noopener';
-        a.setAttribute('aria-label', 'Find us on Facebook (opens in a new tab)'); a.textContent = 'Find us on Facebook';
-        var priv = box.querySelector('a[href="privacy.html"]');
-        if (priv && priv.nextSibling) box.insertBefore(a, priv.nextSibling); else box.appendChild(a);
-        if (priv) a.style.marginLeft = '18px';
-      }
-    };
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
-  }
   // Header "Find us on Facebook" link on every page, including Welcome, Join and Home (which have no account links).
   function fbHead(url){
     var run = function(){
@@ -143,7 +127,6 @@
   }
   function gcApply(g){
     if (!g) return;
-    fbFoot(g.facebook_url || FB_DEFAULT);
     fbHead(g.facebook_url || FB_DEFAULT);
     var run = function(){
       // Footer address line
@@ -159,11 +142,14 @@
         if (line) sp.textContent = line;
         var old = f.querySelector('[data-gc-row]'); if (old) old.parentNode.removeChild(old);
         var more = [];
-        if (g.email) { var a = document.createElement('a'); a.href = 'mailto:' + g.email; a.textContent = g.email; more.push(a); }
+        // The Guild email sits behind a button, so the address itself is not printed on the page
+        if (g.email) { var a = document.createElement('a'); a.href = 'mailto:' + g.email; a.textContent = 'Contact the Guild'; a.setAttribute('data-gc-mail', '1'); more.push(a); }
         if (g.phone) { var p = document.createElement('a'); p.href = 'tel:' + g.phone.replace(/[^0-9+]/g, ''); p.textContent = g.phone; more.push(p); }
         if (more.length) {
-          var row = document.createElement('div'); row.setAttribute('data-gc-row', '1'); row.style.cssText = 'display:flex;flex-wrap:wrap;gap:4px 18px;margin-top:4px';
-          more.forEach(function(x){ x.style.cssText = 'color:#fff;font-weight:600;text-decoration:underline;text-underline-offset:3px'; row.appendChild(x); });
+          var row = document.createElement('div'); row.setAttribute('data-gc-row', '1'); row.style.cssText = 'display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;margin:8px 0 4px';
+          more.forEach(function(x){ x.style.cssText = x.getAttribute('data-gc-mail')
+            ? 'background:#fff;color:#01344E;font-weight:700;text-decoration:none;padding:0 20px;border-radius:999px'
+            : 'color:#fff;font-weight:600;text-decoration:underline;text-underline-offset:3px'; row.appendChild(x); });
           sp.parentNode.insertBefore(row, sp.nextSibling);
           var nx = row.nextSibling; if (nx && nx.nodeName === 'BR') nx.parentNode.removeChild(nx);
         }
@@ -172,7 +158,6 @@
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
   }
   window.QGPC.guildContact = { apply: gcApply, remember: function(g){ try { localStorage.setItem(GC_KEY, JSON.stringify(g)); } catch (e) {} } };
-  fbFoot(FB_DEFAULT);
   fbHead(FB_DEFAULT);
   try { var gcc = JSON.parse(localStorage.getItem(GC_KEY) || 'null'); if (gcc) gcApply(gcc); } catch (e) {}
   sb.from('guild_contact').select('*').limit(1).then(function(r){
