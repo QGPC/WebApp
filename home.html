@@ -8,6 +8,8 @@
 <link rel="stylesheet" href="assets/css/site.css?v=20261118f">
 <style>
 .hcard{margin:28px 0 16px}.hcard-h{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 0 12px}.hcard-h h2{margin:0;font-size:var(--fs-xl)}
+#todo-card.min .hcard-h{margin:0}
+.tdview{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}.tdview.hidden{display:none}
 .btn-save.small{min-height:44px;padding:0 20px;font-size:var(--fs-md);display:inline-flex;align-items:center;text-decoration:none}
 ul.notices{list-style:none;margin:0;padding:0;max-height:440px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
 ul.notices li{border:1px solid var(--edge);border-radius:12px;padding:14px 16px;background:#FBFAF6}
@@ -96,9 +98,11 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
 <p id="note" class="msg err hidden" role="alert"></p>
 <section class="card hcard hidden" id="backup-card" aria-labelledby="backup-h" role="alert" style="border:2px solid var(--persimmon)"><div class="hcard-h"><h2 id="backup-h">Time for a backup</h2><a class="btn-save small" href="backups.html">Go to Backups</a></div>
 <p id="backup-txt" style="margin:0;line-height:1.5"></p></section>
-<section class="card hcard hidden" id="todo-card" aria-labelledby="todo-h"><div class="hcard-h"><h2 id="todo-h">Board To-Do List</h2></div>
+<section class="card hcard hidden" id="todo-card" aria-labelledby="todo-h"><div class="hcard-h"><h2 id="todo-h">Board To-Do List</h2><button type="button" class="nbtn" id="todo-min" aria-expanded="true" aria-controls="todo-body">Minimize</button></div>
 <p id="todo-err" class="msg err hidden" role="alert"></p>
-<ul class="tdlist" id="todo-list"></ul><p class="muted" id="todo-none">Loading&hellip;</p></section>
+<div id="todo-body">
+<div class="tdview hidden" id="todo-view" role="group" aria-label="Which to-do items to show"><button type="button" class="nbtn" data-v="mine">Only mine</button><button type="button" class="nbtn" data-v="all">All items</button></div>
+<ul class="tdlist" id="todo-list"></ul><p class="muted hidden" id="todo-none"></p></div></section>
 <section class="card hcard special hidden" id="special-card" aria-labelledby="special-h"><div class="hcard-h"><h2 id="special-h">Special Notices</h2></div>
 <ul class="special-list" id="special-list"></ul></section>
 <div class="hpair">
@@ -260,22 +264,48 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
         if(all.length>bar){fill('more-areas',all.slice(bar));$('more-btn').classList.remove('hidden');}
         var canPost=isAdm||has('president')||has('vice_president')||has('publicity_chair');
         QGPCSpecial.show({members:full});
-        // Board To-Do List: this month's tasks, for the Board, committee chairs (and Administrators).
+        // Board To-Do List: this month's tasks assigned to you. The President, Vice President and
+        // Administrators can also choose to see all of them. No items to show means no card.
         if(full&&(isAdm||QGPCTodos.isBoard(roles))){
-          var tdFail=function(t){var n=$('todo-err');n.textContent=t;n.classList.remove('hidden');};
+          var tdAll=isAdm||has('president')||has('vice_president');   // who may see all, and mark any
+          // The viewer's two choices are remembered in this browser only.
+          var tdGet=function(k){try{return localStorage.getItem('qgpc_todo_'+k+'_'+m.id);}catch(e){return null;}};
+          var tdPut=function(k,v){try{localStorage.setItem('qgpc_todo_'+k+'_'+m.id,v);}catch(e){}};
+          var tdView=tdGet('view');
+          var tdFail=function(t){var n=$('todo-err');n.textContent=t;n.classList.remove('hidden');$('todo-card').classList.remove('hidden');};
+          var tdFold=function(min){
+            $('todo-body').classList.toggle('hidden',min);$('todo-card').classList.toggle('min',min);
+            var b=$('todo-min');b.textContent=min?'Show':'Minimize';b.setAttribute('aria-expanded',min?'false':'true');
+          };
           var tdLoad=function(){
-            var T=QGPCTodos,now=T.now();
-            $('todo-h').textContent='Board To-Do List: '+T.MONTHS[now.month-1]+' '+now.year;
+            var T=QGPCTodos,now=T.now(),month=T.MONTHS[now.month-1];
+            $('todo-h').textContent='Board To-Do List: '+month+' '+now.year;
             return T.load().then(function(d){
               var ul=$('todo-list');ul.textContent='';$('todo-err').classList.add('hidden');
-              var list=d.items.filter(function(t){return t.month===now.month&&T.applies(t,now.year);});
-              list.forEach(function(t){ul.appendChild(T.row(t,{data:d,year:now.year,roles:roles,yours:true,
-                manage:isAdm||has('president')||has('vice_president'),changed:tdLoad,fail:tdFail}));});
-              $('todo-none').textContent='No to-do items for '+T.MONTHS[now.month-1]+'.';
+              var all=d.items.filter(function(t){return t.month===now.month&&T.applies(t,now.year);});
+              var mine=all.filter(function(t){return t.roles.some(function(k){return has(k);});});
+              if(!(tdAll?all:mine).length){$('todo-card').classList.add('hidden');return;}
+              var view=!tdAll?'mine':(tdView||(mine.length?'mine':'all'));
+              var list=view==='all'?all:mine;
+              list.forEach(function(t){ul.appendChild(T.row(t,{data:d,year:now.year,roles:roles,yours:view==='all',
+                manage:tdAll,changed:tdLoad,fail:tdFail}));});
+              $('todo-view').classList.toggle('hidden',!tdAll);
+              [].forEach.call($('todo-view').children,function(b){
+                var on=b.getAttribute('data-v')===view;
+                b.classList.toggle('solid',on);b.setAttribute('aria-pressed',on?'true':'false');
+              });
+              $('todo-none').textContent='Nothing is assigned to you in '+month+'.';
               $('todo-none').classList.toggle('hidden',list.length>0);
-            },function(){$('todo-none').classList.add('hidden');tdFail('We couldn\u2019t load this. Please try again.');});
+              $('todo-card').classList.remove('hidden');
+            },function(){tdFail('We couldn\u2019t load this. Please try again.');});
           };
-          $('todo-card').classList.remove('hidden');
+          $('todo-min').addEventListener('click',function(){
+            var min=!$('todo-card').classList.contains('min');tdFold(min);tdPut('min',min?'1':'0');
+          });
+          [].forEach.call($('todo-view').children,function(b){
+            b.addEventListener('click',function(){tdView=b.getAttribute('data-v');tdPut('view',tdView);tdLoad();});
+          });
+          tdFold(tdGet('min')==='1');
           tdLoad();
         }
         if(canPost)$('post-notice').classList.remove('hidden');
