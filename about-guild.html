@@ -59,6 +59,7 @@ button.pcl{border:2px solid var(--edge);cursor:pointer}button.pcl[aria-expanded=
 </div></section>
 <div class="mwrap" style="max-width:1200px;gap:22px" id="content">
 
+<section class="cqc" aria-labelledby="ms-title" style="padding:28px;gap:14px"><h2 id="ms-title">Guild Mission Statement</h2><p id="ms-body" style="margin:0;font-size:var(--fs-lg);line-height:1.6;white-space:pre-line;overflow-wrap:anywhere" aria-live="polite">Loading&hellip;</p></section>
 <button type="button" class="bigbtn" id="board-btn" aria-expanded="false" aria-controls="board-panel"><span class="ic"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><circle cx="17" cy="9" r="2.6"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 14.5c3 0 6 2 6 5.5"/></svg></span><span class="tx"><b>Our Board</b><span id="board-intro">Board members and committee chairs.</span></span><svg class="chev" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
 <div id="board-panel" style="display:none;flex-direction:column;gap:24px"></div>
 <a class="bigbtn" href="guild-history.html"><span class="ic hot"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span class="tx"><b>Guild History</b><span>How the Guild began and how it has grown.</span></span><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></a>
@@ -128,6 +129,10 @@ button.pcl{border:2px solid var(--edge);cursor:pointer}button.pcl[aria-expanded=
   }
   $('board-btn').onclick=function(){open=!open;sel=null;draw();};
   C.who().then(function(w){if(w.signedIn)$('homelink').href='home.html';full=!!w.full;draw();});
+  sb.from('mission_statement').select('body').limit(1).then(function(r){
+    var t=r.data&&r.data[0]&&r.data[0].body;
+    $('ms-body').textContent=r.error?'The mission statement could not be loaded. Please refresh the page.':(t||'Our mission statement will be posted here soon.');
+  });
   sb.rpc('about_leaders').then(function(r){rows=(r.data||[]);draw();});
   draw();
 })();

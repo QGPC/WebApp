@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Edit Mission Statement</title>
+<link rel="icon" href="assets/icons/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/site.css?v=20261118f">
+<style>
+.wm{border:1px solid var(--edge);border-radius:14px;padding:22px;background:#fff;display:flex;flex-direction:column;gap:16px}
+.wm label.l{display:block;font-weight:600;font-size:var(--fs-md);margin:0 0 6px}
+.wm .hint{margin:4px 0 0;font-size:var(--fs-sm);color:var(--muted)}
+.wm .count{font-size:var(--fs-sm);color:var(--muted);text-align:right;margin:0}
+.prev{border:1px solid var(--edge);border-radius:14px;padding:18px 20px;background:var(--cream)}
+.prev b{display:block;font-size:var(--fs-md);margin:0 0 8px}
+.prev p{margin:0;font-size:var(--fs-lg);line-height:1.55;overflow-wrap:anywhere}
+</style>
+</head><body>
+<a class="skip" href="#main">Skip to main content</a>
+<header class="site-head"><div class="wrap">
+<div class="head-top">
+<a class="brand" href="home.html"><img src="assets/icons/icon-104.png" alt=""><span><b>Quilter&rsquo;s Guild</b><span>of Parker County</span></span></a>
+<nav class="head-actions" aria-label="Home and account">
+<a class="homelink" href="home.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6"></path></svg>Home</a>
+<span class="whoami"><span class="avatar sm" id="avatar" aria-hidden="true"></span><span class="who"><b id="who-name">&nbsp;</b><small id="who-role"></small></span></span>
+<button type="button" class="pill out" id="out">Sign out</button>
+</nav></div></div></header>
+<main id="main">
+<section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Publicity</span>
+<h1 id="pg-title" style="margin:0">Edit Mission Statement</h1><p class="stat-line">Edit the Guild Mission Statement shown on the public About Our Guild page.</p></div>
+</div></section>
+<div class="mwrap" style="max-width:900px" id="content">
+<a class="backlink" href="publicity-chair.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to Publicity Chair</a>
+
+<p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
+<p id="loading" role="status" style="margin:0">Loading&hellip;</p>
+
+<form class="wm hidden" id="form" novalidate>
+<div><label class="l" for="f-msg">Guild Mission Statement</label>
+<textarea class="field" id="f-msg" rows="8" maxlength="2000" style="min-height:200px;margin-bottom:4px"></textarea>
+<p class="count" id="count">0 of 2000 characters</p>
+<p class="hint">Shown on the About Our Guild page. Line breaks are kept. Leave it blank and the page says the mission statement will be posted soon.</p></div>
+<div class="prev"><b>How it will read</b><p id="prev" style="white-space:pre-line"></p></div>
+<p id="f-err" class="msg err hidden" role="alert" style="margin:0"></p>
+<div class="saverow"><button type="submit" class="btn-save" id="f-save">Save mission statement</button><a class="nbtn" href="about-guild.html">See the About Our Guild page</a></div>
+<p class="hint" id="when" style="margin:0"></p>
+</form>
+
+<section style="display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:var(--mist)">
+<div><h2 style="margin:0 0 4px;font-size:var(--fs-md);font-weight:700;color:var(--cobalt)">Who can use this page</h2>
+<p style="margin:0;font-size:var(--fs-md);line-height:1.5;color:var(--ink)">The Publicity Chair, Administrators and the Superuser. The statement shows to everyone who visits the About Our Guild page, including people who are not signed in, so do not put anything private in it.</p></div>
+</section>
+</div>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div><b>Quilter&rsquo;s Guild of Parker County</b>
+<span>[Mailing address] &middot; [City], TX [ZIP]</span><br>
+<a href="privacy.html">Privacy Notice</a></div>
+<span style="align-self:flex-end">&copy; 2026 Quilter&rsquo;s Guild of Parker County</span>
+</div></footer>
+<script src="assets/js/supabase-js-2.119.0.js"></script>
+<script src="assets/js/config.js?v=20261118f"></script>
+<script src="assets/js/auth.js?v=20261118f"></script>
+<script src="assets/js/shell.js?v=20261118f"></script>
+<script>
+QGPCShell.start({need:function(c){return c.isAdmin||c.has('publicity_chair');}},function(c){
+  var $=function(i){return document.getElementById(i)};
+  var sb=QGPC.sb;
+  function show(t,cls){var n=$('status');n.textContent=t;n.className='msg '+cls;n.style.margin='0';}
+  function ferr(t){var f=$('f-err');f.textContent=t;f.classList.remove('hidden');}
+  function clean(v){return String(v||'').replace(/\r\n?/g,'\n').trim();}
+  function draw(){
+    var v=$('f-msg').value;
+    $('count').textContent=v.length+' of 2000 characters';
+    $('prev').textContent=clean(v)||'(Blank: the page says the mission statement will be posted soon.)';
+  }
+  function when(ts){
+    $('when').textContent=ts?'Last saved '+new Date(ts).toLocaleString('en-US',{timeZone:'America/Chicago',month:'long',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'})+'.':'';
+  }
+  $('f-msg').addEventListener('input',function(){draw();$('f-err').classList.add('hidden');});
+  sb.from('mission_statement').select('body,updated_at').limit(1).then(function(r){
+    $('loading').classList.add('hidden');
+    if(r.error){show('Could not load the mission statement. Please refresh and try again.','err');return;}
+    var row=(r.data&&r.data[0])||{body:'',updated_at:null};
+    $('f-msg').value=row.body||'';when(row.updated_at);draw();$('form').classList.remove('hidden');
+  });
+  $('form').addEventListener('submit',function(e){
+    e.preventDefault();
+    var v=clean($('f-msg').value);
+    if(v.length>2000){ferr('Please keep it to 2000 characters or fewer.');return;}
+    var btn=$('f-save');btn.disabled=true;$('f-err').classList.add('hidden');
+    sb.from('mission_statement').upsert({id:true,body:v}).select('updated_at').then(function(r){
+      btn.disabled=false;
+      if(r.error){ferr('That did not save. Please try again.');return;}
+      $('f-msg').value=v;draw();
+      when(r.data&&r.data[0]&&r.data[0].updated_at);
+      show(v?'Saved. The About Our Guild page now shows this statement.':'Saved. The About Our Guild page now says the statement will be posted soon.','ok');
+      $('status').scrollIntoView({behavior:'smooth',block:'nearest'});
+    });
+  });
+});
+</script>
+</body></html>
