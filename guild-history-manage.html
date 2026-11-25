@@ -39,12 +39,12 @@
 </div></div></header>
 <main id="main">
 <section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
-<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Site Administration</span>
+<div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0;max-width:640px"><span class="eyebrow">Publicity</span>
 <h1 id="pg-title" style="margin:0">Edit Guild History</h1><p class="stat-line" id="lead">Change the introduction and the timeline on the Guild History page.</p></div>
 
 </div></section>
 <div class="mwrap" style="max-width:1200px;gap:22px" id="content">
-<a class="backlink" href="admin.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to Site Administration</a>
+<a class="backlink" href="publicity-chair.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to Publicity Chair</a>
 <div class="toplinks"><a class="nbtn" href="guild-history.html">See the page &rarr;</a></div>
 <p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
 <section class="cqc" aria-labelledby="gi-t"><h2 id="gi-t">Introduction</h2>
@@ -59,7 +59,7 @@
 <div style="display:flex;gap:12px;flex-wrap:wrap"><button class="btn-save" id="f-save" type="submit">Add entry</button><button class="btn-cancel" id="f-cancel" type="button">Cancel</button></div></form>
 <p class="empty hidden" id="none">The timeline is empty. The Guild History page says no entries have been added until you add one.</p>
 <ul id="list" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px"></ul></section>
-<section class="infobox"><div><h2>Who can use this page</h2><p>Administrators and the Superuser. Everyone can read the Guild History page. Entries are shown oldest first, in order of the year you type; an entry with no year goes last.</p></div></section>
+<section class="infobox"><div><h2>Who can use this page</h2><p>The Publicity Chair, Administrators and the Superuser. Everyone can read the Guild History page. Entries are shown oldest first, in order of the year you type; an entry with no year goes last.</p></div></section>
 </div>
 </main>
 <footer class="site-foot"><div class="wrap">
@@ -74,7 +74,7 @@
 <script src="assets/js/shell.js?v=20261118f"></script>
 <script src="assets/js/comfort.js?v=20261118f"></script>
 <script>
-QGPCShell.start({need:function(c){return c.isAdmin;}},function(ctx){
+QGPCShell.start({need:function(c){return c.isAdmin||c.has('publicity_chair');}},function(ctx){
   var $=function(i){return document.getElementById(i)};
   var C=QGPCComfort,sb=QGPC.sb,el=C.el,rows=[],editId=null,confirmId=null;
   function say(t,bad){var n=$('status');n.textContent=t;n.className='msg '+(bad?'err':'ok');n.style.margin='0';n.scrollIntoView({behavior:'smooth',block:'nearest'});}

@@ -67,7 +67,7 @@
   function cmp(a,b){var x=a.year_text||'',y=b.year_text||'';if(!x&&y)return 1;if(x&&!y)return -1;var nx=num(x),ny=num(y);if(nx!==null&&ny!==null&&nx!==ny)return nx-ny;return x<y?-1:(x>y?1:0);}
   C.who().then(function(w){
     if(w.signedIn)$('homelink').href='home.html';
-    if(w.roles.indexOf('superuser')>-1||w.roles.indexOf('administrator')>-1)$('edit').classList.remove('hidden');
+    if(w.roles.indexOf('superuser')>-1||w.roles.indexOf('administrator')>-1||w.roles.indexOf('publicity_chair')>-1)$('edit').classList.remove('hidden');
   });
   Promise.all([sb.from('guild_history_settings').select('intro').limit(1),sb.from('guild_history_entries').select('*')]).then(function(r){
     var intro=(r[0].data&&r[0].data[0]&&r[0].data[0].intro)||'';
