@@ -56,7 +56,7 @@ textarea.field{min-height:96px;resize:vertical;font-family:inherit}
 </form></section>
 <section class="cqc" aria-labelledby="l-t"><h2 id="l-t">Items on the page</h2><p id="loading" style="margin:0">Loading&hellip;</p><div id="list"></div></section>
 <a class="nl-tell" href="whats-new-manage.html?page=news"><span><b>Post to What&rsquo;s New</b><span class="d">Post a short note to the What&rsquo;s New button on the home page, with a link to the In the News page.</span></span></a>
-<section class="infobox"><div><h2>Who can use this page</h2><p>The Publicity Chair, President, Vice President, Administrators and the Superuser. The In the News page itself can be read by everyone, signed in or not.</p></div></section>
+<section class="infobox"><div><h2>Who can use this page</h2><p>The Publicity Chair, Administrators and the Superuser. The In the News page itself can be read by everyone, signed in or not.</p></div></section>
 </div>
 </main>
 <footer class="site-foot"><div class="wrap">
@@ -73,7 +73,7 @@ textarea.field{min-height:96px;resize:vertical;font-family:inherit}
 <script>
 /*PURE-START*/
 /*PURE-END*/
-QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president')||c.has('publicity_chair');}},function(ctx){
+QGPCShell.start({need:function(c){return c.isAdmin||c.has('publicity_chair');}},function(ctx){
   var $=function(i){return document.getElementById(i)};
   if(/[?&]from=publicity\b/.test(location.search)){var bk=$('back');bk.href='publicity-chair.html';bk.lastChild.nodeValue='Back to the Publicity Chair\u2019s Page';}
   var C=QGPCComfort,sb=QGPC.sb,el=C.el,rows=[],editId=null,confirmId=null;

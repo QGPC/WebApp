@@ -98,7 +98,7 @@
 
   C.who().then(function(w){
     if(w.signedIn)$('homelink').href='home.html';
-    var r=w.roles;if(['superuser','administrator','president','vice_president','publicity_chair'].some(function(k){return r.indexOf(k)>-1;}))$('edit').classList.remove('hidden');
+    var r=w.roles;if(['superuser','administrator','publicity_chair'].some(function(k){return r.indexOf(k)>-1;}))$('edit').classList.remove('hidden');
   });
   sb.from('news_items').select('*').order('published_on',{ascending:false}).then(function(r){
     $('loading').classList.add('hidden');

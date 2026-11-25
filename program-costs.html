@@ -88,7 +88,7 @@
 <script src="assets/js/shell.js?v=20261118f"></script>
 <script>
 
-QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president')||c.has('program_chair');}},function(c){
+QGPCShell.start({need:function(c){return c.isAdmin||c.has('program_chair');}},function(c){
   var $=function(i){return document.getElementById(i)};
   var sb=QGPC.sb,MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
   var q=(location.search.match(/[?&]m=(\d{4})-(\d{2})/)||[]);

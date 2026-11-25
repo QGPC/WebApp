@@ -90,7 +90,7 @@
 <script src="assets/js/shell.js?v=20261118f"></script>
 <script>
 
-QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president')||c.has('program_chair');}},function(c){
+QGPCShell.start({need:function(c){return c.isAdmin||c.has('program_chair');}},function(c){
   var $=function(i){return document.getElementById(i)};
   var sb=QGPC.sb, set={};
   function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}

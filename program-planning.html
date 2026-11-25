@@ -62,7 +62,7 @@
 
 <section style="display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:var(--mist)">
 <div><h2 style="margin:0 0 4px;font-size:var(--fs-md);font-weight:700;color:var(--cobalt)">How months work</h2>
-<p style="margin:0;font-size:var(--fs-md);line-height:1.5;color:var(--ink)">A month starts as a <b>draft</b>, which only the Program Chair, President, Vice President and Administrators can see. When you choose <b>Published</b>, it appears on the Programs &amp; Workshops page and on the Events calendar. Unpublish it again at any time.</p></div>
+<p style="margin:0;font-size:var(--fs-md);line-height:1.5;color:var(--ink)">A month starts as a <b>draft</b>, which only the Program Chair and Administrators can see. When you choose <b>Published</b>, it appears on the Programs &amp; Workshops page and on the Events calendar. Unpublish it again at any time.</p></div>
 </section>
 </div>
 </main>
@@ -78,7 +78,7 @@
 <script src="assets/js/shell.js?v=20261118f"></script>
 <script>
 
-QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president')||c.has('program_chair');}},function(c){
+QGPCShell.start({need:function(c){return c.isAdmin||c.has('program_chair');}},function(c){
   var $=function(i){return document.getElementById(i)};
   var sb=QGPC.sb, rows={}, year=null;
   var MON=['January','February','March','April','May','June','July','August','September','October','November','December'];

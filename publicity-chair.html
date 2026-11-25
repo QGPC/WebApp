@@ -51,7 +51,7 @@
 <div class="mgrid">
 <a class="mc" href="in-the-news-manage.html?from=publicity"><img src="assets/tiles/about.svg" alt="" width="34" height="34"><span class="tx"><span class="tt">Edit In the News</span><span class="ds">Add, change and remove the items on the In the News page.</span></span><span aria-hidden="true">&rarr;</span></a>
 </div>
-<section class="infobox"><div><h2>Who can use this page</h2><p>The Publicity Chair, President, Vice President, Administrators and the Superuser.</p></div></section>
+<section class="infobox"><div><h2>Who can use this page</h2><p>The Publicity Chair, Administrators and the Superuser.</p></div></section>
 </div>
 </main>
 <footer class="site-foot"><div class="wrap">
@@ -66,7 +66,7 @@
 <script src="assets/js/tilebar.js?v=20261118f"></script>
 <script src="assets/js/shell.js?v=20261118f"></script>
 <script>
-QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president')||c.has('publicity_chair');}},function(ctx){
+QGPCShell.start({need:function(c){return c.isAdmin||c.has('publicity_chair');}},function(ctx){
 });
 </script>
 </body></html>

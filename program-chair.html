@@ -53,7 +53,7 @@
 <a class="mc" href="program-workshops-admin.html"><span class="tx"><span class="tt">Programs and Workshops Page Admin</span><span class="ds">Change where and when the monthly program and the workshop meet.</span></span><span aria-hidden="true">&rarr;</span></a>
 <a class="mc" href="email-members.html?from=chair"><span class="tx"><span class="tt">Email Members</span><span class="ds">Write one email and send it to every current member.</span></span><span aria-hidden="true">&rarr;</span></a>
 </div>
-<section class="infobox"><div><h2>Who can use this page</h2><p>The Program Chair, President, Vice President, Administrators and the Superuser.</p></div></section>
+<section class="infobox"><div><h2>Who can use this page</h2><p>The Program Chair, Administrators and the Superuser.</p></div></section>
 </div>
 </main>
 <footer class="site-foot"><div class="wrap">
@@ -68,7 +68,7 @@
 <script src="assets/js/tilebar.js?v=20261118f"></script>
 <script src="assets/js/shell.js?v=20261118f"></script>
 <script>
-QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president')||c.has('program_chair');}},function(ctx){
+QGPCShell.start({need:function(c){return c.isAdmin||c.has('program_chair');}},function(ctx){
 });
 </script>
 </body></html>

@@ -237,7 +237,7 @@ ul.matl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;ga
         if(pick&&pick!=='member'&&held.indexOf(pick)<0)pick=null;
         if(!held.length)pick=null;
         var roles=pick?(pick==='member'?[]:[pick]):held;
-        if(roles.some(function(k){return ['superuser','administrator','president','vice_president','program_chair'].indexOf(k)>-1;})){
+        if(roles.some(function(k){return ['superuser','administrator','program_chair'].indexOf(k)>-1;})){
           canEdit=true;who.planner=true;$('edit').classList.remove('hidden');$('edit-m').classList.remove('hidden');
         }
         who.manager=who.planner||roles.some(function(k){return ['workshop_chair'].indexOf(k)>-1;});

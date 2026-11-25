@@ -83,18 +83,20 @@
 <script src="assets/js/shell.js?v=20261118f"></script>
 <script>
 // Pages a post can point to. url null = that page is not built yet, so the post has no button.
+// r = the roles that can choose the page. Administrators and the Superuser can choose any page, and
+// anyone who can post can choose a page with no r. This limits the list only, not the database.
 var WN_PAGES=[
-  {k:'newsletters',l:'Newsletters',url:'newsletters.html',btn:'Read the newsletter'},
-  {k:'programs',l:'Programs & Workshops',url:'programs.html',btn:'See the program'},
-  {k:'comfort',l:'Comfort Quilts',url:'comfort-quilts.html',btn:'Open Comfort Quilts'},
-  {k:'sunshine',l:'Sunshine & Shadows',url:'sunshine.html',btn:'Read the notes'},
-  {k:'bees',l:'Bees',url:'bees.html',btn:'See the bees'},
-  {k:'directory',l:'Member Directory',url:'directory.html',btn:'Open the directory'},
-  {k:'quiltshow',l:'Quilt Show',url:null,btn:'See the Quilt Show'},
-  {k:'news',l:'In the News',url:'in-the-news.html',btn:'See In the News'},
-  {k:'retreats',l:'Retreats',url:'retreats.html',btn:'See the retreats'},
-  {k:'bom',l:'Block of the Month',url:'block-of-the-month.html',btn:'See the block patterns'},
-  {k:'about',l:'About our Guild',url:'about-guild.html',btn:'Open the page'},
+  {k:'newsletters',r:['newsletter_chair'],l:'Newsletters',url:'newsletters.html',btn:'Read the newsletter'},
+  {k:'programs',r:['program_chair'],l:'Programs & Workshops',url:'programs.html',btn:'See the program'},
+  {k:'comfort',r:['comfort_quilts_chair'],l:'Comfort Quilts',url:'comfort-quilts.html',btn:'Open Comfort Quilts'},
+  {k:'sunshine',r:['sunshine_shadows_chair'],l:'Sunshine & Shadows',url:'sunshine.html',btn:'Read the notes'},
+  {k:'bees',r:['beekeeper'],l:'Bees',url:'bees.html',btn:'See the bees'},
+  {k:'directory',r:['membership_chair'],l:'Member Directory',url:'directory.html',btn:'Open the directory'},
+  {k:'quiltshow',r:['quilt_show_chair'],l:'Quilt Show',url:null,btn:'See the Quilt Show'},
+  {k:'news',r:['publicity_chair'],l:'In the News',url:'in-the-news.html',btn:'See In the News'},
+  {k:'retreats',r:['retreats_chair'],l:'Retreats',url:'retreats.html',btn:'See the retreats'},
+  {k:'bom',r:['bom_chair'],l:'Block of the Month',url:'block-of-the-month.html',btn:'See the block patterns'},
+  {k:'about',r:['president'],l:'About our Guild',url:'about-guild.html',btn:'Open the page'},
   {k:'other',l:'Something else',url:null,btn:''}
 ];
 QGPCShell.start({need:function(c){return c.roles.length>0;}},function(c){
@@ -107,7 +109,13 @@ QGPCShell.start({need:function(c){return c.roles.length>0;}},function(c){
   function el(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e;}
   function pg(k){for(var i=0;i<WN_PAGES.length;i++)if(WN_PAGES[i].k===k)return WN_PAGES[i];return WN_PAGES[WN_PAGES.length-1];}
   function addDays(iso,n){var d=new Date(iso+'T12:00:00Z');d.setUTCDate(d.getUTCDate()+n);return d.toISOString().slice(0,10);}
-  WN_PAGES.forEach(function(p){var o=el('option',null,p.l);o.value=p.k;$('f-page').appendChild(o);});
+  function allowed(p){return c.isAdmin||!p.r||p.r.some(c.has);}
+  // keep = the page of a post being changed, so that it stays in the list even if it is not one of yours
+  function fillPages(keep){
+    var sel=$('f-page');sel.textContent='';
+    WN_PAGES.forEach(function(p){if(!allowed(p)&&p.k!==keep)return;var o=el('option',null,p.l);o.value=p.k;sel.appendChild(o);});
+  }
+  fillPages();
 
   function preview(){
     var p=pg($('f-page').value),h=$('f-head').value.trim(),d=$('f-det').value.trim(),b=$('f-btn').value.trim();
@@ -163,6 +171,7 @@ QGPCShell.start({need:function(c){return c.roles.length>0;}},function(c){
   function openForm(n){
     editId=n?n.id:null;
     $('form-h').textContent=n?'Change this post':'Post a change';
+    fillPages(n&&n.page_key);
     $('f-page').value=n?n.page_key:'other';
     $('f-head').value=n?n.headline:'';$('f-det').value=n&&n.detail?n.detail:'';
     $('f-btn').value=n?(n.link_label||''):pg('other').btn;
@@ -175,7 +184,7 @@ QGPCShell.start({need:function(c){return c.roles.length>0;}},function(c){
   $('new-btn').onclick=function(){openForm(null);};
   // Program Planning's "Tell members what changed" opens the form already set to that page
   var qp=(location.search.match(/[?&]page=([a-z]+)/)||[])[1];
-  if(qp&&WN_PAGES.some(function(p){return p.k===qp;})){openForm(null);$('f-page').value=qp;$('f-btn').value=pg(qp).btn;preview();}
+  if(qp&&WN_PAGES.some(function(p){return p.k===qp&&allowed(p);})){openForm(null);$('f-page').value=qp;$('f-btn').value=pg(qp).btn;preview();}
   $('f-cancel').onclick=closeForm;
   $('form').addEventListener('submit',function(e){
     e.preventDefault();
