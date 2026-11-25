@@ -125,7 +125,7 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
 <script src="assets/js/auth.js?v=20261118f"></script>
 <script src="assets/js/newbadge.js?v=20261118f"></script>
 <script src="assets/js/special-notices.js?v=20261118f"></script>
-<script src="assets/js/board-todos.js?v=20261125b"></script>
+<script src="assets/js/board-todos.js?v=20261125c"></script>
 <script>
 (function(){
   var $=function(i){return document.getElementById(i)};
@@ -283,7 +283,7 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
             return T.load().then(function(d){
               var ul=$('todo-list');ul.textContent='';$('todo-err').classList.add('hidden');
               var all=d.items.filter(function(t){return t.month===now.month&&T.applies(t,now.year);});
-              var mine=all.filter(function(t){return t.roles.some(function(k){return has(k);});});
+              var mine=all.filter(function(t){return T.covers(t,roles);});
               if(!(tdAll?all:mine).length){$('todo-card').classList.add('hidden');return;}
               var view=!tdAll?'mine':(tdView||(mine.length?'mine':'all'));
               var list=view==='all'?all:mine;

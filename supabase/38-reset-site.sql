@@ -68,7 +68,8 @@ begin
       'comfort_year_start','member_imports','board_todo_done',
       'board_todos','program_months','program_month_costs','program_costs','nonmember_fees','workshop_materials','newsletters','charities',
       'bees','guild_history_entries','comfort_patterns','news_items','retreats','events','guild_contact','site_appearance',
-      'conversations','message_blocks','member_messaging'] loop
+      'conversations','message_blocks','member_messaging',
+      'bom_years','bom_months','bom_files'] loop
     out := out || jsonb_build_object(t, public._count_rows(t));
   end loop;
   return jsonb_build_object('counts', out,
@@ -94,7 +95,8 @@ declare
   buckets    text[] := array['special-notices'];
   n          bigint;
   content_tables text[] := array['workshop_materials','program_month_costs','program_costs','program_months',
-      'nonmember_fees','newsletters','charities','bees','guild_history_entries','comfort_patterns','news_items','retreats','events','board_todos'];
+      'nonmember_fees','newsletters','charities','bees','guild_history_entries','comfort_patterns','news_items','retreats','events','board_todos',
+      'bom_files','bom_months','bom_years','bom_settings'];
   existing   text[] := '{}';
 begin
   if not public.is_superuser() then
@@ -146,7 +148,7 @@ begin
     if array_length(existing, 1) is not null then
       execute 'truncate table ' || (select string_agg(format('public.%I', e), ', ') from unnest(existing) e) || ' cascade';
     end if;
-    buckets := buckets || array['program-photos','workshop-materials','comfort-patterns','newsletters','bees'];
+    buckets := buckets || array['program-photos','workshop-materials','comfort-patterns','newsletters','bees','block-of-the-month'];
   end if;
 
   -- settings and appearance

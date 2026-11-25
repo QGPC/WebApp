@@ -8,6 +8,18 @@
 
   var T=window.QGPCTodos={
     ROLES:[],   // Board and committee chair roles, filled by load()
+    // Group choices under "Assign to" (see supabase/66). Executive Board = sort order below 30.
+    GROUPS:[
+      {key:'all',label:'All',has:function(){return true;}},
+      {key:'all_exec',label:'All Executive Board',has:function(r){return r.sort_order<30;}}
+    ],
+    // Is the task assigned to any of these role keys, by name or through a group?
+    covers:function(t,keys){
+      return keys.some(function(k){
+        if(t.roles.indexOf(k)>-1)return true;
+        return T.ROLES.some(function(r){return r.role_key===k&&T.GROUPS.some(function(g){return t.roles.indexOf(g.key)>-1&&g.has(r);});});
+      });
+    },
     MONTHS:MONTHS, el:el, nice:nice,
     now:function(){var d=today();return {year:+d.slice(0,4),month:+d.slice(5,7)};},
     // Any Executive Board or committee chair role (everything except the two site administration roles).
@@ -33,15 +45,17 @@
       });
     },
     assigned:function(t,holders){
-      return T.ROLES.filter(function(r){return t.roles.indexOf(r.role_key)>-1;}).map(function(r){
-        var n=holders&&holders[r.role_key];return r.label+(n?' ('+n.join(', ')+')':'');
-      }).join(', ');
+      var groups=T.GROUPS.filter(function(g){return t.roles.indexOf(g.key)>-1;});
+      return groups.map(function(g){return g.label;}).concat(
+        T.ROLES.filter(function(r){return t.roles.indexOf(r.role_key)>-1;}).map(function(r){
+          var n=holders&&holders[r.role_key];return r.label+(n?' ('+n.join(', ')+')':'');
+        })).join(', ');
     },
     // One task with its check box for one year.
     // o = {data, year, roles (of the viewer), manage, changed() reload, fail(text), yours: show a "Yours" tag}
     row:function(t,o){
       var key=t.id+'|'+o.year,d=o.data.done[key],now=T.now();
-      var mine=t.roles.some(function(k){return o.roles.indexOf(k)>-1;});
+      var mine=T.covers(t,o.roles);
       var can=o.manage||mine;
       var li=el('li','td'+(d?' done':''));
       var lab=el('label','td-main');

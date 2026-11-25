@@ -42,6 +42,7 @@ button.acard[aria-expanded=true]{border:2px solid var(--cobalt);padding:17px;bac
 .nform .opt{display:flex;align-items:center;gap:10px;min-height:44px;padding:8px 14px;border:1px solid var(--edge);border-radius:10px;background:var(--cream);cursor:pointer;font-size:var(--fs-md);font-weight:600}
 .nform .opt input{width:20px;height:20px;margin:0;accent-color:var(--cobalt)}
 .nform .grp{flex:0 0 100%;margin:4px 0 0;font-size:var(--fs-sm);color:var(--muted);font-weight:600}
+.nform .opt.off{opacity:.5;cursor:default}
 .row2{display:flex;gap:24px;flex-wrap:wrap}
 </style>
 </head><body>
@@ -110,7 +111,7 @@ button.acard[aria-expanded=true]{border:2px solid var(--cobalt);padding:17px;bac
 <script src="assets/js/auth.js?v=20261118f"></script>
 <script src="assets/js/tilebar.js?v=20261118f"></script>
 <script src="assets/js/shell.js?v=20261118f"></script>
-<script src="assets/js/board-todos.js?v=20261125b"></script>
+<script src="assets/js/board-todos.js?v=20261125c"></script>
 <script>
 QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president');}},function(c){
   var $=function(i){return document.getElementById(i)};
@@ -126,13 +127,29 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
   var rolesBuilt=false;
   function buildRoles(){
     if(rolesBuilt||!T.ROLES.length)return;rolesBuilt=true;
+    function box(key,label){
+      var l=el('label','opt'),b=el('input');b.type='checkbox';b.name='role';b.value=key;b.addEventListener('change',syncRoles);
+      l.appendChild(b);l.appendChild(document.createTextNode(label));$('f-roles').appendChild(l);
+    }
+    $('f-roles').appendChild(el('p','grp','Groups (All means the Executive Board and every committee chair)'));
+    T.GROUPS.forEach(function(g){box(g.key,g.label);});
     [['Executive Board',function(r){return r.sort_order<30;}],['Committee chairs',function(r){return r.sort_order>=30;}]].forEach(function(g){
       $('f-roles').appendChild(el('p','grp',g[0]));
-      T.ROLES.filter(g[1]).forEach(function(r){
-        var l=el('label','opt'),b=el('input');b.type='checkbox';b.name='role';b.value=r.role_key;l.appendChild(b);l.appendChild(document.createTextNode(r.label));$('f-roles').appendChild(l);
-      });
+      T.ROLES.filter(g[1]).forEach(function(r){box(r.role_key,r.label);});
     });
     $('new-btn').disabled=false;
+  }
+  // A ticked group already includes its roles, so those boxes are cleared and switched off.
+  function syncRoles(){
+    var boxes=Array.prototype.slice.call(document.querySelectorAll('input[name=role]'));
+    var on=boxes.filter(function(b){return b.checked&&!b.disabled;}).map(function(b){return b.value;});
+    var all=on.indexOf('all')>-1,exec=on.indexOf('all_exec')>-1;
+    boxes.forEach(function(b){
+      var r=T.ROLES.filter(function(x){return x.role_key===b.value;})[0];
+      var off=b.value!=='all'&&(all||(exec&&!!r&&r.sort_order<30));
+      b.disabled=off;if(off)b.checked=false;
+      b.parentNode.classList.toggle('off',off);
+    });
   }
   function parity(){var v=$('f-rep').value;return v==='even'||v==='odd'?v:null;}
   // The year list offers only years that suit the How often choice.
@@ -230,7 +247,8 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
     $('f-month').value=m;
     $('f-rep').value=!t?'yearly':isOnce(t)?'once':t.year_parity||'yearly';
     fillYears(t?t.first_year:suggest(m));yearLabel();
-    Array.prototype.forEach.call(document.querySelectorAll('input[name=role]'),function(b){b.checked=!!t&&t.roles.indexOf(b.value)>-1;});
+    Array.prototype.forEach.call(document.querySelectorAll('input[name=role]'),function(b){b.disabled=false;b.checked=!!t&&t.roles.indexOf(b.value)>-1;});
+    syncRoles();
     $('f-err').classList.add('hidden');$('form').classList.remove('hidden');$('note').classList.add('hidden');draw();
     $('f-title').focus();$('form').scrollIntoView({behavior:'smooth',block:'start'});
   }
