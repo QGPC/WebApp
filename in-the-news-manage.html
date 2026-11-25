@@ -42,7 +42,7 @@ textarea.field{min-height:96px;resize:vertical;font-family:inherit}
 
 </div></section>
 <div class="mwrap" style="max-width:1200px;gap:22px" id="content">
-<a class="backlink" href="in-the-news.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to In the News</a>
+<a class="backlink" id="back" href="in-the-news.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to In the News</a>
 <p id="status" class="msg hidden" role="status" aria-live="polite" style="margin:0"></p>
 <section class="cqc" aria-labelledby="f-t"><div class="cqh"><h2 id="f-t">Add an item</h2></div>
 <form id="form" novalidate style="display:flex;flex-direction:column;gap:14px">
@@ -75,6 +75,7 @@ textarea.field{min-height:96px;resize:vertical;font-family:inherit}
 /*PURE-END*/
 QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president')||c.has('publicity_chair');}},function(ctx){
   var $=function(i){return document.getElementById(i)};
+  if(/[?&]from=publicity\b/.test(location.search)){var bk=$('back');bk.href='publicity-chair.html';bk.lastChild.nodeValue='Back to the Publicity Chair\u2019s Page';}
   var C=QGPCComfort,sb=QGPC.sb,el=C.el,rows=[],editId=null,confirmId=null;
   function say(t,bad){var n=$('status');n.textContent=t;n.className='msg '+(bad?'err':'ok');n.style.margin='0';n.scrollIntoView({behavior:'smooth',block:'nearest'});}
   function ferr(t){var n=$('f-err');n.textContent=t||'';n.classList.toggle('hidden',!t);}
