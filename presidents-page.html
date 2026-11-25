@@ -44,10 +44,6 @@ a.acard:hover,a.acard:focus-visible{border-color:var(--cobalt)}
 .phbox .nm{flex:1 1 auto;min-width:0;display:flex;flex-direction:column;gap:2px}.phbox .nm b{font-size:var(--fs-md)}.phbox .nm span{font-size:var(--fs-sm);color:var(--muted)}
 .linkbtn{min-height:44px;padding:0 8px;border:0;background:none;color:var(--cobalt);font:600 var(--fs-sm) var(--sans);text-decoration:underline;cursor:pointer}
 .linkbtn.del{color:var(--persimmon-dark)}
-.stm{border:1px solid var(--edge);border-radius:12px;padding:0 16px}
-.stm summary{min-height:48px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;cursor:pointer;font-weight:600}
-.stm summary .n{font-size:var(--fs-sm);color:var(--muted);font-weight:400}
-.stm ul.tdlist{padding:0 0 16px}
 .access{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-radius:14px;background:var(--mist);color:var(--cobalt)}
 .access h2{margin:0 0 4px;font-size:var(--fs-md);font-weight:700}.access p{margin:0;font-size:var(--fs-md);line-height:1.5;color:var(--ink)}
 </style>
@@ -73,17 +69,8 @@ a.acard:hover,a.acard:focus-visible{border-color:var(--cobalt)}
 <a class="acard" href="calendar-manage.html?cal=board"><img width="44" height="44" src="assets/tiles/manage-events.svg" alt=""><span class="tx"><b>President&rsquo;s Calendar</b><span>Board meetings and important events for the Board throughout the year</span></span></a>
 <a class="acard" href="email-members.html"><img width="44" height="44" src="assets/tiles/messages.svg" alt=""><span class="tx"><b>Email Members</b><span>Write one email and send it to every current member</span></span></a>
 <a class="acard" href="charities-manage.html"><img width="44" height="44" src="assets/tiles/our-community.svg" alt=""><span class="tx"><b>Charities We Support</b><span>Add, change and reorder the list of charities</span></span></a>
-<a class="acard" href="board-todos-manage.html"><img width="44" height="44" src="assets/tiles/board-todo.svg" alt=""><span class="tx"><b>Board To-Do List</b><span>Enter tasks by month and assign them to Board members and committee chairs</span></span></a>
+<a class="acard" href="board-todos-manage.html"><img width="44" height="44" src="assets/tiles/board-todo.svg" alt=""><span class="tx"><b>Board To-Do List</b><span>Enter and assign tasks for the Board and committee chairs, and see their status</span></span></a>
 </div></section>
-
-<section class="sn-sec" aria-labelledby="st-title">
-<div><h2 id="st-title">Board To-Do status</h2>
-<p>Each month&rsquo;s tasks through the current month. Check a box to mark a task done.</p></div>
-<label class="ypick" style="align-self:flex-start">Year<select class="field" id="st-year" style="margin:0"></select></label>
-<p id="st-err" class="msg err hidden" role="alert" style="margin:0"></p>
-<p id="st-sum" role="status" style="margin:0;font-weight:600">Loading&hellip;</p>
-<div id="st-months" style="display:flex;flex-direction:column;gap:10px"></div>
-</section>
 
 <section class="sn-sec" aria-labelledby="sn-title">
 <div><h2 id="sn-title">Special Notices</h2>
@@ -138,7 +125,6 @@ a.acard:hover,a.acard:focus-visible{border-color:var(--cobalt)}
 <script src="assets/js/tilebar.js?v=20261118f"></script>
 <script src="assets/js/shell.js?v=20261118f"></script>
 <script src="assets/js/special-notices.js?v=20261118f"></script>
-<script src="assets/js/board-todos.js?v=20261125b"></script>
 <script>
 QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('vice_president');}},function(c){
   var $=function(i){return document.getElementById(i)};
@@ -283,47 +269,6 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
     });
   });
   load();
-
-  // ---- Board To-Do status, one year at a time ----
-  (function(){
-    var T=QGPCTodos,now=T.now(),year=now.year,data=null,open={};
-    function fail(t){var n=$('st-err');n.textContent=t;n.classList.remove('hidden');}
-    function years(){
-      var lo=now.year;
-      data.items.forEach(function(t){if(t.first_year<lo)lo=t.first_year;});
-      var s=$('st-year');s.textContent='';
-      for(var y=now.year;y>=lo;y--){var o=T.el('option',null,String(y));o.value=y;s.appendChild(o);}
-      if(year<lo)year=now.year;
-      s.value=year;
-    }
-    function draw(){
-      var box=$('st-months');box.textContent='';
-      var through=year<now.year?12:now.month,total=0,done=0;
-      for(var m=1;m<=through;m++){(function(m){
-        var list=data.items.filter(function(t){return t.month===m&&T.applies(t,year);});
-        if(!list.length)return;
-        var n=list.filter(function(t){return data.done[t.id+'|'+year];}).length;
-        total+=list.length;done+=n;
-        var d=T.el('details','stm'),sm=T.el('summary',null,T.MONTHS[m-1]),key=year+'-'+m;
-        sm.appendChild(T.el('span','n',n+' of '+list.length+' done'));
-        if(n<list.length)sm.appendChild(T.el('span','chip rust',(list.length-n)+' not done'));
-        d.appendChild(sm);
-        d.open=key in open?open[key]:(n<list.length||(year===now.year&&m===now.month));
-        d.addEventListener('toggle',function(){open[key]=d.open;});
-        var ul=T.el('ul','tdlist');
-        list.forEach(function(t){ul.appendChild(T.row(t,{data:data,year:year,roles:c.roles,manage:true,changed:refresh,fail:fail}));});
-        d.appendChild(ul);box.appendChild(d);
-      })(m);}
-      $('st-sum').textContent=total?done+' of '+total+' tasks done '+(year<now.year?'in '+year:'so far in '+year)+'.':'No to-do items for '+(year<now.year?year:'this year through '+T.MONTHS[now.month-1])+'.';
-    }
-    function refresh(){
-      return T.load().then(function(d){data=d;$('st-err').classList.add('hidden');years();draw();},function(){
-        $('st-sum').textContent='';fail('Could not load the to-do list. Please refresh and try again.');
-      });
-    }
-    $('st-year').addEventListener('change',function(){year=+this.value;draw();});
-    refresh();
-  })();
 });
 </script>
 </body></html>

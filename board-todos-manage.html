@@ -18,6 +18,17 @@
 .mcard .sub{font-size:var(--fs-sm);color:var(--muted);white-space:pre-wrap}
 .acts{display:flex;gap:10px;flex-wrap:wrap}
 .none{margin:0;color:var(--muted);font-size:var(--fs-md)}
+.stm{border:1px solid var(--edge);border-radius:12px;padding:0 16px}
+.stm summary{min-height:48px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;cursor:pointer;font-weight:600}
+.stm summary .n{font-size:var(--fs-sm);color:var(--muted);font-weight:400}
+.stm ul.tdlist{padding:0 0 16px}
+.sn-sec{background:#fff;border:1px solid var(--edge);border-radius:18px;padding:28px;display:flex;flex-direction:column;gap:18px}
+.sn-sec h2{margin:0;font:400 var(--fs-2xl) 'Young Serif',Georgia,serif}
+.sn-sec>p{margin:0;color:var(--muted);font-size:var(--fs-md)}
+.panels{display:flex;gap:12px;flex-wrap:wrap}
+.panels .nbtn{min-height:50px;font-size:var(--fs-md);padding:0 26px}
+.panels .nbtn[aria-expanded=true]{background:var(--cobalt);color:#fff}
+#edit-panel{display:flex;flex-direction:column;gap:24px}
 .nform{background:#fff;border:1px solid var(--edge);border-radius:14px;padding:22px}
 .nform h2{margin:0 0 12px;font-size:var(--fs-xl)}.nform label.l{display:block;margin:12px 0 4px;font-weight:600;font-size:var(--fs-md)}
 .nform .hint{margin:2px 0 8px;font-size:var(--fs-sm);color:var(--muted)}
@@ -41,13 +52,30 @@
 <main id="main">
 <section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
 <div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow">Board &amp; committee chairs</span>
-<h1 id="pg-title" style="margin:0">Board To-Do List</h1><p class="stat-line">Tasks month by month. Board members and committee chairs see the current month on their home page.</p></div>
+<h1 id="pg-title" style="margin:0">Board To-Do List</h1><p class="stat-line">Tasks month by month. Board members and committee chairs see the current month on their home page. Check status or edit the list here.</p></div>
 </div></section>
 <div class="mwrap" style="max-width:1200px" id="content">
 <a class="backlink" href="presidents-page.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg>Back to the President&rsquo;s Page</a>
 <p id="note" class="msg ok hidden" role="status" style="margin:0"></p>
 <p id="err" class="msg err hidden" role="alert" style="margin:0"></p>
 
+<div class="panels">
+<button type="button" class="nbtn" id="st-btn" aria-expanded="false" aria-controls="st-panel">To-Do status</button>
+<button type="button" class="nbtn" id="edit-btn" aria-expanded="false" aria-controls="edit-panel">Edit to-do list</button>
+</div>
+<p id="loading" role="status" style="margin:0">Loading the list&hellip;</p>
+
+<section class="sn-sec hidden" id="st-panel" aria-labelledby="st-title">
+<h2 id="st-title">Board To-Do status</h2>
+<p>Each month&rsquo;s tasks through the current month. Check a box to mark a task done.</p>
+<label class="ypick" style="align-self:flex-start">Year<select class="field" id="st-year" style="margin:0"></select></label>
+<p id="st-err" class="msg err hidden" role="alert" style="margin:0"></p>
+<p id="st-sum" role="status" style="margin:0;font-weight:600">Loading&hellip;</p>
+<div id="st-months" style="display:flex;flex-direction:column;gap:10px"></div>
+</section>
+
+<div class="hidden" id="edit-panel">
+<div><button type="button" class="btn-save" id="new-btn" disabled>Add a to-do item</button></div>
 <form class="nform hidden" id="form" novalidate>
 <h2 id="form-h">Add a to-do item</h2>
 <label class="l" for="f-title">Task <span aria-hidden="true">*</span></label>
@@ -62,9 +90,8 @@
 <div class="saverow"><button type="submit" class="btn-save" id="f-save">Save item</button><button type="button" class="btn-cancel" id="f-cancel">Cancel</button></div>
 </form>
 
-<div><button type="button" class="btn-save" id="new-btn" disabled>Add a to-do item</button></div>
-<p id="loading" role="status">Loading the list&hellip;</p>
 <div class="months" id="months"></div>
+</div>
 </div>
 </main>
 <footer class="site-foot"><div class="wrap">
@@ -115,8 +142,8 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
   function suggest(month){return month<now.month?now.year+1:now.year;}
 
   function load(){
-    return T.load().then(function(d){data=d;$('loading').classList.add('hidden');buildRoles();draw();},function(){
-      $('loading').classList.add('hidden');bad('Could not load the to-do list. Please refresh and try again.');
+    return T.load().then(function(d){data=d;$('loading').classList.add('hidden');$('st-err').classList.add('hidden');buildRoles();draw();years();drawStatus();},function(){
+      $('loading').classList.add('hidden');$('st-sum').textContent='';bad('Could not load the to-do list. Please refresh and try again.');
     });
   }
   // One time = starts and ends in the same year (an even/odd item stopped after one year still repeats by kind).
@@ -226,6 +253,52 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
       btn.disabled=false;
       if(r.error||!r.data||!r.data.length){ferr('That did not save. Please try again.');return;}
       closeForm();say((wasEdit?'Changes saved to ':'Added to ')+month+'.');load();
+    });
+  });
+  // ---- status, one year at a time ----
+  var year=now.year,open={};
+  function stFail(t){var n=$('st-err');n.textContent=t;n.classList.remove('hidden');}
+  function years(){
+    var lo=now.year;
+    data.items.forEach(function(t){if(t.first_year<lo)lo=t.first_year;});
+    var s=$('st-year');s.textContent='';
+    for(var y=now.year;y>=lo;y--)opt(s,y,String(y));
+    if(year<lo)year=now.year;
+    s.value=year;
+  }
+  function drawStatus(){
+    var box=$('st-months');box.textContent='';
+    var through=year<now.year?12:now.month,total=0,done=0;
+    for(var m=1;m<=through;m++){(function(m){
+      var list=data.items.filter(function(t){return t.month===m&&T.applies(t,year);});
+      if(!list.length)return;
+      var n=list.filter(function(t){return data.done[t.id+'|'+year];}).length;
+      total+=list.length;done+=n;
+      var d=el('details','stm'),sm=el('summary',null,T.MONTHS[m-1]),key=year+'-'+m;
+      sm.appendChild(el('span','n',n+' of '+list.length+' done'));
+      if(n<list.length)sm.appendChild(el('span','chip rust',(list.length-n)+' not done'));
+      d.appendChild(sm);
+      d.open=key in open?open[key]:(n<list.length||(year===now.year&&m===now.month));
+      d.addEventListener('toggle',function(){open[key]=d.open;});
+      var ul=el('ul','tdlist');
+      list.forEach(function(t){ul.appendChild(T.row(t,{data:data,year:year,roles:c.roles,manage:true,changed:load,fail:stFail}));});
+      d.appendChild(ul);box.appendChild(d);
+    })(m);}
+    $('st-sum').textContent=total?done+' of '+total+' tasks done '+(year<now.year?'in '+year:'so far in '+year)+'.':'No to-do items for '+(year<now.year?year:'this year through '+T.MONTHS[now.month-1])+'.';
+  }
+  $('st-year').addEventListener('change',function(){year=+this.value;drawStatus();});
+
+  // ---- the two buttons: one panel open at a time, both closed to start ----
+  var PANELS=[['st-btn','st-panel'],['edit-btn','edit-panel']];
+  PANELS.forEach(function(p){
+    $(p[0]).addEventListener('click',function(){
+      var show=$(p[1]).classList.contains('hidden');
+      PANELS.forEach(function(q){
+        var on=show&&q[0]===p[0];
+        $(q[1]).classList.toggle('hidden',!on);$(q[0]).setAttribute('aria-expanded',on?'true':'false');
+      });
+      // leaving the edit panel drops any half-finished form and its messages
+      closeForm();confirmId=null;draw();$('note').classList.add('hidden');
     });
   });
   load();
