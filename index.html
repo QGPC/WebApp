@@ -18,9 +18,7 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-sm);col
 .evcal{display:inline-block;margin-left:8px;font-size:var(--fs-sm);font-weight:700;padding:2px 10px;border-radius:999px;background:var(--mist);color:var(--cobalt);vertical-align:middle}
 ul.notices{list-style:none;margin:0;padding:0;max-height:440px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
 ul.notices li{border:1px solid var(--edge);border-radius:12px;padding:14px 16px;background:#FBFAF6}
-ul.notices li.pin{border-color:var(--persimmon);background:#FFF6F1}
 ul.notices h3{margin:0 0 4px;font-size:var(--fs-lg)}ul.notices p{margin:0;white-space:pre-wrap}
-ul.notices .pinned{display:inline-block;margin:0 0 6px;font-size:var(--fs-sm);font-weight:700;color:var(--persimmon-dark);background:var(--peach);border-radius:999px;padding:2px 10px}
 </style>
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
@@ -141,12 +139,11 @@ QGPC.sb.from('welcome_message').select('message').limit(1).then(function(r){
   var $=function(i){return document.getElementById(i)};
   var today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
   QGPC.sb.from('notices').select('*').eq('members_only',false).or('show_until.is.null,show_until.gte.'+today)
-    .order('pinned',{ascending:false}).order('created_at',{ascending:false}).then(function(r){
+    .order('created_at',{ascending:false}).then(function(r){
     var ul=$('notices-list');ul.textContent='';var list=(r&&r.data)||[];
     if(r.error||!list.length){$('notices-none').classList.remove('hidden');ul.classList.add('hidden');return;}
     list.forEach(function(n){
-      var li=document.createElement('li');if(n.pinned)li.className='pin';
-      if(n.pinned){var pn=document.createElement('span');pn.className='pinned';pn.textContent='Pinned';li.appendChild(pn);}
+      var li=document.createElement('li');
       var h=document.createElement('h3');h.textContent=n.title;li.appendChild(h);
       if(n.summary){var pp=document.createElement('p');pp.textContent=n.summary;li.appendChild(pp);}
       ul.appendChild(li);

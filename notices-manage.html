@@ -40,7 +40,7 @@
 <main id="main">
 <section class="banner hst" aria-labelledby="pg-title"><div class="banner-in" style="padding:32px 24px 40px;align-items:center;justify-content:space-between;gap:20px">
 <div class="greet-card" style="flex-direction:column;align-items:flex-start;gap:8px;padding:24px 28px;min-height:0"><span class="eyebrow who">For the President, Vice President, and Administrators</span>
-<h1 id="pg-title" style="margin:0">Manage Notices</h1><p class="stat-line">The notices on the Guild home page. Pinned notices stay at the top.</p></div>
+<h1 id="pg-title" style="margin:0">Manage Notices</h1><p class="stat-line">The notices on the Guild home page. The newest notice shows first.</p></div>
 </div></section>
 <div class="mwrap" style="max-width:900px" id="content">
 <p id="note" class="msg ok hidden" role="status"></p>
@@ -62,7 +62,6 @@
 <div><label for="f-who" style="margin-top:0">Who sees it</label>
 <select class="field" id="f-who" style="width:220px"><option value="all">Everyone</option><option value="members">Members only</option></select></div>
 </div>
-<label class="chk"><input type="checkbox" id="f-pin"> Pin to the top</label>
 <p id="f-err" class="msg err hidden" role="alert"></p>
 <div class="saverow"><button type="submit" class="btn-save" id="f-save">Save notice</button><button type="button" class="btn-cancel" id="f-cancel">Cancel</button></div>
 </form>
@@ -94,7 +93,7 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
   function chip(t,cls){return el('span','chip '+cls,t);}
 
   function load(){
-    return sb.from('notices').select('*').order('pinned',{ascending:false}).order('created_at',{ascending:false}).then(function(r){
+    return sb.from('notices').select('*').order('created_at',{ascending:false}).then(function(r){
       $('loading').classList.add('hidden');
       if(r.error){bad('Could not load the notices. Please refresh and try again.');return;}
       rows=r.data||[];draw();
@@ -109,16 +108,14 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
       li.appendChild(el('h3',null,n.title));
       if(n.summary)li.appendChild(el('p',null,n.summary));
       var meta=el('div','nmeta');
-      if(n.pinned)meta.appendChild(chip('Pinned','rust'));
       if(expired)meta.appendChild(chip('Expired','gray'));
       meta.appendChild(chip(n.members_only?'Members only':'Everyone','blue'));
       meta.appendChild(el('span',null,n.show_until?'Shows until '+nice(n.show_until):'No end date'));
       li.appendChild(meta);
       var act=el('div','nact');
       var b1=el('button','nbtn','Edit');b1.type='button';b1.setAttribute('aria-label','Edit '+n.title);b1.onclick=function(){openForm(n);};
-      var b2=el('button','nbtn',n.pinned?'Unpin':'Pin');b2.type='button';b2.setAttribute('aria-label',(n.pinned?'Unpin ':'Pin ')+n.title);b2.onclick=function(){togglePin(n,b2);};
       var b3=el('button','nbtn del','Delete');b3.type='button';b3.setAttribute('aria-label','Delete '+n.title);b3.onclick=function(){confirmId=n.id;draw();};
-      act.appendChild(b1);act.appendChild(b2);act.appendChild(b3);li.appendChild(act);
+      act.appendChild(b1);act.appendChild(b3);li.appendChild(act);
       if(confirmId===n.id){
         var cf=el('div','confirm');cf.appendChild(el('p',null,'Delete this notice? It comes off the Guild home page and can’t be undone.'));
         var row=el('div','saverow');
@@ -127,13 +124,6 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
         row.appendChild(y);row.appendChild(k);cf.appendChild(row);li.appendChild(cf);
       }
       ul.appendChild(li);
-    });
-  }
-  function togglePin(n,btn){
-    btn.disabled=true;
-    sb.from('notices').update({pinned:!n.pinned}).eq('id',n.id).then(function(r){
-      if(r.error){bad('That did not save. Please try again.');btn.disabled=false;return;}
-      say(n.pinned?'“'+n.title+'” is no longer pinned.':'“'+n.title+'” is pinned to the top.');load();
     });
   }
   function doDelete(n,btn){
@@ -151,7 +141,7 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
     $('form-h').textContent=n?'Change this notice':'Post notice';
     $('f-title').value=n?n.title:'';tcount();$('f-sum').value=n&&n.summary?n.summary:'';
     $('f-until').value=n&&n.show_until?n.show_until:'';
-    $('f-who').value=n&&n.members_only?'members':'all';$('f-pin').checked=!!(n&&n.pinned);
+    $('f-who').value=n&&n.members_only?'members':'all';
     $('f-err').classList.add('hidden');$('form').classList.remove('hidden');
     $('f-title').focus();$('form').scrollIntoView({behavior:'smooth',block:'start'});
   }
@@ -162,7 +152,7 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
     e.preventDefault();
     var t=$('f-title').value.trim();
     if(!t){var fe=$('f-err');fe.textContent='Please type a title.';fe.classList.remove('hidden');$('f-title').focus();return;}
-    var rec={title:t,summary:$('f-sum').value.trim()||null,show_until:$('f-until').value||null,members_only:$('f-who').value==='members',pinned:$('f-pin').checked};
+    var rec={title:t,summary:$('f-sum').value.trim()||null,show_until:$('f-until').value||null,members_only:$('f-who').value==='members'};
     var btn=$('f-save');btn.disabled=true;
     var q=editId?sb.from('notices').update(rec).eq('id',editId):sb.from('notices').insert(rec);
     q.then(function(r){

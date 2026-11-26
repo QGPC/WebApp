@@ -13,9 +13,7 @@
 .btn-save.small{min-height:44px;padding:0 20px;font-size:var(--fs-md);display:inline-flex;align-items:center;text-decoration:none}
 ul.notices{list-style:none;margin:0;padding:0;max-height:440px;overflow-y:auto;display:flex;flex-direction:column;gap:12px}
 ul.notices li{border:1px solid var(--edge);border-radius:12px;padding:14px 16px;background:#FBFAF6}
-ul.notices li.pin{border-color:var(--persimmon);background:#FFF6F1}
 ul.notices h3{margin:0 0 4px;font-size:var(--fs-lg)}ul.notices p{margin:0;white-space:pre-wrap}
-ul.notices .pinned{display:inline-block;margin:0 0 6px;font-size:var(--fs-sm);font-weight:700;color:var(--persimmon-dark);background:var(--peach);border-radius:999px;padding:2px 10px}
 .muted{color:var(--muted)}
 .wnpanel{background:#F4FAF7;border-top:4px solid #2F6B5A;border-bottom:1px solid #CFE3DA}.wnin{max-width:1200px;margin:0 auto;padding:18px 24px}
 ul.wnlist{list-style:none;margin:0 0 14px;padding:0;display:flex;flex-direction:column;gap:12px}
@@ -130,7 +128,7 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
 (function(){
   var $=function(i){return document.getElementById(i)};
   var T=function(f){return 'assets/tiles/'+f+'.svg'};
-  var TIPS={"Programs & Workshops": "Get details about our programs and workshops planned for each month.", "Comfort Quilts": "Our outreach program. Learn about the organizations we support and get easy patterns.", "Bees": "Small groups that meet to sew together. Find one to join.", "Publicity Chair": "Edit the In the News page and post to What\u2019s New.", "Retreats": "See our retreats by year: dates, place, cost and how to sign up.", "Our Community": "Sunshine & Shadows and other ways we care for each other.", "About our Guild": "Learn the purpose and history of our Guild.", "Newsletters": "Read the current newsletter and past issues.", "Block of the Month": "Sew along with the Guild. See the quilt and open each month\u2019s block pattern.", "BOM Chair": "Add the quilt photo, name and description, and a PDF for each month.", "Comfort Quilts Chair": "Update the Comfort Quilts page.", "Beekeeper": "Update the list of bees.", "Workshop Registrations": "See who signed up for workshops and accept registrations.", "Program Chair": "Plan each month\u2019s program and workshop, update where and when we meet, and email all members.", "Quilt Show Chair": "Show or hide the Quilt Show card, and edit its message and photos.", "Sunshine & Shadows Review": "Approve or decline notes from members.", "Membership Chair": "Review new member requests and manage the membership database.", "Newsletter Chair": "Add, edit and delete newsletters.", "President\u2019s Page": "Post and edit Special Notices.", "Manage Notices": "Post, change, pin and remove the notices on this page.", "Roles & Permissions": "Choose who holds each Guild role and what each role can edit."};
+  var TIPS={"Programs & Workshops": "Get details about our programs and workshops planned for each month.", "Comfort Quilts": "Our outreach program. Learn about the organizations we support and get easy patterns.", "Bees": "Small groups that meet to sew together. Find one to join.", "Publicity Chair": "Edit the In the News page and post to What\u2019s New.", "Retreats": "See our retreats by year: dates, place, cost and how to sign up.", "Our Community": "Sunshine & Shadows and other ways we care for each other.", "About our Guild": "Learn the purpose and history of our Guild.", "Newsletters": "Read the current newsletter and past issues.", "Block of the Month": "Sew along with the Guild. See the quilt and open each month\u2019s block pattern.", "BOM Chair": "Add the quilt photo, name and description, and a PDF for each month.", "Comfort Quilts Chair": "Update the Comfort Quilts page.", "Beekeeper": "Update the list of bees.", "Workshop Registrations": "See who signed up for workshops and accept registrations.", "Program Chair": "Plan each month\u2019s program and workshop, update where and when we meet, and email all members.", "Quilt Show Chair": "Show or hide the Quilt Show card, and edit its message and photos.", "Sunshine & Shadows Review": "Approve or decline notes from members.", "Membership Chair": "Review new member requests and manage the membership database.", "Newsletter Chair": "Add, edit and delete newsletters.", "President\u2019s Page": "Post and edit Special Notices.", "Manage Notices": "Post, change and remove the notices on this page.", "Roles & Permissions": "Choose who holds each Guild role and what each role can edit."};
   // href null = page not built yet. Fill these in as pages are built.
   var PUBLIC=[{l:'Programs & Workshops',i:'programs-and-workshops',href:'programs.html'},{l:'Comfort Quilts',i:'comfort-quilts',href:'comfort-quilts.html'},{l:'Our Community',i:'our-community',href:'our-community.html'},{l:'About our Guild',i:'about-our-guild',href:'about-guild.html'}];
   var MEMBER=[{l:'Programs & Workshops',i:'programs-and-workshops',href:'programs.html'},{l:'Newsletters',i:'newsletters',href:'newsletters.html'},{l:'Block of the Month',i:'block-of-the-month',href:'block-of-the-month.html'},{l:'Member Directory',i:'member-directory',href:'directory.html'},{l:'Comfort Quilts',i:'comfort-quilts',href:'comfort-quilts.html'},{l:'Our Community',i:'our-community',href:'our-community.html'},{l:'Bees',i:'bees',href:'bees.html'},{l:'Retreats',i:'retreats',href:'retreats.html'},{l:'About our Guild',i:'about-our-guild',href:'about-guild.html'}];
@@ -310,7 +308,7 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
         }
         if(canPost)$('post-notice').classList.remove('hidden');
         var today=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Chicago',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
-        var nq=QGPC.sb.from('notices').select('*').or('show_until.is.null,show_until.gte.'+today).order('pinned',{ascending:false}).order('created_at',{ascending:false});
+        var nq=QGPC.sb.from('notices').select('*').or('show_until.is.null,show_until.gte.'+today).order('created_at',{ascending:false});
         if(!full)nq=nq.eq('members_only',false);
         nq.then(function(nr){
           var ul=$('notices-list');ul.textContent='';var list=(nr&&nr.data)||[];
@@ -318,8 +316,7 @@ ul.evl h3{margin:0;font-size:var(--fs-lg)}ul.evl .sub{font-size:var(--fs-md);col
           if(!list.length){$('notices-none').textContent='No notices right now.';$('notices-none').classList.remove('hidden');ul.classList.add('hidden');return;}
           $('notices-none').classList.add('hidden');
           list.forEach(function(n){
-            var li=document.createElement('li');if(n.pinned)li.className='pin';
-            if(n.pinned){var pn=document.createElement('span');pn.className='pinned';pn.textContent='Pinned';li.appendChild(pn);}
+            var li=document.createElement('li');
             var h=document.createElement('h3');h.textContent=n.title;li.appendChild(h);
             if(n.summary){var pp=document.createElement('p');pp.textContent=n.summary;li.appendChild(pp);}
             ul.appendChild(li);
