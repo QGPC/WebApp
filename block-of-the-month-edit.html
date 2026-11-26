@@ -150,7 +150,7 @@ QGPCShell.start({need:function(c){return c.has('bom_chair')||c.isAdmin;}},functi
     var b=$('ysel');b.textContent='';
     var set={};set[yr]=1;set[thisYear]=1;for(var y=thisYear-1;y<=thisYear+3;y++)set[y]=1;
     Object.keys(yinfo).forEach(function(y){set[y]=1;});months.forEach(function(m){set[parts(m.month_start).y]=1;});files.forEach(function(f){set[f.year]=1;});
-    var sel=el('select','field');Object.keys(set).map(Number).sort().forEach(function(y){var o=el('option',null,String(y));o.value=String(y);sel.appendChild(o);});
+    var sel=el('select','field');Object.keys(set).map(Number).sort(function(a,b){return b-a;}).forEach(function(y){var o=el('option',null,String(y));o.value=String(y);sel.appendChild(o);});
     sel.value=String(yr);
     sel.onchange=function(){yr=+sel.value;confirmId=null;drawAll();};
     b.appendChild(field('Year',sel,'y-sel'));

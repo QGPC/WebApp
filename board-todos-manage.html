@@ -157,7 +157,7 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
     var s=$('f-year'),p=parity();s.textContent='';
     if(!T.fits(p,sel))sel++;
     var lo=Math.min(now.year-(p?2:1),sel),hi=Math.max(now.year+(p?5:3),sel);
-    for(var y=lo;y<=hi;y++)if(T.fits(p,y))opt(s,y,String(y));
+    for(var y=hi;y>=lo;y--)if(T.fits(p,y))opt(s,y,String(y));   // newest first
     s.value=sel;
   }
   // A month already past this year most likely means the next one.

@@ -120,9 +120,10 @@ QGPCShell.start({need:function(c){return c.full||c.isAdmin;}},function(ctx){
       if(r[0].error||r[1].error||r[2].error){say('Could not load the Block of the Month. Please refresh and try again.',true);return;}
       yinfo={};(r[0].data||[]).forEach(function(y){yinfo[y.year]=y;});months=r[1].data||[];files=r[2].data||[];
       var ys={};months.forEach(function(m){ys[parts(m.month_start).y]=1;});Object.keys(yinfo).forEach(function(y){ys[y]=1;});files.forEach(function(f){ys[f.year]=1;});
-      years=Object.keys(ys).map(Number).sort();
+      years=Object.keys(ys).map(Number).sort(function(a,b){return b-a;});   // newest first
       var now=+C.today().slice(0,4);
-      if(cur===null||years.indexOf(cur)<0)cur=years.indexOf(now)>-1?now:(years.length?years[years.length-1]:null);
+      // open on this year, or the latest earlier year that has something posted
+      if(cur===null||years.indexOf(cur)<0)cur=years.filter(function(y){return y<=now;})[0]||(years.length?years[years.length-1]:null);
       var all=[];Object.keys(yinfo).forEach(function(y){all.push(yinfo[y].photo_path,yinfo[y].colorway1_path,yinfo[y].colorway2_path);});
       months.forEach(function(m){all.push(m.photo_path);});files.forEach(function(f){all.push(f.photo_path);});
       var pdfs=months.map(function(m){return m.pdf_path;}).concat(files.map(function(f){return f.pdf_path;}));

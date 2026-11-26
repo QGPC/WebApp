@@ -121,11 +121,13 @@ QGPCShell.start({need:function(c){return c.full||c.isAdmin;}},function(ctx){
     var fresh=cur&&sel.published_at&&(Date.now()-new Date(sel.published_at).getTime())<30*86400000;
     $('newpill').classList.toggle('hidden',!fresh);
     $('back-cur').classList.toggle('hidden',cur);
-    var ys=[];all.forEach(function(n){if(ys.indexOf(n.year)<0)ys.push(n.year);});
+    // every year from the newest issue back to the oldest, so the list steps one year at a time
+    var ys=[];for(var y=all[0].year;y>=all[all.length-1].year;y--)ys.push(y);
     var yb=$('years');yb.textContent='';
     ys.forEach(function(y){var o=el('option',null,String(y));o.value=String(y);yb.appendChild(o);});
     yb.value=String(year);yb.onchange=function(){year=+yb.value;draw();};
     var ul=$('issues');ul.textContent='';
+    if(!all.some(function(n){return n.year===year;}))ul.appendChild(el('li','empty','No newsletters are posted for '+year+'.'));
     all.filter(function(n){return n.year===year;}).forEach(function(n){
       var li=el('li',n.id===sel.id?'on':''),nm=el('span','nm',label(n));
       if(isCurrent(n)){nm.appendChild(el('span','pl','Current'));}

@@ -92,7 +92,7 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('program_chair');}},fu
   function fillYears(){
     var ys={};for(var y=curYear-1;y<=curYear+2;y++)ys[y]=1;
     Object.keys(rows).forEach(function(k){ys[+k.slice(0,4)]=1;});
-    var list=Object.keys(ys).map(Number).sort(function(a,b){return a-b;});
+    var list=Object.keys(ys).map(Number).sort(function(a,b){return b-a;});
     var sel=$('year');sel.textContent='';
     list.forEach(function(y){var o=el('option',null,String(y));o.value=y;sel.appendChild(o);});
     if(year===null)year=curYear;

@@ -115,7 +115,7 @@ QGPCShell.start({need:function(c){return c.isAdmin||c.has('president')||c.has('v
   function fillYears(){
     var ys={};for(var y=curYear-2;y<=curYear+1;y++)ys[y]=1;
     all.forEach(function(r){ys[r.year]=1;});
-    var list=Object.keys(ys).map(Number).sort(function(a,b){return a-b;});
+    var list=Object.keys(ys).map(Number).sort(function(a,b){return b-a;});
     var sel=$('year');sel.textContent='';
     list.forEach(function(y){var o=el('option',null,String(y));o.value=y;sel.appendChild(o);});
     if(year===null)year=curYear;

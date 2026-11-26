@@ -119,8 +119,8 @@ QGPCShell.start({need:function(c){return c.has('comfort_quilts_chair')||c.isAdmi
     orgs.forEach(function(o){var op=el('option',null,o.name);op.value=o.id;so.appendChild(op);});
     var ot=el('option',null,'Other');ot.value='other';so.appendChild(ot);if(keep)so.value=keep;
     $('other-wrap').classList.toggle('hidden',so.value!=='other');
-    var ys={};ys[curYear]=1;ys[curYear-1]=1;ys[curYear+1]=1;ins.forEach(function(x){ys[+x.received_on.slice(0,4)]=1;});outs.forEach(function(x){ys[+x.given_on.slice(0,4)]=1;});ys[year]=1;
-    var ysel=$('year');ysel.textContent='';Object.keys(ys).map(Number).sort().forEach(function(y){var o=el('option',null,String(y));o.value=y;ysel.appendChild(o);});ysel.value=year;
+    var ys={};ys[curYear]=1;ys[curYear-1]=1;ins.forEach(function(x){ys[+x.received_on.slice(0,4)]=1;});outs.forEach(function(x){ys[+x.given_on.slice(0,4)]=1;});ys[year]=1;
+    var ysel=$('year');ysel.textContent='';Object.keys(ys).map(Number).sort(function(a,b){return b-a;}).forEach(function(y){var o=el('option',null,String(y));o.value=y;ysel.appendChild(o);});ysel.value=year;
   }
   $('out-org').onchange=function(){$('other-wrap').classList.toggle('hidden',this.value!=='other');};
   $('year').onchange=function(){year=+this.value;confirmId=null;draw();};
