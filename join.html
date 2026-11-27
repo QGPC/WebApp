@@ -62,7 +62,7 @@
 <div class="grid2"><div class="f"><label for="j-bm">Month</label><select class="field" id="j-bm"><option value="">Select month</option><option value="1">January</option><option value="2">February</option><option value="3">March</option><option value="4">April</option><option value="5">May</option><option value="6">June</option><option value="7">July</option><option value="8">August</option><option value="9">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select></div>
 <div class="f"><label for="j-bd">Day</label><select class="field" id="j-bd"><option value="">Select day</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select></div></div>
 <h3>Quilting Interests <span class="opt">(optional)</span></h3><span class="sub">Check all that apply.</span>
-<div class="chks" role="group" aria-label="Quilting Interests"><label class="chk"><input type="checkbox" name="jint" value="Piecing"> Piecing</label><label class="chk"><input type="checkbox" name="jint" value="Applique"> Applique</label><label class="chk"><input type="checkbox" name="jint" value="Paper Piecing"> Paper Piecing</label><label class="chk"><input type="checkbox" name="jint" value="English Paper Piecing"> English Paper Piecing</label><label class="chk"><input type="checkbox" name="jint" value="Modern Quilts"> Modern Quilts</label><label class="chk"><input type="checkbox" name="jint" value="Color Theory"> Color Theory</label><label class="chk"><input type="checkbox" name="jint" value="Hand Quilting"> Hand Quilting</label><label class="chk"><input type="checkbox" name="jint" value="Embroidery"> Embroidery</label></div>
+<div class="chks" id="j-ints" role="group" aria-label="Quilting Interests"></div>
 <div class="f" style="max-width:496px"><label for="j-other">Other</label><input class="field" id="j-other" maxlength="300" placeholder="Tell us about other interests"></div>
 <h3>Helping out <span class="opt">(optional)</span></h3>
 <fieldset class="types"><legend>Would you like to help on a committee?</legend>
@@ -90,6 +90,7 @@
 <script src="assets/js/supabase-js-2.119.0.js"></script>
 <script src="assets/js/config.js?v=20261118f"></script>
 <script src="assets/js/auth.js?v=20261118f"></script>
+<script src="assets/js/interests.js?v=20261127b"></script>
 <script src="assets/js/format.js?v=20261118f"></script>
 <script>
 (function(){
@@ -126,6 +127,7 @@
     }
     QGPC.sb.auth.signInWithOtp({email:stepEmail,options:{shouldCreateUser:false,emailRedirectTo:root+'renew.html'}}).then(after,after);
   });
+  QGPCInterests.load(QGPC.sb).then(function(x){QGPCInterests.render($('j-ints'),'jint',x.names);});
   var PAYMENT_URL=(window.QGPC_CONFIG&&window.QGPC_CONFIG.ZEFFY_JOIN_URL)||'';
   var dues={Regular:null,Junior:null,Exempt:0};
   function money(n){return n===null||n===undefined?'':('$'+Number(n).toFixed(2).replace(/\.00$/,'')+' per year');}

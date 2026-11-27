@@ -54,7 +54,7 @@
 <div class="grid2"><div class="f"><label for="r-bm">Month</label><select class="field" id="r-bm"><option value="">Select month</option><option value="1">January</option><option value="2">February</option><option value="3">March</option><option value="4">April</option><option value="5">May</option><option value="6">June</option><option value="7">July</option><option value="8">August</option><option value="9">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option></select></div>
 <div class="f"><label for="r-bd">Day</label><select class="field" id="r-bd"><option value="">Select day</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option></select></div></div>
 <h3>Quilting Interests <span class="opt">(optional)</span></h3><span class="sub">Check all that apply.</span>
-<div class="chks" role="group" aria-label="Quilting Interests"><label class="chk"><input type="checkbox" name="rint" value="Piecing"> Piecing</label><label class="chk"><input type="checkbox" name="rint" value="Applique"> Applique</label><label class="chk"><input type="checkbox" name="rint" value="Paper Piecing"> Paper Piecing</label><label class="chk"><input type="checkbox" name="rint" value="English Paper Piecing"> English Paper Piecing</label><label class="chk"><input type="checkbox" name="rint" value="Modern Quilts"> Modern Quilts</label><label class="chk"><input type="checkbox" name="rint" value="Color Theory"> Color Theory</label><label class="chk"><input type="checkbox" name="rint" value="Hand Quilting"> Hand Quilting</label><label class="chk"><input type="checkbox" name="rint" value="Embroidery"> Embroidery</label></div>
+<div class="chks" id="r-ints" role="group" aria-label="Quilting Interests"></div>
 <div class="f" style="max-width:496px"><label for="r-other">Other</label><input class="field" id="r-other" maxlength="300" placeholder="Tell us about other interests"></div>
 <h3>Helping out <span class="opt">(optional)</span></h3>
 <fieldset class="types"><legend>Would you like to help on a committee?</legend>
@@ -80,12 +80,13 @@
 <script src="assets/js/supabase-js-2.119.0.js"></script>
 <script src="assets/js/config.js?v=20261118f"></script>
 <script src="assets/js/auth.js?v=20261118f"></script>
+<script src="assets/js/interests.js?v=20261127b"></script>
 <script src="assets/js/format.js?v=20261118f"></script>
 <script>
 (function(){
   var $=function(i){return document.getElementById(i)};
   var PAYMENT_URL=(window.QGPC_CONFIG&&window.QGPC_CONFIG.ZEFFY_RENEW_URL)||'';
-  var member=null,year=null,dues={Regular:null,Junior:null,Exempt:0};
+  var intList={names:[],ok:true},member=null,year=null,dues={Regular:null,Junior:null,Exempt:0};
   function money(n){return n===null||n===undefined?'':('$'+Number(n).toFixed(2).replace(/\.00$/,'')+' per year');}
   function type(){return document.querySelector('input[name=rtype]:checked').value;}
   function checks(n){return Array.prototype.slice.call(document.querySelectorAll('input[name='+n+']'));}
@@ -104,8 +105,10 @@
     if(!s){location.href='index.html';return;}
     return Promise.all([
       QGPC.sb.rpc('my_renewal_status'),
-      QGPC.sb.from('members_with_status').select('*').eq('auth_user_id',s.user.id).limit(1)
+      QGPC.sb.from('members_with_status').select('*').eq('auth_user_id',s.user.id).limit(1),
+      QGPCInterests.load(QGPC.sb)
     ]).then(function(res){
+      intList=res[2];QGPCInterests.render($('r-ints'),'rint',intList.names);
       var st=res[0].data,r=res[1];
       if(res[0].error||!st||!st.has_member||r.error||!r.data||!r.data.length){block('We could not find your membership record','You are signed in, but no membership record is linked to this account. Please contact the Membership Chair.');return;}
       var m=member=r.data[0];
@@ -144,7 +147,7 @@
     var yes=document.querySelector('input[name=rhelp]:checked'),help=yes&&yes.value==='yes';
     var payload={membership_type:type(),first_name:first,last_name:last,cell_phone:$('r-cell').value,facebook_name:$('r-fb').value,
       street_address:$('r-street').value,city:$('r-city').value,state:st,zip:zip,directory_opt_out:$('r-nodir').checked,
-      birthday_month:bm,birthday_day:bd,interests:vals('rint'),interests_other:$('r-other').value,
+      birthday_month:bm,birthday_day:bd,interests:vals('rint').concat(intList.ok?[]:(member.interests||[]).filter(function(x){return intList.names.indexOf(x)<0;})),interests_other:$('r-other').value,
       help_committees:help?vals('rcom'):[],help_other:help?$('r-helpother').value:''};
     $('r-go').disabled=true;
     QGPC.sb.rpc('submit_renewal_request',{p:payload}).then(function(r){

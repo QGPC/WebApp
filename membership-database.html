@@ -76,7 +76,7 @@
 </div>
 <span class="sub">Status follows Paid through: Active through December 31 of that year, with a grace period to March 31, then Inactive. Renewing sets Paid through to the new year; Member since does not change.</span>
 <h3>Quilting Interests</h3>
-<div class="chks"><label class="chk"><input type="checkbox" name="interest" value="Piecing"> Piecing</label><label class="chk"><input type="checkbox" name="interest" value="Applique"> Applique</label><label class="chk"><input type="checkbox" name="interest" value="Paper Piecing"> Paper Piecing</label><label class="chk"><input type="checkbox" name="interest" value="English Paper Piecing"> English Paper Piecing</label><label class="chk"><input type="checkbox" name="interest" value="Modern Quilts"> Modern Quilts</label><label class="chk"><input type="checkbox" name="interest" value="Color Theory"> Color Theory</label><label class="chk"><input type="checkbox" name="interest" value="Hand Quilting"> Hand Quilting</label><label class="chk"><input type="checkbox" name="interest" value="Embroidery"> Embroidery</label></div>
+<div class="chks" id="m-ints"></div>
 <div class="f" style="max-width:496px"><label for="m-other">Other</label><input class="field" id="m-other" maxlength="300"></div>
 <p class="sub" id="m-roles"></p>
 <div class="saverow"><button type="submit" class="btn-save" id="save">Save changes</button>
@@ -95,6 +95,7 @@
 <script src="assets/js/supabase-js-2.119.0.js"></script>
 <script src="assets/js/config.js?v=20261118f"></script>
 <script src="assets/js/auth.js?v=20261118f"></script>
+<script src="assets/js/interests.js?v=20261127b"></script>
 <script src="assets/js/format.js?v=20261118f"></script>
 <script src="assets/js/shell.js?v=20261118f"></script>
 <script>
@@ -298,7 +299,7 @@ QGPCShell.start({need:function(c){return c.isSuper||c.has('membership_chair');}}
       if(keepSel){$('saved').classList.remove('hidden');}
     });
   }
-  load(false);
+  QGPCInterests.load(QGPC.sb).then(function(x){QGPCInterests.render($('m-ints'),'interest',x.names);load(false);});
 });
 </script>
 </body></html>
