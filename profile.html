@@ -5,7 +5,7 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261127b">
+<link rel="stylesheet" href="assets/css/site.css?v=20261127c">
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
 <header class="site-head"><div class="wrap">
@@ -59,24 +59,6 @@
 <span class="sub">Only the month and day are kept, never the year.</span>
 </section>
 
-<section class="pcard" aria-labelledby="perm-title"><div class="ph"><h2 id="perm-title">Contact Permissions</h2>
-<span class="sub">How other members can see and reach you. Each choice here is saved as soon as you make it.</span></div>
-<h3 id="dir-title">Member Directory</h3>
-<span class="sub">The Directory is a list of Guild members that only signed-in members can see. It shows the contact details you enter above.</span>
-<label class="chk"><input type="checkbox" id="pf-listed" aria-describedby="dir-help"> List me in the Member Directory</label>
-<span class="sub" id="dir-help">If you uncheck this, other members will not see you or any of your details in the Directory. Your choice is saved as soon as you change it. The Membership Chair and Administrators can still see your membership record. If you hold a Guild office, your name and office still appear on the About page, but your contact details do not. Being unlisted does not turn off private messages; that is a separate choice under Private messages.</span>
-<span class="sub" id="dir-saved" role="status" style="font-weight:700;color:var(--cobalt)"></span>
-<span class="sub" id="dir-err" role="alert" style="font-weight:700;color:var(--persimmon-dark)"></span>
-<div class="subpart hidden" id="msg-card"><h3 id="msg-title">Private messages</h3>
-<span class="sub">Choose whether other members can start a private message with you. This is separate from the Member Directory. If you choose &ldquo;Allow messages&rdquo;, other members can find your name (only your name) when they start a message, even if you are not listed in the Directory. Your choice is saved as soon as you pick it.</span>
-<div class="chks" role="radiogroup" aria-labelledby="msg-title"><label class="chk"><input type="radio" name="msgallow" id="ma-yes" value="yes"> Allow messages</label><label class="chk"><input type="radio" name="msgallow" id="ma-no" value="no"> Do not allow</label></div>
-<span class="sub">&ldquo;Do not allow&rdquo; stops new conversations and being added to groups. Conversations already open stay open, and you can still reply.</span>
-<span class="sub" id="ma-saved" role="status" style="font-weight:700;color:var(--cobalt)"></span>
-<h4 style="margin:6px 0 0;font:700 var(--fs-md) var(--sans)">Blocked members</h4>
-<ul id="blocked" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px"></ul>
-<span class="sub" id="blocked-none">You have not blocked anyone. To block someone, use <em>Block</em> under one of their messages. Blocking is private: they are not told.</span>
-<span class="sub" id="ma-err" role="alert" style="font-weight:700;color:var(--persimmon-dark)"></span></div>
-</section>
 </div>
 
 <aside class="prof-side">
@@ -94,6 +76,25 @@
 <span id="dirty" class="dirty hidden" role="status">You have changes that are not saved yet.</span>
 <span id="saved" class="saved hidden" role="status"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Saved. Your directory listing is up to date.</span>
 <span id="save-err" class="msg err hidden" role="alert"></span></div>
+<section class="pcard perm-card" aria-labelledby="perm-title"><div class="ph"><h2 id="perm-title">Contact Permissions</h2>
+<span class="sub">How other members can see and reach you. Each choice here is saved as soon as you make it.</span></div>
+<div class="subcard">
+<h3 id="dir-title">Member Directory</h3>
+<span class="sub">The Directory is a list of Guild members that only signed-in members can see. It shows the contact details you enter above.</span>
+<label class="chk"><input type="checkbox" id="pf-listed" aria-describedby="dir-help"> List me in the Member Directory</label>
+<span class="sub" id="dir-help">If you uncheck this, other members will not see you or any of your details in the Directory. Your choice is saved as soon as you change it. The Membership Chair and Administrators can still see your membership record. If you hold a Guild office, your name and office still appear on the About page, but your contact details do not. Being unlisted does not turn off private messages; that is a separate choice under Private messages.</span>
+<span class="sub" id="dir-saved" role="status" style="font-weight:700;color:var(--cobalt)"></span>
+<span class="sub" id="dir-err" role="alert" style="font-weight:700;color:var(--persimmon-dark)"></span></div>
+<div class="subcard hidden" id="msg-card"><h3 id="msg-title">Private messages</h3>
+<span class="sub">Choose whether other members can start a private message with you. This is separate from the Member Directory. If you choose &ldquo;Allow messages&rdquo;, other members can find your name (only your name) when they start a message, even if you are not listed in the Directory. Your choice is saved as soon as you pick it.</span>
+<div class="chks" role="radiogroup" aria-labelledby="msg-title"><label class="chk"><input type="radio" name="msgallow" id="ma-yes" value="yes"> Allow messages</label><label class="chk"><input type="radio" name="msgallow" id="ma-no" value="no"> Do not allow</label></div>
+<span class="sub">&ldquo;Do not allow&rdquo; stops new conversations and being added to groups. Conversations already open stay open, and you can still reply.</span>
+<span class="sub" id="ma-saved" role="status" style="font-weight:700;color:var(--cobalt)"></span>
+<h4 style="margin:4px 0 0;font:700 var(--fs-md) var(--sans)">Blocked members</h4>
+<ul id="blocked" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px"></ul>
+<span class="sub" id="blocked-none">You have not blocked anyone. To block someone, use <em>Block</em> under one of their messages. Blocking is private: they are not told.</span>
+<span class="sub" id="ma-err" role="alert" style="font-weight:700;color:var(--persimmon-dark)"></span></div>
+</section>
 </form>
 <section class="pcard" style="margin:32px 0 0" aria-labelledby="priv-title"><div class="ph"><h2 id="priv-title">Your information and privacy</h2></div>
 <span class="sub">Any information you share on this page can be seen by members who are logged into the website. If you choose to keep your information private, uncheck the &ldquo;Member Directory&rdquo; box.</span>

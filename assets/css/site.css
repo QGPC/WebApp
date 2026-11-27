@@ -145,9 +145,16 @@ button.pill.out{height:44px;padding:0 16px;border:1px solid var(--ink);backgroun
 .chk input{width:20px;height:20px;margin:0;accent-color:var(--cobalt)}
 .photo-row{display:flex;align-items:center;gap:20px;flex-wrap:wrap}.photo-body{flex:1 1 230px;min-width:0}
 .pcard.photo-card{padding:20px 24px;gap:12px}
-.prof-side .chks{grid-template-columns:1fr}
-.subpart{display:flex;flex-direction:column;gap:18px;border-top:1px solid var(--edge);padding-top:18px}.subpart.hidden{display:none}
-.prof-cols>.saverow{flex:1 0 100%}
+.prof-main{flex:1 1 520px}.prof-side{flex:0 1 390px}
+@media(max-width:989px){.prof-side{flex-basis:100%}}
+.prof-side .chks{grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 12px}.chk input{flex:0 0 auto}
+@media(max-width:359px){.prof-side .chks{grid-template-columns:1fr}}
+.prof-cols>.saverow,.prof-cols>.perm-card{flex:1 0 100%;min-width:0}
+.pcard.perm-card{padding:20px 22px;gap:12px}
+.subcard{display:flex;flex-direction:column;gap:6px;border:1px solid var(--edge);border-radius:12px;background:#F7F5EF;padding:14px 18px}.subcard.hidden{display:none}
+.perm-card .subcard h3{margin:0}
+.perm-card .chks{display:flex;flex-wrap:wrap;gap:0 32px}
+.perm-card span.sub:empty{position:absolute;width:1px;height:1px;overflow:hidden}.perm-card ul:empty{display:none!important}
 .photo-empty{flex:0 0 auto;width:128px;height:128px;border-radius:999px;background:var(--mist);color:var(--cobalt);display:flex;align-items:center;justify-content:center}
 .saverow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .btn-save{min-height:50px;padding:0 28px;border:0;border-radius:999px;background:var(--cobalt);color:#fff;font:700 var(--fs-md) var(--sans);cursor:pointer}
