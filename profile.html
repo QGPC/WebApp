@@ -5,7 +5,7 @@
 <link rel="icon" href="assets/icons/favicon-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Young+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/site.css?v=20261118f">
+<link rel="stylesheet" href="assets/css/site.css?v=20261127a">
 </head><body>
 <a class="skip" href="#main">Skip to main content</a>
 <header class="site-head"><div class="wrap">
@@ -28,20 +28,13 @@
 <p id="note" class="msg err hidden" role="alert"></p>
 <form id="pf" class="prof-cols hidden" novalidate>
 <div class="prof-main">
-<section class="pcard" aria-labelledby="photo-title"><div class="ph"><h2 id="photo-title">Directory photo</h2>
+<section class="pcard photo-card" aria-labelledby="photo-title"><div class="ph"><h2 id="photo-title">Directory photo</h2>
 <span class="sub">Shown beside your name in the Member Directory. Only signed-in members can see it.</span></div>
 <div class="photo-row"><span class="photo-empty" id="ph-box" aria-hidden="true"><svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"></path></svg></span>
-<div><div style="display:flex;flex-wrap:wrap;gap:12px"><button type="button" class="btn-save" id="ph-pick">Choose a photo</button><button type="button" class="btn-cancel hidden" id="ph-remove">Remove my photo</button></div>
+<div class="photo-body"><div style="display:flex;flex-wrap:wrap;gap:12px"><button type="button" class="btn-save" id="ph-pick">Choose a photo</button><button type="button" class="btn-cancel hidden" id="ph-remove">Remove my photo</button></div>
 <input type="file" id="ph-file" accept="image/*" class="hidden" aria-label="Choose a photo from your device">
-<p class="sub" id="ph-help" style="margin:10px 0 0">A head-and-shoulders picture works best. The middle of your picture is used, as a circle. It is saved right away; you do not need to press Save changes.</p>
+<p class="sub" id="ph-help" style="margin:8px 0 0">A head-and-shoulders picture works best. The middle of your picture is used, as a circle. It is saved right away; you do not need to press Save changes.</p>
 <p class="sub hidden" id="ph-msg" role="status" style="margin:10px 0 0"></p></div></div></section>
-
-<section class="pcard" aria-labelledby="dir-title"><div class="ph"><h2 id="dir-title">Member Directory</h2>
-<span class="sub">The Directory is a list of Guild members that only signed-in members can see. It shows the contact details you enter below.</span></div>
-<label class="chk"><input type="checkbox" id="pf-listed" aria-describedby="dir-help"> List me in the Member Directory</label>
-<span class="sub" id="dir-help">If you uncheck this, other members will not see you or any of your details in the Directory. Your choice is saved as soon as you change it. The Membership Chair and Administrators can still see your membership record. If you hold a Guild office, your name and office still appear on the About page, but your contact details do not. Being unlisted does not turn off private messages; that is a separate choice in the Private messages card below.</span>
-<span class="sub" id="dir-saved" role="status" style="font-weight:700;color:var(--cobalt)"></span>
-<span class="sub" id="dir-err" role="alert" style="font-weight:700;color:var(--persimmon-dark)"></span></section>
 
 <section class="pcard" aria-labelledby="contact-title"><div class="ph"><h2 id="contact-title">Contact details</h2>
 <span class="sub">If you are listed in the Member Directory, members can see these. The Membership Chair uses them to reach you.</span></div>
@@ -66,6 +59,13 @@
 <span class="sub">Only the month and day are kept, never the year.</span>
 </section>
 
+<section class="pcard" aria-labelledby="dir-title"><div class="ph"><h2 id="dir-title">Member Directory</h2>
+<span class="sub">The Directory is a list of Guild members that only signed-in members can see. It shows the contact details you enter above.</span></div>
+<label class="chk"><input type="checkbox" id="pf-listed" aria-describedby="dir-help"> List me in the Member Directory</label>
+<span class="sub" id="dir-help">If you uncheck this, other members will not see you or any of your details in the Directory. Your choice is saved as soon as you change it. The Membership Chair and Administrators can still see your membership record. If you hold a Guild office, your name and office still appear on the About page, but your contact details do not. Being unlisted does not turn off private messages; that is a separate choice in the Private messages card.</span>
+<span class="sub" id="dir-saved" role="status" style="font-weight:700;color:var(--cobalt)"></span>
+<span class="sub" id="dir-err" role="alert" style="font-weight:700;color:var(--persimmon-dark)"></span></section>
+
 <section class="pcard" aria-labelledby="int-title"><div class="ph"><h2 id="int-title">Quilting Interests</h2><span class="sub">Check all that apply.</span></div>
 <div class="chks"><label class="chk"><input type="checkbox" name="interest" value="Piecing"> Piecing</label><label class="chk"><input type="checkbox" name="interest" value="Applique"> Applique</label><label class="chk"><input type="checkbox" name="interest" value="Paper Piecing"> Paper Piecing</label><label class="chk"><input type="checkbox" name="interest" value="English Paper Piecing"> English Paper Piecing</label><label class="chk"><input type="checkbox" name="interest" value="Modern Quilts"> Modern Quilts</label><label class="chk"><input type="checkbox" name="interest" value="Color Theory"> Color Theory</label><label class="chk"><input type="checkbox" name="interest" value="Hand Quilting"> Hand Quilting</label><label class="chk"><input type="checkbox" name="interest" value="Embroidery"> Embroidery</label></div>
 <div class="f" style="max-width:496px"><label for="pf-other">Other</label><input class="field" id="pf-other" maxlength="300" placeholder="Tell us about other interests"></div>
@@ -81,6 +81,8 @@
 <section class="pcard" aria-labelledby="mem-title"><div class="ph"><h2 id="mem-title">Your membership</h2></div>
 <dl class="dl"><div><dt>Type</dt><dd id="m-type"></dd></div><div><dt>Member since</dt><dd id="m-since"></dd></div><div><dt>Paid through</dt><dd id="m-paid"></dd></div><div><dt>Status</dt><dd><span class="pill-s" id="m-status"></span></dd></div></dl>
 <span class="sub">Your membership runs January 1 to December 31. Renewals are accepted until March 31; after that, a membership that has not renewed is marked Inactive. To change your membership type, contact the Membership Chair.</span></section>
+<section class="pcard" aria-labelledby="pw-title"><div class="ph"><h2 id="pw-title">Website password</h2><span class="sub">Your password is private. No one at the Guild can see it.</span></div>
+<a class="pwlink" href="set-password.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>Change password</a></section>
 <section class="pcard hidden" id="msg-card" aria-labelledby="msg-title"><div class="ph"><h2 id="msg-title">Private messages</h2>
 <span class="sub">Choose whether other members can start a private message with you. This is separate from the Member Directory. If you choose &ldquo;Allow messages&rdquo;, other members can find your name (only your name) when they start a message, even if you are not listed in the Directory. Your choice is saved as soon as you pick it.</span></div>
 <div class="chks" role="radiogroup" aria-labelledby="msg-title"><label class="chk"><input type="radio" name="msgallow" id="ma-yes" value="yes"> Allow messages</label><label class="chk"><input type="radio" name="msgallow" id="ma-no" value="no"> Do not allow</label></div>
@@ -90,8 +92,6 @@
 <ul id="blocked" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px"></ul>
 <span class="sub" id="blocked-none">You have not blocked anyone. To block someone, use <em>Block</em> under one of their messages. Blocking is private: they are not told.</span>
 <span class="sub" id="ma-err" role="alert" style="font-weight:700;color:var(--persimmon-dark)"></span></section>
-<section class="pcard" aria-labelledby="pw-title"><div class="ph"><h2 id="pw-title">Website password</h2><span class="sub">Your password is private. No one at the Guild can see it.</span></div>
-<a class="pwlink" href="set-password.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>Change password</a></section>
 </aside>
 </form>
 <section class="pcard" style="margin:32px 0 0" aria-labelledby="priv-title"><div class="ph"><h2 id="priv-title">Your information and privacy</h2></div>

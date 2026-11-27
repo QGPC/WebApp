@@ -143,8 +143,9 @@ button.pill.out{height:44px;padding:0 16px;border:1px solid var(--ink);backgroun
 .chk{display:flex;align-items:center;gap:10px;min-height:44px;font-weight:500}
 .dirty{font-weight:700;color:var(--persimmon-dark)}
 .chk input{width:20px;height:20px;margin:0;accent-color:var(--cobalt)}
-.photo-row{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
-.photo-empty{flex:0 0 auto;width:140px;height:140px;border-radius:999px;background:var(--mist);color:var(--cobalt);display:flex;align-items:center;justify-content:center}
+.photo-row{display:flex;align-items:center;gap:20px;flex-wrap:wrap}.photo-body{flex:1 1 230px;min-width:0}
+.pcard.photo-card{padding:20px 24px;gap:12px}
+.photo-empty{flex:0 0 auto;width:128px;height:128px;border-radius:999px;background:var(--mist);color:var(--cobalt);display:flex;align-items:center;justify-content:center}
 .saverow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .btn-save{min-height:50px;padding:0 28px;border:0;border-radius:999px;background:var(--cobalt);color:#fff;font:700 var(--fs-md) var(--sans);cursor:pointer}
 .btn-save:disabled{opacity:.6;cursor:wait}
